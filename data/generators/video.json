@@ -115,5 +115,56 @@
       { "id": "followups", "label": "Include suggested follow-up probes", "type": "toggle", "default": true }
     ],
     "template": "You are an experienced interviewer and producer. Build an interview question set for a {{format}} on \"{{topic}}\".\n\n## Guest\n{{guest}}\n{{#if goal}}\n## What the piece should achieve\n{{goal}}\n{{/if}}\n## Question set requirements\n- Depth: {{depth}}. Order the questions into a natural arc: warm-up, core, depth, reflective close.\n{{#if themes}}- Cover these themes, grouped clearly: {{themes}}.\n{{/if}}- Open-ended and specific; avoid yes/no and leading questions; invite stories and concrete examples.\n{{#if followups}}- Under each main question, add 1-2 follow-up probes to push for depth and specifics.\n{{/if}}- Include 2-3 questions engineered to produce a quotable, standalone soundbite.\n\n## Deliverables\n1. The grouped, ordered question set{{#if followups}} with follow-up probes{{/if}}.\n2. Three icebreakers to relax the guest on camera.\n3. One \"if you only ask one question\" recommendation.\n\nBe specific to this guest and topic, not generic. Proceed with strong editorial choices; flag only genuinely blocking gaps."
+  },
+  {
+    "id": "video-title-thumbnail",
+    "label": "Title & Thumbnail Concepts",
+    "description": "Generate high-CTR video titles paired with thumbnail concepts",
+    "icon": "Image",
+    "fields": [
+      { "id": "videoTopic", "label": "Video topic", "type": "text", "required": true, "placeholder": "I rebuilt our app in Rust and regretted it" },
+      { "id": "payoff", "label": "What the video delivers", "type": "textarea", "required": true, "placeholder": "Honest breakdown of the rewrite, the real perf gains, and what broke." },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "youtube", "label": "YouTube long-form" }, { "id": "shorts", "label": "Shorts / Reels" }, { "id": "course", "label": "Course / LMS" } ], "default": "youtube" },
+      { "id": "emotion", "label": "Primary emotional driver", "type": "select", "options": [ { "id": "curiosity", "label": "Curiosity gap" }, { "id": "stakes", "label": "High stakes / risk" }, { "id": "contrarian", "label": "Contrarian take" }, { "id": "transformation", "label": "Transformation / result" } ], "default": "curiosity" },
+      { "id": "count", "label": "Title/thumbnail pairs", "type": "select", "options": [ { "id": "5", "label": "5" }, { "id": "8", "label": "8" }, { "id": "12", "label": "12" } ], "default": "8" },
+      { "id": "avoidClickbait", "label": "Keep titles honest (no false promises)", "type": "toggle", "default": true },
+      { "id": "abText", "label": "Suggest A/B test pairings", "type": "toggle", "default": true }
+    ],
+    "template": "You are a YouTube packaging strategist obsessed with click-through rate. Generate {{count}} title and thumbnail concept pairs for a video about \"{{videoTopic}}\" aimed at a {{audience}} audience on {{platform}}.\n\n## What the video delivers\n{{payoff}}\n\n## Packaging requirements\n- Lead the emotional pull with a {{emotion}}; the title and thumbnail must reinforce each other, not repeat each other.\n- Titles are tight, front-loaded, and curiosity-rich; vary the structure across the set.\n- For each thumbnail describe the focal subject, the 3-4 word overlay text, expression/composition, and color contrast.\n{{#if avoidClickbait}}- Every title must be fully delivered by the video; no false promises or bait-and-switch.\n{{/if}}{{#if abText}}- Recommend 2-3 strong A/B pairings and state the hypothesis behind each.\n{{/if}}- Keep overlay text legible at small sizes; avoid clutter.\n\n## Deliverables\n1. The numbered title + thumbnail concept pairs.\n2. Your top pick with a one-line rationale.\n3. One note on what to test first.\n\nBe concrete and specific to this topic. Proceed with confident creative choices; flag only genuinely blocking gaps."
+  },
+  {
+    "id": "podcast-outline",
+    "label": "Podcast Episode Outline",
+    "description": "Structure a podcast episode with segments, talking points and beats",
+    "icon": "Podcast",
+    "fields": [
+      { "id": "episodeTopic", "label": "Episode topic", "type": "text", "required": true, "placeholder": "Why most engineering ladders are broken" },
+      { "id": "thesis", "label": "Core thesis & key points", "type": "textarea", "required": true, "placeholder": "Ladders optimize for legibility, not growth; three failure modes; what to do instead." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "format", "label": "Episode format", "type": "select", "options": [ { "id": "solo", "label": "Solo / monologue" }, { "id": "interview", "label": "Interview" }, { "id": "cohost", "label": "Co-host discussion" }, { "id": "panel", "label": "Panel" } ], "default": "solo" },
+      { "id": "duration", "label": "Target duration", "type": "select", "options": [ { "id": "20", "label": "~20 min" }, { "id": "40", "label": "~40 min" }, { "id": "60", "label": "~60 min" } ], "default": "40" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "includeAdBreaks", "label": "Mark ad/sponsor break slots", "type": "toggle", "default": true },
+      { "id": "includeShowNotes", "label": "Draft show notes & timestamps", "type": "toggle", "default": true }
+    ],
+    "template": "You are a podcast producer who structures episodes that hold attention. Outline a {{format}} episode on \"{{episodeTopic}}\" for a {{audience}} audience, in a {{tone}} tone.\n\n## Thesis & key points\n{{thesis}}\n\n## Outline requirements\n- Target duration: {{duration}}; allocate rough minutes per segment so it sums realistically.\n- Open with a cold-open hook (a tension, story, or bold claim) before any intro.\n- Break the body into clear segments with the talking points, the question to drive each, and the transition out.\n{{#if format == \"Interview\"}}- For the interview block, supply the question arc and 2-3 follow-up probes for depth.\n{{/if}}{{#if includeAdBreaks}}- Mark natural ad/sponsor break slots at low-tension moments.\n{{/if}}- End with a memorable close and a single clear listener action.\n{{#if includeShowNotes}}- Then draft show notes: a 2-sentence summary, timestamped segment list, and any resources mentioned.\n{{/if}}\n## Deliverables\n1. The segmented outline with per-segment timing and talking points.\n2. Three cold-open hook options.\n{{#if includeShowNotes}}3. The show notes with timestamps.\n{{/if}}\nBe specific to this topic, not generic. Proceed with confident editorial choices; flag only genuinely blocking gaps."
+  },
+  {
+    "id": "course-video-script",
+    "label": "Course Video Script",
+    "description": "Script an instructional course lesson video with clear learning beats",
+    "icon": "GraduationCap",
+    "fields": [
+      { "id": "lessonTitle", "label": "Lesson title", "type": "text", "required": true, "placeholder": "Indexing strategies that actually speed up queries" },
+      { "id": "objectives", "label": "Learning objectives", "type": "textarea", "required": true, "placeholder": "Learner can choose the right index type and explain when an index hurts." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "moduleContext", "label": "Where this sits in the course", "type": "text", "placeholder": "Module 3 of 6; follows the query-planner lesson" },
+      { "id": "duration", "label": "Target duration", "type": "select", "options": [ { "id": "5", "label": "~5 min" }, { "id": "10", "label": "~10 min" }, { "id": "15", "label": "~15 min" } ], "default": "10" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "friendly" },
+      { "id": "includeDemo", "label": "Include a worked demo / screen-share", "type": "toggle", "default": true },
+      { "id": "includeCheck", "label": "Include a knowledge check & recap", "type": "toggle", "default": true }
+    ],
+    "template": "You are an instructional video scriptwriter and learning designer. Script the course lesson \"{{lessonTitle}}\" for a {{audience}} audience, in a {{tone}} tone.\n\n## Learning objectives\n{{objectives}}\n{{#if moduleContext}}\n## Course context\n{{moduleContext}} — connect briefly to prior and upcoming lessons.\n{{/if}}\n## Script requirements\n- Target duration: {{duration}} (write to ~150 spoken words per minute).\n- Open by stating what the learner will be able to do and why it matters to them.\n- Teach one concept at a time: explain, show, then have the learner apply it; pair each line with [VISUAL: ...] direction.\n{{#if includeDemo}}- Include a step-by-step worked demo/screen-share with exactly what to narrate and show at each step.\n{{/if}}{{#if includeCheck}}- Add a short knowledge-check question with the answer, and a recap of the key takeaways tied to each objective.\n{{/if}}- End by previewing how this connects to the next lesson.\n\n## Deliverables\n1. The full narration script with paired visual direction.\n2. A list of on-screen assets/slides needed.\n3. The knowledge-check question and answer{{#if includeCheck}} plus the recap{{/if}}.\n\nWrite the actual narration. Proceed with sound instructional defaults; ask only if an objective is genuinely ambiguous."
   }
 ]

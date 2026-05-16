@@ -114,5 +114,54 @@
       { "id": "includeRelevance", "label": "Note relevance to the topic", "type": "toggle", "default": true }
     ],
     "template": "You are a research librarian compiling an annotated bibliography on \"{{topic}}\".\n\n## Sources\n{{sources}}\n\n## Parameters\n- Audience: {{audience}}\n- Annotation type: {{annotationType}}.\n- Target length per annotation: {{length}}.\n- Format citations in {{citationStyle}} style.\n\n## For each source provide\n1. The full citation in {{citationStyle}} style.\n2. A concise summary of its scope, argument, and methods.\n{{#if annotationType == \"Descriptive\"}}\n{{else}}3. A critical appraisal: credibility, strengths, limitations, and biases.\n{{/if}}{{#if includeRelevance}}4. How it relates to \"{{topic}}\" and to the other sources.\n{{/if}}\n## Notes\n- Keep annotation structure and length consistent across entries.\n- Flag any citation detail you had to infer as needing verification.\n\n## Deliverables\nThe complete annotated bibliography, alphabetized by author.\n\nProceed with well-reasoned defaults; ask only if a source cannot be identified at all."
+  },
+  {
+    "id": "abstract",
+    "label": "Research Abstract",
+    "description": "Write a tight structured abstract that frames the contribution",
+    "icon": "AlignLeft",
+    "fields": [
+      { "id": "title", "label": "Paper title / topic", "type": "text", "required": true, "placeholder": "Transformer pruning under low-resource constraints" },
+      { "id": "summary", "label": "Study summary: question, method, results", "type": "textarea", "required": true, "placeholder": "We test structured pruning on small datasets; method; key numbers; what it means." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "abstractType", "label": "Abstract type", "type": "select", "options": [ { "id": "structured", "label": "Structured (labeled sections)" }, { "id": "unstructured", "label": "Unstructured (single paragraph)" }, { "id": "conference", "label": "Conference / submission" } ], "default": "structured" },
+      { "id": "wordLimit", "label": "Word limit", "type": "select", "options": [ { "id": "150", "label": "~150 words" }, { "id": "250", "label": "~250 words" }, { "id": "300", "label": "~300 words" } ], "default": "250" },
+      { "id": "discipline", "label": "Discipline / field", "type": "text", "placeholder": "Machine learning" },
+      { "id": "includeKeywords", "label": "Suggest keywords", "type": "toggle", "default": true },
+      { "id": "plainSummary", "label": "Add a plain-language summary", "type": "toggle", "default": false }
+    ],
+    "template": "You are a researcher who writes abstracts that get papers read and accepted. Write a {{abstractType}} abstract for \"{{title}}\".\n\n## Study summary\n{{summary}}\n{{#if discipline}}Field: {{discipline}}.\n{{/if}}\n## Parameters\n- Audience: {{audience}}\n- Stay within {{wordLimit}}.\n\n## Requirements\n- Move cleanly through: motivation/gap, objective, approach, principal results (with the key quantitative finding), and the takeaway.\n- Lead the contribution early; make the novelty and significance unmistakable.\n- Specific and self-contained; no citations, no undefined acronyms, no vague \"results are promising\".\n- Flag any number or claim that depends on results not yet provided.\n{{#if includeKeywords}}- Provide 4-6 indexing keywords.\n{{/if}}{{#if plainSummary}}- Add a 2-3 sentence plain-language summary for a non-specialist.\n{{/if}}\n## Deliverables\nThe abstract within the word limit{{#if includeKeywords}}, the keyword list{{/if}}{{#if plainSummary}}, and the plain-language summary{{/if}}.\n\nProceed with well-reasoned defaults; ask only if the contribution cannot be identified from the summary."
+  },
+  {
+    "id": "hypothesis-set",
+    "label": "Hypothesis Set",
+    "description": "Derive testable, well-formed hypotheses with variables and predictions",
+    "icon": "FlaskRound",
+    "fields": [
+      { "id": "researchQuestion", "label": "Research question / area", "type": "text", "required": true, "placeholder": "Does async-first communication affect distributed team output?" },
+      { "id": "background", "label": "Background, theory & expectations", "type": "textarea", "required": true, "placeholder": "Prior work links interruption load to deep-work loss; we expect async to raise throughput but slow coordination." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "count", "label": "Number of hypotheses", "type": "select", "options": [ { "id": "2", "label": "2-3" }, { "id": "4", "label": "4-5" }, { "id": "6", "label": "6+" } ], "default": "4" },
+      { "id": "style", "label": "Hypothesis style", "type": "select", "options": [ { "id": "directional", "label": "Directional" }, { "id": "nullalt", "label": "Null + alternative pairs" }, { "id": "mechanistic", "label": "Mechanistic / causal" } ], "default": "directional" },
+      { "id": "includeVariables", "label": "Specify variables & operationalization", "type": "toggle", "default": true },
+      { "id": "includeFalsification", "label": "State what would falsify each", "type": "toggle", "default": true }
+    ],
+    "template": "You are a research methodologist who formulates sharp, testable hypotheses. Derive a hypothesis set for: {{researchQuestion}}.\n\n## Background, theory & expectations\n{{background}}\n\n## Parameters\n- Audience: {{audience}}\n- Produce {{count}} hypotheses in {{style}} form.\n\n## Requirements\n- Each hypothesis is specific, testable, and grounded in the stated theory; state the assumed direction and rationale.\n{{#if includeVariables}}- For each, identify the independent and dependent variables and how each would be operationalized/measured.\n{{/if}}{{#if includeFalsification}}- For each, state the observation or result that would falsify it.\n{{/if}}- Distinguish primary (confirmatory) from exploratory hypotheses; avoid compound or untestable claims.\n- Note plausible confounds that could threaten a clean test.\n\n## Deliverables\nThe numbered hypothesis set with rationale{{#if includeVariables}}, variables{{/if}}{{#if includeFalsification}}, and falsification conditions{{/if}}, plus a one-line note on the riskiest assumption.\n\nMake confident, defensible choices and state assumptions; ask only if the question is not empirically testable."
+  },
+  {
+    "id": "peer-review",
+    "label": "Peer Review Report",
+    "description": "Produce a constructive, rigorous peer-review report for a manuscript",
+    "icon": "FileSearch",
+    "fields": [
+      { "id": "manuscript", "label": "Manuscript summary or text", "type": "textarea", "required": true, "placeholder": "Paste the abstract/sections or summarize the claims, methods, and results to review." },
+      { "id": "venue", "label": "Target venue & field", "type": "text", "required": true, "placeholder": "A mid-tier ML conference; applied NLP track" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "reviewType", "label": "Review type", "type": "select", "options": [ { "id": "journal", "label": "Journal article" }, { "id": "conference", "label": "Conference paper" }, { "id": "grant", "label": "Grant proposal" }, { "id": "thesis", "label": "Thesis / dissertation" } ], "default": "conference" },
+      { "id": "focus", "label": "Evaluation focus", "type": "multi-select", "options": [ { "id": "novelty", "label": "Novelty & contribution" }, { "id": "rigor", "label": "Methodological rigor" }, { "id": "validity", "label": "Validity of conclusions" }, { "id": "clarity", "label": "Clarity & presentation" }, { "id": "ethics", "label": "Ethics & reproducibility" } ], "default": ["novelty", "rigor", "validity"] },
+      { "id": "recommendation", "label": "Include a recommendation", "type": "select", "options": [ { "id": "yes", "label": "Yes, with rating" }, { "id": "no", "label": "Comments only" } ], "default": "yes" },
+      { "id": "constructiveTone", "label": "Keep tone constructive & specific", "type": "toggle", "default": true }
+    ],
+    "template": "You are an expert reviewer for a {{reviewType}} at: {{venue}}. Produce a rigorous peer-review report.\n\n## Manuscript under review\n{{manuscript}}\n\n## Parameters\n- Audience: {{audience}}\n- Evaluate primarily on: {{focus}}.\n\n## Requirements\n- Open with a fair 3-4 sentence summary of what the work claims and contributes, in your own words.\n- Separate major issues (that affect the conclusions) from minor issues (clarity, presentation).\n- For every criticism, give the specific location/claim, why it is a problem, and a concrete way to address it.\n- Acknowledge genuine strengths; assess whether the evidence actually supports the claims.\n{{#if constructiveTone}}- Be specific and constructive; critique the work, not the authors; no dismissive remarks.\n{{/if}}{{#if recommendation == \"Yes, with rating\"}}- End with an explicit recommendation (accept / minor / major revision / reject) and the key reasons driving it.\n{{/if}}\n## Deliverables\nThe structured review: summary, strengths, major issues, minor issues{{#if recommendation == \"Yes, with rating\"}}, and the recommendation{{/if}}, plus a short confidential note on reviewer confidence.\n\nProceed with established review norms; ask only if the manuscript content is too sparse to evaluate."
   }
 ]

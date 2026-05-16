@@ -85,5 +85,93 @@
       { "id": "tests", "label": "Require tests", "type": "toggle", "default": true }
     ],
     "template": "You are an expert in building ergonomic command-line tools. Build a CLI called \"{{projectName}}\".\n\n## Purpose\n{{summary}}\n\n## Tech\n- Language: {{language}}\n- Distribution: {{distribution}}.\n\n## UX requirements\n- Clear `--help`, sensible subcommands, and good defaults.\n- Helpful, non-cryptic error messages and correct exit codes.\n- A `--dry-run` / verbose option where it makes sense.\n{{#if interactive}}- Interactive prompts when required arguments are missing (but always scriptable via flags).\n{{/if}}{{#if tests}}- Automated tests for argument parsing and core behavior.\n{{/if}}\n## Deliverables\n1. Command/flag design before coding.\n2. Complete runnable code.\n3. README with install and usage examples.\n\nFavor a small dependency footprint and explain key design choices briefly."
+  },
+  {
+    "id": "dashboard-app",
+    "label": "Analytics Dashboard",
+    "description": "A data-dense dashboard with charts, filters and drill-downs.",
+    "icon": "LayoutDashboard",
+    "fields": [
+      { "id": "projectName", "label": "Dashboard name", "type": "text", "required": true, "placeholder": "Revenue Cockpit" },
+      { "id": "summary", "label": "What does it monitor?", "type": "textarea", "required": true, "placeholder": "Live sales KPIs, funnel conversion and per-region breakdowns." },
+      { "id": "stack", "label": "Stack", "type": "select", "optionsRef": "stacks", "default": "nextjs" },
+      { "id": "frameworks", "label": "Charting / UI libraries", "type": "multi-select", "optionsRef": "frameworks", "default": ["react", "tailwind"] },
+      { "id": "database", "label": "Data source", "type": "select", "optionsRef": "databases", "default": "postgres" },
+      { "id": "metrics", "label": "Key metrics & widgets", "type": "textarea", "required": true, "placeholder": "MRR, churn, active users, top accounts table, trend lines." },
+      { "id": "realtime", "label": "Realtime updates", "type": "toggle", "default": false },
+      { "id": "filters", "label": "Cross-widget filters", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Sub-second loads; role-scoped data; exportable to CSV." }
+    ],
+    "template": "You are a senior frontend engineer specializing in data UIs. Build an analytics dashboard called \"{{projectName}}\".\n\n## Purpose\n{{summary}}\n\n## Tech\n- Platform: {{stack}}\n{{#if frameworks}}- Libraries: {{frameworks}}\n{{/if}}- Data source: {{database}}\n\n## Metrics & widgets\n{{metrics}}\n\n## Requirements\n- A clear information hierarchy: headline KPIs first, supporting detail below.\n- Honest, accessible charts with units, empty/loading/error states.\n{{#if filters}}- Global filters (date range, segment) that update every widget consistently.\n{{/if}}{{#if realtime}}- Realtime or near-realtime data with smooth, non-jarring updates.\n{{/if}}- Responsive layout that stays readable on smaller screens.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. Layout wireframe and the metric/query list before coding.\n2. The complete, runnable code organized by widget.\n3. README with setup, data wiring, and run steps.\n\nMake well-reasoned defaults and explain key trade-offs briefly."
+  },
+  {
+    "id": "chrome-extension",
+    "label": "Browser Extension",
+    "description": "A Manifest V3 browser extension with a focused job.",
+    "icon": "Puzzle",
+    "fields": [
+      { "id": "projectName", "label": "Extension name", "type": "text", "required": true, "placeholder": "TabTamer" },
+      { "id": "summary", "label": "What does it do?", "type": "textarea", "required": true, "placeholder": "Group and auto-archive stale tabs with a one-click popup." },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "surfaces", "label": "UI surfaces", "type": "multi-select", "options": [ { "id": "popup", "label": "Toolbar popup" }, { "id": "options", "label": "Options page" }, { "id": "content", "label": "Content script overlay" }, { "id": "devtools", "label": "DevTools panel" }, { "id": "sidepanel", "label": "Side panel" } ], "default": ["popup"] },
+      { "id": "permissions", "label": "Permissions needed", "type": "textarea", "placeholder": "tabs, storage, scripting — justify each." },
+      { "id": "store", "label": "Target store", "type": "select", "options": [ { "id": "chrome", "label": "Chrome Web Store" }, { "id": "firefox", "label": "Firefox Add-ons" }, { "id": "edge", "label": "Edge Add-ons" }, { "id": "cross", "label": "Cross-browser" } ], "default": "chrome" },
+      { "id": "tests", "label": "Require tests", "type": "toggle", "default": true }
+    ],
+    "template": "You are an expert browser-extension developer. Build a Manifest V3 extension called \"{{projectName}}\".\n\n## Purpose\n{{summary}}\n\n## Tech\n- Language: {{language}}\n- UI surfaces: {{surfaces}}\n- Target: {{store}}{{#if store == \"cross\"}} — use a WebExtension-compatible build.{{/if}}\n\n## Requirements\n- A correct Manifest V3 setup with a service worker (no persistent background page).\n{{#if permissions}}- Request only these permissions and justify each: {{permissions}}\n{{/if}}- Principle of least privilege; no broad host permissions unless essential.\n- Persist state with extension storage; handle the worker being suspended.\n- Accessible, fast popup/UI with clear empty and error states.\n{{#if tests}}- Automated tests for core logic and instructions to run them.\n{{/if}}\n## Deliverables\n1. Manifest + architecture (message passing, storage) before coding.\n2. The complete, loadable extension source.\n3. README: load-unpacked steps, build, and store-submission notes.\n\nProceed with sensible defaults and explain key permission decisions."
+  },
+  {
+    "id": "realtime-app",
+    "label": "Realtime Collaboration App",
+    "description": "Multi-user app with live sync, presence and conflict handling.",
+    "icon": "Radio",
+    "fields": [
+      { "id": "projectName", "label": "App name", "type": "text", "required": true, "placeholder": "CoSketch" },
+      { "id": "summary", "label": "What do users collaborate on?", "type": "textarea", "required": true, "placeholder": "A shared whiteboard where teams draw and comment together live." },
+      { "id": "stack", "label": "Stack", "type": "select", "optionsRef": "stacks", "default": "nextjs" },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "database", "label": "Database", "type": "select", "optionsRef": "databases", "default": "postgres" },
+      { "id": "transport", "label": "Realtime transport", "type": "select", "options": [ { "id": "websocket", "label": "WebSockets" }, { "id": "sse", "label": "Server-Sent Events" }, { "id": "webrtc", "label": "WebRTC (peer-to-peer)" }, { "id": "managed", "label": "Managed (Pusher/Ably/Supabase)" } ], "default": "websocket" },
+      { "id": "conflict", "label": "Conflict strategy", "type": "select", "options": [ { "id": "lww", "label": "Last-write-wins" }, { "id": "crdt", "label": "CRDT" }, { "id": "ot", "label": "Operational transform" } ], "default": "crdt" },
+      { "id": "presence", "label": "Show presence / cursors", "type": "toggle", "default": true },
+      { "id": "tests", "label": "Require tests", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior engineer specializing in realtime systems. Build a realtime collaboration app called \"{{projectName}}\".\n\n## What users collaborate on\n{{summary}}\n\n## Tech\n- Platform: {{stack}}\n- Language: {{language}}\n- Database: {{database}}\n- Transport: {{transport}}\n\n## Realtime requirements\n- Conflict resolution: {{conflict}} — explain how concurrent edits converge.\n- Optimistic local updates with reconciliation on server confirmation.\n- Reconnect gracefully and resync state after disconnects.\n{{#if presence}}- Live presence: who's online and live cursors/selections.\n{{/if}}- Handle late joiners receiving the current state correctly.\n{{#if tests}}- Tests covering concurrent-edit and reconnect scenarios.\n{{/if}}\n## Deliverables\n1. Sync architecture and data model before coding.\n2. The complete, runnable codebase (client + server).\n3. README: setup, env vars, and how to test multi-user locally.\n\nMake production-grade defaults and explain the consistency trade-offs."
+  },
+  {
+    "id": "auth-system",
+    "label": "Authentication System",
+    "description": "Secure auth: sessions, MFA, password reset and RBAC.",
+    "icon": "ShieldCheck",
+    "fields": [
+      { "id": "projectName", "label": "System / service name", "type": "text", "required": true, "placeholder": "acme-auth" },
+      { "id": "summary", "label": "Context & who logs in", "type": "textarea", "required": true, "placeholder": "B2B app: employees log in, admins manage org members." },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "frameworks", "label": "Framework", "type": "multi-select", "optionsRef": "frameworks" },
+      { "id": "database", "label": "Database", "type": "select", "optionsRef": "databases", "default": "postgres" },
+      { "id": "methods", "label": "Auth methods", "type": "multi-select", "options": [ { "id": "password", "label": "Email + password" }, { "id": "oauth", "label": "OAuth / social" }, { "id": "magic", "label": "Magic links" }, { "id": "passkey", "label": "Passkeys / WebAuthn" }, { "id": "saml", "label": "SAML / SSO" } ], "default": ["password", "oauth"] },
+      { "id": "sessionModel", "label": "Session model", "type": "select", "options": [ { "id": "cookie", "label": "Server sessions (cookies)" }, { "id": "jwt", "label": "Stateless JWT" }, { "id": "hybrid", "label": "JWT + refresh rotation" } ], "default": "cookie" },
+      { "id": "mfa", "label": "Require MFA support", "type": "toggle", "default": true },
+      { "id": "rbac", "label": "Role-based access control", "type": "toggle", "default": true }
+    ],
+    "template": "You are a security-minded backend engineer. Build an authentication system called \"{{projectName}}\".\n\n## Context\n{{summary}}\n\n## Tech\n- Language: {{language}}\n{{#if frameworks}}- Framework: {{frameworks}}\n{{/if}}- Database: {{database}}\n- Session model: {{sessionModel}}\n\n## Auth methods\n{{methods}}\n\n## Security requirements\n- Hash passwords with a modern KDF (argon2/bcrypt); never store secrets in plaintext.\n- Secure session/token handling: rotation, expiry, revocation, secure cookies.\n- Account recovery: safe password reset with single-use, expiring tokens.\n- Defenses: rate limiting, lockout/backoff, CSRF protection, generic error messages.\n{{#if mfa}}- MFA: TOTP enrollment, verification, and recovery codes.\n{{/if}}{{#if rbac}}- Role-based access control with a clear permission model and checks at every entry point.\n{{/if}}\n## Deliverables\n1. Threat model + data model + endpoint list before coding.\n2. The complete, runnable code with migrations.\n3. README: setup, env vars, and a security checklist.\n\nApply OWASP best practices by default and call out any residual risks."
+  },
+  {
+    "id": "microservice",
+    "label": "Microservice",
+    "description": "A single-responsibility service built to run in production.",
+    "icon": "Network",
+    "fields": [
+      { "id": "serviceName", "label": "Service name", "type": "text", "required": true, "placeholder": "notification-service" },
+      { "id": "responsibility", "label": "Single responsibility", "type": "textarea", "required": true, "placeholder": "Owns sending and tracking transactional emails and push notifications." },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "go" },
+      { "id": "frameworks", "label": "Framework", "type": "multi-select", "optionsRef": "frameworks" },
+      { "id": "database", "label": "Datastore", "type": "select", "optionsRef": "databases", "default": "postgres" },
+      { "id": "comms", "label": "Inbound interface", "type": "select", "options": [ { "id": "rest", "label": "REST/HTTP" }, { "id": "grpc", "label": "gRPC" }, { "id": "events", "label": "Event/queue consumer" } ], "default": "rest" },
+      { "id": "messaging", "label": "Async messaging (queue/broker)", "type": "toggle", "default": true },
+      { "id": "observability", "label": "Include observability (logs/metrics/traces)", "type": "toggle", "default": true },
+      { "id": "tests", "label": "Require tests", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior backend engineer experienced with distributed systems. Build a microservice called \"{{serviceName}}\".\n\n## Responsibility\n{{responsibility}}\nKeep the scope tight — this service owns one thing and exposes a clear contract.\n\n## Tech\n- Language: {{language}}\n{{#if frameworks}}- Framework: {{frameworks}}\n{{/if}}- Datastore: {{database}}\n- Inbound interface: {{comms}}\n\n## Requirements\n- A versioned, documented service contract and explicit error model.\n- Health/readiness endpoints, graceful shutdown, and config via environment.\n- Idempotent handlers and retry-safe behavior for external calls.\n{{#if messaging}}- Async messaging: publish/consume with at-least-once handling and a dead-letter path.\n{{/if}}{{#if observability}}- Observability: structured logs, key metrics, and request tracing with correlation IDs.\n{{/if}}{{#if tests}}- Automated tests (unit + contract/integration) and instructions to run them.\n{{/if}}\n## Deliverables\n1. Service contract, data model, and dependency list before coding.\n2. The complete, runnable service with a Dockerfile.\n3. README: setup, env vars, run, and local end-to-end test steps.\n\nUse production-grade defaults and explain notable trade-offs briefly."
   }
 ]

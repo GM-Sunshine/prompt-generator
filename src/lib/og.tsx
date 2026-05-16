@@ -85,7 +85,7 @@ export async function renderOgImage() {
               color: MUTED,
             }}
           >
-            150+ guided generators · 24 categories · open-source
+            270 guided generators · 27 categories · open-source
           </div>
         </div>
 

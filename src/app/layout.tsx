@@ -26,7 +26,7 @@ const REPO = "https://github.com/GM-Sunshine/prompt-generator";
 const SITE_URL = "https://prompt-generator.gm-sunshine.com";
 const TITLE = "Prompt Generator — write better prompts, faster";
 const DESCRIPTION =
-  "An open-source, JSON-driven AI prompt generator. 150+ guided generators across 24 categories. Build a polished prompt for ChatGPT, Cursor and more — no accounts, no API keys.";
+  "An open-source, JSON-driven AI prompt generator. 270 guided generators across 27 categories. Build a polished prompt for ChatGPT, Cursor and more — no accounts, no API keys.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

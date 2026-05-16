@@ -45,5 +45,118 @@
       { "id": "examples", "label": "Include worked examples", "type": "toggle", "default": true }
     ],
     "template": "You are a staff technical writer. Produce {{docType}} documentation for: {{subject}}.\n\n## Reader\n{{audience}} — assume competence but not prior knowledge of this specific system.\n\n## Source material (treat as the source of truth)\n{{context}}\n\n## Requirements\n- Accurate and faithful to the source material above — never invent APIs, flags or behavior.\n- Skimmable structure with task-oriented headings.\n- Define terms on first use; keep sentences tight.\n{{#if examples}}- Include copy-pasteable, working examples for the common cases.\n{{/if}}{{#if docType == \"reference\"}}- Document every parameter: name, type, required?, default, description.\n{{/if}}\nDeliver the documentation in Markdown, final and complete."
+  },
+  {
+    "id": "case-study",
+    "label": "Customer Case Study",
+    "description": "Turn a customer win into a credible, persuasive story.",
+    "icon": "Trophy",
+    "fields": [
+      { "id": "customer", "label": "Customer / company", "type": "text", "required": true, "placeholder": "Northwind Logistics" },
+      { "id": "situation", "label": "Situation & challenge", "type": "textarea", "required": true, "placeholder": "Manual dispatch scheduling caused 6-hour delays and frequent overtime." },
+      { "id": "solution", "label": "What they did with the product", "type": "textarea", "required": true, "placeholder": "Rolled out automated routing across 4 depots in 3 weeks." },
+      { "id": "results", "label": "Outcomes & metrics", "type": "textarea", "required": true, "placeholder": "Cut dispatch time 70%, saved $240k/yr, NPS up 18 points." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "multi-select", "optionsRef": "tones", "default": ["professional"] },
+      { "id": "quotes", "label": "Include pull quotes", "type": "toggle", "default": true },
+      { "id": "length", "label": "Length", "type": "select", "options": [ { "id": "brief", "label": "1-page brief" }, { "id": "standard", "label": "Standard (~900 words)" }, { "id": "deep", "label": "In-depth (~1500 words)" } ], "default": "standard" }
+    ],
+    "template": "You are a senior B2B content strategist. Write a customer case study about {{customer}}.\n\n## Challenge\n{{situation}}\n\n## Solution\n{{solution}}\n\n## Results\n{{results}}\n\n## Audience & voice\n- Audience: {{audience}}.\n- Tone: {{tone}}.\n- Length: {{length}}.\n\n## Requirements\n- Use the classic Challenge -> Solution -> Results arc; lead with the most striking outcome.\n- Keep every claim grounded in the inputs above; never invent numbers or quotes.\n- Make the customer the hero; the product is the enabler.\n{{#if quotes}}- Include 2 plausible pull quotes attributed to a realistic role (clearly marked as placeholders to confirm).\n{{/if}}- Add a one-line metrics summary box up top.\n\n## Deliverables\n1. 3 headline options.\n2. The full case study in Markdown.\n3. A 2-sentence summary for a sales deck.\n\nProceed with well-reasoned defaults; ask only if a fact is missing and blocking."
+  },
+  {
+    "id": "press-release",
+    "label": "Press Release",
+    "description": "Newsworthy, AP-style announcement ready for media.",
+    "icon": "Newspaper",
+    "fields": [
+      { "id": "company", "label": "Company", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "announcement", "label": "What is being announced", "type": "textarea", "required": true, "placeholder": "Launch of an AI prompt generator with team collaboration." },
+      { "id": "why", "label": "Why it matters / context", "type": "textarea", "required": true, "placeholder": "Teams waste hours rewriting prompts; this standardizes and shares them." },
+      { "id": "quote", "label": "Spokesperson & angle for quote", "type": "text", "placeholder": "CEO Jane Doe on the vision behind the launch" },
+      { "id": "audience", "label": "Target outlet / reader", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "dateline", "label": "Dateline (city, date)", "type": "text", "placeholder": "SAN FRANCISCO, May 16, 2026" },
+      { "id": "boilerplate", "label": "Include company boilerplate", "type": "toggle", "default": true }
+    ],
+    "template": "You are a seasoned PR and communications lead. Write a press release for {{company}}.\n\n## Announcement\n{{announcement}}\n\n## Why it matters\n{{why}}\n\n## Audience\nWriting for: {{audience}}.\n\n## Requirements\n- AP style, inverted-pyramid structure: strongest news in the headline and first paragraph.\n- Headline + subhead, then{{#if dateline}} dateline ({{dateline}}),{{/if}} lead, supporting paragraphs, and a forward-looking close.\n- Factual and restrained; no marketing hype or unverifiable superlatives.\n{{#if quote}}- Include one quote: {{quote}} (clearly marked as a draft to approve).\n{{/if}}{{#if boilerplate}}- Add an \"About {{company}}\" boilerplate paragraph and a media-contact placeholder.\n{{/if}}- End with \"###\".\n\n## Deliverables\n1. 3 headline options.\n2. The full release.\n3. A 40-word email pitch to a journalist.\n\nProceed with sensible defaults; flag only blocking unknowns."
+  },
+  {
+    "id": "white-paper",
+    "label": "White Paper",
+    "description": "Authoritative, research-style paper on a problem space.",
+    "icon": "ScrollText",
+    "fields": [
+      { "id": "title", "label": "Working title / topic", "type": "text", "required": true, "placeholder": "Reducing LLM cost without sacrificing quality" },
+      { "id": "thesis", "label": "Central argument", "type": "textarea", "required": true, "placeholder": "Most teams overspend on model size; routing + caching cuts cost 40%+." },
+      { "id": "evidence", "label": "Evidence / data / sources", "type": "textarea", "required": true, "placeholder": "Benchmark numbers, internal findings, citations the paper must use." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "executives" },
+      { "id": "tone", "label": "Tone", "type": "multi-select", "optionsRef": "tones", "default": ["authoritative"] },
+      { "id": "sections", "label": "Sections to include", "type": "multi-select", "options": [ { "id": "exec", "label": "Executive summary" }, { "id": "problem", "label": "Problem analysis" }, { "id": "approach", "label": "Proposed approach" }, { "id": "evidence", "label": "Evidence & results" }, { "id": "implementation", "label": "Implementation guidance" } ], "default": ["exec", "problem", "approach", "evidence"] },
+      { "id": "cta", "label": "Closing call to action", "type": "text", "placeholder": "Book a cost-architecture review" }
+    ],
+    "template": "You are a domain expert and analyst writing a white paper.\n\n## Title\n{{title}}\n\n## Central argument\n{{thesis}}\n\n## Evidence to build on (source of truth)\n{{evidence}}\n\n## Audience & voice\n- Audience: {{audience}}.\n- Tone: {{tone}}.\n- Sections: {{sections}}.\n\n## Requirements\n- Argue rigorously: claim, evidence, reasoning; acknowledge trade-offs and counterpoints.\n- Stay grounded in the evidence above; mark any assumption explicitly.\n{{#if sections == \"exec\"}}- Open with a 150-word executive summary a busy reader can act on alone.\n{{/if}}{{#if sections == \"implementation\"}}- Include a concrete, step-wise implementation section.\n{{/if}}- Use figures/tables as text descriptions where they clarify data.\n{{#if cta}}- Close with a measured call to action: {{cta}}.\n{{/if}}\n## Deliverables\n1. An outline with section word budgets.\n2. The full white paper in Markdown.\n3. A 3-bullet key-takeaways box.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "product-copy",
+    "label": "Product Page Copy",
+    "description": "Feature and benefit copy for a product or pricing page.",
+    "icon": "Package",
+    "fields": [
+      { "id": "product", "label": "Product", "type": "text", "required": true, "placeholder": "Prompt Generator Pro" },
+      { "id": "features", "label": "Key features", "type": "textarea", "required": true, "placeholder": "Guided fields, shareable generators, team library, version history." },
+      { "id": "outcome", "label": "Outcome for the buyer", "type": "textarea", "required": true, "placeholder": "Consistent, reusable AI prompts across the whole team." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "multi-select", "optionsRef": "tones", "default": ["confident"] },
+      { "id": "sections", "label": "Page sections", "type": "multi-select", "options": [ { "id": "hero", "label": "Hero" }, { "id": "features", "label": "Feature blocks" }, { "id": "comparison", "label": "Comparison / alternatives" }, { "id": "pricing", "label": "Pricing copy" }, { "id": "faq", "label": "FAQ" } ], "default": ["hero", "features", "faq"] },
+      { "id": "objections", "label": "Objections to defuse", "type": "text", "placeholder": "Too complex to adopt; security concerns" }
+    ],
+    "template": "You are a senior product marketer and copywriter. Write product page copy for {{product}}.\n\n## Features\n{{features}}\n\n## Buyer outcome\n{{outcome}}\n\n## Audience & tone\n- Audience: {{audience}}.\n- Tone: {{tone}}.\n- Sections to write: {{sections}}.\n\n## Requirements\n- Translate every feature into a concrete benefit; lead with outcomes, not mechanics.\n- Specific and scannable; no vague hype or filler adjectives.\n{{#if sections == \"hero\"}}- Hero: headline, subhead, and primary CTA.\n{{/if}}{{#if sections == \"pricing\"}}- Pricing: positioning copy per tier and a value-anchoring line (no invented prices).\n{{/if}}{{#if sections == \"faq\"}}- FAQ: 5 questions that move a hesitant buyer forward.\n{{/if}}{{#if objections}}- Proactively defuse these objections: {{objections}}.\n{{/if}}\n## Deliverables\n1. The page copy organized by section.\n2. 2 alternate hero headlines.\n3. One microcopy line for the primary button.\n\nDeliver finished, paste-ready copy; assume sensible defaults."
+  },
+  {
+    "id": "newsletter-article",
+    "label": "Newsletter Issue",
+    "description": "An engaging email newsletter issue with a clear takeaway.",
+    "icon": "Mail",
+    "fields": [
+      { "id": "newsletter", "label": "Newsletter name & theme", "type": "text", "required": true, "placeholder": "The Prompt Brief — weekly AI workflow tips" },
+      { "id": "topic", "label": "This issue's topic", "type": "textarea", "required": true, "placeholder": "How to standardize prompts across a 20-person team without slowing anyone down." },
+      { "id": "takeaway", "label": "The one takeaway", "type": "textarea", "required": true, "placeholder": "Treat prompts like code: templated, reviewed, reused." },
+      { "id": "audience", "label": "Subscriber", "type": "select", "optionsRef": "audiences", "default": "developers" },
+      { "id": "tone", "label": "Tone", "type": "multi-select", "optionsRef": "tones", "default": ["conversational"] },
+      { "id": "sections", "label": "Recurring sections", "type": "multi-select", "options": [ { "id": "intro", "label": "Personal intro" }, { "id": "main", "label": "Main story" }, { "id": "links", "label": "Curated links" }, { "id": "tip", "label": "Quick tip" } ], "default": ["intro", "main", "tip"] },
+      { "id": "cta", "label": "Call to action", "type": "text", "placeholder": "Reply with your team's biggest prompting pain" }
+    ],
+    "template": "You are an experienced newsletter writer with a loyal audience. Write an issue of \"{{newsletter}}\".\n\n## Topic\n{{topic}}\n\n## The one takeaway\n{{takeaway}}\n\n## Audience & voice\n- Subscriber: {{audience}}.\n- Tone: {{tone}}.\n- Sections: {{sections}}.\n\n## Requirements\n- Strong subject line and preview text; the open is earned in the first two sentences.\n- Write to one person; conversational but dense with value, no filler.\n{{#if sections == \"links\"}}- Curated links: 3 plausible, clearly-placeholdered items with a one-line why-it-matters each.\n{{/if}}{{#if sections == \"tip\"}}- End the body with one immediately actionable quick tip.\n{{/if}}{{#if cta}}- Close with a single clear ask: {{cta}}.\n{{/if}}\n## Deliverables\n1. Subject line + 2 alternates and preview text.\n2. The full issue in Markdown.\n3. A one-line social teaser.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "landing-page",
+    "label": "Landing Page (Campaign)",
+    "description": "A single-goal campaign page built to convert one action.",
+    "icon": "MousePointerClick",
+    "fields": [
+      { "id": "offer", "label": "Offer / campaign", "type": "text", "required": true, "placeholder": "Free 14-day trial of Prompt Generator Pro" },
+      { "id": "goal", "label": "Single conversion goal", "type": "textarea", "required": true, "placeholder": "Get the visitor to start a trial — one form, one button." },
+      { "id": "value", "label": "Core promise & proof", "type": "textarea", "required": true, "placeholder": "Ship consistent prompts in a day; used by 300+ teams." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "multi-select", "optionsRef": "tones", "default": ["persuasive"] },
+      { "id": "trafficSource", "label": "Traffic source", "type": "select", "options": [ { "id": "ads", "label": "Paid ads" }, { "id": "email", "label": "Email campaign" }, { "id": "organic", "label": "Organic / content" }, { "id": "launch", "label": "Product launch" } ], "default": "ads" },
+      { "id": "socialProof", "label": "Include social proof block", "type": "toggle", "default": true }
+    ],
+    "template": "You are a conversion-focused landing page copywriter. Write copy for a campaign landing page.\n\n## Offer\n{{offer}}\n\n## Single goal\n{{goal}}\n\n## Promise & proof\n{{value}}\n\n## Audience & tone\n- Audience: {{audience}}.\n- Tone: {{tone}}.\n- Traffic source: {{trafficSource}} — match message to intent.\n\n## Requirements\n- One goal, one primary CTA repeated; remove any link or idea that competes with it.\n- Above-the-fold: headline, subhead, primary CTA, and a trust signal.\n- Benefit-led sections with concrete, specific proof; no vague hype.\n{{#if trafficSource == \"ads\"}}- Ensure message match: echo likely ad language in the headline.\n{{/if}}{{#if socialProof}}- Include a social-proof block (logos/quotes/stats as clearly-marked placeholders).\n{{/if}}- Add a short objection-handling FAQ and a final CTA restating the value.\n\n## Deliverables\n1. Section-by-section copy.\n2. 3 headline variants for A/B testing.\n3. The primary CTA button microcopy.\n\nDeliver finished, paste-ready copy; assume sensible defaults."
+  },
+  {
+    "id": "faq-page",
+    "label": "FAQ / Help Content",
+    "description": "Clear, deflection-focused answers to real user questions.",
+    "icon": "MessageCircleQuestion",
+    "fields": [
+      { "id": "subject", "label": "Product / topic", "type": "text", "required": true, "placeholder": "Billing and subscription management" },
+      { "id": "questions", "label": "Known questions / themes", "type": "textarea", "required": true, "placeholder": "How do I change plans? Will I be refunded? How does proration work?" },
+      { "id": "facts", "label": "Authoritative facts / policy", "type": "textarea", "required": true, "placeholder": "Paste the real policy, behavior, or docs answers must be faithful to." },
+      { "id": "audience", "label": "Reader", "type": "select", "optionsRef": "audiences", "default": "customers" },
+      { "id": "tone", "label": "Tone", "type": "multi-select", "optionsRef": "tones", "default": ["helpful"] },
+      { "id": "count", "label": "How many Q&As", "type": "select", "options": [ { "id": "8", "label": "~8" }, { "id": "12", "label": "~12" }, { "id": "20", "label": "~20" } ], "default": "12" },
+      { "id": "grouped", "label": "Group by category", "type": "toggle", "default": true }
+    ],
+    "template": "You are a support content lead focused on deflecting tickets. Write FAQ content for: {{subject}}.\n\n## Questions to cover\n{{questions}}\n\n## Authoritative facts (source of truth)\n{{facts}}\n\n## Reader & voice\n- Reader: {{audience}}.\n- Tone: {{tone}}.\n- Produce roughly {{count}} question/answer pairs.\n\n## Requirements\n- Phrase questions the way real users would search them, not internal jargon.\n- Answer in 2-4 sentences: direct answer first, then the why or next step.\n- Be strictly faithful to the facts above; never invent policy or behavior.\n{{#if grouped}}- Group Q&As under clear category headings.\n{{/if}}- Add a closing line pointing to support for anything unanswered.\n\n## Deliverables\n1. The full FAQ in Markdown.\n2. 3 questions worth turning into standalone help articles.\n3. Any gaps where the source material was insufficient.\n\nProceed with well-reasoned defaults; ask only if a needed fact is missing."
   }
 ]

@@ -115,5 +115,55 @@
       { "id": "dynamicCart", "label": "Reference the abandoned items dynamically", "type": "toggle", "default": true }
     ],
     "template": "You are a retention marketer who writes high-recovery abandoned-cart sequences.\n\n## Brand context\n{{brand}}\n\n## Brief\n- Audience segment: {{audience}}\n- Tone: {{tone}}.\n- Channels: {{channels}}.\n- {{messageCount}} messages total.\n- Primary objection to overcome: {{objection}}.\n- Discount strategy: {{discountStage}}.\n\n## For each message provide\n1. Send timing relative to abandonment, and channel.\n2. The angle/goal of that message and how it counters the {{objection}} objection.\n3. Subject line + preview text (email) or full SMS copy, plus body copy with one clear CTA back to the cart.\n{{#if dynamicCart}}4. Where to insert dynamic cart contents (use {item} style placeholders).\n{{/if}}\n## Notes\n- Escalate persuasion across the sequence; don't repeat the same message louder.\n- Respect the discount strategy precisely.\n\n## Deliverables\nThe full sequence spec with ready-to-use copy for every message.\n\nProceed with proven retention defaults; ask only if the brand context is insufficient."
+  },
+  {
+    "id": "product-bundle",
+    "label": "Product Bundle Strategy",
+    "description": "Design profitable product bundles with positioning and pricing",
+    "icon": "Package",
+    "fields": [
+      { "id": "catalog", "label": "Products & catalog context", "type": "textarea", "required": true, "placeholder": "Skincare line: cleanser $20, serum $45, moisturizer $35; serum is the hero, cleanser overstocked." },
+      { "id": "goal", "label": "Bundle objective", "type": "select", "options": [ { "id": "aov", "label": "Raise average order value" }, { "id": "clearance", "label": "Move slow inventory" }, { "id": "acquisition", "label": "Lower entry price / acquire" }, { "id": "retention", "label": "Drive routine / repeat use" } ], "default": "aov" },
+      { "id": "audience", "label": "Target customer", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Brand tone", "type": "select", "optionsRef": "tones", "default": "friendly" },
+      { "id": "bundleCount", "label": "Number of bundles", "type": "select", "options": [ { "id": "2", "label": "2" }, { "id": "3", "label": "3" }, { "id": "4", "label": "4" } ], "default": "3" },
+      { "id": "pricingModel", "label": "Pricing approach", "type": "select", "options": [ { "id": "fixed", "label": "Fixed discount %" }, { "id": "tiered", "label": "Tiered (good/better/best)" }, { "id": "buildbox", "label": "Build-your-own / mix & match" }, { "id": "gwp", "label": "Gift-with-purchase" } ], "default": "tiered" },
+      { "id": "protectMargin", "label": "Protect blended margin", "type": "toggle", "default": true },
+      { "id": "includeCopy", "label": "Include bundle names & sell copy", "type": "toggle", "default": true }
+    ],
+    "template": "You are an e-commerce merchandising strategist who designs bundles that lift profit, not just units. Design product bundles.\n\n## Catalog context\n{{catalog}}\n\n## Brief\n- Objective: {{goal}}.\n- Target customer: {{audience}}\n- Brand tone: {{tone}}.\n- Produce {{bundleCount}} bundles using a {{pricingModel}} approach.\n\n## Requirements\n- Each bundle has a clear logic: why these products belong together for this customer and objective.\n- Specify the contents, the bundle price vs. à la carte, the implied discount, and the customer-perceived value.\n{{#if protectMargin}}- Keep blended margin healthy; flag any bundle that erodes margin and how to offset it (anchor item, attach a hero SKU).\n{{/if}}- Map each bundle to where it should appear on-site (PDP add-on, dedicated page, cart upsell).\n{{#if includeCopy}}- Provide a name and 2-3 lines of sell copy per bundle.\n{{/if}}\n## Deliverables\nThe bundle lineup with contents, pricing, placement{{#if includeCopy}}, and copy{{/if}}, plus the single bundle to lead with and why.\n\nMake confident, margin-aware recommendations; ask only if the catalog context is insufficient."
+  },
+  {
+    "id": "size-guide",
+    "label": "Size & Fit Guide",
+    "description": "Write a clear size guide that reduces fit-related returns",
+    "icon": "Ruler",
+    "fields": [
+      { "id": "product", "label": "Product / category", "type": "text", "required": true, "placeholder": "Women's slim-fit denim jeans" },
+      { "id": "fitContext", "label": "Fit details, sizing data & known issues", "type": "textarea", "required": true, "placeholder": "Runs small in waist, true to length; XS-XXL; common return reason is tight hips." },
+      { "id": "audience", "label": "Target customer", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Brand tone", "type": "select", "optionsRef": "tones", "default": "friendly" },
+      { "id": "units", "label": "Measurement units", "type": "select", "options": [ { "id": "both", "label": "Both (cm & in)" }, { "id": "metric", "label": "Metric (cm)" }, { "id": "imperial", "label": "Imperial (in)" } ], "default": "both" },
+      { "id": "elements", "label": "Include", "type": "multi-select", "options": [ { "id": "table", "label": "Size chart table" }, { "id": "howto", "label": "How to measure" }, { "id": "fitnotes", "label": "Fit notes / runs small-large" }, { "id": "between", "label": "Between-sizes advice" }, { "id": "conversion", "label": "International size conversion" } ], "default": ["table", "howto", "fitnotes"] },
+      { "id": "addFitFinder", "label": "Add a quick fit-finder Q&A", "type": "toggle", "default": true }
+    ],
+    "template": "You are an e-commerce content specialist focused on reducing fit-related returns. Write a size and fit guide for \"{{product}}\".\n\n## Fit details & known issues\n{{fitContext}}\n\n## Brief\n- Target customer: {{audience}}\n- Brand tone: {{tone}}.\n- Use {{units}} measurements.\n- Include: {{elements}}.\n\n## Requirements\n- Be concrete and reassuring; the goal is the right size on the first order, not just information.\n- The size chart must be unambiguous, with the body measurement each column maps to.\n- Address the stated fit issues head-on (e.g. \"runs small — size up if between sizes\") rather than burying them.\n- Plain how-to-measure steps a customer can follow with a tape measure at home.\n{{#if addFitFinder}}- Add a short fit-finder: 2-3 questions that route the shopper to a recommended size.\n{{/if}}\n## Deliverables\nThe complete on-page size guide in the requested structure, plus one line of microcopy for the PDP that nudges correct sizing.\n\nProceed with sensible defaults; ask only if the sizing data is insufficient to build the chart."
+  },
+  {
+    "id": "marketplace-listing",
+    "label": "Marketplace Listing",
+    "description": "Optimize a marketplace listing for search rank and conversion",
+    "icon": "Tag",
+    "fields": [
+      { "id": "productName", "label": "Product", "type": "text", "required": true, "placeholder": "Stainless steel insulated water bottle 32oz" },
+      { "id": "details", "label": "Features, specs & differentiators", "type": "textarea", "required": true, "placeholder": "Double-wall vacuum, 24h cold, leakproof lid, BPA-free; vs. competitors: lifetime warranty." },
+      { "id": "marketplace", "label": "Marketplace", "type": "select", "required": true, "options": [ { "id": "amazon", "label": "Amazon" }, { "id": "etsy", "label": "Etsy" }, { "id": "ebay", "label": "eBay" }, { "id": "walmart", "label": "Walmart" } ], "default": "amazon" },
+      { "id": "audience", "label": "Target customer", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Brand tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "keywords", "label": "Target keywords / search terms", "type": "text", "placeholder": "insulated water bottle, leakproof flask, gym water bottle" },
+      { "id": "sections", "label": "Produce", "type": "multi-select", "options": [ { "id": "title", "label": "Listing title" }, { "id": "bullets", "label": "Bullet points" }, { "id": "description", "label": "Long description / A+ copy" }, { "id": "backend", "label": "Backend search terms" }, { "id": "faq", "label": "Q&A seeds" } ], "default": ["title", "bullets", "description"] },
+      { "id": "compliance", "label": "Follow marketplace listing rules", "type": "toggle", "default": true }
+    ],
+    "template": "You are a marketplace listing optimization specialist. Optimize a {{marketplace}} listing for \"{{productName}}\".\n\n## Features, specs & differentiators\n{{details}}\n\n## Brief\n- Target customer: {{audience}}\n- Brand tone: {{tone}}.\n- Produce: {{sections}}.\n{{#if keywords}}- Target keywords / search terms: {{keywords}}.\n{{/if}}\n## Requirements\n- Front-load the title with the highest-intent keywords and the core differentiator; stay readable, not stuffed.\n- Bullets lead with the benefit, then the proof/spec; cover the top buyer questions and objections.\n- Long description builds desire and trust with scannable structure; no unverifiable claims.\n{{#if compliance}}- Respect {{marketplace}} listing policies: no prohibited claims, no competitor mentions, no contact info, correct character limits.\n{{/if}}- Weave keywords in naturally where shoppers and the algorithm both benefit.\n\n## Deliverables\nAll requested sections, formatted and ready to paste into {{marketplace}}, plus one note on the single biggest conversion lever for this listing.\n\nProceed with proven marketplace best practices; ask only if a critical product detail is missing."
   }
 ]

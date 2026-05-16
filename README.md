@@ -7,7 +7,7 @@ more.
 
 No API keys. No LLM calls. Every page is server-rendered from JSON.
 
-- **150+ generators across 24 categories** — Tech & Product, Content & Marketing, Business & Ops, Creative & Learning
+- **270 generators across 27 categories** — Tech & Product, Content & Marketing, Business & Ops, Creative & Learning
 - **Browse & search**: `/browse` filters every generator by domain and keyword
 - **Multi-model export**: Plain · ChatGPT · XML / Structured · Cursor · System + User
 - **All content is data**: add a category or generator by editing JSON — no code. See `/contribute` or [CONTRIBUTING.md](./CONTRIBUTING.md)

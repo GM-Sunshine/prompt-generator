@@ -54,5 +54,102 @@
       { "id": "interactive", "label": "Interactive", "type": "toggle", "default": false }
     ],
     "template": "You are a data-visualization expert. Specify a visualization.\n\n## Communication goal\n{{goal}}\n\n## Data shape\n{{data}}\n\n## Chart\n- Preferred type(s): {{chartTypes}} — choose the most honest encoding; recommend a better one if these mislead.\n- Output: {{#if tool == \"spec\"}}a tool-agnostic spec.{{else}}{{tool}} code.{{/if}}\n\n## Requirements\n- Define encodings (x, y, color, facet), scales, sort order, and axis/number formatting.\n- Accessible: colorblind-safe palette, labels and units, no chartjunk.\n{{#if interactive}}- Interactivity: tooltips, and relevant filters/zoom — describe each.\n{{/if}}- Note the single takeaway the chart should make obvious, and the title that states it.\n\n{{#if tool == \"spec\"}}Deliver the spec as a clear structured description.{{else}}Deliver runnable {{tool}} code plus a one-line caption.{{/if}}"
+  },
+  {
+    "id": "etl-pipeline",
+    "label": "ETL / ELT Pipeline",
+    "description": "An orchestrated, idempotent data ingestion pipeline.",
+    "icon": "Workflow",
+    "fields": [
+      { "id": "pipelineName", "label": "Pipeline name", "type": "text", "required": true, "placeholder": "stripe_to_warehouse" },
+      { "id": "summary", "label": "What does it move and why?", "type": "textarea", "required": true, "placeholder": "Pull Stripe invoices daily into the warehouse for finance reporting." },
+      { "id": "sources", "label": "Source(s)", "type": "textarea", "required": true, "placeholder": "Stripe REST API (invoices, customers), updated_at cursor available." },
+      { "id": "destination", "label": "Destination", "type": "select", "options": [ { "id": "snowflake", "label": "Snowflake" }, { "id": "bigquery", "label": "BigQuery" }, { "id": "redshift", "label": "Redshift" }, { "id": "postgres", "label": "PostgreSQL" }, { "id": "s3", "label": "S3 / data lake" } ], "default": "snowflake" },
+      { "id": "orchestrator", "label": "Orchestration", "type": "select", "options": [ { "id": "airflow", "label": "Airflow" }, { "id": "dagster", "label": "Dagster" }, { "id": "prefect", "label": "Prefect" }, { "id": "cron", "label": "Cron / script" } ], "default": "airflow" },
+      { "id": "loadMode", "label": "Load mode", "type": "select", "options": [ { "id": "incremental", "label": "Incremental" }, { "id": "full", "label": "Full refresh" }, { "id": "cdc", "label": "Change data capture" } ], "default": "incremental" },
+      { "id": "schedule", "label": "Schedule", "type": "text", "placeholder": "Daily at 02:00 UTC" },
+      { "id": "tests", "label": "Require data quality checks", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior data engineer. Design and build an ETL/ELT pipeline called \"{{pipelineName}}\".\n\n## Objective\n{{summary}}\n\n## Source(s)\n{{sources}}\n\n## Target\n- Destination: {{destination}}\n- Orchestration: {{orchestrator}}\n- Load mode: {{loadMode}}\n{{#if schedule}}- Schedule: {{schedule}}\n{{/if}}\n## Requirements\n- Idempotent and re-runnable; safe to retry without duplicating data.\n{{#if loadMode == \"incremental\"}}- Track a high-water mark/cursor and handle late-arriving records.\n{{/if}}{{#if loadMode == \"cdc\"}}- Capture inserts, updates and deletes correctly with ordering guarantees.\n{{/if}}- Explicit schema handling and graceful schema-drift behavior.\n- Observability: logging, run metadata, and failure alerting.\n{{#if tests}}- Data-quality checks (row counts, nulls, referential integrity) that fail the run on violation.\n{{/if}}\n## Deliverables\n1. Pipeline architecture and a DAG/task breakdown before coding.\n2. The complete, runnable pipeline code and config.\n3. README: setup, credentials/env, backfill steps, and runbook.\n\nUse production-grade defaults and document the assumptions you made."
+  },
+  {
+    "id": "dbt-model",
+    "label": "dbt Model",
+    "description": "Layered, tested dbt models from a transformation need.",
+    "icon": "Boxes",
+    "fields": [
+      { "id": "modelName", "label": "Target model name", "type": "text", "required": true, "placeholder": "fct_orders" },
+      { "id": "goal", "label": "What should this model represent?", "type": "textarea", "required": true, "placeholder": "One row per order with revenue, status and customer attributes." },
+      { "id": "sources", "label": "Source tables / staging", "type": "textarea", "required": true, "placeholder": "raw.orders, raw.order_items, stg_customers." },
+      { "id": "layer", "label": "Model layer", "type": "select", "options": [ { "id": "staging", "label": "Staging" }, { "id": "intermediate", "label": "Intermediate" }, { "id": "marts", "label": "Mart / fact-dimension" } ], "default": "marts" },
+      { "id": "materialization", "label": "Materialization", "type": "select", "options": [ { "id": "view", "label": "View" }, { "id": "table", "label": "Table" }, { "id": "incremental", "label": "Incremental" }, { "id": "ephemeral", "label": "Ephemeral" } ], "default": "table" },
+      { "id": "warehouse", "label": "Warehouse", "type": "select", "options": [ { "id": "snowflake", "label": "Snowflake" }, { "id": "bigquery", "label": "BigQuery" }, { "id": "redshift", "label": "Redshift" }, { "id": "postgres", "label": "PostgreSQL" }, { "id": "duckdb", "label": "DuckDB" } ], "default": "snowflake" },
+      { "id": "tests", "label": "Add schema tests", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior analytics engineer fluent in dbt. Build the dbt model \"{{modelName}}\".\n\n## What it should represent\n{{goal}}\n\n## Inputs\n{{sources}}\n\n## Build settings\n- Layer: {{layer}}\n- Materialization: {{materialization}}\n- Warehouse: {{warehouse}} (use its SQL dialect)\n\n## Requirements\n- Follow dbt best practices: ref()/source(), no hardcoded table names, CTE-based readable SQL.\n- Keep transformations layered; don't mix staging logic into marts.\n{{#if materialization == \"incremental\"}}- Implement a correct incremental strategy with a unique key and is_incremental() guard.\n{{/if}}{{#if tests}}- Provide a schema.yml with descriptions and tests (unique, not_null, relationships, accepted_values where apt).\n{{/if}}- Document column meanings and any business assumptions.\n\n## Deliverables\n1. The model lineage (which refs/sources feed it) before coding.\n2. The complete .sql model{{#if tests}} plus schema.yml{{/if}}.\n3. Notes on assumptions and anything an analyst should review.\n\nProceed with sensible defaults and explain key modeling choices."
+  },
+  {
+    "id": "ab-test-analysis",
+    "label": "A/B Test Analysis",
+    "description": "A rigorous experiment readout with stats and a decision.",
+    "icon": "FlaskConical",
+    "fields": [
+      { "id": "experiment", "label": "Experiment name", "type": "text", "required": true, "placeholder": "checkout_one_page_v2" },
+      { "id": "hypothesis", "label": "Hypothesis", "type": "textarea", "required": true, "placeholder": "A one-page checkout increases conversion without hurting AOV." },
+      { "id": "metrics", "label": "Primary & guardrail metrics", "type": "textarea", "required": true, "placeholder": "Primary: checkout conversion. Guardrails: AOV, refund rate." },
+      { "id": "design", "label": "Test design", "type": "select", "options": [ { "id": "frequentist", "label": "Frequentist (t-test/z-test)" }, { "id": "bayesian", "label": "Bayesian" }, { "id": "cuped", "label": "Frequentist + CUPED" } ], "default": "frequentist" },
+      { "id": "data", "label": "Available data", "type": "textarea", "required": true, "placeholder": "assignment table (user, variant, ts), events, orders." },
+      { "id": "audience", "label": "Readout audience", "type": "select", "optionsRef": "audiences", "default": "executives" },
+      { "id": "tool", "label": "Tooling", "type": "select", "options": [ { "id": "python", "label": "Python (pandas/statsmodels)" }, { "id": "r", "label": "R" }, { "id": "sql", "label": "SQL + stats" } ], "default": "python" },
+      { "id": "recommend", "label": "Include ship/no-ship call", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior experimentation analyst. Produce an A/B test readout for \"{{experiment}}\".\n\n## Hypothesis\n{{hypothesis}}\n\n## Metrics\n{{metrics}}\n\n## Available data\n{{data}}\n\n## Method\n- Approach: {{design}} analysis, implemented in {{tool}}.\n- Audience: {{audience}}.\n\n## Requirements\n- Check experiment validity first: sample ratio mismatch, assignment integrity, tracking gaps, novelty and segment effects.\n- Report the effect size with a confidence or credible interval — not just a p-value or a significance star.\n- Assess guardrail metrics and call out any regressions.\n- State statistical power and whether the test was adequately powered.\n{{#if recommend}}- End with a clear ship / no-ship / iterate recommendation and its rationale.\n{{/if}}\nWrite the actual readout (Markdown) with the analysis steps/queries specified. Use [VALUE] placeholders where real numbers would go."
+  },
+  {
+    "id": "data-dictionary",
+    "label": "Data Dictionary",
+    "description": "Clear documentation of tables, columns and semantics.",
+    "icon": "BookText",
+    "fields": [
+      { "id": "subject", "label": "Dataset / domain", "type": "text", "required": true, "placeholder": "Orders & subscriptions warehouse schema" },
+      { "id": "schema", "label": "Tables & columns", "type": "textarea", "required": true, "placeholder": "orders(id, user_id, amount_cents, status, created_at), ..." },
+      { "id": "audience", "label": "Primary audience", "type": "select", "optionsRef": "audiences", "default": "developers" },
+      { "id": "format", "label": "Output format", "type": "select", "options": [ { "id": "markdown", "label": "Markdown tables" }, { "id": "yaml", "label": "YAML (dbt-style)" }, { "id": "json", "label": "JSON schema" } ], "default": "markdown" },
+      { "id": "includePii", "label": "Flag PII / sensitivity", "type": "toggle", "default": true },
+      { "id": "includeLineage", "label": "Note source & lineage", "type": "toggle", "default": true }
+    ],
+    "template": "You are a meticulous analytics engineer. Produce a data dictionary for: {{subject}}.\n\n## Schema to document\n{{schema}}\n\n## Output\n- Audience: {{audience}}.\n- Format: {{format}}.\n\n## For every table\n- One-line purpose, grain (what one row represents), and update cadence.\n\n## For every column\n- Name, type, a plain-language definition, allowed/expected values, and nullability.\n- Flag computed/derived fields and state the formula.\n{{#if includePii}}- Mark PII and a sensitivity level (public/internal/restricted).\n{{/if}}{{#if includeLineage}}- Note the upstream source for each table and key joins to related tables.\n{{/if}}- Call out any column whose meaning is ambiguous and the assumption you made.\n\n## Deliverables\n1. The complete dictionary in {{format}}.\n2. A short list of open questions for a data owner to confirm.\n\nBe precise and consistent; do not invent columns that aren't listed."
+  },
+  {
+    "id": "forecasting-model",
+    "label": "Forecasting Model",
+    "description": "A defensible time-series forecast with validation.",
+    "icon": "TrendingUp",
+    "fields": [
+      { "id": "target", "label": "What are you forecasting?", "type": "textarea", "required": true, "placeholder": "Weekly revenue per region for the next 13 weeks." },
+      { "id": "history", "label": "Historical data available", "type": "textarea", "required": true, "placeholder": "3 years of daily revenue, plus promo calendar and holidays." },
+      { "id": "horizon", "label": "Forecast horizon", "type": "text", "required": true, "placeholder": "13 weeks ahead" },
+      { "id": "method", "label": "Modeling approach", "type": "select", "options": [ { "id": "auto", "label": "Recommend best fit" }, { "id": "arima", "label": "ARIMA / SARIMA" }, { "id": "prophet", "label": "Prophet" }, { "id": "ets", "label": "Exponential smoothing" }, { "id": "ml", "label": "ML (gradient boosting / LSTM)" } ], "default": "auto" },
+      { "id": "tool", "label": "Tooling", "type": "select", "options": [ { "id": "python", "label": "Python" }, { "id": "r", "label": "R" } ], "default": "python" },
+      { "id": "intervals", "label": "Include prediction intervals", "type": "toggle", "default": true },
+      { "id": "drivers", "label": "External drivers / regressors", "type": "textarea", "placeholder": "Marketing spend, seasonality, known future promos." }
+    ],
+    "template": "You are a senior forecasting/data scientist. Build a time-series forecasting model.\n\n## Target\n{{target}}\n\n## Available history\n{{history}}\n\n## Specification\n- Horizon: {{horizon}}\n- Approach: {{#if method == \"auto\"}}evaluate a few candidates and justify the chosen model.{{else}}{{method}}.{{/if}}\n- Tooling: {{tool}}\n{{#if drivers}}- Known external drivers/regressors: {{drivers}}\n{{/if}}\n## Requirements\n- Profile the series first: trend, seasonality, gaps, outliers, stationarity.\n- Use proper time-based backtesting (rolling/expanding origin) — never random splits.\n- Report accuracy with appropriate metrics (MAPE/SMAPE/RMSE) vs a naive/seasonal baseline.\n{{#if intervals}}- Produce calibrated prediction intervals, not just point forecasts.\n{{/if}}- State assumptions, failure modes, and when the model should be retrained.\n\n## Deliverables\n1. EDA summary and modeling plan before coding.\n2. The complete, runnable {{tool}} code with the backtest.\n3. The forecast output plus a plain-language interpretation and caveats.\n\nProceed with well-reasoned defaults and explain key choices."
+  },
+  {
+    "id": "metric-definition",
+    "label": "Metric Definition",
+    "description": "An unambiguous, computable definition for a business metric.",
+    "icon": "Gauge",
+    "fields": [
+      { "id": "metric", "label": "Metric name", "type": "text", "required": true, "placeholder": "Monthly Active Users (MAU)" },
+      { "id": "intent", "label": "What decision should it drive?", "type": "textarea", "required": true, "placeholder": "Track product stickiness to judge growth and retention health." },
+      { "id": "data", "label": "Available data / events", "type": "textarea", "required": true, "placeholder": "events(user_id, event_name, ts), users(id, created_at, is_internal)." },
+      { "id": "grain", "label": "Time grain", "type": "select", "options": [ { "id": "daily", "label": "Daily" }, { "id": "weekly", "label": "Weekly" }, { "id": "monthly", "label": "Monthly" }, { "id": "rolling", "label": "Rolling window" } ], "default": "monthly" },
+      { "id": "dialect", "label": "SQL dialect for the reference query", "type": "select", "options": [ { "id": "postgres", "label": "PostgreSQL" }, { "id": "bigquery", "label": "BigQuery" }, { "id": "snowflake", "label": "Snowflake" } ], "default": "snowflake" },
+      { "id": "dimensions", "label": "Slice-by dimensions", "type": "textarea", "placeholder": "plan, country, acquisition channel." },
+      { "id": "guardrails", "label": "Include caveats & misuse warnings", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior analytics lead defining a canonical metric.\n\n## Metric\n{{metric}}\n\n## Why it matters\n{{intent}}\n\n## Available data\n{{data}}\n\n## Definition requirements\n- A precise plain-language definition: the exact numerator/denominator or aggregation.\n- Time grain: {{grain}}. State the timezone and how period boundaries are handled.\n- Inclusion/exclusion rules: internal users, bots, refunds, test accounts — be explicit.\n- Edge cases: late events, deletions, and re-activation handling.\n{{#if dimensions}}- Valid slice-by dimensions: {{dimensions}} (and any that would be misleading).\n{{/if}}{{#if guardrails}}- Known caveats, common misinterpretations, and what this metric does NOT mean.\n{{/if}}\n## Deliverables\n1. The canonical definition and the rules above.\n2. A correct, readable reference {{dialect}} SQL query implementing it.\n3. Open questions for a metric owner to confirm.\n\nBe unambiguous; if the data can't support a clean definition, say so and propose the closest defensible one."
   }
 ]

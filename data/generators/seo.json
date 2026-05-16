@@ -110,5 +110,54 @@
       { "id": "blueprint", "label": "Output a content blueprint to win", "type": "toggle", "default": true }
     ],
     "template": "You are a competitive SEO analyst reverse-engineering the SERP for \"{{keyword}}\".\n\n## Objective\n{{goal}}\n\n- Your relative authority: {{domainStrength}}\n- Analyze along: {{dimensions}}\n\n## Current top results\n{{competitors}}\n\n## Analysis\n- Determine the dominant intent and the content format Google is rewarding for this query.\n- For each competing result, summarize its angle, depth, structure, and apparent authority, and why it ranks.\n- Identify shared patterns (the table-stakes a page must have) and, crucially, the gaps and weaknesses no one is covering well.\n- Given a {{domainStrength}} domain, recommend a realistic differentiation strategy (out-depth, out-format, unique data, or niche-down) rather than a like-for-like copy.\n{{#if blueprint}}- Produce a content blueprint: recommended format, H2/H3 outline, must-cover entities, SERP features to capture, and the unique angle.\n{{/if}}\n## Deliverables\n1. A SERP intent + format verdict.\n2. A competitor comparison table (page, angle, strengths, weaknesses).\n3. The differentiation strategy{{#if blueprint}} and the content blueprint to execute it{{/if}}.\n\nReason from the results provided; where signals (e.g. backlink counts) are unknown, infer cautiously and label inferences."
+  },
+  {
+    "id": "content-cluster-plan",
+    "label": "Content Cluster Plan",
+    "description": "Pillar-and-cluster topic map with internal-linking architecture",
+    "icon": "Network",
+    "fields": [
+      { "id": "brand", "label": "Brand / site", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "pillarTopic", "label": "Pillar topic & business goal", "type": "textarea", "required": true, "placeholder": "Product analytics. Goal: own the 'product activation' topic and drive trial signups." },
+      { "id": "subtopics", "label": "Known subtopics / questions", "type": "textarea", "placeholder": "activation metrics, aha moment, onboarding funnels, retention curves, north star metric" },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "clusterSize", "label": "Cluster size", "type": "select", "options": [ { "id": "lean", "label": "Lean (5-7 pages)" }, { "id": "standard", "label": "Standard (8-12 pages)" }, { "id": "deep", "label": "Deep (15+ pages)" } ], "default": "standard" },
+      { "id": "authority", "label": "Domain authority", "type": "select", "options": [ { "id": "new", "label": "New / low" }, { "id": "mid", "label": "Established / mid" }, { "id": "strong", "label": "Strong / high" } ], "default": "mid" },
+      { "id": "existingContent", "label": "Map against existing content", "type": "toggle", "default": true },
+      { "id": "calendar", "label": "Include a phased publishing order", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior SEO content architect. Design a pillar-and-cluster content plan for \"{{brand}}\" that builds topical authority, not scattered posts.\n\n## Pillar & goal\n{{pillarTopic}}\n\n- Target audience: {{audience}}\n- Cluster size: {{clusterSize}}\n- Domain authority: {{authority}}\n{{#if subtopics}}- Known subtopics/questions: {{subtopics}}\n{{/if}}\n## Method\n- Define one pillar page and the supporting cluster pages, each with a primary keyword, search intent, and the single job it does for the reader.\n- Map the internal-linking architecture: cluster pages link up to the pillar and laterally where relevant; specify anchor-text direction.\n- Prioritize pages by winnability for a {{authority}} domain x conversion relevance, flagging quick wins vs long-term plays.\n{{#if existingContent}}- Audit against existing content: mark each page as create-new, optimize, consolidate, or redirect.\n{{/if}}{{#if calendar}}- Sequence a phased publishing order that builds authority logically (foundational pages first).\n{{/if}}\n## Deliverables\n1. The cluster map (pillar -> supporting pages) with keyword, intent, and link direction.\n2. A prioritized page table (page, type, priority, action).\n{{#if calendar}}3. A phased publishing roadmap tied to the business goal.\n{{else}}3. An internal-linking checklist to apply at publish time.\n{{/if}}\nUse reasonable intent and difficulty estimates from the topic and authority described; label them as estimates and proceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "schema-markup",
+    "label": "Schema Markup Generator",
+    "description": "Valid JSON-LD structured data for a page and rich results",
+    "icon": "Braces",
+    "fields": [
+      { "id": "pageName", "label": "Page name / URL", "type": "text", "required": true, "placeholder": "https://acme.com/blog/activation-guide" },
+      { "id": "pageContent", "label": "Page content & key facts", "type": "textarea", "required": true, "placeholder": "Long-form guide by Jane Doe, published 2026-03-01, updated 2026-05; covers 6 activation tactics." },
+      { "id": "schemaTypes", "label": "Schema types to generate", "type": "multi-select", "options": [ { "id": "article", "label": "Article" }, { "id": "faq", "label": "FAQPage" }, { "id": "howto", "label": "HowTo" }, { "id": "product", "label": "Product" }, { "id": "breadcrumb", "label": "BreadcrumbList" }, { "id": "organization", "label": "Organization" }, { "id": "video", "label": "VideoObject" } ], "default": ["article", "breadcrumb"] },
+      { "id": "orgInfo", "label": "Organization / author info", "type": "textarea", "placeholder": "Acme Inc, logo URL, sameAs profiles; author Jane Doe, job title, profile URL" },
+      { "id": "richResult", "label": "Rich result you're targeting", "type": "select", "options": [ { "id": "article", "label": "Article rich result" }, { "id": "faq", "label": "FAQ accordion" }, { "id": "howto", "label": "How-to steps" }, { "id": "product", "label": "Product / review snippet" }, { "id": "sitelinks", "label": "Breadcrumb sitelinks" } ], "default": "article" },
+      { "id": "validate", "label": "Include validation & test notes", "type": "toggle", "default": true },
+      { "id": "implementation", "label": "Include implementation guidance", "type": "toggle", "default": true }
+    ],
+    "template": "You are a technical SEO specializing in structured data. Generate valid JSON-LD for the page \"{{pageName}}\".\n\n## Page content & facts\n{{pageContent}}\n\n- Schema types to generate: {{schemaTypes}}\n- Targeted rich result: {{richResult}}\n{{#if orgInfo}}- Organization/author info: {{orgInfo}}\n{{/if}}\n## Requirements\n- Output complete, syntactically valid JSON-LD for each requested type, using only properties supported by the data provided; never fabricate ratings, prices, or dates.\n- Use a single @graph where multiple types relate, with correct @id cross-references between entities.\n- Populate Google-required and recommended properties for the {{richResult}} rich result; omit unsupported properties rather than guessing.\n- Mark any property the user must fill (e.g. image URL) with a clearly labeled placeholder.\n{{#if validate}}- Note how to validate (Rich Results Test, Schema validator) and the common errors to check for.\n{{/if}}{{#if implementation}}- Give implementation guidance: where to inject the script tag and keeping markup in sync with visible content.\n{{/if}}\n## Deliverables\n1. The ready-to-paste JSON-LD block(s).\n2. A field map (schema property -> source of truth) and any required placeholders.\n3. {{#if validate}}A validation + eligibility checklist for the targeted rich result.{{else}}A note on eligibility risks for the targeted rich result.{{/if}}\n\nWork only from the facts provided; where data is missing, use labeled placeholders and proceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "internal-linking-plan",
+    "label": "Internal Linking Plan",
+    "description": "Site-wide internal link map to flow equity and intent",
+    "icon": "Workflow",
+    "fields": [
+      { "id": "siteName", "label": "Site", "type": "text", "required": true, "placeholder": "acme.com" },
+      { "id": "siteContext", "label": "Site structure & goal", "type": "textarea", "required": true, "placeholder": "Blog + product pages. Money pages (/pricing, /demo) under-rank; lots of orphaned blog posts." },
+      { "id": "priorityPages", "label": "Priority / money pages", "type": "textarea", "required": true, "placeholder": "/pricing, /product/analytics, /vs-competitor, the activation guide" },
+      { "id": "pageInventory", "label": "Relevant existing pages / posts", "type": "textarea", "placeholder": "List key URLs and their topics, or describe the main content sections." },
+      { "id": "objective", "label": "Primary objective", "type": "select", "options": [ { "id": "equity", "label": "Flow authority to money pages" }, { "id": "orphans", "label": "Fix orphaned / deep pages" }, { "id": "clusters", "label": "Reinforce topic clusters" }, { "id": "crawl", "label": "Improve crawl depth & discovery" } ], "default": "equity" },
+      { "id": "anchorGuidance", "label": "Include anchor-text guidance", "type": "toggle", "default": true },
+      { "id": "audit", "label": "Include an issue audit (orphans, depth)", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior SEO specializing in site architecture. Build an internal linking plan for \"{{siteName}}\" focused on {{objective}}.\n\n## Site context\n{{siteContext}}\n\n## Priority pages\n{{priorityPages}}\n{{#if pageInventory}}\n## Existing pages\n{{pageInventory}}\n{{/if}}\n## Method\n- Map a logical link hierarchy: which pages should link to the priority pages, with what context, and why each link is editorially justified (no forced links).\n{{#if audit}}- Audit for issues: orphaned pages, excessive click depth, thin hub pages, and dilution from low-value links.\n{{/if}}- Recommend contextual links from relevant existing content into the priority pages, plus hub/navigational links where they help discovery.\n{{#if anchorGuidance}}- Give anchor-text guidance: descriptive, varied, intent-matched anchors; avoid exact-match over-optimization and explain the balance.\n{{/if}}- Keep recommendations specific (source page -> target page -> suggested anchor/context), not generic advice.\n\n## Deliverables\n1. An internal-link map table (source, target, suggested anchor/context, rationale).\n{{#if audit}}2. A prioritized issue list (orphans, depth, dilution) with fixes.\n{{else}}2. A prioritized list of the highest-impact links to add first.\n{{/if}}3. A repeatable rule set for linking new content going forward.\n\nWork from the structure described; where the inventory is incomplete, infer cautiously, label assumptions, and proceed with well-reasoned defaults; ask only if blocked."
   }
 ]

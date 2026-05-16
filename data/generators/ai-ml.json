@@ -112,5 +112,54 @@
       { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Annotators non-expert; PII must be flagged not transcribed; target IAA kappa > 0.7." }
     ],
     "template": "You are a data annotation lead. Write a labeling guide for \"{{datasetName}}\".\n\n## Purpose\n{{purpose}}\n- Annotation type: {{labelType}}\n\n## Label schema\n{{schema}}\n\n## Guide to produce\n- A crisp definition of each label/category with inclusion and exclusion criteria.\n- Decision rules for ambiguous cases and a deterministic tie-breaking order.\n{{#if edgeCases}}- Worked examples: clear positives, clear negatives, and tricky edge cases with the correct label and reasoning.\n{{/if}}- Annotator instructions: workflow, what to skip/flag, and how to mark uncertainty.\n- QA process: {{qa}}, including how disagreements are adjudicated and inter-annotator agreement is measured and acted on.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The complete guidelines document, written for the stated annotators.\n2. A labeled gold/example set illustrating each rule.\n3. The QA plan with agreement metrics and a path for guideline updates.\n\nBe unambiguous and operational; ask only if genuinely blocked."
+  },
+  {
+    "id": "model-card",
+    "label": "Model Card",
+    "description": "Write an honest model card covering use, limits, evaluation and ethics",
+    "icon": "IdCard",
+    "fields": [
+      { "id": "modelName", "label": "Model name & version", "type": "text", "required": true, "placeholder": "churn-predictor v2.1" },
+      { "id": "purpose", "label": "Intended use & users", "type": "textarea", "required": true, "placeholder": "Scores account churn risk for the CS team to prioritize outreach; not for automated cancellation." },
+      { "id": "modelType", "label": "Model type", "type": "select", "options": [ { "id": "tabular", "label": "Tabular / classical ML" }, { "id": "cv", "label": "Computer vision" }, { "id": "nlp", "label": "NLP" }, { "id": "llm", "label": "LLM / generative" }, { "id": "recsys", "label": "Recommender" } ], "required": true, "default": "tabular" },
+      { "id": "trainingData", "label": "Training data & evaluation", "type": "textarea", "required": true, "placeholder": "~2M events 2023-2024; eval on a time-based holdout; metrics: AUC 0.86, recall 0.71." },
+      { "id": "sections", "label": "Sections to include", "type": "multi-select", "options": [ { "id": "perf", "label": "Performance by slice" }, { "id": "limits", "label": "Limitations" }, { "id": "ethics", "label": "Ethical considerations & bias" }, { "id": "oos", "label": "Out-of-scope uses" }, { "id": "env", "label": "Compute / carbon" }, { "id": "maint", "label": "Maintenance & contact" } ], "default": ["perf", "limits", "ethics", "oos"] },
+      { "id": "audience", "label": "Primary audience", "type": "select", "optionsRef": "audiences", "default": "general" },
+      { "id": "regulated", "label": "Regulated / high-stakes context", "type": "toggle", "default": false },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Must follow the Model Cards format; flag any fairness gaps honestly; no PII in features." }
+    ],
+    "template": "You are an ML governance specialist. Write a model card for \"{{modelName}}\" for an audience of {{audience}}.\n\n## Intended use\n{{purpose}}\n- Model type: {{modelType}}\n\n## Training data & evaluation\n{{trainingData}}\n\n## Card to produce\n- Cover these sections explicitly: {{sections}}.\n- State performance with the metric definitions and report it broken down by meaningful slices, not just an aggregate.\n- Be candid about limitations, known failure modes, and out-of-scope / prohibited uses.\n{{#if regulated}}- Treat this as high-stakes: document fairness analysis, human-oversight requirements, and recourse for affected users.\n{{/if}}- Note data provenance, consent/licensing, and maintenance ownership.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The complete model card in Markdown with the chosen sections.\n2. A slice-performance table and a plain-language summary of limitations.\n3. Honest open risks and what would need re-evaluation before broader use.\n\nBe truthful over flattering; ask only if genuinely blocked."
+  },
+  {
+    "id": "ml-monitoring",
+    "label": "ML Monitoring Plan",
+    "description": "Design drift, quality and performance monitoring for a deployed model",
+    "icon": "ActivitySquare",
+    "fields": [
+      { "id": "modelName", "label": "Deployed model", "type": "text", "required": true, "placeholder": "fraud-scorer v4" },
+      { "id": "summary", "label": "How it serves & what it predicts", "type": "textarea", "required": true, "placeholder": "Real-time fraud score on each transaction; ~800 rps; label arrives 1-14 days later via chargebacks." },
+      { "id": "serving", "label": "Serving mode", "type": "select", "options": [ { "id": "realtime", "label": "Real-time / online" }, { "id": "batch", "label": "Batch" }, { "id": "streaming", "label": "Streaming" }, { "id": "edge", "label": "Edge / embedded" } ], "required": true, "default": "realtime" },
+      { "id": "signals", "label": "Signals to monitor", "type": "multi-select", "options": [ { "id": "datadrift", "label": "Feature / data drift" }, { "id": "conceptdrift", "label": "Concept drift" }, { "id": "quality", "label": "Prediction quality vs. labels" }, { "id": "perf", "label": "Latency / throughput" }, { "id": "integrity", "label": "Data integrity / nulls" }, { "id": "fairness", "label": "Fairness across slices" } ], "default": ["datadrift", "quality", "perf"] },
+      { "id": "labelDelay", "label": "Ground-truth labels are delayed", "type": "toggle", "default": true },
+      { "id": "retrain", "label": "Define retraining / rollback triggers", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Reuse Prometheus+Grafana; alert fatigue is a concern; PII must not leave the VPC." }
+    ],
+    "template": "You are an MLOps engineer. Design a monitoring plan for the deployed model \"{{modelName}}\".\n\n## Serving context\n{{summary}}\n- Serving mode: {{serving}}\n- Signals to monitor: {{signals}}\n\n## Monitoring design\n- For each signal: the exact metric, how it is computed, the baseline/reference window, and a defensible alert threshold.\n- Distinguish input drift from genuine quality degradation; don't alert on noise.\n{{#if labelDelay}}- Handle delayed ground truth: proxy/leading metrics now plus a backfilled quality metric once labels land.\n{{/if}}- Per-slice monitoring so a regression on a small but important segment is not masked by the aggregate.\n{{#if retrain}}- Concrete retraining and rollback triggers tied to thresholds, with a guarded promotion path.\n{{/if}}- Dashboards and on-call alerts that point to a likely cause and a runbook.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The monitoring spec (metrics, windows, thresholds) as config where possible.\n2. Dashboard and alert definitions plus a triage runbook.\n3. The retrain/rollback decision logic and known blind spots.\n\nUse rigorous, low-noise defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "feature-engineering",
+    "label": "Feature Engineering Plan",
+    "description": "Plan features, transformations and a leakage-safe pipeline for a model",
+    "icon": "Workflow",
+    "fields": [
+      { "id": "projectName", "label": "Project / model", "type": "text", "required": true, "placeholder": "ltv-prediction" },
+      { "id": "objective", "label": "Prediction target & grain", "type": "textarea", "required": true, "placeholder": "Predict 12-month customer LTV at the account level, scored monthly." },
+      { "id": "rawData", "label": "Raw data sources", "type": "textarea", "required": true, "placeholder": "Events table, billing, CRM, support tickets; mix of categorical, numeric, text and timestamps." },
+      { "id": "modelFamily", "label": "Downstream model family", "type": "select", "options": [ { "id": "gbdt", "label": "Gradient-boosted trees" }, { "id": "linear", "label": "Linear / GLM" }, { "id": "nn", "label": "Neural net" }, { "id": "deep", "label": "Deep / embeddings" } ], "default": "gbdt" },
+      { "id": "techniques", "label": "Techniques to consider", "type": "multi-select", "options": [ { "id": "encoding", "label": "Categorical encoding" }, { "id": "scaling", "label": "Scaling / normalization" }, { "id": "timewindows", "label": "Time-window aggregates" }, { "id": "text", "label": "Text / embeddings" }, { "id": "interactions", "label": "Interaction features" }, { "id": "missing", "label": "Missing-value strategy" } ], "default": ["encoding", "timewindows", "missing"] },
+      { "id": "featureStore", "label": "Target a feature store (train/serve parity)", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "No future data leakage; features must be computable at serve time within 50ms; explainable." }
+    ],
+    "template": "You are a senior ML engineer specializing in feature engineering. Plan the features for \"{{projectName}}\".\n\n## Objective\n{{objective}}\n- Downstream model family: {{modelFamily}}\n- Techniques to consider: {{techniques}}\n\n## Raw data\n{{rawData}}\n\n## Plan to produce\n- A candidate feature list grouped by source, each with the transformation, the rationale, and the expected signal.\n- Point-in-time correctness: how every feature is computed using only data available at prediction time (no target/temporal leakage).\n- Encoding, scaling, and missing-value handling chosen appropriately for the {{modelFamily}} model.\n{{#if featureStore}}- Train/serve parity: a single feature definition reused offline and online via a feature store, with backfill.\n{{/if}}- Feature selection/validation: how to test importance, redundancy, and stability before adoption.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The feature catalog with transformations and leakage notes.\n2. The pipeline design (offline + serving) and the parity strategy.\n3. A validation plan and the riskiest features to scrutinize first.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
   }
 ]

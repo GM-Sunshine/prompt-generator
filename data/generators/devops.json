@@ -114,5 +114,54 @@
       { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Pin all actions by SHA; environment protection on deploy; cache npm." }
     ],
     "template": "You are a GitHub Actions expert. Write the workflow \"{{workflowName}}\".\n\n## Goal\n{{summary}}\n- Trigger: {{trigger}}\n- Language: {{language}}\n- Jobs: {{jobs}}\n\n## Requirements\n- Correct event filters for the {{trigger}} trigger, with sensible path/branch filters where useful.\n- Job dependencies and outputs wired so jobs run in the right order and in parallel where safe.\n- Dependency caching keyed on lockfiles.\n{{#if oidc}}- Use OIDC for cloud authentication; avoid long-lived secrets.\n{{/if}}{{#if concurrency}}- Set least-privilege `permissions:` and a `concurrency:` group to cancel superseded runs.\n{{/if}}- Pin actions to trusted versions and keep steps readable and commented.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The complete .github/workflows file (valid YAML), commented.\n2. A list of required secrets/variables and how to set them.\n3. Notes on expected runtime and how to test the workflow safely.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "helm-chart",
+    "label": "Helm Chart",
+    "description": "Author a configurable, well-templated Helm chart for an application",
+    "icon": "Package",
+    "fields": [
+      { "id": "chartName", "label": "Chart name", "type": "text", "required": true, "placeholder": "payments-api" },
+      { "id": "summary", "label": "What does it deploy?", "type": "textarea", "required": true, "placeholder": "A stateless HTTP API on port 8080 with config from a ConfigMap and a Postgres connection secret." },
+      { "id": "workload", "label": "Primary workload", "type": "select", "options": [ { "id": "deployment", "label": "Deployment" }, { "id": "statefulset", "label": "StatefulSet" }, { "id": "daemonset", "label": "DaemonSet" }, { "id": "cronjob", "label": "CronJob" } ], "required": true, "default": "deployment" },
+      { "id": "subcharts", "label": "Dependencies / subcharts", "type": "textarea", "placeholder": "Bitnami postgresql as an optional dependency, gated by a values flag." },
+      { "id": "objects", "label": "Templated objects to include", "type": "multi-select", "options": [ { "id": "service", "label": "Service" }, { "id": "ingress", "label": "Ingress" }, { "id": "hpa", "label": "HPA" }, { "id": "pdb", "label": "PDB" }, { "id": "serviceaccount", "label": "ServiceAccount" }, { "id": "configmap", "label": "ConfigMap/Secret" } ], "default": ["service", "ingress", "configmap"] },
+      { "id": "multiEnv", "label": "Provide per-environment values files", "type": "toggle", "default": true },
+      { "id": "tests", "label": "Include helm test hooks", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Helm 3; must lint clean; no plaintext secrets in values; OCI registry push." }
+    ],
+    "template": "You are a Kubernetes packaging expert. Author a Helm chart \"{{chartName}}\".\n\n## What it deploys\n{{summary}}\n- Primary workload: {{workload}}\n- Templated objects: {{objects}}\n{{#if subcharts}}- Dependencies/subcharts: {{subcharts}}\n{{/if}}\n## Chart design\n- A correct Chart.yaml, a documented values.yaml with sensible defaults, and helpers in _helpers.tpl.\n- Parameterize image, resources, probes, env, and the {{workload}} spec; never hardcode environment specifics.\n- Use consistent labels/annotations and templated names that respect release name and namespace.\n{{#if multiEnv}}- Provide per-environment values files (dev/staging/prod) overriding only what differs.\n{{/if}}{{#if tests}}- Add `helm test` hooks that verify the release is actually serving.\n{{/if}}- No plaintext secrets in values; reference existing Secrets or document external secret injection.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The complete chart file tree with templates and values.\n2. The install/upgrade/rollback commands and a values reference table.\n3. A short rationale for the templating and configurability choices.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "ansible-playbook",
+    "label": "Ansible Playbook",
+    "description": "Write an idempotent Ansible playbook with roles for a provisioning task",
+    "icon": "ScrollText",
+    "fields": [
+      { "id": "playbookName", "label": "Playbook name", "type": "text", "required": true, "placeholder": "provision-web-tier" },
+      { "id": "goal", "label": "What should it configure?", "type": "textarea", "required": true, "placeholder": "Install and harden Nginx + a systemd app service on Ubuntu hosts, with TLS and log rotation." },
+      { "id": "targets", "label": "Target hosts / inventory", "type": "textarea", "required": true, "placeholder": "web group: 4 Ubuntu 22.04 VMs; reachable via SSH bastion; sudo available." },
+      { "id": "structure", "label": "Structure", "type": "select", "options": [ { "id": "single", "label": "Single playbook" }, { "id": "roles", "label": "Role-based" }, { "id": "collection", "label": "Roles + collection" } ], "required": true, "default": "roles" },
+      { "id": "concerns", "label": "Cross-cutting concerns", "type": "multi-select", "options": [ { "id": "idempotent", "label": "Strict idempotency" }, { "id": "secrets", "label": "Ansible Vault secrets" }, { "id": "handlers", "label": "Handlers / notify" }, { "id": "checkmode", "label": "Check-mode safe" }, { "id": "tags", "label": "Tags for partial runs" } ], "default": ["idempotent", "secrets", "handlers"] },
+      { "id": "molecule", "label": "Include Molecule test scaffold", "type": "toggle", "default": false },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "No shell tasks where a module exists; must pass ansible-lint; rolling, serial: 1." }
+    ],
+    "template": "You are an infrastructure automation expert. Write an Ansible {{structure}} \"{{playbookName}}\".\n\n## Goal\n{{goal}}\n\n## Targets\n{{targets}}\n- Cross-cutting concerns: {{concerns}}\n\n## Design requirements\n- Strictly idempotent: prefer modules over shell/command; use creates/changed_when so reruns are no-ops.\n- Clear variable layering (defaults vs group/host vars) with no secrets in plaintext.\n{{#if concerns}}{{#if concerns == \"secrets\"}}- Keep sensitive values in Ansible Vault and reference them, never inline.\n{{/if}}{{/if}}- Handlers for service restarts via notify; tags for partial, targeted runs.\n- Safe under --check where feasible and a sane serial/rolling strategy to avoid full outages.\n{{#if molecule}}- Include a Molecule scenario to test the role(s) in CI.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The complete playbook/role file tree with defaults and an example inventory.\n2. The run command (with tags/limits) and a dry-run note.\n3. A rationale for idempotency and failure-handling choices.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "secrets-management",
+    "label": "Secrets Management",
+    "description": "Design a secrets management and rotation strategy for a system",
+    "icon": "KeyRound",
+    "fields": [
+      { "id": "systemName", "label": "System / environment", "type": "text", "required": true, "placeholder": "production platform" },
+      { "id": "summary", "label": "What secrets exist & who needs them?", "type": "textarea", "required": true, "placeholder": "DB creds, third-party API keys, signing keys, TLS certs; consumed by services and CI." },
+      { "id": "backend", "label": "Secrets backend", "type": "select", "options": [ { "id": "vault", "label": "HashiCorp Vault" }, { "id": "awssm", "label": "AWS Secrets Manager" }, { "id": "gcpsm", "label": "GCP Secret Manager" }, { "id": "azurekv", "label": "Azure Key Vault" }, { "id": "sealed", "label": "Sealed Secrets / SOPS" } ], "required": true, "default": "vault" },
+      { "id": "consumers", "label": "Where secrets are consumed", "type": "multi-select", "options": [ { "id": "k8s", "label": "Kubernetes workloads" }, { "id": "ci", "label": "CI/CD pipelines" }, { "id": "vms", "label": "VMs / hosts" }, { "id": "serverless", "label": "Serverless" }, { "id": "local", "label": "Developer machines" } ], "default": ["k8s", "ci"] },
+      { "id": "rotation", "label": "Define rotation & revocation", "type": "toggle", "default": true },
+      { "id": "audit", "label": "Include access audit & least-privilege policy", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "No secrets in env files or git; dynamic DB creds preferred; SOC 2 audit trail required." }
+    ],
+    "template": "You are a security-minded platform engineer. Design a secrets management strategy for \"{{systemName}}\".\n\n## Context\n{{summary}}\n- Backend: {{backend}}\n- Consumers: {{consumers}}\n\n## Strategy to produce\n- A clear taxonomy of secrets, their owners, and a no-plaintext-in-git / no-secrets-in-images rule with how to enforce it.\n- Secure injection per consumer: how each environment authenticates to {{backend}} and receives secrets at runtime (not baked into artifacts).\n- Least-privilege access: scoped policies/roles so each consumer reads only what it needs.\n{{#if rotation}}- Rotation & revocation: cadence, automated rotation (prefer short-lived/dynamic credentials), and emergency revocation steps.\n{{/if}}{{#if audit}}- Auditing: access logging, alerting on anomalous reads, and a periodic access-review process.\n{{/if}}- A break-glass procedure and a leaked-secret response playbook.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The architecture and the per-consumer injection design, as config where possible.\n2. Example access policies and a rotation runbook.\n3. A migration path from any current insecure handling and residual risks.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
   }
 ]

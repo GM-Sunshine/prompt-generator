@@ -43,5 +43,115 @@
       { "id": "metrics", "label": "Define success metrics", "type": "toggle", "default": true }
     ],
     "template": "You are a senior UX designer. Map the \"{{flowName}}\" user flow.\n\n## Actor\n{{actor}}\n\n## Goal\n{{goal}}\n\n## Platform\n{{platform}}\n\n## Requirements\n- Describe the flow as ordered steps: for each, the screen, what the user sees, the action, and the system response.\n- Note the decision points and what determines each branch.\n- Keep the path to the goal as short as honestly possible; flag friction.\n{{#if edgeCases}}- Map the important error/edge paths (invalid input, no data, permission denied, drop-off) and the recovery.\n{{/if}}{{#if metrics}}- Define success metrics and the key drop-off points to instrument.\n{{/if}}\n## Deliverables\n1. The step-by-step flow (numbered, with branches).\n2. A compact text flow diagram (Step → Step, branches labeled).\n3. The top 3 design risks and how to de-risk them."
+  },
+  {
+    "id": "wireframe-brief",
+    "label": "Wireframe Brief",
+    "description": "Low-fi layout spec focused on structure, not visuals.",
+    "icon": "PenTool",
+    "fields": [
+      { "id": "screen", "label": "Screen / page", "type": "text", "required": true, "placeholder": "Project dashboard" },
+      { "id": "jobToBeDone", "label": "What the user is here to do", "type": "textarea", "required": true, "placeholder": "Quickly see project health and jump into the one that needs attention." },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "web", "label": "Web" }, { "id": "mobile", "label": "Mobile" }, { "id": "tablet", "label": "Tablet" }, { "id": "responsive", "label": "Responsive (all)" } ], "default": "web" },
+      { "id": "content", "label": "Content & elements to place", "type": "textarea", "required": true, "placeholder": "KPI row, project list, filters, recent activity, primary 'New project' action." },
+      { "id": "priority", "label": "Information priority order", "type": "text", "placeholder": "Attention items > active projects > metrics > activity" },
+      { "id": "annotations", "label": "Include annotations", "type": "toggle", "default": true },
+      { "id": "responsiveNotes", "label": "Describe responsive reflow", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior UX designer producing a low-fidelity wireframe brief for the \"{{screen}}\" screen.\n\n## Job to be done\n{{jobToBeDone}}\n\n## Platform\n{{platform}}\n\n## Content to place\n{{content}}\n{{#if priority}}\n## Priority order\n{{priority}}\n{{/if}}\n## Requirements\n- Describe structure and hierarchy only — boxes, regions, and relationships, not color or final visuals.\n- Define the layout grid, the primary region, and how the eye should travel to the main action.\n- Justify placement by the job to be done and information priority, not aesthetics.\n{{#if annotations}}- Add numbered annotations explaining the intent of each region.\n{{/if}}{{#if responsiveNotes}}- Describe how the layout reflows at smaller widths (stack order, what collapses).\n{{/if}}\n## Deliverables\n1. A region-by-region wireframe description an AI/whiteboard tool can render.\n2. The annotation list.\n3. The two riskiest layout assumptions to validate.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "design-critique",
+    "label": "Design Critique",
+    "description": "Structured, actionable critique of an existing design.",
+    "icon": "Eye",
+    "fields": [
+      { "id": "artifact", "label": "What is being reviewed", "type": "text", "required": true, "placeholder": "Checkout flow, final hi-fi mockups" },
+      { "id": "designIntent", "label": "Stated design goal", "type": "textarea", "required": true, "placeholder": "Reduce checkout abandonment by simplifying to two steps." },
+      { "id": "designDetails", "label": "Design description / what you see", "type": "textarea", "required": true, "placeholder": "Describe the screens, layout, flow, and notable choices to critique." },
+      { "id": "lens", "label": "Critique lenses", "type": "multi-select", "options": [ { "id": "usability", "label": "Usability" }, { "id": "hierarchy", "label": "Visual hierarchy" }, { "id": "consistency", "label": "Consistency" }, { "id": "a11y", "label": "Accessibility" }, { "id": "content", "label": "Content & clarity" } ], "default": ["usability", "hierarchy", "consistency"] },
+      { "id": "audience", "label": "End user", "type": "select", "optionsRef": "audiences", "default": "customers" },
+      { "id": "tone", "label": "Feedback tone", "type": "multi-select", "optionsRef": "tones", "default": ["constructive"] },
+      { "id": "prioritize", "label": "Prioritize by impact", "type": "toggle", "default": true }
+    ],
+    "template": "You are a design lead running a rigorous critique of: {{artifact}}.\n\n## Stated goal\n{{designIntent}}\n\n## Design under review\n{{designDetails}}\n\n## Lenses\nCritique through: {{lens}}.\n\n## Audience & tone\n- End user: {{audience}}.\n- Tone: {{tone}} — specific, kind, and direct.\n\n## Requirements\n- Judge against the stated goal first, then craft and best practice.\n- For each issue: what, why it matters (user impact), and a concrete suggested fix.\n- Call out what works well and why, so it is preserved.\n{{#if lens == \"a11y\"}}- Flag contrast, focus order, target size, and labeling problems explicitly.\n{{/if}}{{#if prioritize}}- Group findings into Must-fix / Should-fix / Polish by user impact.\n{{/if}}\n## Deliverables\n1. The critique organized by lens (or by priority).\n2. The single highest-leverage change to make first.\n3. 3 open questions for the designer.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "usability-test-plan",
+    "label": "Usability Test Plan",
+    "description": "A research plan to validate a design with real users.",
+    "icon": "ClipboardCheck",
+    "fields": [
+      { "id": "product", "label": "Product / feature under test", "type": "text", "required": true, "placeholder": "New onboarding wizard" },
+      { "id": "hypotheses", "label": "Hypotheses / concerns", "type": "textarea", "required": true, "placeholder": "Users won't understand the workspace vs. project distinction in step 2." },
+      { "id": "participants", "label": "Target participants", "type": "textarea", "required": true, "placeholder": "5-7 admins new to the product, mix of technical and non-technical." },
+      { "id": "method", "label": "Method", "type": "select", "options": [ { "id": "moderated", "label": "Moderated (remote)" }, { "id": "unmoderated", "label": "Unmoderated" }, { "id": "inperson", "label": "In-person" } ], "default": "moderated" },
+      { "id": "tasks", "label": "Candidate tasks", "type": "textarea", "placeholder": "Create a workspace, invite a teammate, connect a data source." },
+      { "id": "metrics", "label": "Capture success metrics", "type": "toggle", "default": true },
+      { "id": "audience", "label": "Stakeholder audience for results", "type": "select", "optionsRef": "audiences", "default": "product-managers" }
+    ],
+    "template": "You are a senior UX researcher. Write a usability test plan for: {{product}}.\n\n## Hypotheses / concerns to test\n{{hypotheses}}\n\n## Participants\n{{participants}}\n\n## Method\n{{method}} sessions.\n{{#if tasks}}\n## Candidate tasks\n{{tasks}}\n{{/if}}\n## Stakeholders\nResults will be reported to: {{audience}}.\n\n## Requirements\n- Tie every task to a hypothesis; tasks must be realistic and scenario-framed, not leading.\n- Provide a moderator script: intro, warm-up, tasks, probes, wrap-up.\n- Define pass/fail criteria per task and what would change the design.\n{{#if metrics}}- Specify metrics: task success, time on task, error count, and a post-task ease rating.\n{{/if}}{{#if method == \"unmoderated\"}}- Adapt instructions to be fully self-guided with no facilitator present.\n{{/if}}\n## Deliverables\n1. The full test plan (objectives, participants, tasks, script, metrics).\n2. A screening questionnaire.\n3. A results-readout template aligned to the hypotheses.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "accessibility-review",
+    "label": "Accessibility Review",
+    "description": "Audit a design or UI against WCAG and inclusive practice.",
+    "icon": "Accessibility",
+    "fields": [
+      { "id": "target", "label": "What is being audited", "type": "text", "required": true, "placeholder": "Settings page, hi-fi mockups + prototype" },
+      { "id": "description", "label": "UI description / components", "type": "textarea", "required": true, "placeholder": "Describe layout, colors, interactive elements, and any known issues." },
+      { "id": "level", "label": "Target WCAG level", "type": "select", "options": [ { "id": "a", "label": "WCAG 2.2 A" }, { "id": "aa", "label": "WCAG 2.2 AA" }, { "id": "aaa", "label": "WCAG 2.2 AAA" } ], "default": "aa" },
+      { "id": "focus", "label": "Focus areas", "type": "multi-select", "options": [ { "id": "contrast", "label": "Color & contrast" }, { "id": "keyboard", "label": "Keyboard & focus" }, { "id": "sr", "label": "Screen reader / semantics" }, { "id": "motion", "label": "Motion & timing" }, { "id": "forms", "label": "Forms & errors" } ], "default": ["contrast", "keyboard", "sr", "forms"] },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "web", "label": "Web" }, { "id": "ios", "label": "iOS" }, { "id": "android", "label": "Android" } ], "default": "web" },
+      { "id": "remediation", "label": "Include remediation steps", "type": "toggle", "default": true }
+    ],
+    "template": "You are an accessibility specialist. Audit {{target}} against WCAG.\n\n## UI under review\n{{description}}\n\n## Standard\nTarget conformance: {{level}} on {{platform}}.\n\n## Focus areas\n{{focus}}\n\n## Requirements\n- Map each finding to a specific WCAG success criterion (number + name) and a severity.\n- Be concrete about who is blocked and how (e.g., keyboard-only, low vision, screen reader).\n{{#if focus == \"contrast\"}}- Check text and non-text contrast ratios against the target level.\n{{/if}}{{#if focus == \"keyboard\"}}- Verify focus order, visible focus, and that nothing is keyboard-trapped.\n{{/if}}{{#if focus == \"forms\"}}- Check label association, error identification, and instructions.\n{{/if}}{{#if remediation}}- For every issue give a concrete remediation a designer/developer can apply.\n{{/if}}\n## Deliverables\n1. A findings table: criterion, issue, severity, recommendation.\n2. The top 3 blocking issues to fix first.\n3. A short note on what already conforms well.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "microcopy",
+    "label": "UX Microcopy",
+    "description": "Interface text: labels, buttons, errors and helper text.",
+    "icon": "Type",
+    "fields": [
+      { "id": "context", "label": "Where this copy lives", "type": "text", "required": true, "placeholder": "Delete-account confirmation modal" },
+      { "id": "situation", "label": "User situation & emotion", "type": "textarea", "required": true, "placeholder": "User is irreversibly deleting their account; likely anxious, needs reassurance + a clear out." },
+      { "id": "elements", "label": "Elements that need copy", "type": "multi-select", "options": [ { "id": "title", "label": "Title / heading" }, { "id": "body", "label": "Body text" }, { "id": "buttons", "label": "Buttons / actions" }, { "id": "errors", "label": "Error messages" }, { "id": "empty", "label": "Empty / success states" }, { "id": "tooltips", "label": "Tooltips / helper text" } ], "default": ["title", "body", "buttons", "errors"], "required": true },
+      { "id": "voice", "label": "Voice & tone", "type": "multi-select", "optionsRef": "tones", "default": ["clear"] },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "customers" },
+      { "id": "constraints", "label": "Constraints", "type": "text", "placeholder": "Button labels <= 2 words; no jargon; localizable" },
+      { "id": "variants", "label": "Offer alternates per element", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior UX writer. Write microcopy for: {{context}}.\n\n## User situation\n{{situation}}\n\n## Elements to write\n{{elements}}\n\n## Voice & audience\n- Voice/tone: {{voice}}.\n- Audience: {{audience}}.\n{{#if constraints}}- Constraints: {{constraints}}.\n{{/if}}\n## Requirements\n- Lead with the user's need; be concrete, calm, and free of jargon and dark patterns.\n{{#if elements == \"buttons\"}}- Buttons: action-led verbs; the primary action says exactly what happens.\n{{/if}}{{#if elements == \"errors\"}}- Errors: say what went wrong, why, and the next step — never blame the user.\n{{/if}}{{#if elements == \"empty\"}}- Empty/success: orient the user and offer a clear next action.\n{{/if}}{{#if variants}}- Provide 2 alternates per element with a one-line note on the trade-off.\n{{/if}}\n## Deliverables\n1. The copy, organized by element.\n2. A one-line voice rationale.\n3. Any element where the UX itself (not the words) is the real problem.\n\nDeliver final, paste-ready copy; assume sensible defaults."
+  },
+  {
+    "id": "empty-states",
+    "label": "Empty & Edge States",
+    "description": "Design the zero, loading, error and edge states of a UI.",
+    "icon": "Inbox",
+    "fields": [
+      { "id": "feature", "label": "Feature / screen", "type": "text", "required": true, "placeholder": "Projects list" },
+      { "id": "happyPath", "label": "What it looks like with data", "type": "textarea", "required": true, "placeholder": "A grid of project cards with filters and a primary 'New project' button." },
+      { "id": "states", "label": "States to design", "type": "multi-select", "options": [ { "id": "firstuse", "label": "First use (no data yet)" }, { "id": "cleared", "label": "User cleared all data" }, { "id": "loading", "label": "Loading / skeleton" }, { "id": "error", "label": "Error / failed load" }, { "id": "noresults", "label": "No search/filter results" }, { "id": "permission", "label": "No permission" } ], "default": ["firstuse", "loading", "error", "noresults"], "required": true },
+      { "id": "audience", "label": "User", "type": "select", "optionsRef": "audiences", "default": "customers" },
+      { "id": "tone", "label": "Tone", "type": "multi-select", "optionsRef": "tones", "default": ["encouraging"] },
+      { "id": "includeCopy", "label": "Include microcopy per state", "type": "toggle", "default": true }
+    ],
+    "template": "You are a product designer specializing in resilient UI states. Design the states for: {{feature}}.\n\n## Happy path (for contrast)\n{{happyPath}}\n\n## States to design\n{{states}}\n\n## User & tone\n- User: {{audience}}.\n- Tone: {{tone}}.\n\n## Requirements\n- For each state define: what the user sees, the message, the primary action, and the visual treatment.\n- Every state must give the user a way forward — no dead ends.\n{{#if states == \"firstuse\"}}- First use: teach the value and offer a one-click way to get the first result (consider sample data).\n{{/if}}{{#if states == \"loading\"}}- Loading: prefer skeletons that match the real layout; avoid layout shift.\n{{/if}}{{#if states == \"error\"}}- Error: explain plainly, offer a retry, and never lose the user's context/work.\n{{/if}}{{#if includeCopy}}- Provide the exact microcopy (heading, body, button) for each state.\n{{/if}}\n## Deliverables\n1. A spec per state (visual + behavior + copy).\n2. A decision table mapping conditions to which state shows.\n3. The state most often skipped by teams and why it matters here.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "design-handoff",
+    "label": "Design-to-Dev Handoff",
+    "description": "A complete spec so engineers can build with no guesswork.",
+    "icon": "FileCode",
+    "fields": [
+      { "id": "feature", "label": "Feature / component", "type": "text", "required": true, "placeholder": "Multi-step invite flow" },
+      { "id": "designSummary", "label": "Design summary & screens", "type": "textarea", "required": true, "placeholder": "Describe the screens, layout, and key interactions being handed off." },
+      { "id": "behavior", "label": "Interactions & behavior", "type": "textarea", "required": true, "placeholder": "Validation timing, optimistic updates, what happens on submit/cancel/back." },
+      { "id": "platform", "label": "Implementation target", "type": "select", "options": [ { "id": "web", "label": "Web" }, { "id": "ios", "label": "iOS" }, { "id": "android", "label": "Android" }, { "id": "rn", "label": "React Native" } ], "default": "web" },
+      { "id": "include", "label": "Include in spec", "type": "multi-select", "options": [ { "id": "tokens", "label": "Tokens used" }, { "id": "states", "label": "Component states" }, { "id": "responsive", "label": "Responsive behavior" }, { "id": "a11y", "label": "Accessibility notes" }, { "id": "edge", "label": "Edge cases" } ], "default": ["tokens", "states", "responsive", "a11y", "edge"] },
+      { "id": "audience", "label": "Receiving team", "type": "select", "optionsRef": "audiences", "default": "developers" },
+      { "id": "acceptance", "label": "Include acceptance criteria", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior product designer writing an engineering handoff for: {{feature}}.\n\n## Design summary\n{{designSummary}}\n\n## Interactions & behavior\n{{behavior}}\n\n## Target\nBuilding for: {{platform}}. Receiving team: {{audience}}.\n\n## Include\n{{include}}\n\n## Requirements\n- Be unambiguous: every interaction has a defined trigger, result, and failure path.\n- Reference tokens/values by name, not hardcoded magic numbers, where possible.\n{{#if include == \"states\"}}- Spec every component state: default, hover, focus, active, disabled, loading, error.\n{{/if}}{{#if include == \"responsive\"}}- Define behavior at each breakpoint and what reflows/collapses.\n{{/if}}{{#if include == \"a11y\"}}- Include roles, labels, focus order, and keyboard interactions.\n{{/if}}{{#if acceptance}}- Provide testable acceptance criteria in Given/When/Then form.\n{{/if}}\n## Deliverables\n1. The implementation spec organized by section.\n2. An open-questions list with your recommended default for each.\n3. The single most likely thing to be built wrong, called out up top.\n\nProceed with well-reasoned defaults; ask only if blocked."
   }
 ]

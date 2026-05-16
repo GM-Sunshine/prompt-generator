@@ -109,5 +109,53 @@
       { "id": "checklist", "label": "Include a security acceptance checklist", "type": "toggle", "default": true }
     ],
     "template": "You are a security architect conducting a {{stage}} secure design review of \"{{featureName}}\" for an audience of {{audience}}.\n\n## Proposed design\n{{designDoc}}\n\n- Domains to weight heavily: {{concerns}}\n\n## Review approach\n- Restate the security-relevant assumptions and trust boundaries you infer from the design.\n- Evaluate the design against secure-by-design principles: least privilege, fail-safe defaults, defense in depth, complete mediation, and minimized attack surface.\n- For each concern, identify weaknesses, give a concrete attack scenario, and recommend a specific design change (not just \"add validation\").\n- Separate must-fix-before-build issues from improvements and nice-to-haves.\n{{#if checklist}}- Produce a security acceptance checklist the team must satisfy before implementation.\n{{/if}}\n## Deliverables\n1. Inferred trust model and assumptions.\n2. Findings grouped as blocking / recommended / optional, each with a remediation.\n3. A clear go / go-with-changes / no-go recommendation{{#if checklist}} plus the acceptance checklist{{/if}}.\n\nMake well-reasoned assumptions where the doc is silent and mark them explicitly so the author can confirm."
+  },
+  {
+    "id": "security-questionnaire",
+    "label": "Security Questionnaire Response",
+    "description": "Draft accurate, defensible answers to a vendor security questionnaire",
+    "icon": "FileQuestion",
+    "fields": [
+      { "id": "companyName", "label": "Your company / product", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "questions", "label": "Questionnaire items to answer", "type": "textarea", "required": true, "placeholder": "Paste the questions: encryption at rest?, MFA enforced?, pen test cadence?, subprocessors?, ..." },
+      { "id": "envContext", "label": "Actual security posture & controls", "type": "textarea", "required": true, "placeholder": "AWS, data encrypted with KMS, Okta SSO+MFA, annual pentest, SOC 2 Type II in progress." },
+      { "id": "questionnaireType", "label": "Questionnaire type", "type": "select", "options": [ { "id": "saig", "label": "SIG / SIG Lite" }, { "id": "caiq", "label": "CAIQ (CSA)" }, { "id": "vsa", "label": "VSA / vendor custom" }, { "id": "dpa", "label": "DPA / privacy" } ], "default": "vsa" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "authoritative" },
+      { "id": "flagGaps", "label": "Flag gaps & compensating controls honestly", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Do not overstate; only claim controls in the posture; mark anything roadmap as planned." }
+    ],
+    "template": "You are a security/GRC analyst answering a {{questionnaireType}} security questionnaire for \"{{companyName}}\".\n\n## Questions to answer\n{{questions}}\n\n## Actual posture (source of truth)\n{{envContext}}\n- Tone: {{tone}}\n\n## How to answer\n- Answer ONLY from the stated posture; never invent or overstate a control. If a control does not exist, say so.\n- Give each answer concisely: a direct yes/no/partial, then the supporting control and evidence type a reviewer can request.\n{{#if flagGaps}}- Where there is a gap, state it plainly and describe the compensating control and/or the remediation plan and timeline.\n{{/if}}- Flag any item that needs input from a human owner before it can be sent.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The completed answers in a clean question/answer format.\n2. An evidence checklist (artifact to attach per answer).\n3. A list of gaps, risky claims, and items needing owner confirmation.\n\nBe accurate over impressive; never bluff. Ask only if a claim cannot be grounded."
+  },
+  {
+    "id": "soc2-readiness",
+    "label": "SOC 2 Readiness Assessment",
+    "description": "Assess SOC 2 readiness and produce a prioritized remediation roadmap",
+    "icon": "ClipboardCheck",
+    "fields": [
+      { "id": "orgName", "label": "Organization", "type": "text", "required": true, "placeholder": "Acme Inc." },
+      { "id": "orgContext", "label": "Org, product & current controls", "type": "textarea", "required": true, "placeholder": "60-person SaaS on AWS; some IaC, ad-hoc access reviews, no formal policies, GitHub-based SDLC." },
+      { "id": "reportType", "label": "Report type targeted", "type": "select", "options": [ { "id": "type1", "label": "Type I (point in time)" }, { "id": "type2", "label": "Type II (over a period)" } ], "required": true, "default": "type2" },
+      { "id": "criteria", "label": "Trust services criteria in scope", "type": "multi-select", "options": [ { "id": "security", "label": "Security (common)" }, { "id": "availability", "label": "Availability" }, { "id": "confidentiality", "label": "Confidentiality" }, { "id": "integrity", "label": "Processing integrity" }, { "id": "privacy", "label": "Privacy" } ], "default": ["security", "availability", "confidentiality"] },
+      { "id": "timeline", "label": "Target audit timeline", "type": "select", "options": [ { "id": "3m", "label": "~3 months" }, { "id": "6m", "label": "~6 months" }, { "id": "9m", "label": "9+ months" } ], "default": "6m" },
+      { "id": "includeEvidence", "label": "Map evidence artifacts per control", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "No dedicated security hire; want to use a compliance automation tool; tight runway." }
+    ],
+    "template": "You are a SOC 2 readiness consultant assessing \"{{orgName}}\" for a {{reportType}} report.\n\n## Organization & current state\n{{orgContext}}\n- Trust services criteria in scope: {{criteria}}\n- Target timeline: {{timeline}}\n\n## Assessment to produce\n- Map the in-scope criteria to the common-criteria control areas and assess current maturity (in place / partial / missing) based on the stated state.\n- Identify the highest-risk gaps that would cause audit exceptions and explain why.\n- A prioritized remediation roadmap sequenced to the {{timeline}} timeline (quick wins first, then control buildout, then evidence accrual).\n{{#if reportType == \"Type II (over a period)\"}}- Account for the observation window: controls must operate consistently for the audit period, so start evidence-generating controls early.\n{{/if}}{{#if includeEvidence}}- For each control, the concrete evidence artifact an auditor will expect and who owns producing it.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. A control-by-control readiness table (status, gap, risk).\n2. The prioritized, time-phased remediation roadmap with owners.\n3. The evidence checklist and the assumptions the assessment depends on.\n\nBe realistic for the org size and timeline; ask only if genuinely blocked."
+  },
+  {
+    "id": "dependency-audit",
+    "label": "Dependency & Supply-Chain Audit",
+    "description": "Audit third-party dependencies for vulnerabilities and supply-chain risk",
+    "icon": "PackageSearch",
+    "fields": [
+      { "id": "projectName", "label": "Project / codebase", "type": "text", "required": true, "placeholder": "checkout-service" },
+      { "id": "context", "label": "Stack & how deps are managed", "type": "textarea", "required": true, "placeholder": "Node + Python services; npm and Poetry; Dependabot on; some vendored libs; internal registry." },
+      { "id": "manifest", "label": "Dependency data / manifests", "type": "textarea", "required": true, "placeholder": "Paste package.json/lockfile or scanner output, or describe the major direct dependencies." },
+      { "id": "ecosystem", "label": "Primary ecosystem", "type": "select", "options": [ { "id": "npm", "label": "npm / Node" }, { "id": "pypi", "label": "PyPI / Python" }, { "id": "maven", "label": "Maven / Java" }, { "id": "go", "label": "Go modules" }, { "id": "mixed", "label": "Mixed / polyglot" } ], "required": true, "default": "npm" },
+      { "id": "concerns", "label": "Supply-chain concerns to weight", "type": "multi-select", "options": [ { "id": "vulns", "label": "Known vulnerabilities (CVEs)" }, { "id": "transitive", "label": "Transitive / deep deps" }, { "id": "maintenance", "label": "Unmaintained / abandoned" }, { "id": "license", "label": "License risk" }, { "id": "typosquat", "label": "Typosquat / malicious" }, { "id": "integrity", "label": "Pinning & integrity" } ], "default": ["vulns", "transitive", "maintenance"] },
+      { "id": "sbom", "label": "Produce an SBOM & pipeline gate recommendation", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Can't do major version bumps this sprint; prioritize reachable, internet-exposed paths." }
+    ],
+    "template": "You are a software supply-chain security engineer auditing the dependencies of \"{{projectName}}\" ({{ecosystem}}).\n\n## Context\n{{context}}\n- Concerns to weight: {{concerns}}\n\n## Dependency data\n{{manifest}}\n\n## Audit method\n- Triage known vulnerabilities by exploitability IN this context: is the vulnerable code reachable, and is the path exposed? Down-rank non-reachable items and explain why.\n- Assess transitive depth, maintenance health (last release, single-maintainer), license risk, and typosquat/integrity signals.\n- Distinguish confirmed risks from suspected ones; avoid false-positive noise.\n{{#if sbom}}- Recommend an SBOM and a CI policy gate (what severity/conditions should fail a build).\n{{/if}}- Give a concrete remediation per actionable item: upgrade target, replace, pin, or accept-with-justification.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. A ranked findings table (dependency, risk type, context-adjusted severity, action).\n2. The \"fix now\" shortlist with upgrade/replacement targets.\n3. Supply-chain hardening recommendations{{#if sbom}}, including the SBOM and pipeline gate{{/if}}, and accepted risks with reasoning.\n\nWhere data is thin, state the assumption and triage conservatively; ask only if genuinely blocked."
   }
 ]

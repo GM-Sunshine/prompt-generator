@@ -112,5 +112,275 @@
       { "id": "escalation", "label": "State next steps if ignored", "type": "toggle", "default": true }
     ],
     "template": "You are a litigation attorney drafting a pre-action demand letter. Write a {{tone}} demand letter from {{sender}} to {{recipient}}.\n\n## Nature of claim\n{{claimType}}\n\n## Facts\n{{facts}}\n\n## Demand\n- Clearly state the remedy demanded: {{remedy}}.\n{{#if deadline}}- Set a firm response deadline: {{deadline}}.\n{{/if}}{{#if escalation}}- State, professionally and without bluffing, the next steps the sender is prepared to take if the demand is not met by the deadline.\n{{/if}}\n## Letter requirements\n- Formal letter format: date, parties, RE: line, numbered factual background, the demand, deadline, and a closing.\n- Assertive but measured; factual, not emotional or threatening; no admissions.\n- Reserve all rights and remedies. Mark any unknown details as [BRACKETED] placeholders.\n\n## Deliverables\n1. The complete, send-ready letter.\n2. A short note of facts or documents the sender should attach or verify.\n\nThis is a draft for review by a qualified lawyer and is not legal advice. Do not assert legal conclusions or statute citations unless clearly supported by the facts given."
+  },
+  {
+    "id": "nda",
+    "label": "Non-Disclosure Agreement",
+    "description": "Mutual or one-way NDA tailored to the disclosure context.",
+    "icon": "FileLock2",
+    "fields": [
+      {
+        "id": "partyA",
+        "label": "Disclosing / first party",
+        "type": "text",
+        "required": true,
+        "placeholder": "Northwind Inc."
+      },
+      {
+        "id": "partyB",
+        "label": "Receiving / second party",
+        "type": "text",
+        "required": true,
+        "placeholder": "Acme LLC"
+      },
+      {
+        "id": "purpose",
+        "label": "Purpose of disclosure",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Evaluating a potential integration partnership and data-sharing pilot."
+      },
+      {
+        "id": "ndaType",
+        "label": "NDA direction",
+        "type": "select",
+        "options": [
+          {
+            "id": "mutual",
+            "label": "Mutual"
+          },
+          {
+            "id": "oneway",
+            "label": "One-way"
+          }
+        ],
+        "default": "mutual",
+        "required": true
+      },
+      {
+        "id": "confScope",
+        "label": "What counts as confidential",
+        "type": "textarea",
+        "placeholder": "Source code, roadmaps, pricing, customer data; excludes public info."
+      },
+      {
+        "id": "term",
+        "label": "Confidentiality term",
+        "type": "select",
+        "options": [
+          {
+            "id": "2y",
+            "label": "2 years"
+          },
+          {
+            "id": "3y",
+            "label": "3 years"
+          },
+          {
+            "id": "5y",
+            "label": "5 years"
+          },
+          {
+            "id": "perpetual",
+            "label": "Perpetual for trade secrets"
+          }
+        ],
+        "default": "3y"
+      },
+      {
+        "id": "governingLaw",
+        "label": "Governing law / jurisdiction",
+        "type": "text",
+        "placeholder": "State of Delaware, USA"
+      },
+      {
+        "id": "includeReturn",
+        "label": "Include return/destruction clause",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a senior commercial contracts attorney. Draft a {{ndaType}} Non-Disclosure Agreement between {{partyA}} and {{partyB}}.\n\n## Purpose\n{{purpose}}\n\n## Drafting requirements\n- Structure: parties, definitions, confidentiality obligations, exclusions, term, remedies, miscellaneous.\n{{#if confScope}}- Confidential Information scope: {{confScope}}\n{{/if}}- Standard exclusions: publicly available, independently developed, rightfully received, legally compelled.\n- Confidentiality term: {{term}}{{#if term == \"perpetual\"}} (perpetual specifically for trade secrets; fixed term for other confidential info){{/if}}.\n{{#if ndaType == \"mutual\"}}- Make obligations reciprocal and balanced for both parties.\n{{else}}- Make obligations run primarily to the receiving party.\n{{/if}}{{#if includeReturn}}- Include a return-or-destruction-on-request clause.\n{{/if}}{{#if governingLaw}}- Governing law and venue: {{governingLaw}}.\n{{/if}}- Use clear defined terms; flag any [BRACKETED] items needing business input.\n\n## Deliverables\n1. The full NDA draft.\n2. A plain-English summary of key obligations and risks.\n3. A list of open points to confirm with the business.\n\nThis is a draft for review by a qualified lawyer and does not constitute legal advice."
+  },
+  {
+    "id": "dpa",
+    "label": "Data Processing Addendum",
+    "description": "GDPR/CCPA-aligned DPA between controller and processor.",
+    "icon": "DatabaseLock",
+    "fields": [
+      {
+        "id": "controller",
+        "label": "Controller (customer)",
+        "type": "text",
+        "required": true,
+        "placeholder": "Acme LLC"
+      },
+      {
+        "id": "processor",
+        "label": "Processor (vendor)",
+        "type": "text",
+        "required": true,
+        "placeholder": "Northwind Cloud Inc."
+      },
+      {
+        "id": "service",
+        "label": "Service & processing context",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "SaaS analytics platform processing customer end-user account and usage data."
+      },
+      {
+        "id": "dataTypes",
+        "label": "Categories of personal data",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Names, emails, IP addresses, device IDs, support messages."
+      },
+      {
+        "id": "regimes",
+        "label": "Applicable privacy regimes",
+        "type": "multi-select",
+        "options": [
+          {
+            "id": "gdpr",
+            "label": "EU/UK GDPR"
+          },
+          {
+            "id": "ccpa",
+            "label": "CCPA/CPRA"
+          },
+          {
+            "id": "lgpd",
+            "label": "LGPD (Brazil)"
+          },
+          {
+            "id": "pipeda",
+            "label": "PIPEDA (Canada)"
+          }
+        ],
+        "default": [
+          "gdpr"
+        ],
+        "required": true
+      },
+      {
+        "id": "subprocessors",
+        "label": "Allow sub-processors",
+        "type": "toggle",
+        "default": true
+      },
+      {
+        "id": "transfers",
+        "label": "Cross-border transfers expected",
+        "type": "toggle",
+        "default": true
+      },
+      {
+        "id": "breachWindow",
+        "label": "Breach notification window",
+        "type": "select",
+        "options": [
+          {
+            "id": "24h",
+            "label": "Without undue delay / 24h"
+          },
+          {
+            "id": "48h",
+            "label": "Within 48 hours"
+          },
+          {
+            "id": "72h",
+            "label": "Within 72 hours"
+          }
+        ],
+        "default": "48h"
+      }
+    ],
+    "template": "You are a senior data privacy counsel. Draft a Data Processing Addendum where {{controller}} is the controller and {{processor}} is the processor.\n\n## Processing context\n{{service}}\n\n## Personal data categories\n{{dataTypes}}\n\n## Drafting requirements\n- Align with: {{regimes}}. Define roles, processing purpose, duration, and data subject categories.\n- Cover: processor obligations, confidentiality, security measures, data subject rights assistance, audit rights, deletion/return on termination.\n{{#if subprocessors}}- Include sub-processor authorization, flow-down obligations, and a change-notification mechanism.\n{{else}}- Prohibit sub-processors without prior written consent.\n{{/if}}{{#if transfers}}- Address international transfers (e.g., SCCs / transfer mechanism) and a transfer impact note.\n{{/if}}- Personal data breach notification: {{breachWindow}}, with required content of the notice.\n- Reference a Security Measures schedule and a Processing Details schedule; flag [BRACKETED] inputs.\n\n## Deliverables\n1. The full DPA draft with schedules outlined.\n2. A plain-English summary of obligations and residual risks.\n3. Open points to confirm with the business and security teams.\n\nThis is a draft for review by a qualified lawyer and does not constitute legal advice."
+  },
+  {
+    "id": "cease-and-desist",
+    "label": "Cease and Desist Letter",
+    "description": "Firm cease-and-desist letter demanding a party stop infringing conduct.",
+    "icon": "OctagonX",
+    "fields": [
+      {
+        "id": "sender",
+        "label": "Sender / rights holder",
+        "type": "text",
+        "required": true,
+        "placeholder": "Northwind Inc."
+      },
+      {
+        "id": "recipient",
+        "label": "Recipient",
+        "type": "text",
+        "required": true,
+        "placeholder": "Copycat Co."
+      },
+      {
+        "id": "issueType",
+        "label": "Type of issue",
+        "type": "select",
+        "options": [
+          {
+            "id": "trademark",
+            "label": "Trademark infringement"
+          },
+          {
+            "id": "copyright",
+            "label": "Copyright infringement"
+          },
+          {
+            "id": "defamation",
+            "label": "Defamation"
+          },
+          {
+            "id": "contract",
+            "label": "Breach of contract"
+          },
+          {
+            "id": "harassment",
+            "label": "Harassment"
+          }
+        ],
+        "default": "trademark",
+        "required": true
+      },
+      {
+        "id": "facts",
+        "label": "Facts & evidence of the conduct",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Recipient launched a product using our registered mark 'Northwind' on their homepage since March."
+      },
+      {
+        "id": "rights",
+        "label": "Rights / basis being asserted",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "USPTO Reg. No. 1234567 for 'Northwind' in class 9, in continuous use since 2016."
+      },
+      {
+        "id": "demands",
+        "label": "Specific demands",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Stop all use, remove from website and app stores, written confirmation within 14 days."
+      },
+      {
+        "id": "deadline",
+        "label": "Response deadline",
+        "type": "text",
+        "placeholder": "14 days from the date of this letter"
+      },
+      {
+        "id": "reserveRights",
+        "label": "Reserve all legal rights / litigation notice",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a litigation attorney drafting demand correspondence. Write a cease and desist letter from {{sender}} to {{recipient}} regarding {{issueType}}.\n\n## Facts\n{{facts}}\n\n## Rights asserted\n{{rights}}\n\n## Demands\n{{demands}}\n\n## Drafting requirements\n- Professional letterhead-style format: date, recipient, RE: line, body, signature block.\n- State the facts and the legal basis precisely; avoid exaggeration or unprovable claims.\n- Make the demands numbered, specific, and verifiable.\n- Set a clear response deadline: {{#if deadline}}{{deadline}}{{else}}a specified reasonable period{{/if}}.\n{{#if reserveRights}}- Include an express reservation of all rights and notice that failure to comply may lead to legal action, without making threats that could constitute unlawful intimidation.\n{{/if}}- Keep tone firm but measured; flag [BRACKETED] items needing confirmation.\n\n## Deliverables\n1. The full cease and desist letter.\n2. A plain-English summary of the position and risks.\n3. Open points and evidence to confirm before sending.\n\nThis is a draft for review by a qualified lawyer and does not constitute legal advice."
   }
 ]

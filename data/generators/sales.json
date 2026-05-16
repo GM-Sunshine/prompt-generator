@@ -115,5 +115,231 @@
       { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" }
     ],
     "template": "You are a strategic account manager who builds account plans that drive measurable growth. Build a {{horizon}} account plan for \"{{account}}\".\n\n## Current state\n{{status}}\n\n## Objective & goals\n- Primary objective: {{objective}}\n- Goals & targets: {{goals}}\n{{#if stakeholders}}- Stakeholders & politics: {{stakeholders}}\n{{/if}}- Apply the {{framework}} approach.\n- Tone: {{tone}}, candid, action-oriented.\n\n## What to produce\n- A concise account summary and SWOT for our position.\n- A stakeholder map: roles, sentiment, and an action per key person.\n- Whitespace / expansion opportunities ranked by value and effort.\n- A {{horizon}} action plan with owners, milestones, and risks/mitigations.\n- Leading metrics to track progress against the goals.\n\n## Deliverables\n1. The full account plan in the structure above.\n2. The single most important next action this week.\n3. The top risk to the {{objective}} objective and how to mitigate it.\n\nProceed with well-reasoned defaults; flag any critical unknown about the buying group."
+  },
+  {
+    "id": "linkedin-message",
+    "label": "LinkedIn Outreach Message",
+    "description": "Personalized LinkedIn connection or InMail message that earns a reply.",
+    "icon": "Linkedin",
+    "fields": [
+      {
+        "id": "prospectName",
+        "label": "Prospect name",
+        "type": "text",
+        "required": true,
+        "placeholder": "Dana Reyes"
+      },
+      {
+        "id": "prospectRole",
+        "label": "Prospect role & company",
+        "type": "text",
+        "required": true,
+        "placeholder": "VP Marketing at Brightline"
+      },
+      {
+        "id": "context",
+        "label": "Why them, why now",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Just posted about scaling demand gen; hiring two growth marketers."
+      },
+      {
+        "id": "offer",
+        "label": "What you help with",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "We help mid-market teams cut CAC by automating lead routing."
+      },
+      {
+        "id": "msgType",
+        "label": "Message type",
+        "type": "select",
+        "options": [
+          {
+            "id": "connect",
+            "label": "Connection request note"
+          },
+          {
+            "id": "inmail",
+            "label": "InMail / direct message"
+          },
+          {
+            "id": "followup",
+            "label": "Follow-up after no reply"
+          }
+        ],
+        "default": "connect"
+      },
+      {
+        "id": "tone",
+        "label": "Tone",
+        "type": "select",
+        "optionsRef": "tones",
+        "default": "conversational"
+      },
+      {
+        "id": "cta",
+        "label": "Desired next step",
+        "type": "text",
+        "placeholder": "A 15-min call next week"
+      },
+      {
+        "id": "noPitch",
+        "label": "Lead with value, not a pitch",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a senior outbound sales rep who writes LinkedIn messages people actually answer. Write a {{msgType}} message to {{prospectName}}, {{prospectRole}}.\n\n## Why this prospect\n{{context}}\n\n## What we help with\n{{offer}}\n\n## Writing rules\n- Tone: {{tone}}. Keep it short and human{{#if msgType == \"connect\"}}; respect LinkedIn's ~300-character note limit{{/if}}.\n- Open with something specific to them, not a generic compliment.\n{{#if noPitch}}- Lead with relevance and a useful observation; do not hard-pitch.\n{{/if}}{{#if msgType == \"followup\"}}- Acknowledge the prior unanswered message lightly without guilt-tripping; add one new angle.\n{{/if}}{{#if cta}}- End with a low-friction ask: {{cta}}.\n{{else}}- End with a low-friction, easy-to-decline ask.\n{{/if}}- No buzzwords, no flattery clichés, no \"I hope this finds you well.\"\n\n## Deliverables\n1. The primary message.\n2. One shorter variant and one alternate opening line.\n3. A one-line note on why it should land.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "sales-email-sequence",
+    "label": "Cold Email Sequence",
+    "description": "Multi-touch cold email sequence with varied angles and clear CTAs.",
+    "icon": "MailPlus",
+    "fields": [
+      {
+        "id": "product",
+        "label": "Product / service",
+        "type": "text",
+        "required": true,
+        "placeholder": "Pipeline forecasting for RevOps teams"
+      },
+      {
+        "id": "icp",
+        "label": "Target persona & pain",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "RevOps leaders at 200-1000 person SaaS firms drowning in spreadsheet forecasts."
+      },
+      {
+        "id": "valueProps",
+        "label": "Top value propositions",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "90% forecast accuracy; 8 hrs/week saved; CRM-native."
+      },
+      {
+        "id": "proof",
+        "label": "Proof / social proof",
+        "type": "textarea",
+        "placeholder": "Used by 40 SaaS teams; case study: Acme cut forecast error 60%."
+      },
+      {
+        "id": "emailCount",
+        "label": "Number of emails",
+        "type": "select",
+        "options": [
+          {
+            "id": "3",
+            "label": "3 emails"
+          },
+          {
+            "id": "4",
+            "label": "4 emails"
+          },
+          {
+            "id": "5",
+            "label": "5 emails"
+          }
+        ],
+        "default": "4"
+      },
+      {
+        "id": "tone",
+        "label": "Tone",
+        "type": "select",
+        "optionsRef": "tones",
+        "default": "professional"
+      },
+      {
+        "id": "cta",
+        "label": "Primary CTA",
+        "type": "text",
+        "placeholder": "Book a 20-min walkthrough"
+      },
+      {
+        "id": "breakup",
+        "label": "Include a breakup email",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a top-performing SDR and copywriter. Write a {{emailCount}}-email cold outbound sequence for \"{{product}}\".\n\n## Target\n{{icp}}\n\n## Value propositions\n{{valueProps}}\n\n{{#if proof}}## Proof\n{{proof}}\n\n{{/if}}## Sequence rules\n- Tone: {{tone}}. Each email is short, skimmable, and uses a different angle (pain, proof, insight, ROI).\n- Subject lines under ~6 words; no spammy words; one clear ask per email.\n{{#if cta}}- Primary CTA across the sequence: {{cta}}.\n{{/if}}- Reference the prior email lightly on follow-ups; never repeat the same pitch.\n{{#if breakup}}- Make the final email a graceful breakup that leaves the door open.\n{{/if}}- Suggest send-day spacing for each touch.\n\n## Deliverables\n1. The full sequence: subject + body + spacing for each email.\n2. 2 alternate subject lines for email 1.\n3. One A/B test idea for the sequence.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "battlecard",
+    "label": "Competitive Battlecard",
+    "description": "Sales battlecard to win deals against a specific competitor.",
+    "icon": "Swords",
+    "fields": [
+      {
+        "id": "competitor",
+        "label": "Competitor",
+        "type": "text",
+        "required": true,
+        "placeholder": "Rival Analytics"
+      },
+      {
+        "id": "ourProduct",
+        "label": "Our product",
+        "type": "text",
+        "required": true,
+        "placeholder": "Northstar Insights"
+      },
+      {
+        "id": "marketContext",
+        "label": "Where you compete & deal context",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Mid-market BI; we lose deals on perceived price, win on time-to-value."
+      },
+      {
+        "id": "ourStrengths",
+        "label": "Our strengths vs them",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Faster onboarding, native Salesforce sync, transparent pricing."
+      },
+      {
+        "id": "theirStrengths",
+        "label": "Their strengths / where they win",
+        "type": "textarea",
+        "placeholder": "Bigger brand, more integrations, enterprise references."
+      },
+      {
+        "id": "audience",
+        "label": "Battlecard user",
+        "type": "select",
+        "options": [
+          {
+            "id": "ae",
+            "label": "Account executives"
+          },
+          {
+            "id": "sdr",
+            "label": "SDRs"
+          },
+          {
+            "id": "se",
+            "label": "Sales engineers"
+          }
+        ],
+        "default": "ae"
+      },
+      {
+        "id": "objections",
+        "label": "Common objections to counter",
+        "type": "textarea",
+        "placeholder": "\"They have more integrations\"; \"We already use Rival.\""
+      },
+      {
+        "id": "traps",
+        "label": "Include landmine / trap questions",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a competitive enablement leader. Build a one-page sales battlecard for beating {{competitor}} with \"{{ourProduct}}\", written for {{audience}}.\n\n## Competitive context\n{{marketContext}}\n\n## Our strengths\n{{ourStrengths}}\n\n{{#if theirStrengths}}## Their strengths (be honest)\n{{theirStrengths}}\n\n{{/if}}## Battlecard sections\n- Quick positioning: one sentence on why we win.\n- Why we win / why we lose, stated plainly.\n{{#if objections}}- Objection handling for: {{objections}} — give crisp, non-defensive responses.\n{{/if}}{{#if traps}}- Landmines: 3-4 trap questions to plant that expose their weaknesses honestly.\n{{/if}}- Do-not-say list to avoid trash-talking or making unverifiable claims.\n- Proof points and a recommended discovery question set.\n\n## Deliverables\n1. The battlecard, scannable in under 60 seconds.\n2. A 30-second verbal positioning script.\n3. The top 3 traps with the buyer takeaway each creates.\n\nProceed with well-reasoned defaults; ask only if blocked."
   }
 ]

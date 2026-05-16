@@ -114,5 +114,268 @@
       { "id": "buddy", "label": "Include a buddy / mentor program", "type": "toggle", "default": true }
     ],
     "template": "You are an onboarding and enablement expert who designs ramp plans that make new hires productive and confident fast. Build a 30-60-90 day onboarding plan for a \"{{role}}\".\n\n## Definition of success (day 90)\n{{successDefinition}}\n\n## Setup\n{{#if hire}}- New hire context: {{hire}}\n{{/if}}- Work model: {{workModel}}\n- Areas to cover: {{areas}}\n- Tone: {{tone}}, supportive, structured.\n\n## Requirements\n- Three phases: Days 1-30 (learn), 31-60 (contribute with support), 61-90 (own it).\n- For each phase: goals, key activities, who's involved, and a clear success checkpoint.\n{{#each areas}}- Weave \"{{this}}\" into the relevant phases with concrete activities.\n{{/each}}- Make week 1 explicit, hour-blocked, and not overwhelming.\n{{#if buddy}}- Define a buddy/mentor: cadence, what they own, and how they help the hire feel included.\n{{/if}}{{#if workModel == \"remote\"}}- Add deliberate steps to build relationships and visibility in a remote setting.\n{{/if}}\n## Deliverables\n1. The full 30-60-90 plan with checkpoints.\n2. An hour-blocked first-week schedule.\n3. The 3 leading indicators that this hire is ramping on track.\n\nProceed with well-reasoned defaults; ask only if the success definition is unclear."
+  },
+  {
+    "id": "rejection-email",
+    "label": "Candidate Rejection Email",
+    "description": "Respectful, human candidate rejection that protects employer brand.",
+    "icon": "MailX",
+    "fields": [
+      {
+        "id": "candidateName",
+        "label": "Candidate name",
+        "type": "text",
+        "required": true,
+        "placeholder": "Priya Nair"
+      },
+      {
+        "id": "role",
+        "label": "Role applied for",
+        "type": "text",
+        "required": true,
+        "placeholder": "Senior Product Designer"
+      },
+      {
+        "id": "stage",
+        "label": "Stage reached",
+        "type": "select",
+        "options": [
+          {
+            "id": "application",
+            "label": "Application screen"
+          },
+          {
+            "id": "phone",
+            "label": "Phone / recruiter screen"
+          },
+          {
+            "id": "onsite",
+            "label": "Onsite / final round"
+          }
+        ],
+        "default": "phone",
+        "required": true
+      },
+      {
+        "id": "reason",
+        "label": "Primary reason (internal)",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Strong portfolio but limited experience leading 0-to-1 design."
+      },
+      {
+        "id": "feedback",
+        "label": "Include specific feedback",
+        "type": "toggle",
+        "default": false
+      },
+      {
+        "id": "feedbackPoints",
+        "label": "Feedback to share (if any)",
+        "type": "textarea",
+        "placeholder": "Sharpen storytelling on impact/metrics in case studies."
+      },
+      {
+        "id": "futureFit",
+        "label": "Encourage future application",
+        "type": "toggle",
+        "default": true
+      },
+      {
+        "id": "tone",
+        "label": "Tone",
+        "type": "select",
+        "optionsRef": "tones",
+        "default": "empathetic"
+      }
+    ],
+    "template": "You are a thoughtful recruiting leader who cares about candidate experience. Write a rejection email to {{candidateName}} for the {{role}} role, after the {{stage}} stage.\n\n## Internal context (do not paste verbatim)\n{{reason}}\n\n## Writing rules\n- Tone: {{tone}}. Be warm, prompt, and direct; thank them for their time specifically.\n- Deliver the decision clearly in the first lines; no false hope or vague filler.\n{{#if feedback}}- Share brief, kind, actionable feedback based on: {{feedbackPoints}}\n{{else}}- Keep it concise; do not invent feedback that wasn't provided.\n{{/if}}{{#if futureFit}}- Genuinely encourage them to apply for future roles if appropriate.\n{{/if}}- Avoid legal risk: no comments on protected characteristics; keep reasons role-related.\n\n## Deliverables\n1. The candidate-facing email.\n2. A shorter variant for early-stage rejections.\n3. A one-line note on what NOT to say to limit legal exposure.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "pip-plan",
+    "label": "Performance Improvement Plan",
+    "description": "Structured, fair PIP with measurable goals and support.",
+    "icon": "ClipboardList",
+    "fields": [
+      {
+        "id": "employeeRole",
+        "label": "Employee role",
+        "type": "text",
+        "required": true,
+        "placeholder": "Account Manager"
+      },
+      {
+        "id": "gaps",
+        "label": "Performance gaps & evidence",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Missed quota 2 quarters (62%, 58%); 3 missed renewal deadlines; CRM hygiene poor."
+      },
+      {
+        "id": "expectations",
+        "label": "Expected standard",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Hit 90%+ of quota; renewals logged 30 days out; weekly pipeline review."
+      },
+      {
+        "id": "duration",
+        "label": "PIP duration",
+        "type": "select",
+        "options": [
+          {
+            "id": "30",
+            "label": "30 days"
+          },
+          {
+            "id": "60",
+            "label": "60 days"
+          },
+          {
+            "id": "90",
+            "label": "90 days"
+          }
+        ],
+        "default": "60",
+        "required": true
+      },
+      {
+        "id": "support",
+        "label": "Support & resources offered",
+        "type": "textarea",
+        "placeholder": "Weekly 1:1 coaching, sales enablement refresh, peer shadowing."
+      },
+      {
+        "id": "checkins",
+        "label": "Check-in cadence",
+        "type": "select",
+        "options": [
+          {
+            "id": "weekly",
+            "label": "Weekly"
+          },
+          {
+            "id": "biweekly",
+            "label": "Bi-weekly"
+          }
+        ],
+        "default": "weekly"
+      },
+      {
+        "id": "tone",
+        "label": "Tone",
+        "type": "select",
+        "optionsRef": "tones",
+        "default": "professional"
+      },
+      {
+        "id": "consequences",
+        "label": "State consequences of not meeting plan",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are an experienced HR business partner and people manager. Draft a {{duration}}-day Performance Improvement Plan for an employee in the {{employeeRole}} role.\n\n## Performance gaps (with evidence)\n{{gaps}}\n\n## Expected standard\n{{expectations}}\n\n## Plan rules\n- Tone: {{tone}}. Be specific, factual, and respectful — focus on behaviors and outcomes, not character.\n- Convert each gap into a SMART, measurable goal with a clear success bar.\n- Define a {{checkins}} check-in cadence with documented progress notes.\n{{#if support}}- Make support concrete: {{support}}\n{{else}}- Specify what support and resources the company will provide.\n{{/if}}{{#if consequences}}- State, factually and without threat, the consequence if standards aren't met by the end date.\n{{/if}}- Note this should be reviewed with HR/legal before delivery and is not legal advice.\n\n## Deliverables\n1. The structured PIP document with goals, metrics, timeline, and check-ins.\n2. A manager talking-points script for the delivery conversation.\n3. A progress-tracking table template.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "employee-survey",
+    "label": "Employee Engagement Survey",
+    "description": "Actionable engagement or pulse survey with unbiased questions.",
+    "icon": "Gauge",
+    "fields": [
+      {
+        "id": "surveyTitle",
+        "label": "Survey title",
+        "type": "text",
+        "required": true,
+        "placeholder": "Q2 2026 Engineering Pulse"
+      },
+      {
+        "id": "purpose",
+        "label": "Survey purpose",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Diagnose drop in retention on the engineering team and test new return-to-office policy."
+      },
+      {
+        "id": "surveyType",
+        "label": "Survey type",
+        "type": "select",
+        "options": [
+          {
+            "id": "pulse",
+            "label": "Quick pulse (5-8 Qs)"
+          },
+          {
+            "id": "engagement",
+            "label": "Full engagement (20-30 Qs)"
+          },
+          {
+            "id": "onboarding",
+            "label": "New-hire / onboarding"
+          },
+          {
+            "id": "exit",
+            "label": "Exit survey"
+          }
+        ],
+        "default": "pulse",
+        "required": true
+      },
+      {
+        "id": "themes",
+        "label": "Themes to cover",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Manager support, workload, growth, recognition, RTO sentiment."
+      },
+      {
+        "id": "scale",
+        "label": "Rating scale",
+        "type": "select",
+        "options": [
+          {
+            "id": "5",
+            "label": "5-point Likert"
+          },
+          {
+            "id": "7",
+            "label": "7-point Likert"
+          },
+          {
+            "id": "enps",
+            "label": "eNPS (0-10) + drivers"
+          }
+        ],
+        "default": "5"
+      },
+      {
+        "id": "anonymous",
+        "label": "Anonymous responses",
+        "type": "toggle",
+        "default": true
+      },
+      {
+        "id": "openEnded",
+        "label": "Include open-ended questions",
+        "type": "toggle",
+        "default": true
+      },
+      {
+        "id": "audience",
+        "label": "Audience",
+        "type": "select",
+        "optionsRef": "audiences",
+        "default": "general"
+      },
+      {
+        "id": "tone",
+        "label": "Tone",
+        "type": "select",
+        "optionsRef": "tones",
+        "default": "conversational"
+      }
+    ],
+    "template": "You are an organizational psychologist who designs reliable people surveys. Build a {{surveyType}} survey titled \"{{surveyTitle}}\".\n\n## Purpose\n{{purpose}}\n\n## Themes to cover\n{{themes}}\n\n## Design rules\n- Tone: {{tone}}. Use a {{scale}} rating scale consistently.\n- Write neutral, single-barreled, non-leading questions; avoid jargon and double negatives.\n- Group questions by theme and keep length appropriate for a {{surveyType}}.\n{{#if anonymous}}- Reinforce anonymity and avoid demographic combinations that could deanonymize small teams.\n{{/if}}{{#if openEnded}}- Add 1-2 well-framed open-ended questions per major theme.\n{{/if}}- Include a short intro explaining purpose and how results will be used.\n\n## Deliverables\n1. The full question set, grouped by theme, with the scale labels.\n2. The survey intro and closing message.\n3. A short analysis plan: which metrics to track and how to spot bias in results.\n\nProceed with well-reasoned defaults; ask only if blocked."
   }
 ]

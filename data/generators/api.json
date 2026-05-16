@@ -1,0 +1,171 @@
+[
+  {
+    "id": "rest-api-design",
+    "label": "REST API Design",
+    "description": "Design clean, consistent REST resources and endpoints.",
+    "icon": "Code",
+    "fields": [
+      { "id": "apiName", "label": "API name", "type": "text", "required": true, "placeholder": "orders-api" },
+      { "id": "domain", "label": "Domain & resources", "type": "textarea", "required": true, "placeholder": "Orders, line items, refunds with status transitions." },
+      { "id": "consumers", "label": "Primary consumers", "type": "text", "required": true, "placeholder": "First-party web app and partner integrations" },
+      { "id": "auth", "label": "Auth model", "type": "select", "options": [ { "id": "oauth", "label": "OAuth 2.0 / OIDC" }, { "id": "apikey", "label": "API keys" }, { "id": "jwt", "label": "JWT bearer" }, { "id": "mtls", "label": "mTLS" } ], "default": "oauth" },
+      { "id": "pagination", "label": "Pagination style", "type": "select", "options": [ { "id": "cursor", "label": "Cursor-based" }, { "id": "offset", "label": "Offset/limit" }, { "id": "page", "label": "Page number" } ], "default": "cursor" },
+      { "id": "idempotency", "label": "Idempotent writes (idempotency keys)", "type": "toggle", "default": true },
+      { "id": "filtering", "label": "Filtering, sorting & sparse fields", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Non-functional requirements", "type": "textarea", "placeholder": "p95 < 100ms; multi-region; strict backward compatibility." }
+    ],
+    "template": "You are a senior API architect. Design a REST API called \"{{apiName}}\".\n\n## Domain\n{{domain}}\n\n## Consumers\n{{consumers}}\n\n## Design requirements\n- Resource-oriented URLs, correct HTTP methods and status codes.\n- Consistent request/response envelopes and a uniform error format.\n- Auth model: {{auth}}, applied consistently across endpoints.\n- Pagination: {{pagination}}, with stable ordering.\n{{#if filtering}}- Filtering, sorting, and sparse fieldsets with a documented query grammar.\n{{/if}}{{#if idempotency}}- Idempotency keys for unsafe operations and retry semantics.\n{{/if}}- Versioning strategy and a clear deprecation policy.\n{{#if constraints}}- Non-functional targets: {{constraints}}.\n{{/if}}\n## Deliverables\n1. The resource model and a full endpoint table (method, path, purpose).\n2. Example request/response pairs including error cases.\n3. Auth, pagination, and versioning conventions documented.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "openapi-spec",
+    "label": "OpenAPI Spec",
+    "description": "Author a complete, valid OpenAPI 3 specification.",
+    "icon": "FileJson",
+    "fields": [
+      { "id": "apiName", "label": "API name", "type": "text", "required": true, "placeholder": "Payments API" },
+      { "id": "description", "label": "What the API does", "type": "textarea", "required": true, "placeholder": "Create and manage payments, refunds, and payouts." },
+      { "id": "version", "label": "API version", "type": "text", "required": true, "placeholder": "1.0.0" },
+      { "id": "endpoints", "label": "Endpoints to specify", "type": "textarea", "required": true, "placeholder": "POST /payments, GET /payments/{id}, POST /refunds" },
+      { "id": "auth", "label": "Security scheme", "type": "select", "options": [ { "id": "bearer", "label": "Bearer / JWT" }, { "id": "oauth", "label": "OAuth 2.0" }, { "id": "apikey", "label": "API key" } ], "default": "bearer" },
+      { "id": "format", "label": "Output format", "type": "select", "options": [ { "id": "yaml", "label": "YAML" }, { "id": "json", "label": "JSON" } ], "default": "yaml" },
+      { "id": "examples", "label": "Include request/response examples", "type": "toggle", "default": true },
+      { "id": "webhooks", "label": "Include webhook/callback definitions", "type": "toggle", "default": false }
+    ],
+    "template": "You are an API specification expert. Author an OpenAPI 3.1 spec for \"{{apiName}}\" v{{version}}.\n\n## Description\n{{description}}\n\n## Endpoints\n{{endpoints}}\n\n## Requirements\n- A valid, lint-clean OpenAPI 3.1 document in {{format}}.\n- Reusable component schemas; no duplicated inline models.\n- Every operation has operationId, summary, parameters, and responses.\n- A consistent error schema applied to failure responses.\n- Security scheme: {{auth}}, referenced by protected operations.\n{{#if examples}}- Realistic request and response examples for each operation.\n{{/if}}{{#if webhooks}}- Webhook/callback definitions with their payload schemas.\n{{/if}}\n## Deliverables\n1. The complete OpenAPI document.\n2. A short summary of the modeled resources and conventions.\n3. Notes on anything intentionally deferred.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "graphql-schema",
+    "label": "GraphQL Schema",
+    "description": "Design a typed GraphQL schema with clear resolvers.",
+    "icon": "Share2",
+    "fields": [
+      { "id": "apiName", "label": "API / graph name", "type": "text", "required": true, "placeholder": "Commerce Graph" },
+      { "id": "domain", "label": "Domain & core entities", "type": "textarea", "required": true, "placeholder": "Products, carts, orders, customers and their relations." },
+      { "id": "operations", "label": "Key queries & mutations", "type": "textarea", "required": true, "placeholder": "products(filter), addToCart, checkout, order(id)" },
+      { "id": "pagination", "label": "Pagination style", "type": "select", "options": [ { "id": "relay", "label": "Relay connections" }, { "id": "offset", "label": "Offset/limit" } ], "default": "relay" },
+      { "id": "subscriptions", "label": "Include subscriptions", "type": "toggle", "default": false },
+      { "id": "federation", "label": "Federation-ready (subgraph)", "type": "toggle", "default": false },
+      { "id": "authz", "label": "Field-level authorization", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Avoid N+1 (dataloader); depth/complexity limits." }
+    ],
+    "template": "You are a senior GraphQL architect. Design the schema for \"{{apiName}}\".\n\n## Domain\n{{domain}}\n\n## Operations\n{{operations}}\n\n## Requirements\n- A clear type system with nullability used deliberately.\n- Pagination: {{pagination}}.\n- Mutations with structured input and result/error payload types.\n{{#if subscriptions}}- Subscriptions for the events that need realtime delivery.\n{{/if}}{{#if federation}}- Federation-ready subgraph with proper keys and entity resolution.\n{{/if}}{{#if authz}}- Field-level authorization with a documented permission model.\n{{/if}}- A resolver plan that avoids N+1 via batching/dataloaders.\n{{#if constraints}}- Constraints: {{constraints}}.\n{{/if}}\n## Deliverables\n1. The complete SDL schema.\n2. Resolver responsibilities and data-fetching plan per type.\n3. Notes on auth, pagination, and performance safeguards.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "webhook-design",
+    "label": "Webhook System",
+    "description": "Design reliable, secure outbound webhooks with retries.",
+    "icon": "Webhook",
+    "fields": [
+      { "id": "productName", "label": "Product / platform", "type": "text", "required": true, "placeholder": "Acme Billing" },
+      { "id": "events", "label": "Events to emit", "type": "textarea", "required": true, "placeholder": "invoice.paid, subscription.canceled, payment.failed" },
+      { "id": "consumers", "label": "Who consumes them", "type": "text", "required": true, "placeholder": "Customer backends and integration partners" },
+      { "id": "signing", "label": "Signature scheme", "type": "select", "options": [ { "id": "hmac", "label": "HMAC-SHA256" }, { "id": "jws", "label": "JWS / signed JWT" }, { "id": "mtls", "label": "mTLS" } ], "default": "hmac" },
+      { "id": "delivery", "label": "Delivery guarantee", "type": "select", "options": [ { "id": "atleastonce", "label": "At-least-once" }, { "id": "ordered", "label": "Ordered per resource" } ], "default": "atleastonce" },
+      { "id": "retries", "label": "Automatic retries with backoff", "type": "toggle", "default": true },
+      { "id": "portal", "label": "Self-serve endpoint management UI", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Replay endpoint; IP allowlist; 5s receiver timeout." }
+    ],
+    "template": "You are a senior backend architect. Design an outbound webhook system for \"{{productName}}\".\n\n## Events\n{{events}}\n\n## Consumers\n{{consumers}}\n\n## Requirements\n- A stable, versioned event payload envelope with event id and timestamp.\n- {{delivery}} delivery semantics; consumers must be able to dedupe.\n- Signature verification using {{signing}}, with a documented verification recipe.\n{{#if retries}}- Retries with exponential backoff and jitter; a dead-letter path after exhaustion.\n{{/if}}{{#if portal}}- Self-serve endpoint registration, secret rotation, and delivery logs.\n{{/if}}- Timeouts, circuit breaking for failing endpoints, and abuse protection.\n{{#if constraints}}- Constraints: {{constraints}}.\n{{/if}}\n## Deliverables\n1. The event catalog and payload schema before implementation.\n2. The delivery pipeline design (queue, workers, retry, DLQ).\n3. Consumer-facing docs: verification, retries, and idempotency.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "sdk-design",
+    "label": "Client SDK Design",
+    "description": "Design an ergonomic client SDK for an API.",
+    "icon": "Package",
+    "fields": [
+      { "id": "apiName", "label": "API the SDK wraps", "type": "text", "required": true, "placeholder": "Payments API" },
+      { "id": "capabilities", "label": "Capabilities to expose", "type": "textarea", "required": true, "placeholder": "Create payments, list/paginate, handle webhooks." },
+      { "id": "languages", "label": "Target languages", "type": "multi-select", "options": [ { "id": "ts", "label": "TypeScript/JS" }, { "id": "py", "label": "Python" }, { "id": "go", "label": "Go" }, { "id": "java", "label": "Java/Kotlin" }, { "id": "ruby", "label": "Ruby" } ], "default": ["ts", "py"] },
+      { "id": "auth", "label": "Auth handled by SDK", "type": "select", "options": [ { "id": "apikey", "label": "API key" }, { "id": "oauth", "label": "OAuth token + refresh" }, { "id": "both", "label": "Both" } ], "default": "apikey" },
+      { "id": "async", "label": "Async / promise-based API", "type": "toggle", "default": true },
+      { "id": "retries", "label": "Built-in retries & rate-limit handling", "type": "toggle", "default": true },
+      { "id": "codegen", "label": "Generate from OpenAPI/schema", "type": "toggle", "default": false },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Tree-shakeable; no heavy deps; semver discipline." }
+    ],
+    "template": "You are an SDK design expert. Design a client SDK for the \"{{apiName}}\".\n\n## Capabilities\n{{capabilities}}\n\n## Targets\n- Languages: {{languages}}\n- Auth handled by the SDK: {{auth}}\n\n## Design principles\n- Idiomatic surface per language with discoverable, typed methods.\n- A consistent error model that distinguishes client, auth, and server errors.\n{{#if async}}- Async/promise-based calls with cancellation support.\n{{/if}}{{#if retries}}- Built-in retries with backoff and automatic rate-limit handling.\n{{/if}}{{#if codegen}}- Generated from the OpenAPI/schema with a thin hand-written ergonomic layer.\n{{/if}}- Pagination helpers, configurable timeouts, and pluggable transport/logging.\n{{#if constraints}}- Constraints: {{constraints}}.\n{{/if}}\n## Deliverables\n1. The public API surface (signatures) for the primary language.\n2. Error handling, retry, and pagination conventions.\n3. A quick-start usage example and packaging/versioning plan.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "third-party-integration",
+    "label": "Third-Party Integration",
+    "description": "Plan a robust integration with an external service or API.",
+    "icon": "Plug",
+    "fields": [
+      { "id": "service", "label": "Service to integrate", "type": "text", "required": true, "placeholder": "Stripe / Salesforce / Twilio" },
+      { "id": "goal", "label": "Integration goal", "type": "textarea", "required": true, "placeholder": "Sync invoices and reconcile payment status nightly." },
+      { "id": "direction", "label": "Data direction", "type": "select", "options": [ { "id": "inbound", "label": "Inbound (we consume)" }, { "id": "outbound", "label": "Outbound (we push)" }, { "id": "bidirectional", "label": "Bidirectional sync" } ], "default": "bidirectional" },
+      { "id": "auth", "label": "Their auth model", "type": "select", "options": [ { "id": "oauth", "label": "OAuth 2.0" }, { "id": "apikey", "label": "API key" }, { "id": "jwt", "label": "Signed JWT" } ], "default": "oauth" },
+      { "id": "syncMode", "label": "Sync mechanism", "type": "select", "options": [ { "id": "webhook", "label": "Their webhooks" }, { "id": "poll", "label": "Polling" }, { "id": "batch", "label": "Scheduled batch" } ], "default": "webhook" },
+      { "id": "mapping", "label": "Field/entity mapping needs", "type": "textarea", "placeholder": "Their Account -> our Customer; status enum mapping." },
+      { "id": "sandbox", "label": "Build against a sandbox first", "type": "toggle", "default": true },
+      { "id": "resilience", "label": "Handle their outages gracefully", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior integrations engineer. Plan and build an integration with {{service}}.\n\n## Goal\n{{goal}}\n\n## Shape\n- Data direction: {{direction}}\n- Their auth model: {{auth}}\n- Sync mechanism: {{syncMode}}\n\n## Requirements\n- A clean anti-corruption layer; their model never leaks into our core domain.\n{{#if mapping}}- Explicit entity/field mapping and transformation: {{mapping}}.\n{{/if}}- Idempotent, retry-safe operations and reconciliation for missed events.\n{{#if resilience}}- Tolerate their rate limits and outages with backoff, queueing, and alerts.\n{{/if}}{{#if sandbox}}- Build and verify against their sandbox before production.\n{{/if}}- Secrets handling, audit logging, and observability of the integration.\n\n## Deliverables\n1. Integration architecture and the entity mapping before coding.\n2. The complete, runnable integration code with the chosen sync path.\n3. A failure/runbook section: outages, replays, and reconciliation.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "api-authentication",
+    "label": "API Authentication",
+    "description": "Design secure authentication and authorization for an API.",
+    "icon": "KeyRound",
+    "fields": [
+      { "id": "apiName", "label": "API name", "type": "text", "required": true, "placeholder": "Platform API" },
+      { "id": "context", "label": "Who calls it & trust model", "type": "textarea", "required": true, "placeholder": "First-party SPA, mobile apps, and server-to-server partners." },
+      { "id": "scheme", "label": "Primary auth scheme", "type": "select", "options": [ { "id": "oauth", "label": "OAuth 2.0 / OIDC" }, { "id": "apikey", "label": "API keys" }, { "id": "jwt", "label": "JWT bearer" }, { "id": "mtls", "label": "mTLS" } ], "default": "oauth" },
+      { "id": "grants", "label": "Flows / grant types", "type": "multi-select", "options": [ { "id": "authcode", "label": "Authorization code + PKCE" }, { "id": "clientcred", "label": "Client credentials" }, { "id": "device", "label": "Device flow" }, { "id": "refresh", "label": "Refresh tokens" } ], "default": ["authcode", "clientcred"] },
+      { "id": "scopes", "label": "Scopes / permission model", "type": "textarea", "placeholder": "read:orders, write:orders, admin; role-to-scope mapping." },
+      { "id": "rotation", "label": "Key/token rotation & revocation", "type": "toggle", "default": true },
+      { "id": "serviceAuth", "label": "Service-to-service auth", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Short-lived tokens; least privilege; audit every grant." }
+    ],
+    "template": "You are a security-focused API architect. Design authentication and authorization for \"{{apiName}}\".\n\n## Context & trust model\n{{context}}\n\n## Design\n- Primary scheme: {{scheme}}\n- Flows/grants: {{grants}}\n{{#if scopes}}- Authorization model: {{scopes}}.\n{{/if}}\n## Security requirements\n- Short-lived credentials, secure storage, and correct audience/issuer validation.\n{{#if rotation}}- Key/token rotation and immediate revocation paths.\n{{/if}}{{#if serviceAuth}}- Hardened service-to-service auth distinct from end-user auth.\n{{/if}}- Defense in depth: scope checks at every entry point, generic errors, rate limits.\n- Token introspection/validation strategy and clock-skew handling.\n{{#if constraints}}- Constraints: {{constraints}}.\n{{/if}}\n## Deliverables\n1. The auth architecture and token lifecycle before coding.\n2. The complete, runnable auth middleware and example flows.\n3. A security checklist and any residual risks.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "rate-limiting-strategy",
+    "label": "Rate Limiting Strategy",
+    "description": "Design rate limiting and quotas that protect an API.",
+    "icon": "Gauge",
+    "fields": [
+      { "id": "apiName", "label": "API name", "type": "text", "required": true, "placeholder": "Public API" },
+      { "id": "traffic", "label": "Traffic profile & abuse concerns", "type": "textarea", "required": true, "placeholder": "Bursty partner traffic; scraping and credential-stuffing risk." },
+      { "id": "algorithm", "label": "Algorithm", "type": "select", "options": [ { "id": "tokenbucket", "label": "Token bucket" }, { "id": "slidingwindow", "label": "Sliding window" }, { "id": "fixedwindow", "label": "Fixed window" }, { "id": "leakybucket", "label": "Leaky bucket" } ], "default": "tokenbucket" },
+      { "id": "dimensions", "label": "Limit dimensions", "type": "multi-select", "options": [ { "id": "key", "label": "Per API key/client" }, { "id": "user", "label": "Per user" }, { "id": "ip", "label": "Per IP" }, { "id": "endpoint", "label": "Per endpoint" }, { "id": "global", "label": "Global" } ], "default": ["key", "endpoint"] },
+      { "id": "tiers", "label": "Plan-based quotas/tiers", "type": "textarea", "placeholder": "Free 60 rpm, Pro 600 rpm, Enterprise custom." },
+      { "id": "distributed", "label": "Distributed (multi-instance) enforcement", "type": "toggle", "default": true },
+      { "id": "headers", "label": "Return standard rate-limit headers", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Burst allowance; graceful 429 with Retry-After." }
+    ],
+    "template": "You are a senior backend engineer. Design a rate limiting strategy for \"{{apiName}}\".\n\n## Traffic & abuse profile\n{{traffic}}\n\n## Approach\n- Algorithm: {{algorithm}}\n- Limit dimensions: {{dimensions}}\n{{#if tiers}}- Plan-based quotas: {{tiers}}.\n{{/if}}\n## Requirements\n{{#if distributed}}- Distributed enforcement that is consistent across instances (shared store).\n{{/if}}- Correct 429 responses with a clear, machine-readable error body.\n{{#if headers}}- Standard rate-limit headers (limit, remaining, reset, Retry-After).\n{{/if}}- Fairness across clients and protection against thundering herds and abuse.\n- A safe fail-open vs fail-closed decision, justified.\n{{#if constraints}}- Constraints: {{constraints}}.\n{{/if}}\n## Deliverables\n1. The limiting design and where it sits in the request path.\n2. The complete, runnable limiter implementation and config.\n3. Tuning guidance and how clients should back off.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "api-versioning",
+    "label": "API Versioning Strategy",
+    "description": "Define a versioning and deprecation strategy for an API.",
+    "icon": "GitBranch",
+    "fields": [
+      { "id": "apiName", "label": "API name", "type": "text", "required": true, "placeholder": "Platform API" },
+      { "id": "situation", "label": "Current state & pressures", "type": "textarea", "required": true, "placeholder": "v1 in prod with external consumers; need breaking changes." },
+      { "id": "strategy", "label": "Versioning strategy", "type": "select", "options": [ { "id": "uri", "label": "URI path (/v2)" }, { "id": "header", "label": "Header / media type" }, { "id": "param", "label": "Query parameter" }, { "id": "dated", "label": "Date-based versions" } ], "default": "uri" },
+      { "id": "consumers", "label": "Consumer types", "type": "text", "required": true, "placeholder": "First-party apps and external partners on long cycles" },
+      { "id": "breakingChanges", "label": "Upcoming breaking changes", "type": "textarea", "placeholder": "Rename fields, change auth, remove deprecated endpoints." },
+      { "id": "deprecationPolicy", "label": "Include a formal deprecation policy", "type": "toggle", "default": true },
+      { "id": "compatLayer", "label": "Provide a compatibility/translation layer", "type": "toggle", "default": false },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Min 12-month support window; no big-bang cutovers." }
+    ],
+    "template": "You are an API governance expert. Define a versioning strategy for \"{{apiName}}\".\n\n## Current state\n{{situation}}\n\n## Consumers\n{{consumers}}\n\n## Strategy\n- Versioning approach: {{strategy}}, with a clear rule for what counts as breaking.\n{{#if breakingChanges}}- Plan to land these breaking changes: {{breakingChanges}}.\n{{/if}}{{#if deprecationPolicy}}- A formal deprecation policy: notice periods, sunset headers, and comms.\n{{/if}}{{#if compatLayer}}- A compatibility/translation layer so old clients keep working during migration.\n{{/if}}- Additive-by-default change rules and a versioned changelog.\n- Migration guidance and tooling to ease consumer upgrades.\n{{#if constraints}}- Constraints: {{constraints}}.\n{{/if}}\n## Deliverables\n1. The versioning policy and breaking-change definition.\n2. A concrete migration and deprecation timeline.\n3. Consumer-facing communication and changelog templates.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "developer-docs",
+    "label": "Developer Documentation",
+    "description": "Write clear, complete docs for an API or SDK.",
+    "icon": "BookOpen",
+    "fields": [
+      { "id": "apiName", "label": "API / SDK name", "type": "text", "required": true, "placeholder": "Payments API" },
+      { "id": "audience", "label": "Reader & their goal", "type": "textarea", "required": true, "placeholder": "Backend devs integrating checkout in under an hour." },
+      { "id": "sections", "label": "Sections to produce", "type": "multi-select", "options": [ { "id": "quickstart", "label": "Quickstart" }, { "id": "auth", "label": "Authentication" }, { "id": "guides", "label": "How-to guides" }, { "id": "reference", "label": "API reference" }, { "id": "errors", "label": "Errors & troubleshooting" }, { "id": "webhooks", "label": "Webhooks" } ], "default": ["quickstart", "auth", "reference", "errors"] },
+      { "id": "keyFlows", "label": "Key flows to walk through", "type": "textarea", "required": true, "placeholder": "Create a charge, handle a webhook, issue a refund." },
+      { "id": "languages", "label": "Code sample languages", "type": "multi-select", "options": [ { "id": "curl", "label": "cURL" }, { "id": "ts", "label": "TypeScript" }, { "id": "py", "label": "Python" }, { "id": "go", "label": "Go" } ], "default": ["curl", "ts"] },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "technical" },
+      { "id": "runnable", "label": "Make examples copy-paste runnable", "type": "toggle", "default": true }
+    ],
+    "template": "You are a developer-experience and technical writing expert. Write documentation for \"{{apiName}}\".\n\n## Reader & goal\n{{audience}}\n\n## Cover these sections\n{{sections}}\n\n## Walk through these flows\n{{keyFlows}}\n\n## Requirements\n- Lead with a working quickstart that delivers a first success fast.\n- Code samples in: {{languages}}.\n{{#if runnable}}- Examples must be copy-paste runnable with placeholders clearly marked.\n{{/if}}- Tone: {{tone}}. Concise, task-oriented, and skimmable with good headings.\n- Document every error the reader can hit and how to resolve it.\n- Accurate, consistent terminology and no undefined jargon.\n\n## Deliverables\n1. A documentation outline before writing.\n2. The complete docs content for each requested section.\n3. A list of assumptions and any gaps needing input.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  }
+]

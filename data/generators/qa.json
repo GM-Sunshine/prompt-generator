@@ -110,5 +110,55 @@
       { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Design system can't change this quarter; must support NVDA + VoiceOver." }
     ],
     "template": "You are an accessibility specialist. Audit \"{{target}}\" against {{standard}}.\n\n## What to audit\n{{summary}}\n- Focus areas: {{focusAreas}}\n- Methods: {{methods}}\n\n## Audit to produce\n- A method-by-method plan covering the focus areas (e.g. keyboard-only pass, screen-reader pass, contrast checks, form/error semantics).\n- For each issue: the affected element, the specific {{standard}} success criterion violated, severity (user impact), and a concrete code-level fix.\n- Distinguish blocking barriers from minor issues; note what passes too.\n{{#if remediation}}- A prioritized remediation list (impact vs. effort) with quick wins called out.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The audit report: issues with criterion, severity, location, and recommended fix.\n2. A prioritized remediation backlog.\n3. Suggested automated checks to prevent regressions, plus assumptions made.\n\nBe specific and standards-grounded, not generic; ask only if genuinely blocked."
+  },
+  {
+    "id": "api-test-suite",
+    "label": "API Test Suite",
+    "description": "Design an automated API test suite covering contract and behavior",
+    "icon": "Webhook",
+    "fields": [
+      { "id": "apiName", "label": "API / service name", "type": "text", "required": true, "placeholder": "orders-api" },
+      { "id": "summary", "label": "What the API does & key endpoints", "type": "textarea", "required": true, "placeholder": "REST CRUD for orders with status transitions; auth via bearer token; pagination and idempotency keys." },
+      { "id": "apiStyle", "label": "API style", "type": "select", "options": [ { "id": "rest", "label": "REST" }, { "id": "graphql", "label": "GraphQL" }, { "id": "grpc", "label": "gRPC" } ], "required": true, "default": "rest" },
+      { "id": "tool", "label": "Tooling", "type": "select", "options": [ { "id": "rest-assured", "label": "REST Assured" }, { "id": "supertest", "label": "Supertest / Jest" }, { "id": "pytest", "label": "pytest + httpx" }, { "id": "postman", "label": "Postman / Newman" }, { "id": "k6", "label": "k6 (functional)" } ], "required": true, "default": "supertest" },
+      { "id": "coverage", "label": "Coverage areas", "type": "multi-select", "options": [ { "id": "contract", "label": "Schema / contract" }, { "id": "auth", "label": "AuthZ / authN" }, { "id": "validation", "label": "Input validation & errors" }, { "id": "idempotency", "label": "Idempotency & retries" }, { "id": "pagination", "label": "Pagination & filtering" }, { "id": "ratelimit", "label": "Rate limiting" } ], "default": ["contract", "auth", "validation"] },
+      { "id": "contractTest", "label": "Validate against the OpenAPI/schema spec", "type": "toggle", "default": true },
+      { "id": "ci", "label": "Run in CI with seeded data", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Test against staging; no third-party calls (stub them); suite under 3 min." }
+    ],
+    "template": "You are an SDET specializing in API testing. Design an automated test suite for \"{{apiName}}\" using {{tool}}.\n\n## API\n{{summary}}\n- Style: {{apiStyle}}\n- Coverage areas: {{coverage}}\n\n## Suite design\n- Structure tests by endpoint/resource with reusable auth, fixtures, and data setup/teardown.\n- Assert status, body schema, headers, and error envelopes — positive and negative paths.\n{{#if contractTest}}- Validate responses against the OpenAPI/schema spec so contract drift fails the suite.\n{{/if}}- Cover auth boundaries (no token, wrong scope, expired) and input validation edges.\n- Make tests independent and idempotent; no reliance on execution order or shared mutable state.\n{{#if ci}}- CI integration: seeded data, stubbed third parties, and clear failure output.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The runnable test project structure and specs for the key endpoints.\n2. Setup/run instructions and the CI configuration.\n3. A coverage note (endpoints x cases) and known gaps.\n\nFavor reliable, isolated tests; ask only if genuinely blocked."
+  },
+  {
+    "id": "test-strategy",
+    "label": "Test Strategy",
+    "description": "Define an org/product-level test strategy and quality approach",
+    "icon": "Compass",
+    "fields": [
+      { "id": "scopeName", "label": "Product / org scope", "type": "text", "required": true, "placeholder": "Acme platform engineering" },
+      { "id": "context", "label": "Context: product, teams, current state", "type": "textarea", "required": true, "placeholder": "Microservices + a web app; 4 squads; flaky e2e suite; slow release confidence." },
+      { "id": "objectives", "label": "Quality objectives & risks", "type": "textarea", "required": true, "placeholder": "Ship daily with confidence; reduce escaped defects; data-integrity is the top risk." },
+      { "id": "model", "label": "Testing model", "type": "select", "options": [ { "id": "pyramid", "label": "Test pyramid" }, { "id": "trophy", "label": "Testing trophy" }, { "id": "risk", "label": "Risk-based" }, { "id": "shiftleft", "label": "Shift-left + in-prod" } ], "required": true, "default": "pyramid" },
+      { "id": "pillars", "label": "Pillars to address", "type": "multi-select", "options": [ { "id": "levels", "label": "Test levels & ownership" }, { "id": "automation", "label": "Automation & CI gates" }, { "id": "environments", "label": "Environments & test data" }, { "id": "nonfunc", "label": "Performance & security" }, { "id": "flake", "label": "Flake & maintenance" }, { "id": "metrics", "label": "Quality metrics" } ], "default": ["levels", "automation", "environments", "metrics"] },
+      { "id": "shiftLeft", "label": "Emphasize shift-left & developer ownership", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Small QA team; can't add headcount; legacy services lack tests." }
+    ],
+    "template": "You are a head of quality engineering. Define a test strategy for \"{{scopeName}}\" using a {{model}} model.\n\n## Context\n{{context}}\n\n## Objectives & risks\n{{objectives}}\n- Pillars to address: {{pillars}}\n\n## Strategy to produce\n- A clear philosophy and the {{model}} rationale: what each test level owns and who is responsible.\n- How testing maps to risk so effort concentrates where failure cost is highest, not uniform coverage.\n- Automation and CI gating: what blocks a release vs. what runs async, and how flake is contained.\n- Environments, test data management, and how non-functional (perf/security) testing fits.\n{{#if shiftLeft}}- Shift-left: developer-owned tests, definition of done, and quality built in before QA.\n{{/if}}- Quality metrics (escaped defects, lead time, flake rate) and how they drive improvement.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The strategy document with levels, ownership, and gating.\n2. A current-state to target-state gap analysis with a phased plan.\n3. The metrics to track and the assumptions the strategy depends on.\n\nBe pragmatic for the stated constraints; ask only if genuinely blocked."
+  },
+  {
+    "id": "exploratory-charter",
+    "label": "Exploratory Test Charter",
+    "description": "Write session-based exploratory testing charters for an area",
+    "icon": "Search",
+    "fields": [
+      { "id": "areaName", "label": "Area / feature to explore", "type": "text", "required": true, "placeholder": "New bulk-export feature" },
+      { "id": "summary", "label": "What it does & why it's risky", "type": "textarea", "required": true, "placeholder": "Async export of filtered records to CSV/Excel; new job queue; touches permissions and large datasets." },
+      { "id": "mission", "label": "Testing mission / what to learn", "type": "textarea", "required": true, "placeholder": "Find ways the export produces wrong, incomplete, or unauthorized data under load." },
+      { "id": "approach", "label": "Exploration approach", "type": "select", "options": [ { "id": "sbtm", "label": "Session-based (SBTM)" }, { "id": "tours", "label": "Testing tours" }, { "id": "personas", "label": "Persona-based" }, { "id": "risk", "label": "Risk-driven" } ], "required": true, "default": "sbtm" },
+      { "id": "heuristics", "label": "Heuristics / oracles to apply", "type": "multi-select", "options": [ { "id": "boundaries", "label": "Boundaries & limits" }, { "id": "crud", "label": "CRUD / state" }, { "id": "interrupt", "label": "Interruptions & recovery" }, { "id": "permissions", "label": "Permissions / tenancy" }, { "id": "data", "label": "Data variety & volume" }, { "id": "consistency", "label": "Consistency / comparable products" } ], "default": ["boundaries", "permissions", "data"] },
+      { "id": "timebox", "label": "Session length", "type": "select", "options": [ { "id": "45", "label": "45 minutes" }, { "id": "60", "label": "60 minutes" }, { "id": "90", "label": "90 minutes" } ], "default": "60" },
+      { "id": "includeNotes", "label": "Include a session note / debrief template", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Staging only; synthetic data; no destructive actions on shared accounts." }
+    ],
+    "template": "You are an exploratory testing expert. Write {{approach}} charters to explore \"{{areaName}}\".\n\n## Area\n{{summary}}\n\n## Mission\n{{mission}}\n- Heuristics/oracles to apply: {{heuristics}}\n- Session length: {{timebox}} minutes\n\n## Charters to produce\n- A set of focused charters, each in the form \"Explore <target> with <resources> to discover <information>\".\n- For each: the specific risk it targets, ideas/heuristics to try, and the oracle (how you'll know it's wrong).\n- Sequence charters by risk and make each fit a single {{timebox}}-minute timebox.\n- Bias toward where the {{areaName}} change is most likely to break (boundaries, permissions, data variety).\n{{#if includeNotes}}- Provide a session note/debrief template (coverage, bugs, questions, time split).\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The ordered charter list with risk, ideas, and oracle per charter.\n2. The session note/debrief template.\n3. The highest-risk charter to run first and why, plus open questions.\n\nKeep charters specific and falsifiable, not vague; ask only if genuinely blocked."
   }
 ]

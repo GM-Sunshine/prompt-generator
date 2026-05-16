@@ -1,0 +1,170 @@
+[
+  {
+    "id": "positioning-statement",
+    "label": "Positioning Statement",
+    "description": "Craft a sharp market positioning statement for a brand.",
+    "icon": "Target",
+    "fields": [
+      { "id": "brandName", "label": "Brand / product name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "offering", "label": "What it is & does", "type": "textarea", "required": true, "placeholder": "An expense tool that auto-categorizes spend for small teams." },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "competitors", "label": "Main alternatives", "type": "textarea", "required": true, "placeholder": "Spreadsheets, Expensify, doing nothing." },
+      { "id": "differentiator", "label": "Key differentiator", "type": "textarea", "required": true, "placeholder": "Zero-setup categorization that actually learns." },
+      { "id": "category", "label": "Market category", "type": "text", "placeholder": "Spend management for small teams" },
+      { "id": "proofPoints", "label": "Proof points / evidence", "type": "textarea", "placeholder": "Saves 6 hrs/month; 4.8 rating; SOC 2." },
+      { "id": "frameworks", "label": "Include alternative framings", "type": "toggle", "default": true }
+    ],
+    "template": "You are a brand strategist. Craft a positioning statement for \"{{brandName}}\".\n\n## The offering\n{{offering}}\n\n## Audience\nTarget: {{audience}}.\n\n## Competitive context\nAlternatives: {{competitors}}\nKey differentiator: {{differentiator}}\n{{#if category}}Category we play in: {{category}}.\n{{/if}}{{#if proofPoints}}Proof: {{proofPoints}}.\n{{/if}}\n## Requirements\n- Deliver a tight classic positioning statement (for [audience] who [need], [brand] is the [category] that [benefit] because [reason to believe]).\n- Make the differentiator unmistakable and the benefit emotionally resonant, not feature-led.\n- Ensure it is defensible against the listed alternatives.\n{{#if frameworks}}- Provide 2 alternative framings (e.g. challenger vs category-leader) and when to use each.\n{{/if}}\n## Deliverables\n1. The primary positioning statement.\n2. A one-line short version for internal use.\n3. The strategic rationale behind the chosen angle.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "brand-naming",
+    "label": "Brand Naming",
+    "description": "Generate and evaluate brand or product name candidates.",
+    "icon": "Sparkles",
+    "fields": [
+      { "id": "whatItIs", "label": "What you're naming", "type": "textarea", "required": true, "placeholder": "A privacy-first password manager for families." },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "personality", "label": "Desired personality", "type": "text", "required": true, "placeholder": "Trustworthy, calm, a little playful" },
+      { "id": "styles", "label": "Name styles to explore", "type": "multi-select", "options": [ { "id": "real", "label": "Real words" }, { "id": "compound", "label": "Compound words" }, { "id": "coined", "label": "Invented / coined" }, { "id": "metaphor", "label": "Evocative / metaphor" }, { "id": "foreign", "label": "Foreign roots" } ], "default": ["compound", "coined", "metaphor"] },
+      { "id": "avoid", "label": "Words / associations to avoid", "type": "textarea", "placeholder": "Nothing techy-sounding; avoid 'secure/safe'." },
+      { "id": "count", "label": "Number of candidates", "type": "select", "options": [ { "id": "8", "label": "8" }, { "id": "12", "label": "12" }, { "id": "20", "label": "20" } ], "default": "12" },
+      { "id": "domainCheck", "label": "Consider domain/handle availability heuristics", "type": "toggle", "default": true }
+    ],
+    "template": "You are an expert brand namer. Generate names for the following.\n\n## What we're naming\n{{whatItIs}}\n\n## Direction\n- Audience: {{audience}}\n- Personality: {{personality}}\n- Styles to explore: {{styles}}\n{{#if avoid}}- Avoid: {{avoid}}.\n{{/if}}\n## Requirements\n- Produce {{count}} distinct candidates spread across the requested styles.\n- For each: the name, a one-line rationale, pronunciation if non-obvious, and tone fit.\n- Flag obvious risks (generic, hard to spell, negative connotations).\n{{#if domainCheck}}- Suggest realistic domain/handle strategies (exact, modifier, or alt TLD).\n{{/if}}- Then shortlist the top 3 with the reasoning for the ranking.\n\n## Deliverables\n1. The full candidate list with rationale.\n2. A top-3 shortlist and why.\n3. Recommended next validation steps (trademark, linguistic, audience test).\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "tagline-set",
+    "label": "Tagline Set",
+    "description": "Write a set of taglines and slogans for a brand.",
+    "icon": "Quote",
+    "fields": [
+      { "id": "brandName", "label": "Brand name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "essence", "label": "Brand essence & core promise", "type": "textarea", "required": true, "placeholder": "Effortless money clarity for busy small teams." },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "bold" },
+      { "id": "directions", "label": "Creative directions to cover", "type": "multi-select", "options": [ { "id": "benefit", "label": "Benefit-led" }, { "id": "emotional", "label": "Emotional" }, { "id": "playful", "label": "Playful / witty" }, { "id": "bold", "label": "Bold / declarative" }, { "id": "minimal", "label": "Minimal" } ], "default": ["benefit", "emotional", "bold"] },
+      { "id": "count", "label": "Taglines per direction", "type": "select", "options": [ { "id": "3", "label": "3" }, { "id": "5", "label": "5" } ], "default": "3" },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Under 5 words; works as an app store subtitle." }
+    ],
+    "template": "You are a senior copywriter. Write taglines for \"{{brandName}}\".\n\n## Brand essence\n{{essence}}\n\n## Direction\n- Audience: {{audience}}\n- Tone: {{tone}}\n- Creative directions: {{directions}}\n\n## Requirements\n- {{count}} taglines per creative direction, each distinct and non-generic.\n- Tight, memorable, and true to the core promise; no empty superlatives.\n- For each, a one-line note on the angle and where it works best.\n{{#if constraints}}- Constraints: {{constraints}}.\n{{/if}}- Then pick a single recommended hero tagline and justify it.\n\n## Deliverables\n1. The full set grouped by direction.\n2. The recommended hero tagline with rationale.\n3. Two backup options for different channels.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "voice-tone-guide",
+    "label": "Voice & Tone Guide",
+    "description": "Define a brand voice and tone guide writers can apply.",
+    "icon": "MessageSquare",
+    "fields": [
+      { "id": "brandName", "label": "Brand name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "personality", "label": "Brand personality", "type": "textarea", "required": true, "placeholder": "Confident expert who is warm and never condescending." },
+      { "id": "audience", "label": "Primary audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "baseTone", "label": "Baseline tone", "type": "select", "optionsRef": "tones", "default": "friendly" },
+      { "id": "principles", "label": "Voice principles to anchor on", "type": "textarea", "placeholder": "Clear over clever; human; specific; honest." },
+      { "id": "channels", "label": "Channels to cover", "type": "multi-select", "options": [ { "id": "product", "label": "Product UI" }, { "id": "marketing", "label": "Marketing" }, { "id": "support", "label": "Support" }, { "id": "social", "label": "Social" }, { "id": "docs", "label": "Docs" } ], "default": ["product", "marketing", "support"] },
+      { "id": "examples", "label": "Include do/don't rewrite examples", "type": "toggle", "default": true },
+      { "id": "toneShifts", "label": "Include situational tone shifts", "type": "toggle", "default": true }
+    ],
+    "template": "You are a brand voice strategist. Create a voice and tone guide for \"{{brandName}}\".\n\n## Personality\n{{personality}}\n\n## Context\n- Primary audience: {{audience}}\n- Baseline tone: {{baseTone}}\n{{#if principles}}- Voice principles to build on: {{principles}}.\n{{/if}}\n## The guide must include\n- A clear voice definition: who the brand sounds like and how, in plain terms.\n- 3-5 voice principles, each with a short explanation.\n- Concrete vocabulary, grammar, and formatting conventions (what we say / avoid).\n- Channel-specific guidance for: {{channels}}.\n{{#if toneShifts}}- How tone flexes by situation (e.g. errors, celebrations, sensitive moments).\n{{/if}}{{#if examples}}- Before/after rewrite examples that show the voice in action.\n{{/if}}\n## Deliverables\n1. The complete, usable voice and tone guide.\n2. A one-page quick-reference cheat sheet.\n3. Notes on rollout and how to keep it consistent.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "brand-story",
+    "label": "Brand Story",
+    "description": "Write a compelling origin and purpose narrative for a brand.",
+    "icon": "BookOpen",
+    "fields": [
+      { "id": "brandName", "label": "Brand name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "origin", "label": "Origin & founding insight", "type": "textarea", "required": true, "placeholder": "Founders kept losing money to surprise fees and built the fix." },
+      { "id": "mission", "label": "Mission & belief", "type": "textarea", "required": true, "placeholder": "Money clarity should be the default, not a luxury." },
+      { "id": "audience", "label": "Who it's for", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "inspirational" },
+      { "id": "format", "label": "Primary format", "type": "select", "options": [ { "id": "about", "label": "About-page narrative" }, { "id": "manifesto", "label": "Manifesto" }, { "id": "founder", "label": "Founder letter" }, { "id": "deck", "label": "Pitch/deck narrative" } ], "default": "about" },
+      { "id": "milestones", "label": "Milestones / proof to weave in", "type": "textarea", "placeholder": "10k customers, bootstrapped, first to do X." },
+      { "id": "shortVersion", "label": "Include a 2-sentence short version", "type": "toggle", "default": true }
+    ],
+    "template": "You are a brand storyteller. Write the brand story for \"{{brandName}}\".\n\n## Origin\n{{origin}}\n\n## Mission\n{{mission}}\n\n## Direction\n- Audience: {{audience}}\n- Tone: {{tone}}\n- Primary format: {{format}}\n{{#if milestones}}- Weave in (without bragging): {{milestones}}.\n{{/if}}\n## Requirements\n- Make the customer, not the company, the hero; the brand is the guide.\n- Anchor on a clear conflict and the change the brand makes possible.\n- Specific and human; no clichés, no hollow corporate language.\n{{#if shortVersion}}- Also provide a tight 2-sentence version for bios and intros.\n{{/if}}\n## Deliverables\n1. The full brand story in the chosen format.\n2. {{#if shortVersion}}The 2-sentence short version.{{else}}A one-paragraph condensed version.{{/if}}\n3. Notes on where and how to use each version.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "messaging-framework",
+    "label": "Messaging Framework",
+    "description": "Build a structured messaging framework with pillars and proof.",
+    "icon": "LayoutList",
+    "fields": [
+      { "id": "brandName", "label": "Brand / product name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "offering", "label": "What it does", "type": "textarea", "required": true, "placeholder": "Automated spend management for small teams." },
+      { "id": "audiences", "label": "Audience segments", "type": "textarea", "required": true, "placeholder": "Founders, ops leads, finance-curious solo owners." },
+      { "id": "valueProp", "label": "Core value proposition", "type": "textarea", "required": true, "placeholder": "See and control every dollar without spreadsheets." },
+      { "id": "pillars", "label": "Candidate message pillars", "type": "textarea", "placeholder": "Effortless setup, real visibility, built-in control." },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "objections", "label": "Common objections to counter", "type": "textarea", "placeholder": "'Too small to need this', 'switching is painful'." },
+      { "id": "perSegment", "label": "Tailor messaging per segment", "type": "toggle", "default": true }
+    ],
+    "template": "You are a product marketing strategist. Build a messaging framework for \"{{brandName}}\".\n\n## Offering\n{{offering}}\n\n## Audience segments\n{{audiences}}\n\n## Core value proposition\n{{valueProp}}\n{{#if pillars}}Candidate pillars to refine: {{pillars}}.\n{{/if}}\n## Requirements\n- A clear hierarchy: overarching value prop -> 3-4 message pillars -> proof points.\n- Each pillar: a headline message, supporting points, and concrete evidence.\n- Tone: {{tone}}; consistent, benefit-led, and free of jargon.\n{{#if perSegment}}- Tailored angle and emphasis per audience segment.\n{{/if}}{{#if objections}}- Reframes/responses to these objections: {{objections}}.\n{{/if}}- A house of messages that scales across channels without contradiction.\n\n## Deliverables\n1. The full messaging framework (value prop, pillars, proof).\n2. {{#if perSegment}}A per-segment messaging matrix.{{else}}A channel-application cheat sheet.{{/if}}\n3. Example headlines/blurbs derived from the framework.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "elevator-pitch",
+    "label": "Elevator Pitch",
+    "description": "Write tight elevator pitches for different contexts.",
+    "icon": "Rocket",
+    "fields": [
+      { "id": "brandName", "label": "Brand / company name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "whatItIs", "label": "What it is & the problem solved", "type": "textarea", "required": true, "placeholder": "Spend management that kills spreadsheet busywork for small teams." },
+      { "id": "audience", "label": "Who you're pitching to", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "goal", "label": "Pitch goal", "type": "select", "options": [ { "id": "invest", "label": "Investor interest" }, { "id": "customer", "label": "Customer interest" }, { "id": "hire", "label": "Recruiting talent" }, { "id": "partner", "label": "Partnership" } ], "default": "customer" },
+      { "id": "traction", "label": "Traction / credibility", "type": "textarea", "placeholder": "10k users, 20% MoM growth, bootstrapped." },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "confident" },
+      { "id": "lengths", "label": "Versions to produce", "type": "multi-select", "options": [ { "id": "oneline", "label": "One-liner" }, { "id": "thirty", "label": "30-second" }, { "id": "sixty", "label": "60-second" } ], "default": ["oneline", "thirty", "sixty"] },
+      { "id": "includeAsk", "label": "End with a clear ask", "type": "toggle", "default": true }
+    ],
+    "template": "You are a pitch coach and copywriter. Write elevator pitches for \"{{brandName}}\".\n\n## What it is\n{{whatItIs}}\n\n## Context\n- Pitching to: {{audience}}\n- Goal: {{goal}}\n- Tone: {{tone}}\n{{#if traction}}- Credibility to include: {{traction}}.\n{{/if}}\n## Requirements\n- Produce these versions: {{lengths}}.\n- Lead with the problem and the change you create, not features or jargon.\n- Make it concrete, specific, and easy to repeat verbatim.\n{{#if includeAsk}}- End each with a single, clear ask aligned to the goal.\n{{/if}}- The one-liner must work standalone in a bio or intro.\n\n## Deliverables\n1. Each requested pitch version.\n2. The recommended default version for this context.\n3. Delivery tips (emphasis, pacing, what to cut if rushed).\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "value-proposition",
+    "label": "Value Proposition",
+    "description": "Sharpen a customer-centric value proposition and variants.",
+    "icon": "Gem",
+    "fields": [
+      { "id": "brandName", "label": "Brand / product name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "audience", "label": "Target customer", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "jobToBeDone", "label": "Job to be done", "type": "textarea", "required": true, "placeholder": "Stay on top of team spending without becoming an accountant." },
+      { "id": "pains", "label": "Pains it removes", "type": "textarea", "required": true, "placeholder": "Manual tracking, surprise overspend, month-end scramble." },
+      { "id": "gains", "label": "Gains it creates", "type": "textarea", "required": true, "placeholder": "Real-time clarity, calm, hours saved." },
+      { "id": "differentiator", "label": "Why us over alternatives", "type": "textarea", "placeholder": "Zero-setup automation that actually learns." },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "bold" },
+      { "id": "variants", "label": "Provide channel variants (hero, ad, one-liner)", "type": "toggle", "default": true }
+    ],
+    "template": "You are a value proposition strategist. Sharpen the value proposition for \"{{brandName}}\".\n\n## Customer\nTarget: {{audience}}\nJob to be done: {{jobToBeDone}}\n\n## Value\n- Pains removed: {{pains}}\n- Gains created: {{gains}}\n{{#if differentiator}}- Why us vs alternatives: {{differentiator}}.\n{{/if}}\n## Requirements\n- A primary value proposition that maps pains/gains to the job to be done.\n- Customer-centric language and outcomes, not feature lists.\n- Tone: {{tone}}; specific, credible, and instantly clear.\n- Make the unique advantage obvious and hard to copy in words.\n{{#if variants}}- Channel variants: a website hero, a short ad line, and a one-liner.\n{{/if}}\n## Deliverables\n1. The primary value proposition with a short rationale.\n2. {{#if variants}}The channel variants.{{else}}One alternative angle for testing.{{/if}}\n3. Recommended ways to validate it with real customers.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "brand-architecture",
+    "label": "Brand Architecture",
+    "description": "Define how a portfolio of brands and products relate.",
+    "icon": "Network",
+    "fields": [
+      { "id": "companyName", "label": "Company / parent brand", "type": "text", "required": true, "placeholder": "Acme Inc." },
+      { "id": "portfolio", "label": "Products / sub-brands", "type": "textarea", "required": true, "placeholder": "Acme Pay, Acme Cards, Acme for Teams, Labs experiments." },
+      { "id": "situation", "label": "Current situation & tension", "type": "textarea", "required": true, "placeholder": "Confusing naming; unclear how products relate to the master brand." },
+      { "id": "model", "label": "Preferred model", "type": "select", "options": [ { "id": "branded", "label": "Branded house (master brand)" }, { "id": "house", "label": "House of brands" }, { "id": "endorsed", "label": "Endorsed brands" }, { "id": "hybrid", "label": "Hybrid" }, { "id": "open", "label": "Recommend the best fit" } ], "default": "open" },
+      { "id": "audiences", "label": "Distinct audiences served", "type": "textarea", "placeholder": "Consumers, SMBs, developers." },
+      { "id": "naming", "label": "Include a naming convention system", "type": "toggle", "default": true },
+      { "id": "migration", "label": "Include a transition/migration plan", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Keep flagship equity; minimize customer confusion." }
+    ],
+    "template": "You are a brand architecture strategist. Define the brand architecture for \"{{companyName}}\".\n\n## Portfolio\n{{portfolio}}\n\n## Situation & tension\n{{situation}}\n{{#if audiences}}Distinct audiences: {{audiences}}.\n{{/if}}\n## Requirements\n- Recommend a model{{#if model == \"open\"}} (branded house, house of brands, endorsed, or hybrid) with the reasoning{{else}}: {{model}}, justified against alternatives{{/if}}.\n- Define how each product relates to the parent and to each other (logos, naming, endorsement).\n{{#if naming}}- A naming convention system with rules and worked examples.\n{{/if}}{{#if migration}}- A phased transition plan that protects existing brand equity.\n{{/if}}- Clear governance: how new products get named and slotted in future.\n{{#if constraints}}- Constraints: {{constraints}}.\n{{/if}}\n## Deliverables\n1. The recommended architecture with a relationship map.\n2. {{#if naming}}The naming system and rules.{{else}}Naming guidance for new entries.{{/if}}\n3. {{#if migration}}The transition roadmap.{{else}}Key risks and mitigations.{{/if}}\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "rebrand-brief",
+    "label": "Rebrand Brief",
+    "description": "Write a strategic brief to guide a brand refresh or rebrand.",
+    "icon": "Palette",
+    "fields": [
+      { "id": "brandName", "label": "Current brand name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "why", "label": "Why rebrand now", "type": "textarea", "required": true, "placeholder": "Outgrown a niche identity; new audience and product scope." },
+      { "id": "scope", "label": "Scope of change", "type": "select", "options": [ { "id": "refresh", "label": "Visual refresh" }, { "id": "repositioning", "label": "Repositioning" }, { "id": "rename", "label": "Rename" }, { "id": "full", "label": "Full rebrand" } ], "default": "repositioning" },
+      { "id": "audience", "label": "Target audience (new or evolved)", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "keepEquity", "label": "Equity to preserve", "type": "textarea", "required": true, "placeholder": "Trusted reputation, recognizable color, loyal core users." },
+      { "id": "risks", "label": "Risks & sensitivities", "type": "textarea", "placeholder": "Confusing existing customers; SEO/domain impact." },
+      { "id": "tone", "label": "Desired new tone", "type": "select", "optionsRef": "tones", "default": "confident" },
+      { "id": "successMetrics", "label": "Define success metrics", "type": "toggle", "default": true }
+    ],
+    "template": "You are a brand strategy lead. Write a rebrand brief for \"{{brandName}}\".\n\n## Why now\n{{why}}\n\n## Scope & direction\n- Scope of change: {{scope}}\n- Target audience: {{audience}}\n- Desired new tone: {{tone}}\n\n## Constraints\n- Equity to preserve: {{keepEquity}}\n{{#if risks}}- Risks/sensitivities to manage: {{risks}}.\n{{/if}}\n## The brief must cover\n- The strategic problem and the change the rebrand must achieve.\n- Objectives, audience, and what is explicitly in and out of scope.\n- Positioning shift: from where, to where, and why it's credible.\n- Guardrails: what must not change, and migration considerations.\n{{#if successMetrics}}- Success metrics and how they'll be measured post-launch.\n{{/if}}\n## Deliverables\n1. The complete rebrand brief.\n2. A phased rollout approach.\n3. Open questions, each with a recommended default.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  }
+]

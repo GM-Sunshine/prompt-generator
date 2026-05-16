@@ -117,5 +117,56 @@
       { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Keep intro text under 150 chars before the 'see more' fold; no hype; cite sources." }
     ],
     "template": "You are a B2B demand-generation copywriter who writes LinkedIn ads that respect a busy professional's time. Write {{adFormat}} ad copy for \"{{product}}\".\n\n## Offer & proof\n{{details}}\n\n## Targeting\n{{#if audience}}- Persona: {{audience}}\n{{/if}}{{#if industry}}- Segment: {{industry}}\n{{/if}}- Funnel stage: {{funnel}}\n- Tone: {{tone}}, peer-to-peer, credible.\n\n## What to produce\n- 3 intro text variants (front-load the value within the first ~150 characters before the fold).\n- 3 headline options (<=70 chars) and a supporting description line.\n{{#if adFormat == \"carousel\"}}- A 5-card carousel outline: one idea per card with a headline and one line of body, ending on a CTA card.\n{{/if}}{{#if adFormat == \"message\"}}- A conversation/message ad: opening line, body, and CTA button text, written to feel 1:1 not broadcast.\n{{/if}}- A CTA matched to the {{funnel}} stage (no \"Buy now\" at awareness).\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The full ad copy set, labeled by component.\n2. A note on the strongest hook and why it fits this persona.\n3. One follow-up ad idea for the next funnel stage.\n\nMake confident calls; ask only if the offer or persona is unclear."
+  },
+  {
+    "id": "youtube-ad-script",
+    "label": "YouTube Ad Script",
+    "description": "Skippable/in-stream video ad script built to survive the skip",
+    "icon": "Youtube",
+    "fields": [
+      { "id": "product", "label": "Product or service", "type": "text", "required": true, "placeholder": "AI meeting notetaker" },
+      { "id": "details", "label": "Offer, benefit & proof", "type": "textarea", "required": true, "placeholder": "Auto-records and summarizes meetings. Saves 5 hrs/week. 4.8/5 from 12k users. Free trial." },
+      { "id": "adFormat", "label": "Ad format", "type": "select", "options": [ { "id": "skippable", "label": "Skippable in-stream" }, { "id": "nonskippable", "label": "Non-skippable (15s)" }, { "id": "bumper", "label": "Bumper (6s)" }, { "id": "instream", "label": "In-feed / discovery" } ], "default": "skippable" },
+      { "id": "length", "label": "Target length", "type": "select", "options": [ { "id": "6", "label": "6 seconds" }, { "id": "15", "label": "15 seconds" }, { "id": "30", "label": "30 seconds" }, { "id": "60", "label": "60 seconds" } ], "default": "30" },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "objective", "label": "Campaign objective", "type": "select", "options": [ { "id": "conversions", "label": "Conversions" }, { "id": "leads", "label": "Lead generation" }, { "id": "traffic", "label": "Traffic / views" }, { "id": "awareness", "label": "Awareness" } ], "default": "conversions" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Brand + benefit must land in first 5s; no unverified claims; mention free trial." }
+    ],
+    "template": "You are a direct-response video ad scriptwriter who knows the Skip button is the real competition. Write a {{length}} {{adFormat}} YouTube ad script for \"{{product}}\".\n\n## Offer & proof\n{{details}}\n\n## Setup\n{{#if audience}}- Audience: {{audience}}\n{{/if}}- Objective: {{objective}}\n- Tone: {{tone}}\n\n## Script requirements\n- Hook the viewer and land the brand + core benefit within the first 5 seconds (before the skip is allowed); never slow-build.\n{{#if adFormat == \"Bumper (6s)\"}}- One single, memorable idea only; one line, one visual, one brand mention.\n{{/if}}- Structure the rest as timed beats fitting {{length}} of natural pace: problem -> payoff -> proof -> CTA.\n- Make every line earn the next second of attention; show the product in use, don't just describe it.\n- End with one explicit, objective-aligned CTA and an on-screen end card.\n- Provide a parallel visual/B-roll direction per beat alongside the spoken line.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The script as a timestamped beat sheet (spoken line + on-screen visual + text).\n2. 3 alternative 5-second hook openers.\n3. One note on what to A/B test first and why.\n\nProceed with well-reasoned defaults; ask only if the offer is ambiguous."
+  },
+  {
+    "id": "retargeting-copy",
+    "label": "Retargeting Ad Copy",
+    "description": "Warm-audience ad copy by funnel drop-off stage",
+    "icon": "Crosshair",
+    "fields": [
+      { "id": "product", "label": "Product or service", "type": "text", "required": true, "placeholder": "Project management software for agencies" },
+      { "id": "details", "label": "Offer, value & proof", "type": "textarea", "required": true, "placeholder": "14-day free trial, no card. 2,000+ agencies. Time tracking + invoicing built in." },
+      { "id": "dropOff", "label": "Where they dropped off", "type": "select", "options": [ { "id": "visited", "label": "Visited site, no action" }, { "id": "viewedproduct", "label": "Viewed product / pricing" }, { "id": "addedcart", "label": "Added to cart / started trial" }, { "id": "abandoned", "label": "Abandoned checkout / signup" }, { "id": "churned", "label": "Past customer / churned" } ], "default": "viewedproduct" },
+      { "id": "channel", "label": "Channel", "type": "select", "options": [ { "id": "meta", "label": "Meta" }, { "id": "google", "label": "Google Display" }, { "id": "youtube", "label": "YouTube" }, { "id": "linkedin", "label": "LinkedIn" } ], "default": "meta" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "objection", "label": "Likely objection / hesitation", "type": "textarea", "placeholder": "Worried about migration effort; comparing with a cheaper competitor; needs team buy-in." },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "persuasive" },
+      { "id": "incentive", "label": "Include an incentive / urgency push", "type": "toggle", "default": false }
+    ],
+    "template": "You are a performance copywriter who specializes in warm-audience retargeting. Write retargeting ad copy for \"{{product}}\" aimed at people who {{dropOff}}.\n\n## Offer & proof\n{{details}}\n\n## Setup\n{{#if audience}}- Audience: {{audience}}\n{{/if}}- Channel: {{channel}}\n- Tone: {{tone}}\n{{#if objection}}- Likely objection to dissolve: {{objection}}\n{{/if}}\n## What to produce\n- Acknowledge they already know us; do not re-pitch from scratch. Speak to their specific stage ({{dropOff}}) and move them one step forward.\n- Produce 3 distinct ad variants, each on a different angle: objection-crusher, proof/reassurance, and a clear next-step nudge.\n- Each variant: a recognition hook (first line), primary text, headline, and CTA, in {{channel}}'s native format and limits.\n{{#if incentive}}- Layer in an honest incentive or gentle urgency in one variant; no fake scarcity.\n{{else}}- Win on relevance and reassurance, not discounts or fake urgency.\n{{/if}}- Avoid creative fatigue: keep variants visibly distinct, not reworded copies.\n\n## Deliverables\n1. The 3 labeled ad variants (hook, primary text, headline, CTA).\n2. 4 standalone hook lines for rapid testing.\n3. A note on which variant to test first for this drop-off stage and why.\n\nMake confident creative calls; ask only if the offer or drop-off context is unclear."
+  },
+  {
+    "id": "display-ad-copy",
+    "label": "Display Banner Copy",
+    "description": "Tight headline/body/CTA sets for display banner sizes",
+    "icon": "Image",
+    "fields": [
+      { "id": "product", "label": "Product or service", "type": "text", "required": true, "placeholder": "Budgeting app for freelancers" },
+      { "id": "details", "label": "Offer & single key benefit", "type": "textarea", "required": true, "placeholder": "Auto-set aside taxes from every invoice. Free for 3 months. Built for freelancers." },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "campaignStage", "label": "Funnel stage", "type": "select", "options": [ { "id": "prospecting", "label": "Prospecting (cold)" }, { "id": "retargeting", "label": "Retargeting (warm)" }, { "id": "promo", "label": "Promo / offer push" } ], "default": "prospecting" },
+      { "id": "sizes", "label": "Banner sizes to cover", "type": "multi-select", "options": [ { "id": "leaderboard", "label": "Leaderboard 728x90" }, { "id": "mrec", "label": "Medium rectangle 300x250" }, { "id": "skyscraper", "label": "Skyscraper 160x600" }, { "id": "mobile", "label": "Mobile banner 320x50" }, { "id": "square", "label": "Square 250x250" } ], "default": ["leaderboard", "mrec", "mobile"] },
+      { "id": "cta", "label": "Primary CTA", "type": "select", "options": [ { "id": "trial", "label": "Start free trial" }, { "id": "shop", "label": "Shop now" }, { "id": "learn", "label": "Learn more" }, { "id": "signup", "label": "Sign up free" }, { "id": "quote", "label": "Get a quote" } ], "default": "trial" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "persuasive" },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Headline <=25 chars for small sizes; no unverified claims; keep one CTA word." }
+    ],
+    "template": "You are a display advertising copywriter who makes a single message land in a glance. Write banner copy for \"{{product}}\".\n\n## Offer & key benefit\n{{details}}\n\n## Setup\n{{#if audience}}- Audience: {{audience}}\n{{/if}}- Funnel stage: {{campaignStage}}\n- Banner sizes to cover: {{sizes}}\n- Primary CTA: {{cta}}\n- Tone: {{tone}}\n\n## What to produce\n- One core message, then per-size copy sets sized to the format: a punchy headline, an optional one-line subhead/body, and the CTA button text.\n- Smaller sizes get fewer words: lead with the single strongest benefit; the largest sizes may add a supporting line. Never cram.\n- Match the {{campaignStage}} stage (cold = clear value + curiosity; retargeting = recognition + reassurance; promo = the offer up front).\n{{#each sizes}}- Tailor a set for: {{this}}\n{{/each}}\n- Keep claims provable and the CTA action-led and consistent.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The per-size copy sets, each labeled with its banner size and character counts.\n2. 3 alternative headline lines for the medium rectangle to A/B test.\n3. One note on the strongest angle for this funnel stage.\n\nProceed with well-reasoned defaults; ask only if the offer is ambiguous."
   }
 ]

@@ -115,5 +115,58 @@
       { "id": "emoji", "label": "Allow emoji", "type": "toggle", "default": false }
     ],
     "template": "You are an email copywriter who lives and dies by open rates. Generate a subject-line test set for a {{emailType}} email.\n\n## Email purpose\n{{emailPurpose}}\n\n- Audience: {{audience}}\n- Tone: {{tone}}\n- Angles to cover: {{angles}}\n\n## Requirements\n- Write {{count}} subject lines spread deliberately across the requested angles (label each line with its angle).\n- Keep them mostly under ~50 characters / mobile-safe; pair each with a complementary preheader (don't repeat the subject).\n- Avoid spam-trigger words and ALL CAPS; no clickbait that the email can't pay off.\n{{#if emoji}}- Emoji allowed where it genuinely adds clarity or emotion; never more than one, never decorative.\n{{else}}- No emoji.\n{{/if}}- Ensure variety in length and structure so a real A/B/n test is meaningful.\n\n## Deliverables\n1. The numbered subject + preheader pairs, each tagged with its angle and character count.\n2. A recommended top 3 to test first, with a one-line rationale each.\n3. One note on what a win on each would tell you about the audience.\n\nMake confident copy choices; only ask if the email's core promise is unclear."
+  },
+  {
+    "id": "abandoned-cart-email",
+    "label": "Abandoned Cart Sequence",
+    "description": "Cart-recovery email series that wins back the sale",
+    "icon": "ShoppingCart",
+    "fields": [
+      { "id": "brand", "label": "Brand / store", "type": "text", "required": true, "placeholder": "Acme Outdoors" },
+      { "id": "context", "label": "Product, AOV & likely drop-off reason", "type": "textarea", "required": true, "placeholder": "DTC hiking gear, ~$120 AOV. Most carts abandon at shipping cost reveal or to comparison-shop." },
+      { "id": "emailCount", "label": "Number of emails", "type": "select", "options": [ { "id": "two", "label": "2" }, { "id": "three", "label": "3" }, { "id": "four", "label": "4" } ], "default": "three" },
+      { "id": "incentive", "label": "Incentive policy", "type": "select", "options": [ { "id": "none", "label": "No discount (value/urgency only)" }, { "id": "late", "label": "Discount only in final email" }, { "id": "tiered", "label": "Escalating incentive" }, { "id": "shipping", "label": "Free shipping offer" } ], "default": "late" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "objections", "label": "Common objections to handle", "type": "textarea", "placeholder": "Shipping cost, sizing uncertainty, returns policy, price vs competitor" },
+      { "id": "dynamic", "label": "Reference the abandoned items dynamically", "type": "toggle", "default": true }
+    ],
+    "template": "You are a lifecycle email strategist specializing in ecommerce cart recovery. Write a {{emailCount}}-email abandoned-cart sequence for \"{{brand}}\".\n\n## Context\n{{context}}\n\n- Audience: {{audience}}\n- Tone: {{tone}}\n- Incentive policy: {{incentive}}\n{{#if objections}}- Objections to overcome: {{objections}}\n{{/if}}\n## Requirements\n- Design the sequence arc: reminder -> objection handling / reassurance -> final nudge, each email with one job and a clear reason to act now.\n- For each email give: send timing from abandonment, goal, 2 subject-line options + preheader, full body copy, and one frictionless CTA back to the cart.\n{{#if dynamic}}- Reference the abandoned items dynamically (name, image, price) and reassure on the likely drop-off reason.\n{{/if}}{{#if incentive == \"No discount (value/urgency only)\"}}- Do not discount; recover with value, trust signals, and gentle urgency instead.\n{{/if}}- Use honest urgency and social proof; no fake countdowns or dark patterns.\n\n## Deliverables\n1. A sequence map (email, timing, goal, CTA).\n2. Full copy for every email with subject + preheader options.\n3. The recovery KPI to track and one A/B test to run.\n\nMake reasoned assumptions about timing and catalog details, label them, and proceed; ask only if blocked."
+  },
+  {
+    "id": "win-back-campaign",
+    "label": "Win-Back Campaign",
+    "description": "Reactivation emails to recover lapsed or churned buyers",
+    "icon": "RotateCcw",
+    "fields": [
+      { "id": "brand", "label": "Brand / product", "type": "text", "required": true, "placeholder": "Acme Coffee Club" },
+      { "id": "context", "label": "Who lapsed & why (if known)", "type": "textarea", "required": true, "placeholder": "Subscription customers who canceled after 3 months; cited price and too much coffee piling up." },
+      { "id": "segment", "label": "Segment", "type": "select", "options": [ { "id": "lapsed", "label": "Lapsed repeat buyers" }, { "id": "canceled", "label": "Canceled subscribers" }, { "id": "onetime", "label": "One-time buyers, no repeat" }, { "id": "vip", "label": "Former VIP / high-value" } ], "default": "canceled" },
+      { "id": "emailCount", "label": "Number of emails", "type": "select", "options": [ { "id": "two", "label": "2" }, { "id": "three", "label": "3" }, { "id": "four", "label": "4" } ], "default": "three" },
+      { "id": "offer", "label": "Win-back offer / hook", "type": "text", "placeholder": "Pause-instead-of-cancel, 30% off return order, or what's new since they left" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "customers" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "empathetic" },
+      { "id": "feedback", "label": "Include a 'tell us why' feedback ask", "type": "toggle", "default": true },
+      { "id": "sunset", "label": "Include a final sunset email", "type": "toggle", "default": true }
+    ],
+    "template": "You are a retention marketer who recovers revenue without begging. Create a {{emailCount}}-email win-back campaign for \"{{brand}}\" targeting the {{segment}} segment.\n\n## Context\n{{context}}\n\n- Audience: {{audience}}\n- Tone: {{tone}}\n{{#if offer}}- Win-back offer/hook: {{offer}}\n{{/if}}\n## Requirements\n- Lead with the value they're missing or what's changed since they left; never guilt-trip.\n- Vary angle across emails: we miss you / here's what's new -> a tailored reason to return -> a low-friction win or offer.\n- For each email: timing, objective, 2 subject-line options + preheader, body, and one effortless CTA.\n{{#if feedback}}- Include a short 'tell us why you left' ask in one email and explain how the answer routes a follow-up.\n{{/if}}{{#if sunset}}- End with a respectful sunset email that asks for a final decision and protects deliverability (downgrade frequency or clean unsubscribe).\n{{/if}}- Keep it short, human, and free of fake urgency or dark patterns.\n\n## Deliverables\n1. The campaign map (email, timing, angle, CTA).\n2. Full copy with subject + preheader options.\n3. Suppression/exit logic and the metric that defines a win.\n\nMake sensible assumptions about the segment, label them, and proceed; ask only if blocked."
+  },
+  {
+    "id": "event-invite",
+    "label": "Event Invitation Email",
+    "description": "Invite and reminder emails that drive event signups",
+    "icon": "CalendarCheck",
+    "fields": [
+      { "id": "eventName", "label": "Event name", "type": "text", "required": true, "placeholder": "The 2026 Activation Summit" },
+      { "id": "details", "label": "Event details & value", "type": "textarea", "required": true, "placeholder": "Free 60-min webinar, May 28, 11am ET. Teardown of 5 real onboarding flows + live Q&A." },
+      { "id": "eventType", "label": "Event type", "type": "select", "options": [ { "id": "webinar", "label": "Webinar / online" }, { "id": "conference", "label": "Conference / in-person" }, { "id": "workshop", "label": "Workshop / training" }, { "id": "launch", "label": "Launch / demo event" }, { "id": "networking", "label": "Networking / meetup" } ], "default": "webinar" },
+      { "id": "emailCount", "label": "Emails in the series", "type": "select", "options": [ { "id": "one", "label": "Invite only" }, { "id": "three", "label": "Invite + 2 reminders" }, { "id": "four", "label": "Invite + 3 touches" } ], "default": "three" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "cta", "label": "Primary CTA", "type": "text", "placeholder": "Save my seat" },
+      { "id": "calendar", "label": "Include add-to-calendar & logistics block", "type": "toggle", "default": true },
+      { "id": "postEvent", "label": "Include a post-event follow-up email", "type": "toggle", "default": false }
+    ],
+    "template": "You are a lifecycle email copywriter who fills events without hype. Write the invitation series for \"{{eventName}}\".\n\n## Event\n{{details}}\n\n- Event type: {{eventType}}\n- Series: {{emailCount}}\n- Audience: {{audience}}\n- Tone: {{tone}}\n{{#if cta}}- Primary CTA: {{cta}}\n{{/if}}\n## Requirements\n- Lead with the attendee outcome (what they'll be able to do after), not the agenda; make the value and the why-now obvious.\n- For each email give: timing relative to the event, goal, 2 subject-line options + preheader, body, and one clear registration CTA.\n- Reminders must add a new reason or remove a friction (speaker tease, agenda highlight, last-chance), never just 'reminder'.\n{{#if calendar}}- Include a clear logistics block (date, time + timezone, duration, join/access detail) and an add-to-calendar prompt.\n{{/if}}{{#if postEvent}}- Add a post-event follow-up: recording/next step for attendees and a separate path for no-shows.\n{{/if}}- Keep it tight and scannable; respect the reader's time.\n\n## Deliverables\n1. The series map (email, timing, goal, CTA).\n2. Full copy for every email with subject + preheader options.\n3. The registration/attendance metric to optimize and one A/B test idea.\n\nMake reasoned assumptions about timing where unstated, label them, and proceed; ask only if blocked."
   }
 ]

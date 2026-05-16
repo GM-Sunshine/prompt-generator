@@ -113,5 +113,275 @@
       { "id": "escalation", "label": "Include escalation criteria", "type": "toggle", "default": true }
     ],
     "template": "You are a support enablement engineer who writes troubleshooting guides that resolve issues fast and consistently. Create a {{format}} guide for: \"{{problem}}\" in {{product}}.\n\n## Known causes & fixes\n{{causes}}\n\n## Inputs\n- Audience: {{audience}}\n{{#if diagnostics}}- Diagnostic checks available: {{diagnostics}}\n{{/if}}- Tone: {{tone}}, precise, imperative.\n\n## Requirements\n- Start with a 30-second triage: the 2-3 fastest checks that resolve the most cases.\n- Order causes from most to least likely; for each give: how to confirm it, the fix, and how to verify it's resolved.\n{{#if format == \"tree\"}}- Express the flow as clear yes/no branches a reader can follow without backtracking.\n{{/if}}{{#if audience == \"both\"}}- Mark internal-only diagnostic steps distinctly from customer-safe steps.\n{{/if}}{{#if escalation}}- Define explicit escalation criteria: exactly when to stop self-serve and hand off, and what info to capture first.\n{{/if}}\n## Deliverables\n1. The complete guide in the chosen format.\n2. A one-line summary of the single most common root cause.\n3. A short list of data to collect before escalating.\n\nProceed with well-reasoned defaults; ask only if the symptom is ambiguous."
+  },
+  {
+    "id": "outage-comms",
+    "label": "Outage Communication",
+    "description": "Clear, calm incident status updates for affected customers.",
+    "icon": "TriangleAlert",
+    "fields": [
+      {
+        "id": "service",
+        "label": "Affected service / product",
+        "type": "text",
+        "required": true,
+        "placeholder": "API & dashboard"
+      },
+      {
+        "id": "impact",
+        "label": "What's the impact",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Customers cannot log in; API returns 503 for ~30% of requests."
+      },
+      {
+        "id": "stage",
+        "label": "Incident stage",
+        "type": "select",
+        "options": [
+          {
+            "id": "investigating",
+            "label": "Investigating"
+          },
+          {
+            "id": "identified",
+            "label": "Cause identified"
+          },
+          {
+            "id": "monitoring",
+            "label": "Fix deployed, monitoring"
+          },
+          {
+            "id": "resolved",
+            "label": "Resolved / postmortem"
+          }
+        ],
+        "default": "investigating",
+        "required": true
+      },
+      {
+        "id": "startTime",
+        "label": "When it started",
+        "type": "text",
+        "placeholder": "14:05 UTC, 16 May"
+      },
+      {
+        "id": "channel",
+        "label": "Channel",
+        "type": "select",
+        "options": [
+          {
+            "id": "status",
+            "label": "Status page"
+          },
+          {
+            "id": "email",
+            "label": "Customer email"
+          },
+          {
+            "id": "inapp",
+            "label": "In-app banner"
+          }
+        ],
+        "default": "status"
+      },
+      {
+        "id": "tone",
+        "label": "Tone",
+        "type": "select",
+        "optionsRef": "tones",
+        "default": "empathetic"
+      },
+      {
+        "id": "nextUpdate",
+        "label": "Next update commitment",
+        "type": "text",
+        "placeholder": "Within 30 minutes"
+      },
+      {
+        "id": "ownAccountability",
+        "label": "Acknowledge accountability",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a senior incident communications lead. Write an outage update for {{service}} at the \"{{stage}}\" stage, for the {{channel}}.\n\n## Impact\n{{impact}}\n{{#if startTime}}Incident start: {{startTime}}.\n{{/if}}\n## Writing rules\n- Tone: {{tone}}. Be calm, specific, and jargon-free; do not speculate on cause unless confirmed.\n- Lead with what customers can/can't do right now and any workaround.\n{{#if ownAccountability}}- Take clear accountability without over-apologizing or assigning blame.\n{{/if}}{{#if stage == \"resolved\"}}- Summarize root cause, the fix, and concrete prevention steps.\n{{else}}{{#if nextUpdate}}- State the next update commitment: {{nextUpdate}}.\n{{else}}- Commit to a specific time for the next update.\n{{/if}}{{/if}}- No internal blame, no vague \"some users may be affected\" hedging.\n\n## Deliverables\n1. The customer-facing update for {{channel}}.\n2. A 1-2 sentence short version for an in-app/status banner.\n{{#if stage == \"resolved\"}}3. A brief internal postmortem outline.\n{{else}}3. A drafted next-update template to fill in later.\n{{/if}}\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "refund-response",
+    "label": "Refund Request Response",
+    "description": "Fair, policy-aligned reply to a customer refund request.",
+    "icon": "BadgeDollarSign",
+    "fields": [
+      {
+        "id": "customerName",
+        "label": "Customer name",
+        "type": "text",
+        "required": true,
+        "placeholder": "Sam Okafor"
+      },
+      {
+        "id": "request",
+        "label": "Refund request details",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Wants a full refund on annual plan billed 3 weeks ago; barely used it."
+      },
+      {
+        "id": "policy",
+        "label": "Relevant refund policy",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Pro-rated refunds within 30 days; no refunds after 30 days."
+      },
+      {
+        "id": "decision",
+        "label": "Decision",
+        "type": "select",
+        "options": [
+          {
+            "id": "approve",
+            "label": "Approve full refund"
+          },
+          {
+            "id": "partial",
+            "label": "Approve partial / credit"
+          },
+          {
+            "id": "deny",
+            "label": "Deny per policy"
+          },
+          {
+            "id": "retain",
+            "label": "Offer retention alternative"
+          }
+        ],
+        "default": "partial",
+        "required": true
+      },
+      {
+        "id": "sentiment",
+        "label": "Customer sentiment",
+        "type": "select",
+        "options": [
+          {
+            "id": "calm",
+            "label": "Calm"
+          },
+          {
+            "id": "frustrated",
+            "label": "Frustrated"
+          },
+          {
+            "id": "angry",
+            "label": "Angry / threatening churn"
+          }
+        ],
+        "default": "frustrated"
+      },
+      {
+        "id": "tone",
+        "label": "Tone",
+        "type": "select",
+        "optionsRef": "tones",
+        "default": "empathetic"
+      },
+      {
+        "id": "offerAlternative",
+        "label": "Offer an alternative if denying",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are an experienced customer support lead handling money matters with care. Write a reply to {{customerName}} about their refund request. Decision: {{decision}}.\n\n## Request\n{{request}}\n\n## Policy\n{{policy}}\n\n## Writing rules\n- Tone: {{tone}}; the customer is {{sentiment}} — acknowledge that first.\n- Be transparent about the decision and the exact reason, citing the policy plainly.\n{{#if decision == \"approve\"}}- Confirm amount, method, and expected timeline; make it effortless.\n{{/if}}{{#if decision == \"partial\"}}- Explain the proration/credit math clearly so it feels fair.\n{{/if}}{{#if decision == \"deny\"}}- Decline respectfully without sounding rigid or scripted.\n{{#if offerAlternative}}- Offer a concrete goodwill alternative (credit, pause, downgrade).\n{{/if}}{{/if}}- No hidden conditions, no guilt, no blaming the customer.\n\n## Deliverables\n1. The customer reply, ready to send.\n2. A one-line internal note logging the decision and rationale.\n3. A firmer and a warmer variant of the key paragraph.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "feature-request-triage",
+    "label": "Feature Request Triage",
+    "description": "Structured triage of an inbound feature request with a customer reply.",
+    "icon": "ListChecks",
+    "fields": [
+      {
+        "id": "productArea",
+        "label": "Product area / component",
+        "type": "text",
+        "required": true,
+        "placeholder": "Contacts / data import"
+      },
+      {
+        "id": "request",
+        "label": "Feature request",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Customer wants bulk CSV import for contacts with field mapping."
+      },
+      {
+        "id": "customerContext",
+        "label": "Customer & business context",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Enterprise account, $90k ARR, renewal in Q3, 3rd customer to ask."
+      },
+      {
+        "id": "currentState",
+        "label": "Current product behavior / workaround",
+        "type": "textarea",
+        "placeholder": "Only single-record add via UI; API exists but undocumented."
+      },
+      {
+        "id": "priority",
+        "label": "Suggested priority",
+        "type": "select",
+        "options": [
+          {
+            "id": "now",
+            "label": "Now / urgent"
+          },
+          {
+            "id": "next",
+            "label": "Next quarter"
+          },
+          {
+            "id": "later",
+            "label": "Backlog / later"
+          },
+          {
+            "id": "wontdo",
+            "label": "Won't do"
+          }
+        ],
+        "default": "next"
+      },
+      {
+        "id": "audience",
+        "label": "Triage output audience",
+        "type": "select",
+        "options": [
+          {
+            "id": "product",
+            "label": "Product team"
+          },
+          {
+            "id": "both",
+            "label": "Product team + customer reply"
+          }
+        ],
+        "default": "both"
+      },
+      {
+        "id": "tone",
+        "label": "Customer reply tone",
+        "type": "select",
+        "optionsRef": "tones",
+        "default": "professional"
+      },
+      {
+        "id": "noCommit",
+        "label": "Avoid committing to dates publicly",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a senior support-to-product liaison. Triage this feature request and prepare outputs for the {{audience}}.\n\n## Product area\n{{productArea}}\n\n## Request\n{{request}}\n\n## Context\n{{customerContext}}\n\n{{#if currentState}}## Current behavior\n{{currentState}}\n\n{{/if}}## Triage rules\n- Restate the underlying job-to-be-done, not just the asked-for solution.\n- Assess impact, frequency, segment, and revenue signal; suggested priority: {{priority}}.\n- Note any existing workaround and gaps.\n- Flag missing info that product would need to scope it.\n\n## Deliverables\n1. A structured product-team summary: problem, impact, priority rationale, open questions.\n{{#if audience == \"both\"}}2. A customer reply (tone: {{tone}}) that acknowledges the need honestly{{#if noCommit}} without promising specific dates{{/if}}.\n{{else}}2. A suggested internal next step and owner.\n{{/if}}3. One clarifying question to ask the customer if needed.\n\nProceed with well-reasoned defaults; ask only if blocked."
   }
 ]

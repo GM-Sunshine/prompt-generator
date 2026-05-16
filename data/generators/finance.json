@@ -111,5 +111,251 @@
       { "id": "runway", "label": "Calculate runway & low-cash alerts", "type": "toggle", "default": true }
     ],
     "template": "You are a treasury and FP&A specialist. Build a {{horizon}} {{method}} cash flow forecast for {{company}}.\n\n## Cash position & drivers\n{{position}}\n{{#if lumpy}}\n## Known lumpy movements\n{{lumpy}}\n{{/if}}\n## Forecast construction\n- Period-by-period opening cash, inflows by source, outflows by category, net movement, and closing cash.\n- State the timing assumptions (collection lag, payment terms, payroll dates) explicitly.\n{{#if runway}}- Calculate runway and flag every period where cash falls below a stated minimum buffer.\n{{/if}}{{#if scenarios}}- Run stress scenarios: {{scenarios}}. Show the cash impact and the earliest cash-risk date in each.\n{{/if}}\n## Deliverables\n1. The base-case cash flow table by period with closing balances.\n2. Scenario results and the binding constraint in each.\n3. Recommended actions to protect liquidity, ranked by speed and impact.\n\nMake timing assumptions explicit and conservative. Proceed with reasoned defaults where inputs are missing; flag the cash-critical unknowns rather than guessing silently."
+  },
+  {
+    "id": "unit-economics",
+    "label": "Unit Economics Analysis",
+    "description": "CAC, LTV, payback and contribution-margin analysis with insights.",
+    "icon": "Calculator",
+    "fields": [
+      {
+        "id": "business",
+        "label": "Business & model",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "B2B SaaS, $99/mo seat-based, mostly self-serve with some sales-assist."
+      },
+      {
+        "id": "unitDef",
+        "label": "Definition of a 'unit'",
+        "type": "text",
+        "required": true,
+        "placeholder": "One paying customer account"
+      },
+      {
+        "id": "inputs",
+        "label": "Known metrics & costs",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "CAC ~$1,200; ARPU $140/mo; gross margin 82%; monthly logo churn 2.5%."
+      },
+      {
+        "id": "horizon",
+        "label": "Analysis horizon",
+        "type": "select",
+        "options": [
+          {
+            "id": "monthly",
+            "label": "Monthly"
+          },
+          {
+            "id": "annual",
+            "label": "Annual"
+          },
+          {
+            "id": "ltv",
+            "label": "Full customer lifetime"
+          }
+        ],
+        "default": "annual"
+      },
+      {
+        "id": "segments",
+        "label": "Segments to break out",
+        "type": "text",
+        "placeholder": "Self-serve vs sales-assist; SMB vs mid-market"
+      },
+      {
+        "id": "benchmarks",
+        "label": "Compare to benchmarks",
+        "type": "toggle",
+        "default": true
+      },
+      {
+        "id": "audience",
+        "label": "Audience",
+        "type": "select",
+        "optionsRef": "audiences",
+        "default": "executives"
+      },
+      {
+        "id": "sensitivity",
+        "label": "Include sensitivity on key drivers",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a SaaS finance analyst specializing in unit economics. Analyze the unit economics for this business, with a unit defined as: {{unitDef}}.\n\n## Business\n{{business}}\n\n## Inputs\n{{inputs}}\n\n## Analysis requirements\n- Audience: {{audience}}. Horizon: {{horizon}}.\n- Compute and show the math for CAC, ARPU/ARPA, gross margin, contribution margin, CAC payback, churn, and LTV (and LTV:CAC).\n- State every assumption explicitly; flag any input that looks inconsistent.\n{{#if segments}}- Break results out by: {{segments}}.\n{{/if}}{{#if benchmarks}}- Compare key ratios to typical SaaS benchmarks and interpret the gap.\n{{/if}}{{#if sensitivity}}- Add a sensitivity view on the 2-3 drivers that move LTV:CAC most.\n{{/if}}- End with the single biggest lever to improve unit economics.\n\n## Deliverables\n1. A clear results table with formulas shown.\n2. 3-5 plain-language insights and the key risk.\n3. The recommended next action.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "investor-update",
+    "label": "Investor Update",
+    "description": "Monthly or quarterly investor update that builds trust and asks clearly.",
+    "icon": "Mailbox",
+    "fields": [
+      {
+        "id": "company",
+        "label": "Company",
+        "type": "text",
+        "required": true,
+        "placeholder": "Northstar Insights"
+      },
+      {
+        "id": "period",
+        "label": "Period covered",
+        "type": "text",
+        "required": true,
+        "placeholder": "April 2026"
+      },
+      {
+        "id": "metrics",
+        "label": "Key metrics (with prior period)",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "MRR $182k (+9%), net new logos 14, runway 11 mo, cash $1.4M, NRR 112%."
+      },
+      {
+        "id": "wins",
+        "label": "Wins",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Closed first 6-figure deal; shipped SSO; hired Head of Sales."
+      },
+      {
+        "id": "challenges",
+        "label": "Challenges & lowlights",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Onboarding time too long; one key churn; pipeline thin for Q3."
+      },
+      {
+        "id": "asks",
+        "label": "Specific asks",
+        "type": "textarea",
+        "placeholder": "Intros to 2 enterprise CISOs; a VP Eng candidate referral."
+      },
+      {
+        "id": "cadence",
+        "label": "Update cadence",
+        "type": "select",
+        "options": [
+          {
+            "id": "monthly",
+            "label": "Monthly"
+          },
+          {
+            "id": "quarterly",
+            "label": "Quarterly"
+          }
+        ],
+        "default": "monthly"
+      },
+      {
+        "id": "includeAsk",
+        "label": "Include an explicit asks section",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a founder-CFO writing a credible {{cadence}} investor update for {{company}}, covering {{period}}.\n\n## Metrics\n{{metrics}}\n\n## Wins\n{{wins}}\n\n## Challenges\n{{challenges}}\n\n## Writing rules\n- Be transparent and concise; lead with a one-line TL;DR and the top metric.\n- Present metrics with trend vs prior period; never bury bad news.\n- Frame challenges with what you're doing about each, not excuses.\n{{#if includeAsk}}- Make asks specific and actionable: {{#if asks}}{{asks}}{{else}}name concrete, easy-to-act-on requests{{/if}}.\n{{/if}}- Keep it scannable: short sections, numbers first, no fluff or spin.\n\n## Deliverables\n1. The full investor update email.\n2. A 3-bullet TL;DR for the top of the message.\n3. A one-line subject line.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "scenario-analysis",
+    "label": "Scenario & Sensitivity Analysis",
+    "description": "Base/upside/downside scenarios with drivers and decision triggers.",
+    "icon": "GitBranch",
+    "fields": [
+      {
+        "id": "decision",
+        "label": "Decision or question",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Should we hire 6 reps now given uncertain pipeline and 12-month runway?"
+      },
+      {
+        "id": "baseline",
+        "label": "Baseline assumptions",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Revenue $4M, growth 30% YoY, gross margin 78%, burn $220k/mo, cash $2.6M."
+      },
+      {
+        "id": "drivers",
+        "label": "Key uncertain drivers",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Sales productivity, churn, fundraise timing, CAC inflation."
+      },
+      {
+        "id": "scenarios",
+        "label": "Scenarios to model",
+        "type": "multi-select",
+        "options": [
+          {
+            "id": "base",
+            "label": "Base case"
+          },
+          {
+            "id": "upside",
+            "label": "Upside"
+          },
+          {
+            "id": "downside",
+            "label": "Downside"
+          },
+          {
+            "id": "stress",
+            "label": "Severe stress / bear"
+          }
+        ],
+        "default": [
+          "base",
+          "upside",
+          "downside"
+        ],
+        "required": true
+      },
+      {
+        "id": "metric",
+        "label": "Primary outcome metric",
+        "type": "text",
+        "required": true,
+        "placeholder": "Months of runway / EOY cash balance"
+      },
+      {
+        "id": "horizon",
+        "label": "Time horizon",
+        "type": "select",
+        "options": [
+          {
+            "id": "12m",
+            "label": "12 months"
+          },
+          {
+            "id": "18m",
+            "label": "18 months"
+          },
+          {
+            "id": "24m",
+            "label": "24 months"
+          }
+        ],
+        "default": "18m"
+      },
+      {
+        "id": "audience",
+        "label": "Audience",
+        "type": "select",
+        "optionsRef": "audiences",
+        "default": "executives"
+      },
+      {
+        "id": "triggers",
+        "label": "Include decision triggers / tripwires",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a corporate FP&A lead building decision-grade scenario analysis. Address this decision: {{decision}}\n\n## Baseline assumptions\n{{baseline}}\n\n## Key drivers\n{{drivers}}\n\n## Analysis requirements\n- Audience: {{audience}}. Horizon: {{horizon}}. Primary metric: {{metric}}.\n- Model these scenarios: {{scenarios}}. For each, state the driver assumptions and resulting {{metric}}.\n- Show the math/logic and keep assumptions explicit and internally consistent.\n- Identify which 2-3 drivers the outcome is most sensitive to.\n{{#if triggers}}- Define concrete decision triggers / tripwires: what observed signal should change the decision and by when.\n{{/if}}- Give a clear recommendation under uncertainty, with the main risk called out.\n\n## Deliverables\n1. A scenario comparison table (assumptions vs {{metric}}).\n2. Sensitivity ranking of the top drivers.\n3. The recommendation plus tripwires to monitor.\n\nProceed with well-reasoned defaults; ask only if blocked."
   }
 ]

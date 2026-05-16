@@ -113,5 +113,54 @@
       { "id": "constraints", "label": "Constraints & dependencies", "type": "textarea", "placeholder": "Reuse existing job queue; max 100k rows; respects row-level permissions." }
     ],
     "template": "You are a senior product manager writing an implementation-ready feature spec for \"{{featureName}}\".\n\n## Summary\n{{summary}}\n- Surface: {{surface}}\n\n## Primary flow\n{{userFlow}}\n\n## Spec to produce\n- Detailed behavior for the happy path plus all branches and transitions.\n- Cover these areas explicitly: {{details}}.\n{{#if includeMocks}}- Describe each screen/interaction at mock level: layout intent, controls, copy, and state changes.\n{{/if}}- Acceptance criteria that are precise and testable.\n- Telemetry: the events/properties needed to measure success.\n\n{{#if constraints}}## Constraints & dependencies\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The full spec in Markdown with the sections above.\n2. A state/edge-case table (state → expected behavior).\n3. Open questions and explicit assumptions, plus a suggested v1 cut line.\n\nWrite decisively with stated assumptions; ask only if genuinely blocked."
+  },
+  {
+    "id": "okr-plan",
+    "label": "OKR Plan",
+    "description": "Draft outcome-focused objectives and measurable key results for a team",
+    "icon": "Target",
+    "fields": [
+      { "id": "teamName", "label": "Team / area", "type": "text", "required": true, "placeholder": "Growth squad" },
+      { "id": "context", "label": "Strategic context & mission", "type": "textarea", "required": true, "placeholder": "Own activation; company goal is to double self-serve revenue this year." },
+      { "id": "period", "label": "OKR period", "type": "select", "options": [ { "id": "quarter", "label": "Quarterly" }, { "id": "half", "label": "Half-year" }, { "id": "annual", "label": "Annual" } ], "required": true, "default": "quarter" },
+      { "id": "focus", "label": "Focus areas / candidate objectives", "type": "textarea", "required": true, "placeholder": "Improve onboarding completion, reduce time-to-value, lift trial-to-paid conversion." },
+      { "id": "baselines", "label": "Current baselines & known data", "type": "textarea", "required": true, "placeholder": "Onboarding completion 42%, TTFV 3.5 days, trial→paid 6.2%." },
+      { "id": "ambition", "label": "Ambition level", "type": "select", "options": [ { "id": "committed", "label": "Committed (must hit)" }, { "id": "stretch", "label": "Stretch / aspirational" }, { "id": "mixed", "label": "Mixed" } ], "default": "stretch" },
+      { "id": "includeInitiatives", "label": "Map initiatives to each key result", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Max 3 objectives; KRs must be outcome metrics not output; team of 5." }
+    ],
+    "template": "You are a product operations leader skilled in OKRs. Draft a {{period}} OKR plan for \"{{teamName}}\".\n\n## Strategic context\n{{context}}\n- Ambition level: {{ambition}}\n\n## Focus areas\n{{focus}}\n\n## Baselines\n{{baselines}}\n\n## OKRs to produce\n- A small set of inspiring, qualitative objectives that ladder up to the strategic context.\n- For each objective, 2-4 key results that are measurable outcomes (not tasks), each with a baseline and a target.\n- Avoid output/vanity metrics; make each KR independently verifiable and time-bound to the {{period}} period.\n{{#if includeInitiatives}}- Map candidate initiatives to the key results they are bet to move, noting that initiatives are not KRs.\n{{/if}}- Flag any KR that lacks a credible baseline or measurement method.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The full OKR set with baselines, targets, and measurement notes.\n2. The initiative-to-KR mapping and what was deliberately excluded.\n3. Risks to achievability and the assumptions the targets depend on.\n\nWrite decisively with stated assumptions; ask only if genuinely blocked."
+  },
+  {
+    "id": "persona",
+    "label": "User Persona",
+    "description": "Build an evidence-grounded user persona that drives product decisions",
+    "icon": "UserCircle",
+    "fields": [
+      { "id": "personaName", "label": "Persona name / label", "type": "text", "required": true, "placeholder": "Operations Olivia" },
+      { "id": "segment", "label": "Segment & role this represents", "type": "textarea", "required": true, "placeholder": "Ops manager at a 50-200 person company who owns reporting but isn't technical." },
+      { "id": "research", "label": "Research / evidence behind it", "type": "textarea", "required": true, "placeholder": "12 interviews, support themes, product analytics on the power-user cohort." },
+      { "id": "personaType", "label": "Persona type", "type": "select", "options": [ { "id": "primary", "label": "Primary (design target)" }, { "id": "secondary", "label": "Secondary" }, { "id": "buyer", "label": "Buyer / economic" }, { "id": "anti", "label": "Anti-persona (not for)" } ], "required": true, "default": "primary" },
+      { "id": "sections", "label": "Sections to include", "type": "multi-select", "options": [ { "id": "goals", "label": "Goals & motivations" }, { "id": "pains", "label": "Pain points" }, { "id": "jtbd", "label": "Jobs to be done" }, { "id": "behaviors", "label": "Behaviors & tools" }, { "id": "quote", "label": "Representative quote" }, { "id": "decision", "label": "Decision criteria" } ], "default": ["goals", "pains", "jtbd", "behaviors"] },
+      { "id": "includeImplications", "label": "Include product/design implications", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Keep to one page; no invented demographics; mark low-confidence inferences." }
+    ],
+    "template": "You are a UX researcher building a decision-driving persona: \"{{personaName}}\".\n\n## Who this represents\n{{segment}}\n- Persona type: {{personaType}}\n\n## Evidence base\n{{research}}\n\n## Persona to produce\n- Ground every claim in the stated evidence; clearly mark inferences and low-confidence items rather than inventing detail.\n- Include these sections: {{sections}}, focused on behavior and goals over decorative demographics.\n- Make it specific enough to settle real design and prioritization debates.\n{{#if includeImplications}}- Add explicit product/design implications: what this persona means we should and should not build.\n{{/if}}{{#if personaType == \"Anti-persona (not for)\"}}- Be clear about why this user is explicitly out of scope and the trade-off that accepts.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The one-page persona with the chosen sections.\n2. The evidence-to-claim mapping and confidence flags.\n3. The top decisions this persona should change and open research gaps.\n\nBe evidence-led, not stereotype-led; ask only if genuinely blocked."
+  },
+  {
+    "id": "customer-journey-map",
+    "label": "Customer Journey Map",
+    "description": "Map a customer journey with stages, emotions, pain points and moments",
+    "icon": "Route",
+    "fields": [
+      { "id": "scenario", "label": "Journey / scenario", "type": "text", "required": true, "placeholder": "New team adopting the product from signup to first shared report" },
+      { "id": "persona", "label": "Persona taking the journey", "type": "textarea", "required": true, "placeholder": "Ops manager evaluating tools for the team; non-technical, time-poor." },
+      { "id": "scope", "label": "Start and end points", "type": "textarea", "required": true, "placeholder": "Starts at ad click; ends when the team relies on it weekly (habit formed)." },
+      { "id": "lens", "label": "Primary lens", "type": "select", "options": [ { "id": "endtoend", "label": "End-to-end lifecycle" }, { "id": "onboarding", "label": "Onboarding / activation" }, { "id": "purchase", "label": "Evaluation & purchase" }, { "id": "support", "label": "Support / recovery" }, { "id": "retention", "label": "Retention & expansion" } ], "required": true, "default": "onboarding" },
+      { "id": "lanes", "label": "Lanes to capture per stage", "type": "multi-select", "options": [ { "id": "actions", "label": "Actions" }, { "id": "thoughts", "label": "Thoughts & questions" }, { "id": "emotions", "label": "Emotion curve" }, { "id": "touchpoints", "label": "Touchpoints / channels" }, { "id": "pains", "label": "Pain points" }, { "id": "backstage", "label": "Backstage / systems" } ], "default": ["actions", "emotions", "touchpoints", "pains"] },
+      { "id": "includeOpportunities", "label": "Include prioritized opportunities", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Base on known research only; flag assumptions; B2B multi-stakeholder journey." }
+    ],
+    "template": "You are a service designer mapping the customer journey for \"{{scenario}}\".\n\n## Persona\n{{persona}}\n- Primary lens: {{lens}}\n\n## Scope\n{{scope}}\n\n## Map to produce\n- Break the journey into clear, named stages across the defined start and end points.\n- For each stage capture these lanes: {{lanes}}, keeping actions concrete and emotions tied to a specific cause.\n- Highlight moments of truth, drop-off risks, and the single biggest friction point per stage.\n{{#if includeOpportunities}}- Translate the worst pain points into prioritized opportunities (impact vs. effort) with an owner hint.\n{{/if}}- Mark any stage based on assumption rather than evidence so it can be validated.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The stage-by-stage journey map as a table (stage x lanes).\n2. The emotion curve summary and the top 3 moments that make or break it.\n3. Prioritized opportunities and the assumptions to validate.\n\nBe specific and evidence-aware; ask only if genuinely blocked."
   }
 ]

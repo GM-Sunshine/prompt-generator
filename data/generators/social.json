@@ -117,5 +117,57 @@
       { "id": "hookOptions", "label": "Provide multiple opening-post options", "type": "toggle", "default": true }
     ],
     "template": "You are a ghostwriter who writes threads that get read to the end. Write a {{platform}} thread.\n\n## Topic / takeaway\n{{topic}}\n\n- Structure: {{structure}}\n- Length: {{length}}\n- Audience: {{audience}}\n- Tone: {{tone}}\n\n## Requirements\n{{#if hookOptions}}- Give 3 opening-post options (the make-or-break hook), each a different pattern, then write the full thread using the strongest.\n{{else}}- Open with a single sharp hook post that promises a specific payoff.\n{{/if}}- Deliver one idea per post, each able to stand alone, with smooth transitions and open loops that pull the reader down.\n- Front-load the value; no throat-clearing. Match {{platform}} length norms per post.\n- Close with a payoff recap and a clear CTA{{#if cta}}: {{cta}}{{/if}}.\n- Keep it concrete (examples, numbers, specifics) and free of generic advice.\n\n## Deliverables\n1. {{#if hookOptions}}The hook options, then the {{else}}The {{/if}}numbered thread, post by post.\n2. A repost/quote-tweet line to boost it later.\n3. One suggested visual or screenshot to attach and where.\n\nMake confident editorial choices; only ask if the core takeaway is ambiguous."
+  },
+  {
+    "id": "carousel-post",
+    "label": "Carousel Post",
+    "description": "Slide-by-slide carousel with a swipe-stopping hook",
+    "icon": "GalleryHorizontal",
+    "fields": [
+      { "id": "brand", "label": "Brand / creator", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "topic", "label": "Topic & key takeaway", "type": "textarea", "required": true, "placeholder": "5 onboarding mistakes killing your activation rate - and the fix for each." },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "instagram", "label": "Instagram" }, { "id": "linkedin", "label": "LinkedIn" }, { "id": "tiktok", "label": "TikTok carousel" } ], "default": "instagram" },
+      { "id": "slideCount", "label": "Number of slides", "type": "select", "options": [ { "id": "five", "label": "5 slides" }, { "id": "seven", "label": "7 slides" }, { "id": "ten", "label": "10 slides" } ], "default": "seven" },
+      { "id": "structure", "label": "Structure", "type": "select", "options": [ { "id": "listicle", "label": "Numbered list / tips" }, { "id": "story", "label": "Story / before-after" }, { "id": "howto", "label": "Step-by-step" }, { "id": "myth", "label": "Myth vs reality" }, { "id": "framework", "label": "Framework breakdown" } ], "default": "listicle" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "cta", "label": "Final-slide CTA", "type": "text", "placeholder": "Follow for more, save this, grab the full guide (link in bio)" },
+      { "id": "designNotes", "label": "Include per-slide design / visual notes", "type": "toggle", "default": true }
+    ],
+    "template": "You are a social content designer who writes carousels people swipe to the end and save. Create a {{slideCount}} {{platform}} carousel for \"{{brand}}\".\n\n## Topic / takeaway\n{{topic}}\n\n- Structure: {{structure}}\n- Audience: {{audience}}\n- Tone: {{tone}}\n{{#if cta}}- Final-slide CTA: {{cta}}\n{{/if}}\n## Requirements\n- Slide 1 is a cover with a swipe-stopping hook that promises a specific payoff; never bury the value.\n- One idea per slide, each with a punchy headline and tight supporting line; build momentum with an open loop into the next slide.\n- Keep on-slide text minimal and skimmable for {{platform}}; the last slide pays off the hook and drives the CTA.\n{{#if designNotes}}- Add a per-slide visual/design note (layout, imagery, emphasis) so a designer can build it directly.\n{{/if}}- Write a native caption with a strong first line, plus 5-8 relevant hashtags.\n\n## Deliverables\n1. The slide-by-slide copy (slide #, headline, body{{#if designNotes}}, visual note{{/if}}).\n2. The post caption + hashtag set.\n3. One alternative cover-slide hook to A/B test.\n\nWrite ready-to-publish copy; make confident creative choices and proceed with well-reasoned defaults; ask only if the takeaway is unclear."
+  },
+  {
+    "id": "ugc-brief",
+    "label": "UGC Creator Brief",
+    "description": "Brief for creators to produce on-message UGC content",
+    "icon": "ClipboardList",
+    "fields": [
+      { "id": "brand", "label": "Brand", "type": "text", "required": true, "placeholder": "Acme Skincare" },
+      { "id": "product", "label": "Product & key message", "type": "textarea", "required": true, "placeholder": "Hydrating serum. Core message: visibly plumper skin in 7 days, fragrance-free." },
+      { "id": "platform", "label": "Target platform", "type": "select", "options": [ { "id": "tiktok", "label": "TikTok" }, { "id": "reels", "label": "Instagram Reels" }, { "id": "shorts", "label": "YouTube Shorts" }, { "id": "multi", "label": "Multi-platform" } ], "default": "tiktok" },
+      { "id": "deliverables", "label": "Deliverables requested", "type": "multi-select", "options": [ { "id": "video", "label": "Short video(s)" }, { "id": "photos", "label": "Photo set" }, { "id": "testimonial", "label": "Testimonial clip" }, { "id": "unboxing", "label": "Unboxing" }, { "id": "tutorial", "label": "How-to / tutorial" } ], "default": ["video", "testimonial"] },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "mustInclude", "label": "Must-include points & claims", "type": "textarea", "placeholder": "Show texture; say 'fragrance-free'; tag @acme; do NOT claim it treats acne." },
+      { "id": "usage", "label": "Include usage rights & whitelisting notes", "type": "toggle", "default": true }
+    ],
+    "template": "You are a UGC creative producer who briefs creators so the content stays authentic but on-message. Write a creator brief for \"{{brand}}\".\n\n## Product & message\n{{product}}\n\n- Target platform: {{platform}}\n- Deliverables requested: {{deliverables}}\n- Audience: {{audience}}\n- Desired tone: {{tone}} and genuinely authentic, never scripted-sounding.\n{{#if mustInclude}}- Must-include points & claims: {{mustInclude}}\n{{/if}}\n## Brief requirements\n- State the single core message and the one feeling the content should leave the viewer with.\n- Give 3 suggested hook directions and a loose beat structure per deliverable, leaving room for the creator's natural voice.\n- Specify do's and don'ts, required mentions/tags, and compliance guardrails (claims to avoid) clearly.\n- Define technical specs (orientation, length, resolution) and what a great submission looks like vs a reject.\n{{#if usage}}- Cover usage rights, whitelisting/paid-amplification permissions, and exclusivity/duration in plain language.\n{{/if}}\n## Deliverables\n1. The one-page brief (objective, message, audience, deliverables, specs).\n2. Hook directions + per-deliverable beat guidance and the do/don't list.\n3. {{#if usage}}A rights & whitelisting summary plus a submission checklist.{{else}}A submission and approval checklist.{{/if}}\n\nMake confident, creator-friendly choices and proceed with well-reasoned defaults; ask only if the core message or claims are unclear."
+  },
+  {
+    "id": "hashtag-strategy",
+    "label": "Hashtag Strategy",
+    "description": "Tiered hashtag sets and a discovery plan per platform",
+    "icon": "Hash",
+    "fields": [
+      { "id": "brand", "label": "Brand / creator", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "niche", "label": "Niche, content & goal", "type": "textarea", "required": true, "placeholder": "B2B product-analytics content for PMs. Goal: reach new PMs and grow followers, not just impressions." },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "instagram", "label": "Instagram" }, { "id": "tiktok", "label": "TikTok" }, { "id": "linkedin", "label": "LinkedIn" }, { "id": "x", "label": "X / Twitter" }, { "id": "youtube", "label": "YouTube" } ], "default": "instagram" },
+      { "id": "seedTags", "label": "Known / seed hashtags", "type": "textarea", "placeholder": "#producthunt #saas #productmanagement #plg" },
+      { "id": "competition", "label": "Account size / reach", "type": "select", "options": [ { "id": "small", "label": "Small / growing" }, { "id": "mid", "label": "Mid-size" }, { "id": "large", "label": "Large / established" } ], "default": "small" },
+      { "id": "setCount", "label": "Rotating sets to produce", "type": "select", "options": [ { "id": "two", "label": "2 sets" }, { "id": "three", "label": "3 sets" }, { "id": "five", "label": "5 sets" } ], "default": "three" },
+      { "id": "branded", "label": "Include a branded / campaign hashtag", "type": "toggle", "default": true },
+      { "id": "research", "label": "Include a research & tracking method", "type": "toggle", "default": true }
+    ],
+    "template": "You are a social growth strategist who treats hashtags as a discovery system, not decoration. Build a hashtag strategy for \"{{brand}}\" on {{platform}}.\n\n## Niche & goal\n{{niche}}\n\n- Account size: {{competition}}\n- Rotating sets to produce: {{setCount}}\n{{#if seedTags}}- Seed hashtags to expand from: {{seedTags}}\n{{/if}}\n## Method\n- Build a tiered mix per set: broad (reach), niche (relevance), and small/long-tail (winnable) tags sized appropriately for a {{competition}} account on {{platform}}.\n- Match tags to actual content and audience intent, not just popularity; avoid banned, spammy, or irrelevant tags and explain why.\n- Produce {{setCount}} rotating sets so posts don't look templated, each labeled by the content type it suits.\n{{#if branded}}- Propose a branded/campaign hashtag with a one-line rationale and rules for using it.\n{{/if}}{{#if research}}- Give a lightweight research-and-tracking method: how to find new tags, test sets, and read which drive reach vs followers.\n{{/if}}- Note the right placement and count convention for {{platform}}.\n\n## Deliverables\n1. The {{setCount}} labeled hashtag sets with the tier of each tag noted.\n{{#if branded}}2. The branded hashtag recommendation and usage rules.\n{{else}}2. Placement and count guidance for {{platform}}.\n{{/if}}3. {{#if research}}A simple test-and-track loop to refine sets over time.{{else}}A short list of tags to avoid and why.{{/if}}\n\nUse reasonable reach assumptions from the niche and account size; label them as estimates and proceed with well-reasoned defaults; ask only if the goal is unclear."
   }
 ]

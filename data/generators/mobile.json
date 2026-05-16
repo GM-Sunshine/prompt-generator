@@ -1,0 +1,172 @@
+[
+  {
+    "id": "app-screen",
+    "label": "App Screen",
+    "description": "Design and build a single, polished mobile screen end-to-end.",
+    "icon": "Smartphone",
+    "fields": [
+      { "id": "screenName", "label": "Screen name", "type": "text", "required": true, "placeholder": "Profile / Checkout / Feed" },
+      { "id": "purpose", "label": "What the screen does", "type": "textarea", "required": true, "placeholder": "Lets a user review their cart and pay." },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "ios", "label": "iOS (SwiftUI)" }, { "id": "android", "label": "Android (Compose)" }, { "id": "rn", "label": "React Native" }, { "id": "flutter", "label": "Flutter" } ], "default": "rn" },
+      { "id": "elements", "label": "Key UI elements", "type": "textarea", "required": true, "placeholder": "Item list, totals, promo input, pay button." },
+      { "id": "states", "label": "States to handle", "type": "multi-select", "options": [ { "id": "loading", "label": "Loading" }, { "id": "empty", "label": "Empty" }, { "id": "error", "label": "Error" }, { "id": "offline", "label": "Offline" } ], "default": ["loading", "empty", "error"] },
+      { "id": "darkMode", "label": "Support dark mode", "type": "toggle", "default": true },
+      { "id": "a11y", "label": "Accessibility (screen readers, dynamic type)", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Match existing design tokens; 60fps scroll." }
+    ],
+    "template": "You are a senior mobile engineer and UI specialist. Build the \"{{screenName}}\" screen for {{platform}}.\n\n## Purpose\n{{purpose}}\n\n## UI elements\n{{elements}}\n\n## Requirements\n- Faithful, pixel-aware layout that adapts to common device sizes and orientations.\n{{#if states}}- Handle these states explicitly: {{states}}.\n{{/if}}{{#if darkMode}}- Full light and dark mode support via theme tokens.\n{{/if}}{{#if a11y}}- Accessible: labelled controls, dynamic type, sufficient contrast, focus order.\n{{/if}}- Smooth interactions and no layout jank during scroll or transitions.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. A short layout/component breakdown before coding.\n2. The complete, runnable screen code with mock data.\n3. Notes on navigation hooks and state wiring.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "feature-spec-mobile",
+    "label": "Mobile Feature Spec",
+    "description": "Write a buildable spec for a new mobile app feature.",
+    "icon": "ClipboardList",
+    "fields": [
+      { "id": "featureName", "label": "Feature name", "type": "text", "required": true, "placeholder": "Saved searches" },
+      { "id": "problem", "label": "Problem & goal", "type": "textarea", "required": true, "placeholder": "Users lose searches; let them save and re-run them." },
+      { "id": "platform", "label": "Target platforms", "type": "multi-select", "options": [ { "id": "ios", "label": "iOS" }, { "id": "android", "label": "Android" }, { "id": "both", "label": "Cross-platform" } ], "default": ["ios", "android"] },
+      { "id": "userStories", "label": "Key user stories", "type": "textarea", "required": true, "placeholder": "As a user I can save a search and get notified of new matches." },
+      { "id": "metrics", "label": "Success metrics", "type": "text", "placeholder": "Saved-search adoption, return rate" },
+      { "id": "needsBackend", "label": "Requires backend changes", "type": "toggle", "default": true },
+      { "id": "experiment", "label": "Ship behind an experiment flag", "type": "toggle", "default": true },
+      { "id": "risks", "label": "Known risks / edge cases", "type": "textarea", "placeholder": "Notification fatigue; sync conflicts." }
+    ],
+    "template": "You are a senior mobile product engineer writing an implementation-ready feature spec for \"{{featureName}}\".\n\n## Problem & goal\n{{problem}}\n\n## Platforms\n{{platform}}\n\n## User stories\n{{userStories}}\n\n## Spec must cover\n- Detailed UX flows including entry points and edge states.\n- Data model and client-side state changes.\n{{#if needsBackend}}- Required API/backend changes and the contract between client and server.\n{{/if}}{{#if experiment}}- Rollout plan behind an experiment flag with kill switch and metrics gating.\n{{/if}}{{#if metrics}}- Instrumentation for: {{metrics}}.\n{{/if}}{{#if risks}}- Mitigations for these risks: {{risks}}.\n{{/if}}- Accessibility and offline behavior considerations.\n\n## Deliverables\n1. The full written spec with flows and acceptance criteria.\n2. A phased build plan with milestones.\n3. Open questions, each with a recommended default.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "push-notifications",
+    "label": "Push Notifications",
+    "description": "Design a push notification system for a mobile app.",
+    "icon": "Bell",
+    "fields": [
+      { "id": "appName", "label": "App name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "useCases", "label": "Notification use cases", "type": "textarea", "required": true, "placeholder": "Order updates, price drops, re-engagement nudges." },
+      { "id": "platform", "label": "Platforms", "type": "multi-select", "options": [ { "id": "ios", "label": "iOS (APNs)" }, { "id": "android", "label": "Android (FCM)" }, { "id": "web", "label": "Web push" } ], "default": ["ios", "android"] },
+      { "id": "provider", "label": "Delivery provider", "type": "select", "options": [ { "id": "fcm", "label": "Firebase Cloud Messaging" }, { "id": "onesignal", "label": "OneSignal" }, { "id": "expo", "label": "Expo Push" }, { "id": "custom", "label": "Custom APNs/FCM" } ], "default": "fcm" },
+      { "id": "rich", "label": "Rich notifications (images, actions)", "type": "toggle", "default": true },
+      { "id": "segmentation", "label": "Audience segmentation", "type": "toggle", "default": true },
+      { "id": "quietHours", "label": "Respect quiet hours / preferences", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "GDPR consent; deep link into specific screens." }
+    ],
+    "template": "You are a senior mobile engineer. Design and implement push notifications for \"{{appName}}\".\n\n## Use cases\n{{useCases}}\n\n## Targets\n- Platforms: {{platform}}\n- Provider: {{provider}}\n\n## Requirements\n- Token registration, refresh, and server-side storage keyed to users/devices.\n- Permission priming and graceful handling of denied/revoked permissions.\n- Foreground, background, and tapped-notification handling with deep links.\n{{#if rich}}- Rich notifications: images, action buttons, and grouped/threaded delivery.\n{{/if}}{{#if segmentation}}- Audience segmentation and targeted sends with templated payloads.\n{{/if}}{{#if quietHours}}- Per-user preferences and quiet hours enforced before send.\n{{/if}}- Delivery/open tracking and a retry-safe send pipeline.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. Architecture (client + server + provider) before coding.\n2. The complete, runnable client and send-side code.\n3. Test plan covering each platform and notification state.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "app-store-listing",
+    "label": "App Store Listing",
+    "description": "Craft conversion-focused App Store and Play Store listing copy.",
+    "icon": "Store",
+    "fields": [
+      { "id": "appName", "label": "App name", "type": "text", "required": true, "placeholder": "Acme Budget" },
+      { "id": "pitch", "label": "What the app does", "type": "textarea", "required": true, "placeholder": "Helps couples track shared spending without spreadsheets." },
+      { "id": "audience", "label": "Target audience", "type": "text", "required": true, "placeholder": "Couples aged 25-40 managing joint finances" },
+      { "id": "stores", "label": "Target stores", "type": "multi-select", "options": [ { "id": "apple", "label": "Apple App Store" }, { "id": "google", "label": "Google Play" } ], "default": ["apple", "google"] },
+      { "id": "features", "label": "Top features to highlight", "type": "textarea", "required": true, "placeholder": "Shared budgets, smart alerts, bank sync." },
+      { "id": "keywords", "label": "ASO keywords to target", "type": "text", "placeholder": "shared budget, couples finance, expense tracker" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "friendly" },
+      { "id": "promo", "label": "Include short promo/what's-new text", "type": "toggle", "default": true }
+    ],
+    "template": "You are an ASO and app marketing expert. Write store listing copy for \"{{appName}}\".\n\n## The app\n{{pitch}}\n\n## Audience\n{{audience}}\n\n## Highlight these features\n{{features}}\n\n## Requirements\n- Stores: {{stores}} — respect each store's character limits and conventions.\n- A compelling title and subtitle/short description that earn the tap.\n- A scannable long description led by the strongest benefit, not a feature dump.\n- Tone: {{tone}}.\n{{#if keywords}}- Naturally weave in these ASO keywords without stuffing: {{keywords}}.\n{{/if}}{{#if promo}}- A short promotional line and a \"What's New\" template.\n{{/if}}- Suggested screenshot captions that tell a benefit-driven story.\n\n## Deliverables\n1. Title, subtitle/short description, and full long description per store.\n2. Keyword/field recommendations.\n3. Screenshot caption set.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "mobile-onboarding",
+    "label": "Mobile Onboarding Flow",
+    "description": "Design a first-run onboarding flow that drives activation.",
+    "icon": "Footprints",
+    "fields": [
+      { "id": "appName", "label": "App name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "valueProp", "label": "Core value & aha moment", "type": "textarea", "required": true, "placeholder": "User feels value once they log their first workout." },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "ios", "label": "iOS" }, { "id": "android", "label": "Android" }, { "id": "both", "label": "Cross-platform" } ], "default": "both" },
+      { "id": "steps", "label": "Steps / info to collect", "type": "textarea", "required": true, "placeholder": "Goal selection, notification opt-in, account create." },
+      { "id": "permissions", "label": "Permissions to request", "type": "multi-select", "options": [ { "id": "push", "label": "Push" }, { "id": "location", "label": "Location" }, { "id": "camera", "label": "Camera" }, { "id": "contacts", "label": "Contacts" }, { "id": "health", "label": "Health" } ], "default": ["push"] },
+      { "id": "auth", "label": "Account creation in onboarding", "type": "toggle", "default": false },
+      { "id": "personalize", "label": "Personalize based on answers", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Max 4 screens; skippable; measure step drop-off." }
+    ],
+    "template": "You are a senior mobile product designer and engineer. Design the onboarding flow for \"{{appName}}\" on {{platform}}.\n\n## Core value\n{{valueProp}}\nGet users to the aha moment as fast as possible.\n\n## Steps & inputs\n{{steps}}\n\n## Requirements\n- Lead with value; defer friction and ask for the minimum up front.\n{{#if permissions}}- Prime these permissions in-context with a clear why before the OS prompt: {{permissions}}.\n{{/if}}{{#if auth}}- Account creation inside onboarding, with a guest/skip path.\n{{else}}- Allow exploring the app before creating an account.\n{{/if}}{{#if personalize}}- Use collected answers to personalize the first session.\n{{/if}}- Progress indication, back navigation, and a skip path on optional steps.\n- Instrument per-step completion and drop-off.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The screen-by-screen flow with copy direction.\n2. The complete, runnable flow code with mock state.\n3. The activation/drop-off metrics to track.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "in-app-purchases",
+    "label": "In-App Purchases",
+    "description": "Implement subscriptions or IAP with receipt validation.",
+    "icon": "CreditCard",
+    "fields": [
+      { "id": "appName", "label": "App name", "type": "text", "required": true, "placeholder": "Acme Pro" },
+      { "id": "model", "label": "Monetization model", "type": "select", "options": [ { "id": "sub", "label": "Subscriptions" }, { "id": "consumable", "label": "Consumables" }, { "id": "nonconsumable", "label": "Non-consumables / unlock" }, { "id": "mixed", "label": "Mixed" } ], "default": "sub" },
+      { "id": "products", "label": "Products & pricing tiers", "type": "textarea", "required": true, "placeholder": "Monthly $7.99, Annual $59.99, lifetime $129." },
+      { "id": "platform", "label": "Platforms", "type": "multi-select", "options": [ { "id": "ios", "label": "iOS (StoreKit)" }, { "id": "android", "label": "Android (Play Billing)" } ], "default": ["ios", "android"] },
+      { "id": "sdk", "label": "Billing SDK", "type": "select", "options": [ { "id": "native", "label": "Native StoreKit / Play Billing" }, { "id": "revenuecat", "label": "RevenueCat" }, { "id": "other", "label": "Other / cross-platform" } ], "default": "revenuecat" },
+      { "id": "trial", "label": "Offer free trial / intro pricing", "type": "toggle", "default": true },
+      { "id": "serverValidation", "label": "Server-side receipt validation", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Restore purchases; family sharing; entitlement gating." }
+    ],
+    "template": "You are a senior mobile engineer experienced with app monetization. Implement in-app purchases for \"{{appName}}\".\n\n## Model\nMonetization: {{model}}.\n\n## Products\n{{products}}\n\n## Requirements\n- Platforms: {{platform}} via {{sdk}}.\n- Product fetching, purchase flow, and entitlement gating in the UI.\n{{#if trial}}- Free trial / introductory pricing with correct eligibility handling.\n{{/if}}- Restore purchases and graceful handling of pending/deferred/failed transactions.\n{{#if serverValidation}}- Server-side receipt/purchase validation and an authoritative entitlement store.\n{{else}}- Document why client-side validation is acceptable and its risks.\n{{/if}}- Handle subscription lifecycle: renewal, lapse, upgrade/downgrade, refunds.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. Purchase + entitlement architecture before coding.\n2. The complete, runnable client and validation code.\n3. A test plan including sandbox and edge-case scenarios.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "deep-linking",
+    "label": "Deep Linking",
+    "description": "Set up universal links and deferred deep linking.",
+    "icon": "Link",
+    "fields": [
+      { "id": "appName", "label": "App name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "scenarios", "label": "Linking scenarios", "type": "textarea", "required": true, "placeholder": "Share a product, open a referral, resume checkout." },
+      { "id": "platform", "label": "Platforms", "type": "multi-select", "options": [ { "id": "ios", "label": "iOS (Universal Links)" }, { "id": "android", "label": "Android (App Links)" } ], "default": ["ios", "android"] },
+      { "id": "domain", "label": "Associated web domain", "type": "text", "required": true, "placeholder": "acme.com" },
+      { "id": "deferred", "label": "Deferred deep linking (post-install routing)", "type": "toggle", "default": true },
+      { "id": "fallback", "label": "Web fallback when app not installed", "type": "toggle", "default": true },
+      { "id": "auth", "label": "Routes may require authentication", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Attribution params must survive install; QR support." }
+    ],
+    "template": "You are a senior mobile engineer. Implement deep linking for \"{{appName}}\".\n\n## Scenarios\n{{scenarios}}\n\n## Setup\n- Platforms: {{platform}}\n- Associated domain: {{domain}} (configure apple-app-site-association / assetlinks.json).\n\n## Requirements\n- A single, testable URL-to-screen routing layer with typed parameters.\n- Cold start, warm start, and foreground link handling.\n{{#if auth}}- Routes that require auth: save the intended destination and resume after login.\n{{/if}}{{#if deferred}}- Deferred deep linking so a link survives install and routes after first launch.\n{{/if}}{{#if fallback}}- Web fallback page that routes to the store or app when not installed.\n{{/if}}- Validate and sanitize incoming parameters; fail safe to a sensible default.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The URL scheme and route map before coding.\n2. The complete, runnable linking + routing code and domain config files.\n3. A test matrix across platforms and launch states.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "offline-sync",
+    "label": "Offline Sync",
+    "description": "Build offline-first data sync with conflict resolution.",
+    "icon": "RefreshCw",
+    "fields": [
+      { "id": "appName", "label": "App name", "type": "text", "required": true, "placeholder": "Acme Notes" },
+      { "id": "data", "label": "Data that must work offline", "type": "textarea", "required": true, "placeholder": "Notes, tags, and attachments edited on multiple devices." },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "ios", "label": "iOS" }, { "id": "android", "label": "Android" }, { "id": "rn", "label": "React Native" }, { "id": "flutter", "label": "Flutter" } ], "default": "rn" },
+      { "id": "localStore", "label": "Local store", "type": "select", "options": [ { "id": "sqlite", "label": "SQLite" }, { "id": "realm", "label": "Realm" }, { "id": "watermelon", "label": "WatermelonDB" }, { "id": "kv", "label": "Key-value store" } ], "default": "sqlite" },
+      { "id": "conflict", "label": "Conflict strategy", "type": "select", "options": [ { "id": "lww", "label": "Last-write-wins" }, { "id": "crdt", "label": "CRDT / merge" }, { "id": "manual", "label": "Manual resolution" } ], "default": "lww" },
+      { "id": "backgroundSync", "label": "Background sync", "type": "toggle", "default": true },
+      { "id": "encryption", "label": "Encrypt local data at rest", "type": "toggle", "default": false },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Large attachments; partial sync; bandwidth-aware." }
+    ],
+    "template": "You are a senior mobile engineer specializing in offline-first apps. Build offline sync for \"{{appName}}\" on {{platform}}.\n\n## Data\n{{data}}\n\n## Approach\n- Local store: {{localStore}} as the source of truth for the UI.\n- Conflict resolution: {{conflict}} — explain how concurrent edits converge.\n\n## Requirements\n- An outbound change queue with idempotent, retry-safe sync operations.\n- Reads and writes always hit local first; UI never blocks on the network.\n- Robust handling of intermittent connectivity, partial failures, and resume.\n{{#if backgroundSync}}- Background sync when the app is suspended, respecting OS limits.\n{{/if}}{{#if encryption}}- Encrypt local data at rest and protect keys appropriately.\n{{/if}}- Clear sync status surfaced to the user (pending, syncing, error).\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. Sync architecture and data model before coding.\n2. The complete, runnable local store + sync engine code.\n3. A test plan covering offline edits, conflicts, and reconnect.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "release-checklist",
+    "label": "Release Checklist",
+    "description": "Generate a thorough pre-release checklist for a mobile app.",
+    "icon": "ListChecks",
+    "fields": [
+      { "id": "appName", "label": "App name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "version", "label": "Version / release", "type": "text", "required": true, "placeholder": "3.4.0" },
+      { "id": "changes", "label": "What's in this release", "type": "textarea", "required": true, "placeholder": "New onboarding, bug fixes, perf improvements." },
+      { "id": "platform", "label": "Platforms releasing", "type": "multi-select", "options": [ { "id": "ios", "label": "iOS App Store" }, { "id": "android", "label": "Google Play" } ], "default": ["ios", "android"] },
+      { "id": "rolloutType", "label": "Rollout type", "type": "select", "options": [ { "id": "full", "label": "Full release" }, { "id": "phased", "label": "Phased / staged" }, { "id": "beta", "label": "Beta (TestFlight/Internal)" } ], "default": "phased" },
+      { "id": "hasMigration", "label": "Includes a data/schema migration", "type": "toggle", "default": false },
+      { "id": "featureFlags", "label": "New code behind feature flags", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra context", "type": "textarea", "placeholder": "Tight review window; coordinate with marketing." }
+    ],
+    "template": "You are a release manager for mobile apps. Produce a pre-release checklist for \"{{appName}}\" {{version}}.\n\n## What's shipping\n{{changes}}\n\n## Scope\n- Platforms: {{platform}}\n- Rollout: {{rolloutType}}\n\n## The checklist must cover\n- Build, signing, and versioning sanity checks per platform.\n- Regression testing of critical flows on real devices and OS version spread.\n- Store metadata, screenshots, and review/compliance requirements.\n{{#if hasMigration}}- Data/schema migration: forward path, rollback, and on-device testing.\n{{/if}}{{#if featureFlags}}- Feature flag defaults, kill switches, and gradual exposure plan.\n{{/if}}{{#if rolloutType == \"phased\"}}- Phased rollout percentages, halt criteria, and crash/ANR thresholds.\n{{/if}}- Monitoring, alerting, and a rollback/hotfix plan.\n\n{{#if constraints}}## Context\n{{constraints}}\n\n{{/if}}## Deliverables\n1. A grouped, checkable list with clear owners.\n2. Go/no-go criteria.\n3. A post-release monitoring plan for the first 48 hours.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "crash-triage",
+    "label": "Crash Triage",
+    "description": "Diagnose and prioritize a mobile crash or ANR from a report.",
+    "icon": "Bug",
+    "fields": [
+      { "id": "appName", "label": "App name", "type": "text", "required": true, "placeholder": "Acme" },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "ios", "label": "iOS" }, { "id": "android", "label": "Android" }, { "id": "rn", "label": "React Native" }, { "id": "flutter", "label": "Flutter" } ], "default": "ios" },
+      { "id": "stackTrace", "label": "Stack trace / crash log", "type": "textarea", "required": true, "placeholder": "Paste the symbolicated stack trace or crash log." },
+      { "id": "frequency", "label": "Frequency & impact", "type": "text", "required": true, "placeholder": "1.2% of sessions, ~4k users, since v3.3" },
+      { "id": "repro", "label": "Repro steps (if known)", "type": "textarea", "placeholder": "Open cart, rotate device, tap pay." },
+      { "id": "context", "label": "Affected devices / OS / build", "type": "text", "placeholder": "iPhone 12-15, iOS 17.x, build 3.3.1" },
+      { "id": "tool", "label": "Crash reporting tool", "type": "select", "options": [ { "id": "crashlytics", "label": "Crashlytics" }, { "id": "sentry", "label": "Sentry" }, { "id": "bugsnag", "label": "Bugsnag" }, { "id": "xcode", "label": "Xcode Organizer" } ], "default": "crashlytics" },
+      { "id": "needsFix", "label": "Propose a code fix", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior mobile engineer doing crash triage for \"{{appName}}\" on {{platform}} (reports via {{tool}}).\n\n## Stack trace / log\n{{stackTrace}}\n\n## Impact\n{{frequency}}\n{{#if context}}Affected: {{context}}.\n{{/if}}{{#if repro}}## Repro\n{{repro}}\n\n{{/if}}## Do this\n- Interpret the stack trace and identify the most probable root cause.\n- State your confidence and the evidence behind it.\n- Assess severity and recommend a priority (e.g. hotfix vs next release).\n{{#if needsFix}}- Propose a concrete fix with the exact code change and why it resolves it.\n- Add a guard/regression test to prevent recurrence.\n{{else}}- List the additional logs, symbols, or repro data needed to pinpoint it.\n{{/if}}- Note any related risks or similar latent crashes.\n\n## Deliverables\n1. Root-cause analysis with confidence level.\n2. Severity/priority recommendation.\n3. {{#if needsFix}}The proposed fix and test.{{else}}A precise data-gathering plan.{{/if}}\n\nProceed with well-reasoned defaults; ask only if blocked."
+  }
+]

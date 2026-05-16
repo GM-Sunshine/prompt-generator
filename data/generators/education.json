@@ -115,5 +115,56 @@
       { "id": "addHints", "label": "Include a hint per card", "type": "toggle", "default": false }
     ],
     "template": "You are a learning engineer who designs effective spaced-repetition decks. Create a set of {{count}} flashcards on \"{{topic}}\".\n\n## Source material\n{{material}}\n\n## Specifications\n- Audience: {{audience}}\n- Card style: {{cardStyle}}.\n- Output as {{outputFormat}}.\n{{#if addHints}}- Add a brief optional hint to each card.\n{{/if}}\n## Quality rules\n- One discrete idea per card; fronts are unambiguous and answers are atomic.\n- Avoid yes/no prompts; favor active recall.\n- No duplicate or trivially overlapping cards.\n\n## Deliverables\nThe full deck in the requested format, ready to import.\n\nProceed with sensible defaults; do not ask questions unless the material is insufficient to make {{count}} solid cards."
+  },
+  {
+    "id": "worksheet",
+    "label": "Practice Worksheet",
+    "description": "Build a scaffolded practice worksheet with an answer key",
+    "icon": "PencilRuler",
+    "fields": [
+      { "id": "topic", "label": "Worksheet topic", "type": "text", "required": true, "placeholder": "Solving two-step linear equations" },
+      { "id": "scope", "label": "Skills & scope to practice", "type": "textarea", "required": true, "placeholder": "Isolate the variable using inverse operations; integer and fractional coefficients." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "problemCount", "label": "Number of problems", "type": "select", "options": [ { "id": "8", "label": "8" }, { "id": "12", "label": "12" }, { "id": "20", "label": "20" } ], "default": "12" },
+      { "id": "progression", "label": "Difficulty progression", "type": "select", "options": [ { "id": "scaffolded", "label": "Scaffolded (easy to hard)" }, { "id": "uniform", "label": "Uniform difficulty" }, { "id": "spiral", "label": "Spiral / mixed review" } ], "default": "scaffolded" },
+      { "id": "formats", "label": "Problem formats", "type": "multi-select", "options": [ { "id": "computation", "label": "Computation / drill" }, { "id": "word", "label": "Word problems" }, { "id": "error", "label": "Find-the-error" }, { "id": "open", "label": "Open-ended / explain" } ], "default": ["computation", "word"] },
+      { "id": "includeWorkedExample", "label": "Include a worked example at the top", "type": "toggle", "default": true },
+      { "id": "includeAnswerKey", "label": "Include an answer key with steps", "type": "toggle", "default": true }
+    ],
+    "template": "You are a curriculum developer who designs effective practice. Build a practice worksheet on \"{{topic}}\".\n\n## Skills & scope\n{{scope}}\n\n## Specifications\n- Audience: {{audience}}\n- {{problemCount}} problems, ordered as {{progression}}.\n- Use these formats: {{formats}}.\n\n## Requirements\n- Every problem targets the stated skills; no off-scope or trick items.\n{{#if includeWorkedExample}}- Open with one fully worked example modeling the expected method and notation.\n{{/if}}- Give clear, consistent instructions and enough work space cues; keep difficulty changes deliberate.\n- Vary surface features so students practice the skill, not pattern-matching.\n{{#if includeAnswerKey}}- Provide a separate answer key with the final answer and the key solving steps for each item.\n{{/if}}\n## Deliverables\nThe complete student-facing worksheet{{#if includeAnswerKey}} plus the separate answer key{{/if}}, ready to print.\n\nProceed with sound pedagogical defaults; ask only if the scope is too vague to write valid problems."
+  },
+  {
+    "id": "learning-objectives",
+    "label": "Learning Objectives",
+    "description": "Write measurable, aligned learning objectives for a unit or course",
+    "icon": "Target",
+    "fields": [
+      { "id": "subject", "label": "Unit or course topic", "type": "text", "required": true, "placeholder": "Introductory thermodynamics" },
+      { "id": "context", "label": "Learner level & purpose", "type": "textarea", "required": true, "placeholder": "Second-year engineering students; foundation for the heat-transfer course." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "count", "label": "Number of objectives", "type": "select", "options": [ { "id": "3", "label": "3-4" }, { "id": "5", "label": "5-6" }, { "id": "8", "label": "7-8" } ], "default": "5" },
+      { "id": "framework", "label": "Framework", "type": "select", "options": [ { "id": "bloom", "label": "Bloom's taxonomy" }, { "id": "smart", "label": "SMART / ABCD format" }, { "id": "backward", "label": "Backward design (outcomes-first)" } ], "default": "bloom" },
+      { "id": "cognitiveRange", "label": "Cognitive range to span", "type": "select", "options": [ { "id": "foundational", "label": "Mostly remember/understand" }, { "id": "balanced", "label": "Balanced across levels" }, { "id": "higher", "label": "Emphasis on analyze/evaluate/create" } ], "default": "balanced" },
+      { "id": "standards", "label": "Standards to align to", "type": "text", "placeholder": "ABET outcomes 1 and 7" },
+      { "id": "includeAssessmentMap", "label": "Map each objective to an assessment", "type": "toggle", "default": true }
+    ],
+    "template": "You are an instructional designer specializing in outcome alignment. Write learning objectives for \"{{subject}}\".\n\n## Learner level & purpose\n{{context}}\n\n## Specifications\n- Audience: {{audience}}\n- Produce {{count}} objectives using the {{framework}} framework.\n- Cognitive range: {{cognitiveRange}}.\n{{#if standards}}- Align explicitly to: {{standards}}.\n{{/if}}\n## Requirements\n- Each objective starts with a single observable, measurable action verb; no \"understand\" or \"learn about\".\n- Each is specific, attainable in the course scope, and assessable; one outcome per objective.\n- Order them by dependency so they build coherently.\n{{#if includeAssessmentMap}}- For each objective, name a concrete assessment or evidence that would demonstrate it.\n{{/if}}\n## Deliverables\nThe numbered objective set{{#if includeAssessmentMap}} with its objective-to-assessment map{{/if}}, plus one note on any objective that may need narrowing.\n\nProceed with sound pedagogical defaults; ask only if the topic is too broad to scope objectives."
+  },
+  {
+    "id": "feedback-comments",
+    "label": "Student Feedback Comments",
+    "description": "Draft constructive, growth-oriented feedback on student work",
+    "icon": "MessageSquareText",
+    "fields": [
+      { "id": "assignment", "label": "Assignment & criteria", "type": "text", "required": true, "placeholder": "Argumentative essay; graded on thesis, evidence, organization, mechanics" },
+      { "id": "studentWork", "label": "Student work or summary", "type": "textarea", "required": true, "placeholder": "Paste the work or describe strengths/weaknesses observed, with the grade if known." },
+      { "id": "audience", "label": "Student level", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "encouraging" },
+      { "id": "model", "label": "Feedback model", "type": "select", "options": [ { "id": "glow-grow", "label": "Glows & grows" }, { "id": "sandwich", "label": "Strengths / next steps / support" }, { "id": "rubric", "label": "Criterion-by-criterion" } ], "default": "glow-grow" },
+      { "id": "depth", "label": "Feedback depth", "type": "select", "options": [ { "id": "brief", "label": "Brief comment" }, { "id": "standard", "label": "Standard paragraph" }, { "id": "detailed", "label": "Detailed with examples" } ], "default": "standard" },
+      { "id": "actionable", "label": "Include specific next steps", "type": "toggle", "default": true },
+      { "id": "growthMindset", "label": "Use growth-mindset language", "type": "toggle", "default": true }
+    ],
+    "template": "You are an experienced educator who writes feedback students actually act on. Draft feedback on this work.\n\n## Assignment & criteria\n{{assignment}}\n\n## Student work\n{{studentWork}}\n\n## Specifications\n- Student level: {{audience}}\n- Tone: {{tone}}.\n- Use the {{model}} model at {{depth}} depth.\n\n## Requirements\n- Be specific: reference concrete moments in the work, not generic praise or criticism.\n- Balance affirmation of what works with honest, respectful identification of what to improve.\n{{#if actionable}}- Give 1-3 prioritized, actionable next steps the student can apply to the next attempt.\n{{/if}}{{#if growthMindset}}- Frame ability as improvable; comment on the work and process, not the person.\n{{/if}}- Keep it appropriate for the student's level and motivating, not deflating.\n\n## Deliverables\nThe ready-to-share feedback comment, plus one short sentence summarizing the single most important next step.\n\nProceed with sound feedback practice; ask only if the work is too unclear to assess."
   }
 ]

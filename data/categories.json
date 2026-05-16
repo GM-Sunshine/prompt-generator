@@ -49,6 +49,20 @@
     "group": "Tech & Product"
   },
   {
+    "id": "mobile",
+    "label": "Mobile Development",
+    "description": "iOS, Android, React Native and Flutter — screens, features, releases and store assets.",
+    "icon": "Smartphone",
+    "group": "Tech & Product"
+  },
+  {
+    "id": "api",
+    "label": "API & Integrations",
+    "description": "API design, webhooks, SDKs, third-party integrations and developer docs.",
+    "icon": "Webhook",
+    "group": "Tech & Product"
+  },
+  {
     "id": "content",
     "label": "Content & Writing",
     "description": "Blog posts, marketing copy, docs and social — guided by audience, tone and goal.",
@@ -81,6 +95,13 @@
     "label": "Advertising & Copy",
     "description": "Ad creative, landing pages, value props and conversion copywriting.",
     "icon": "Megaphone",
+    "group": "Content & Marketing"
+  },
+  {
+    "id": "brand",
+    "label": "Brand & Messaging",
+    "description": "Positioning, naming, taglines, voice & tone, brand story and messaging frameworks.",
+    "icon": "Gem",
     "group": "Content & Marketing"
   },
   {

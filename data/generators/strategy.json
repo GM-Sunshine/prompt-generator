@@ -113,5 +113,255 @@
       { "id": "metrics", "label": "Define success metrics & targets", "type": "toggle", "default": true }
     ],
     "template": "You are a go-to-market strategist. Build a GTM plan for {{offering}} with a primarily {{motion}} motion.\n\n## What it is & why now\n{{context}}\n\n## Ideal customer profile\n{{icp}}\n\n## Plan components\n- Positioning and a one-sentence value proposition for the ICP, plus the core differentiation.\n- Segmentation and prioritization: which segment to win first and why.\n{{#if channels}}- Channel strategy across: {{channels}}. For each, the role, expected motion, and a first 90-day play.\n{{/if}}{{#if pricing}}- Pricing & packaging direction: {{pricing}}.\n{{/if}}{{#if timeline}}- Phased rollout aligned to: {{timeline}}.\n{{/if}}{{#if metrics}}- Success metrics with explicit targets and the leading indicators to watch.\n{{/if}}\n## Deliverables\n1. The GTM plan organized by component.\n2. A 90-day launch roadmap with owners and milestones.\n3. The top 3 risks and the assumptions to validate before scaling spend.\n\nBe specific and prioritized; avoid doing everything at once. Proceed with reasoned defaults and label assumptions; ask only if a decision is genuinely blocking."
+  },
+  {
+    "id": "porters-five-forces",
+    "label": "Porter's Five Forces",
+    "description": "Industry attractiveness analysis using Porter's Five Forces.",
+    "icon": "Crosshair",
+    "fields": [
+      {
+        "id": "company",
+        "label": "Company / business unit",
+        "type": "text",
+        "required": true,
+        "placeholder": "Northwind (vertical SaaS for clinics)"
+      },
+      {
+        "id": "industry",
+        "label": "Industry & scope",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Practice-management software for small healthcare clinics in North America."
+      },
+      {
+        "id": "context",
+        "label": "Market context & dynamics",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Fragmented buyers, 2 large incumbents, rising switching costs, AI entrants emerging."
+      },
+      {
+        "id": "knownForces",
+        "label": "Known facts per force (optional)",
+        "type": "textarea",
+        "placeholder": "Suppliers: few cloud vendors; Buyers: price-sensitive solo clinics."
+      },
+      {
+        "id": "depth",
+        "label": "Analysis depth",
+        "type": "select",
+        "options": [
+          {
+            "id": "summary",
+            "label": "Concise summary"
+          },
+          {
+            "id": "standard",
+            "label": "Standard"
+          },
+          {
+            "id": "deep",
+            "label": "Deep / board-ready"
+          }
+        ],
+        "default": "standard"
+      },
+      {
+        "id": "audience",
+        "label": "Audience",
+        "type": "select",
+        "optionsRef": "audiences",
+        "default": "executives"
+      },
+      {
+        "id": "scoreForces",
+        "label": "Rate each force High/Med/Low",
+        "type": "toggle",
+        "default": true
+      },
+      {
+        "id": "implications",
+        "label": "Include strategic implications",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a strategy consultant applying Porter's Five Forces rigorously for {{company}}.\n\n## Industry\n{{industry}}\n\n## Market context\n{{context}}\n\n{{#if knownForces}}## Known inputs per force\n{{knownForces}}\n\n{{/if}}## Analysis requirements\n- Audience: {{audience}}. Depth: {{depth}}.\n- Analyze all five forces: competitive rivalry, threat of new entrants, threat of substitutes, supplier power, buyer power.\n- For each force, give the key drivers and the evidence/reasoning, not just a verdict.\n{{#if scoreForces}}- Rate each force High / Medium / Low with a one-line justification.\n{{/if}}- Synthesize into an overall view of industry attractiveness.\n{{#if implications}}- Translate the analysis into 3-4 concrete strategic implications and where to compete.\n{{/if}}- Flag the biggest assumption that, if wrong, flips the conclusion.\n\n## Deliverables\n1. The five-forces analysis, force by force.\n2. An overall attractiveness verdict with rationale.\n3. Strategic implications and the key open question.\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "vision-statement",
+    "label": "Vision & Mission Statement",
+    "description": "Crisp vision, mission and guiding principles for a company or team.",
+    "icon": "Telescope",
+    "fields": [
+      {
+        "id": "orgName",
+        "label": "Company / team name",
+        "type": "text",
+        "required": true,
+        "placeholder": "Northstar"
+      },
+      {
+        "id": "whatWeDo",
+        "label": "What you do & for whom",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "We give small clinics enterprise-grade software so they can focus on patients."
+      },
+      {
+        "id": "future",
+        "label": "Change you want to see in the world",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Healthcare admin is invisible; clinicians spend time with patients, not paperwork."
+      },
+      {
+        "id": "values",
+        "label": "Core values / beliefs",
+        "type": "textarea",
+        "placeholder": "Patients first, radical simplicity, earn trust daily."
+      },
+      {
+        "id": "scope",
+        "label": "Scope",
+        "type": "select",
+        "options": [
+          {
+            "id": "company",
+            "label": "Whole company"
+          },
+          {
+            "id": "product",
+            "label": "Product / line"
+          },
+          {
+            "id": "team",
+            "label": "Team / function"
+          }
+        ],
+        "default": "company"
+      },
+      {
+        "id": "horizon",
+        "label": "Vision time horizon",
+        "type": "select",
+        "options": [
+          {
+            "id": "3y",
+            "label": "3 years"
+          },
+          {
+            "id": "5y",
+            "label": "5-10 years"
+          },
+          {
+            "id": "bhag",
+            "label": "Long-term BHAG"
+          }
+        ],
+        "default": "5y"
+      },
+      {
+        "id": "tone",
+        "label": "Tone",
+        "type": "select",
+        "optionsRef": "tones",
+        "default": "authoritative"
+      },
+      {
+        "id": "includePrinciples",
+        "label": "Include guiding principles",
+        "type": "toggle",
+        "default": true
+      }
+    ],
+    "template": "You are a brand and strategy advisor who crafts language leaders rally behind. Create vision and mission statements for {{orgName}} at the {{scope}} level.\n\n## What we do\n{{whatWeDo}}\n\n## The future we want\n{{future}}\n\n{{#if values}}## Values input\n{{values}}\n\n{{/if}}## Crafting rules\n- Tone: {{tone}}. Vision horizon: {{horizon}}.\n- Vision = the future-state outcome (aspirational, not about the product). Mission = how we get there (concrete, present tense).\n- Make them memorable and specific; ruthlessly cut jargon, buzzwords, and hedging.\n- Each statement should be one or two sentences and pass a \"would a team actually say this\" test.\n{{#if includePrinciples}}- Add 4-6 guiding principles, each a short imperative with a one-line meaning.\n{{/if}}\n## Deliverables\n1. Final vision statement (plus 2 alternates).\n2. Final mission statement (plus 2 alternates).\n3. {{#if includePrinciples}}The guiding principles list.{{else}}A one-line internal rallying cry.{{/if}}\n\nProceed with well-reasoned defaults; ask only if blocked."
+  },
+  {
+    "id": "partnership-proposal",
+    "label": "Strategic Partnership Proposal",
+    "description": "Proposal pitching a mutually beneficial partnership to a target company.",
+    "icon": "Handshake",
+    "fields": [
+      {
+        "id": "ourCompany",
+        "label": "Your company",
+        "type": "text",
+        "required": true,
+        "placeholder": "Northstar Insights"
+      },
+      {
+        "id": "partner",
+        "label": "Target partner",
+        "type": "text",
+        "required": true,
+        "placeholder": "Brightline CRM"
+      },
+      {
+        "id": "rationale",
+        "label": "Why this partnership, why now",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Shared mid-market customers; our analytics fills a gap in their roadmap."
+      },
+      {
+        "id": "partnerType",
+        "label": "Partnership type",
+        "type": "select",
+        "options": [
+          {
+            "id": "integration",
+            "label": "Product / tech integration"
+          },
+          {
+            "id": "reseller",
+            "label": "Reseller / channel"
+          },
+          {
+            "id": "comarketing",
+            "label": "Co-marketing"
+          },
+          {
+            "id": "oem",
+            "label": "OEM / embed"
+          },
+          {
+            "id": "strategic",
+            "label": "Broad strategic alliance"
+          }
+        ],
+        "default": "integration",
+        "required": true
+      },
+      {
+        "id": "valueToPartner",
+        "label": "Value to the partner",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "New revenue line, stickier product, differentiated analytics for their buyers."
+      },
+      {
+        "id": "valueToUs",
+        "label": "Value to us",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Distribution to 12k their customers, co-sell motion, category credibility."
+      },
+      {
+        "id": "model",
+        "label": "Proposed commercial model",
+        "type": "text",
+        "placeholder": "Rev share 80/20; co-marketing fund; mutual SLAs"
+      },
+      {
+        "id": "audience",
+        "label": "Audience",
+        "type": "select",
+        "optionsRef": "audiences",
+        "default": "executives"
+      }
+    ],
+    "template": "You are a corporate development lead pitching a partnership. Write a partnership proposal from {{ourCompany}} to {{partner}} for a {{partnerType}} partnership, for an audience of {{audience}}.\n\n## Why now\n{{rationale}}\n\n## Value exchange\n- For {{partner}}: {{valueToPartner}}\n- For {{ourCompany}}: {{valueToUs}}\n\n## Proposal rules\n- Lead with the partner's upside before ours; make the win-win concrete and quantified where possible.\n- Cover: strategic fit, the joint offering, target customers, go-to-market motion, and success metrics.\n{{#if model}}- Propose a commercial model: {{model}} (frame as a starting point, not an ultimatum).\n{{else}}- Suggest a sensible commercial model as a starting point.\n{{/if}}- Include a phased plan (pilot -> scale) with clear next steps and owners.\n- Be specific and credible; avoid hype and vague synergy language.\n\n## Deliverables\n1. The partnership proposal.\n2. A 5-bullet executive summary to open with.\n3. The recommended first ask and pilot scope.\n\nProceed with well-reasoned defaults; ask only if blocked."
   }
 ]

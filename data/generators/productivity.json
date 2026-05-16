@@ -111,5 +111,53 @@
       { "id": "variants", "label": "Provide a more & less formal variant", "type": "toggle", "default": false }
     ],
     "template": "You are a communications expert who writes emails that get the desired response.\n\n## Objective\n{{goal}}\n\n## Background & key points\n{{context}}\n\n## Brief\n- Recipient: {{recipient}}\n- Scenario: {{scenario}}.\n- Tone: {{tone}}.\n- Length: {{length}}.\n\n## How to write it\n- Lead with the point; respect the reader's time and make the ask or takeaway unmissable.\n{{#if scenario == \"Deliver bad news\"}}- Be direct and accountable, acknowledge impact, and pair the news with a concrete path forward.\n{{/if}}{{#if scenario == \"Follow-up / nudge\"}}- Be polite and low-friction; make it effortless to reply or act.\n{{/if}}- End with a single, specific call to action.\n{{#if subjectLines}}- Provide 3 subject line options optimized for opens and clarity.\n{{/if}}\n## Deliverables\nThe ready-to-send email{{#if subjectLines}} with subject line options{{/if}}{{#if variants}}, plus a more-formal and a more-casual variant{{/if}}.\n\nProceed with sound judgment and reasonable assumptions; ask only if the objective is unclear."
+  },
+  {
+    "id": "project-plan",
+    "label": "Project Plan",
+    "description": "Turn a project goal into phases, milestones and a realistic timeline",
+    "icon": "GanttChart",
+    "fields": [
+      { "id": "project", "label": "Project & goal", "type": "text", "required": true, "placeholder": "Migrate billing to Stripe and retire the legacy processor" },
+      { "id": "scope", "label": "Scope, deliverables & constraints", "type": "textarea", "required": true, "placeholder": "Must keep zero downtime; 3 engineers; finance sign-off needed; 8-week window." },
+      { "id": "owner", "label": "Your role / team context", "type": "text", "required": true, "placeholder": "Tech lead, cross-functional team of 5, async-first" },
+      { "id": "horizon", "label": "Timeline", "type": "select", "options": [ { "id": "2w", "label": "2 weeks" }, { "id": "1m", "label": "1 month" }, { "id": "1q", "label": "1 quarter" }, { "id": "6m", "label": "6 months" } ], "default": "1q" },
+      { "id": "methodology", "label": "Delivery approach", "type": "select", "options": [ { "id": "phased", "label": "Phased / waterfall" }, { "id": "agile", "label": "Agile / iterative" }, { "id": "milestone", "label": "Milestone-driven" } ], "default": "milestone" },
+      { "id": "includeRisks", "label": "Include a risk register", "type": "toggle", "default": true },
+      { "id": "includeRaci", "label": "Include roles / RACI", "type": "toggle", "default": true }
+    ],
+    "template": "You are a seasoned program manager. Turn this project into a realistic, defensible plan: {{project}}.\n\n## Scope, deliverables & constraints\n{{scope}}\n\n## Context\n- Owner / team: {{owner}}.\n- Timeline: {{horizon}}.\n- Delivery approach: {{methodology}}.\n\n## Build the plan as\n1. Clear objectives and definition of done; call out what is explicitly out of scope.\n2. Phases or workstreams broken into milestones with dependencies and a sequenced timeline that fits {{horizon}}.\n3. Key deliverables per milestone and the critical path.\n{{#if includeRaci}}4. Roles and a RACI for the major deliverables.\n{{/if}}{{#if includeRisks}}5. A risk register: top risks, likelihood/impact, and a mitigation or contingency for each.\n{{/if}}6. The success metrics and how progress will be tracked.\n\n## Deliverables\nThe complete project plan, decision-ready, plus a one-paragraph honest assessment of whether the scope fits the timeline.\n\nMake confident, well-reasoned assumptions and state them; ask only if the scope clearly cannot fit the timeline."
+  },
+  {
+    "id": "sop-document",
+    "label": "SOP Document",
+    "description": "Write a clear standard operating procedure anyone can follow",
+    "icon": "ListOrdered",
+    "fields": [
+      { "id": "processName", "label": "Process name", "type": "text", "required": true, "placeholder": "Onboarding a new customer to the platform" },
+      { "id": "processDetails", "label": "Steps, tools & context", "type": "textarea", "required": true, "placeholder": "Provision account, send welcome kit, schedule kickoff, configure SSO; uses Salesforce + internal admin." },
+      { "id": "audience", "label": "Who performs this", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "detailLevel", "label": "Detail level", "type": "select", "options": [ { "id": "checklist", "label": "Concise checklist" }, { "id": "standard", "label": "Standard step-by-step" }, { "id": "detailed", "label": "Detailed with screenshots cues" } ], "default": "standard" },
+      { "id": "sections", "label": "Include sections", "type": "multi-select", "options": [ { "id": "purpose", "label": "Purpose & scope" }, { "id": "roles", "label": "Roles & responsibilities" }, { "id": "prereqs", "label": "Prerequisites" }, { "id": "steps", "label": "Procedure steps" }, { "id": "exceptions", "label": "Exceptions / edge cases" }, { "id": "qa", "label": "Quality checks" } ], "default": ["purpose", "prereqs", "steps", "exceptions"] },
+      { "id": "includeRevision", "label": "Add version/revision metadata", "type": "toggle", "default": true }
+    ],
+    "template": "You are an operations specialist who writes SOPs people can follow without asking questions. Document the process: \"{{processName}}\".\n\n## Steps, tools & context\n{{processDetails}}\n\n## Brief\n- Performed by: {{audience}}\n- Tone: {{tone}}.\n- Detail level: {{detailLevel}}.\n- Include these sections: {{sections}}.\n\n## Requirements\n- Number every action step; one concrete, observable action per step starting with a verb.\n- State the expected result of key steps so the user knows it worked.\n- Make prerequisites, tools, and access explicit before step 1.\n- Cover the common exceptions and what to do when a step fails or branches.\n- Be unambiguous; remove anything that requires tribal knowledge to interpret.\n{{#if includeRevision}}- Add a header block with owner, version, last-reviewed date, and review cadence.\n{{/if}}\n## Deliverables\nThe complete SOP in the requested sections, ready to publish, plus a one-line note on any step that needs a subject-matter expert to verify.\n\nProceed with sensible operational defaults; ask only if a step in the process is undefined."
+  },
+  {
+    "id": "retro-facilitator",
+    "label": "Retro Facilitator",
+    "description": "Plan and run a focused team retrospective that drives change",
+    "icon": "RefreshCw",
+    "fields": [
+      { "id": "context", "label": "What you're reflecting on", "type": "textarea", "required": true, "placeholder": "Sprint 14: shipped late, two prod incidents, but cross-team collaboration improved." },
+      { "id": "teamContext", "label": "Team & situation", "type": "text", "required": true, "placeholder": "7-person remote eng team; some tension after the incidents" },
+      { "id": "audience", "label": "Participants", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "format", "label": "Retro format", "type": "select", "options": [ { "id": "wentwell", "label": "Went well / didn't / try" }, { "id": "starfish", "label": "Starfish (stop/start/keep...)" }, { "id": "4ls", "label": "4 Ls (liked/learned/lacked/longed)" }, { "id": "sailboat", "label": "Sailboat (wind/anchors)" }, { "id": "incident", "label": "Blameless incident review" } ], "default": "wentwell" },
+      { "id": "duration", "label": "Time available", "type": "select", "options": [ { "id": "30", "label": "30 minutes" }, { "id": "60", "label": "60 minutes" }, { "id": "90", "label": "90 minutes" } ], "default": "60" },
+      { "id": "psychSafety", "label": "Emphasize psychological safety", "type": "toggle", "default": true },
+      { "id": "actionFocus", "label": "Force a few committed action items", "type": "toggle", "default": true }
+    ],
+    "template": "You are an experienced agile facilitator who runs retros that actually change behavior. Plan a {{format}} retrospective.\n\n## What we're reflecting on\n{{context}}\n\n## Situation\n- Team: {{teamContext}}.\n- Participants: {{audience}}\n- Time available: {{duration}} minutes.\n\n## Build the session as\n1. A timed agenda that fits {{duration}} minutes: set the stage, gather data, generate insight, decide actions, close.\n2. The exact framing and prompt questions for the {{format}} format, plus how to collect input (round-robin, silent write, grouping).\n{{#if psychSafety}}3. An opening that establishes psychological safety and a blameless tone, especially given the situation above.\n{{/if}}4. How to cluster themes and steer the discussion toward root causes, not symptoms.\n{{#if actionFocus}}5. A mechanism to converge on 2-3 owned, specific, time-bound action items (not a wishlist).\n{{/if}}6. A short closing check (e.g. one-word or fist-of-five).\n\n## Deliverables\nThe full facilitation plan with timings, prompts, and the action-capture template, plus one tip for handling the likely tension in this team.\n\nProceed with sound facilitation defaults; ask only if the context is too thin to tailor prompts."
   }
 ]
