@@ -1,0 +1,15 @@
+[
+  { "id": "react", "label": "React", "group": "Frontend" },
+  { "id": "vue", "label": "Vue", "group": "Frontend" },
+  { "id": "svelte", "label": "Svelte", "group": "Frontend" },
+  { "id": "angular", "label": "Angular", "group": "Frontend" },
+  { "id": "solid", "label": "SolidJS", "group": "Frontend" },
+  { "id": "tailwind", "label": "Tailwind CSS", "group": "Styling" },
+  { "id": "shadcn", "label": "shadcn/ui", "group": "Styling" },
+  { "id": "mui", "label": "Material UI", "group": "Styling" },
+  { "id": "express", "label": "Express", "group": "Backend" },
+  { "id": "fastapi", "label": "FastAPI", "group": "Backend" },
+  { "id": "nestjs", "label": "NestJS", "group": "Backend" },
+  { "id": "trpc", "label": "tRPC", "group": "API" },
+  { "id": "graphql", "label": "GraphQL", "group": "API" }
+]

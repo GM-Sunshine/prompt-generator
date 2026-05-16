@@ -1,0 +1,89 @@
+[
+  {
+    "id": "saas-app",
+    "label": "SaaS Application",
+    "description": "Multi-tenant SaaS with auth, billing and a dashboard.",
+    "icon": "Building2",
+    "fields": [
+      { "id": "projectName", "label": "Project name", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "summary", "label": "What does it do?", "type": "textarea", "required": true, "placeholder": "A dashboard that lets teams track and share product metrics." },
+      { "id": "stack", "label": "Stack", "type": "select", "optionsRef": "stacks", "required": true, "default": "nextjs" },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "frameworks", "label": "Frameworks & libraries", "type": "multi-select", "optionsRef": "frameworks" },
+      { "id": "database", "label": "Database", "type": "select", "optionsRef": "databases", "default": "postgres" },
+      { "id": "auth", "label": "Include authentication", "type": "toggle", "default": true },
+      { "id": "billing", "label": "Include billing (Stripe)", "type": "toggle", "default": true },
+      { "id": "multitenant", "label": "Multi-tenant (orgs/workspaces)", "type": "toggle", "default": true },
+      { "id": "tests", "label": "Require automated tests", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Must deploy to Vercel; GDPR compliant; <200ms p95." }
+    ],
+    "template": "You are a senior full-stack engineer. Build a production-grade SaaS application called \"{{projectName}}\".\n\n## Product\n{{summary}}\n\n## Tech stack\n- Platform: {{stack}}\n- Language: {{language}}\n{{#if frameworks}}- Frameworks/libraries: {{frameworks}}\n{{/if}}- Database: {{database}}\n\n## Required capabilities\n{{#if auth}}- Authentication: email/password + OAuth, session management, password reset.\n{{/if}}{{#if multitenant}}- Multi-tenancy: organizations/workspaces with role-based access (owner, admin, member).\n{{/if}}{{#if billing}}- Billing: Stripe subscriptions with a free tier, plan upgrades/downgrades, and a billing portal.\n{{/if}}- A dashboard as the primary authenticated surface.\n- Clean, accessible, responsive UI.\n\n## Engineering expectations\n- Idiomatic, well-structured {{language}} with clear module boundaries.\n- Input validation and explicit error handling on every entry point.\n{{#if tests}}- Automated tests for core flows (unit + integration) and instructions to run them.\n{{/if}}- A README covering setup, environment variables, and how to run locally.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. A short plan of the architecture and data model before coding.\n2. The complete, runnable codebase organized by feature.\n3. Setup instructions and seed/sample data.\n\nAsk clarifying questions only if a requirement is ambiguous; otherwise make sensible, well-documented decisions and proceed."
+  },
+  {
+    "id": "animated-website",
+    "label": "Website with Animations",
+    "description": "Marketing / portfolio site with motion and polish.",
+    "icon": "Sparkles",
+    "fields": [
+      { "id": "projectName", "label": "Site name", "type": "text", "required": true, "placeholder": "Nova Studio" },
+      { "id": "summary", "label": "Purpose & sections", "type": "textarea", "required": true, "placeholder": "Agency site: hero, work showcase, services, about, contact." },
+      { "id": "stack", "label": "Stack", "type": "select", "optionsRef": "stacks", "default": "nextjs" },
+      { "id": "frameworks", "label": "Styling / libraries", "type": "multi-select", "optionsRef": "frameworks" },
+      { "id": "vibe", "label": "Visual vibe", "type": "text", "placeholder": "Bold, editorial, dark mode, lots of whitespace" },
+      { "id": "animationLevel", "label": "Animation intensity", "type": "select", "options": [ { "id": "subtle", "label": "Subtle & tasteful" }, { "id": "rich", "label": "Rich & expressive" }, { "id": "wow", "label": "Showstopper / award-style" } ], "default": "rich" },
+      { "id": "a11y", "label": "Respect reduced-motion / a11y", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Extra constraints", "type": "textarea", "placeholder": "Lighthouse 95+; no heavy 3D; ships in one file per route." }
+    ],
+    "template": "You are an award-winning frontend engineer and motion designer. Build a {{animationLevel}} animated website called \"{{projectName}}\".\n\n## Brief\n{{summary}}\n\n## Look & feel\n{{#if vibe}}Visual direction: {{vibe}}.\n{{/if}}Deliver a cohesive design system (type scale, color, spacing) before building.\n\n## Tech\n- Platform: {{stack}}\n{{#if frameworks}}- Styling/libraries: {{frameworks}}\n{{/if}}- Use modern CSS and a lightweight animation approach; avoid janky, layout-thrashing animations.\n\n## Motion direction\n- Entrance animations on scroll, smooth section transitions, and meaningful micro-interactions.\n{{#if animationLevel == \"wow\"}}- Push for a memorable signature moment (hero reveal or interactive centerpiece) without hurting performance.\n{{/if}}{{#if a11y}}- Honor prefers-reduced-motion and keep all content accessible and keyboard-navigable.\n{{/if}}- Target 60fps; prefer transform/opacity; lazy-load heavy assets.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The design system + a one-paragraph motion rationale.\n2. The complete, runnable code, component by component.\n3. Notes on performance budget and how it was met.\n\nMake confident design decisions and explain the key ones briefly."
+  },
+  {
+    "id": "spa",
+    "label": "Single-Page App",
+    "description": "Client-rendered app around a focused workflow.",
+    "icon": "AppWindow",
+    "fields": [
+      { "id": "projectName", "label": "App name", "type": "text", "required": true, "placeholder": "Kanbanly" },
+      { "id": "summary", "label": "Core workflow", "type": "textarea", "required": true, "placeholder": "A drag-and-drop kanban board with boards, lists and cards." },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "frameworks", "label": "Frameworks & libraries", "type": "multi-select", "optionsRef": "frameworks", "default": ["react", "tailwind"] },
+      { "id": "persistence", "label": "Persistence", "type": "select", "options": [ { "id": "local", "label": "LocalStorage / offline-first" }, { "id": "api", "label": "Backend API" }, { "id": "supabase", "label": "Supabase" } ], "default": "local" },
+      { "id": "state", "label": "State complexity", "type": "select", "options": [ { "id": "simple", "label": "Simple (hooks)" }, { "id": "moderate", "label": "Moderate (context/store)" }, { "id": "complex", "label": "Complex (state machine)" } ], "default": "moderate" },
+      { "id": "tests", "label": "Require tests", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior frontend engineer. Build a single-page application called \"{{projectName}}\".\n\n## Core workflow\n{{summary}}\n\n## Tech\n- Language: {{language}}\n{{#if frameworks}}- Frameworks/libraries: {{frameworks}}\n{{/if}}- State management: {{state}} approach.\n- Persistence: {{#if persistence == \"local\"}}offline-first using LocalStorage; data must survive reload.{{/if}}{{#if persistence == \"api\"}}a typed backend API client with optimistic updates.{{/if}}{{#if persistence == \"supabase\"}}Supabase (auth + database) with realtime where it helps.{{/if}}\n\n## Expectations\n- A clear component architecture and data flow described up front.\n- Responsive, accessible UI with sensible empty/loading/error states.\n- No unnecessary dependencies.\n{{#if tests}}- Tests for the core workflow and instructions to run them.\n{{/if}}\n## Deliverables\n1. Architecture sketch + state shape.\n2. Complete runnable code.\n3. README with setup and run steps.\n\nProceed with well-reasoned defaults; only ask if truly blocked."
+  },
+  {
+    "id": "rest-api",
+    "label": "REST / JSON API",
+    "description": "A documented, tested backend service.",
+    "icon": "Server",
+    "fields": [
+      { "id": "projectName", "label": "Service name", "type": "text", "required": true, "placeholder": "orders-api" },
+      { "id": "summary", "label": "What it manages", "type": "textarea", "required": true, "placeholder": "CRUD for orders and line items, with status transitions." },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "frameworks", "label": "Framework", "type": "multi-select", "optionsRef": "frameworks" },
+      { "id": "database", "label": "Database", "type": "select", "optionsRef": "databases", "default": "postgres" },
+      { "id": "apiStyle", "label": "API style", "type": "select", "options": [ { "id": "rest", "label": "REST" }, { "id": "graphql", "label": "GraphQL" } ], "default": "rest" },
+      { "id": "auth", "label": "Auth required", "type": "toggle", "default": true },
+      { "id": "docs", "label": "Generate OpenAPI/schema docs", "type": "toggle", "default": true },
+      { "id": "tests", "label": "Require tests", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Non-functional requirements", "type": "textarea", "placeholder": "Rate limiting, pagination, idempotency keys, <100ms p95." }
+    ],
+    "template": "You are a senior backend engineer. Build a {{apiStyle}} API service called \"{{projectName}}\".\n\n## Domain\n{{summary}}\n\n## Tech\n- Language: {{language}}\n{{#if frameworks}}- Framework: {{frameworks}}\n{{/if}}- Database: {{database}}\n\n## Requirements\n- Well-modeled schema and migrations.\n- Validated request/response payloads and consistent error envelopes.\n{{#if auth}}- Authentication and authorization on protected endpoints.\n{{/if}}{{#if docs}}- {{#if apiStyle == \"graphql\"}}A typed GraphQL schema with descriptions.{{else}}An OpenAPI 3 spec generated from the code.{{/if}}\n{{/if}}{{#if tests}}- Automated tests covering each endpoint (happy path + failure cases).\n{{/if}}{{#if constraints}}- Non-functional: {{constraints}}\n{{/if}}\n## Deliverables\n1. Data model + endpoint list before implementation.\n2. Complete runnable service with migrations and seed data.\n3. README: setup, env vars, run, and example requests (curl).\n\nUse production-grade defaults and explain notable trade-offs."
+  },
+  {
+    "id": "cli-tool",
+    "label": "CLI Tool",
+    "description": "A focused, ergonomic command-line utility.",
+    "icon": "Terminal",
+    "fields": [
+      { "id": "projectName", "label": "Command name", "type": "text", "required": true, "placeholder": "snapsync" },
+      { "id": "summary", "label": "What it does", "type": "textarea", "required": true, "placeholder": "Sync a local folder to S3 with diffing and a dry-run mode." },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "go" },
+      { "id": "distribution", "label": "Distribution", "type": "select", "options": [ { "id": "binary", "label": "Single static binary" }, { "id": "npm", "label": "npm package" }, { "id": "pip", "label": "pip package" }, { "id": "script", "label": "Standalone script" } ], "default": "binary" },
+      { "id": "interactive", "label": "Interactive prompts", "type": "toggle", "default": false },
+      { "id": "tests", "label": "Require tests", "type": "toggle", "default": true }
+    ],
+    "template": "You are an expert in building ergonomic command-line tools. Build a CLI called \"{{projectName}}\".\n\n## Purpose\n{{summary}}\n\n## Tech\n- Language: {{language}}\n- Distribution: {{distribution}}.\n\n## UX requirements\n- Clear `--help`, sensible subcommands, and good defaults.\n- Helpful, non-cryptic error messages and correct exit codes.\n- A `--dry-run` / verbose option where it makes sense.\n{{#if interactive}}- Interactive prompts when required arguments are missing (but always scriptable via flags).\n{{/if}}{{#if tests}}- Automated tests for argument parsing and core behavior.\n{{/if}}\n## Deliverables\n1. Command/flag design before coding.\n2. Complete runnable code.\n3. README with install and usage examples.\n\nFavor a small dependency footprint and explain key design choices briefly."
+  }
+]

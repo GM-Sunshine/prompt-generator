@@ -1,0 +1,10 @@
+[
+  { "id": "line", "label": "Line chart" },
+  { "id": "bar", "label": "Bar chart" },
+  { "id": "stacked-bar", "label": "Stacked bar" },
+  { "id": "area", "label": "Area chart" },
+  { "id": "scatter", "label": "Scatter plot" },
+  { "id": "pie", "label": "Pie / donut" },
+  { "id": "heatmap", "label": "Heatmap" },
+  { "id": "table", "label": "Tabular summary" }
+]

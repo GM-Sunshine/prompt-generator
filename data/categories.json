@@ -1,0 +1,30 @@
+[
+  {
+    "id": "development",
+    "label": "Software Development",
+    "description": "Scaffold apps, APIs, SPAs and tools. Pick a stack, language and framework and get a production-grade build prompt.",
+    "icon": "Code2",
+    "accent": "violet"
+  },
+  {
+    "id": "content",
+    "label": "Content & Writing",
+    "description": "Blog posts, marketing copy, docs and social — guided by audience, tone and goal.",
+    "icon": "PenLine",
+    "accent": "amber"
+  },
+  {
+    "id": "data",
+    "label": "Data & Analysis",
+    "description": "SQL, data cleaning, analysis reports and visualization specs from a clear brief.",
+    "icon": "BarChart3",
+    "accent": "emerald"
+  },
+  {
+    "id": "design",
+    "label": "Design & UX",
+    "description": "UI briefs, design systems and user-flow descriptions an AI can act on.",
+    "icon": "Palette",
+    "accent": "rose"
+  }
+]

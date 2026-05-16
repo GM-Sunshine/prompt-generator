@@ -1,0 +1,10 @@
+[
+  { "id": "professional", "label": "Professional" },
+  { "id": "conversational", "label": "Conversational" },
+  { "id": "authoritative", "label": "Authoritative" },
+  { "id": "playful", "label": "Playful" },
+  { "id": "empathetic", "label": "Empathetic" },
+  { "id": "persuasive", "label": "Persuasive" },
+  { "id": "technical", "label": "Technical" },
+  { "id": "minimal", "label": "Minimal / no-fluff" }
+]

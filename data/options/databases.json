@@ -1,0 +1,10 @@
+[
+  { "id": "postgres", "label": "PostgreSQL" },
+  { "id": "mysql", "label": "MySQL" },
+  { "id": "sqlite", "label": "SQLite" },
+  { "id": "mongodb", "label": "MongoDB" },
+  { "id": "supabase", "label": "Supabase" },
+  { "id": "planetscale", "label": "PlanetScale" },
+  { "id": "redis", "label": "Redis" },
+  { "id": "none", "label": "No database / in-memory" }
+]

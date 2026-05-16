@@ -1,0 +1,9 @@
+[
+  { "id": "general", "label": "General public" },
+  { "id": "developers", "label": "Software developers" },
+  { "id": "executives", "label": "Executives / decision makers" },
+  { "id": "marketers", "label": "Marketers" },
+  { "id": "students", "label": "Students / learners" },
+  { "id": "customers", "label": "Existing customers" },
+  { "id": "prospects", "label": "Prospective buyers" }
+]

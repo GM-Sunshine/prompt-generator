@@ -1,0 +1,58 @@
+[
+  {
+    "id": "sql-query",
+    "label": "SQL Query",
+    "description": "A correct, readable query from a plain-English ask.",
+    "icon": "Database",
+    "fields": [
+      { "id": "goal", "label": "What do you want to know?", "type": "textarea", "required": true, "placeholder": "Monthly active users and revenue per plan for the last 12 months." },
+      { "id": "dialect", "label": "SQL dialect", "type": "select", "options": [ { "id": "postgres", "label": "PostgreSQL" }, { "id": "mysql", "label": "MySQL" }, { "id": "bigquery", "label": "BigQuery" }, { "id": "snowflake", "label": "Snowflake" }, { "id": "sqlite", "label": "SQLite" } ], "default": "postgres" },
+      { "id": "schema", "label": "Relevant tables / schema", "type": "textarea", "required": true, "placeholder": "users(id, created_at, plan), invoices(id, user_id, amount_cents, paid_at)" },
+      { "id": "explain", "label": "Explain the query", "type": "toggle", "default": true },
+      { "id": "performance", "label": "Optimize for performance", "type": "toggle", "default": false }
+    ],
+    "template": "You are an expert data engineer. Write a {{dialect}} SQL query.\n\n## Question to answer\n{{goal}}\n\n## Schema (use only these objects)\n{{schema}}\n\n## Requirements\n- Correct, deterministic, and using only the columns/tables above. If something is missing, state the assumption explicitly.\n- Readable: CTEs over nested subqueries, meaningful aliases, formatted consistently.\n- Handle NULLs and time zones sensibly.\n{{#if performance}}- Optimize for performance: avoid needless scans, note useful indexes, and explain the access pattern.\n{{/if}}{{#if explain}}- After the query, explain in plain language what it does and any assumptions made.\n{{/if}}\nReturn the final query in a single code block."
+  },
+  {
+    "id": "data-cleaning",
+    "label": "Data Cleaning Plan",
+    "description": "A reproducible cleaning/transform pipeline.",
+    "icon": "Brush",
+    "fields": [
+      { "id": "dataset", "label": "Dataset description", "type": "textarea", "required": true, "placeholder": "Exported CRM contacts: name, email, company, signup_date, country." },
+      { "id": "source", "label": "Source", "type": "select", "optionsRef": "data-sources", "default": "csv" },
+      { "id": "tool", "label": "Tooling", "type": "select", "options": [ { "id": "pandas", "label": "Python / pandas" }, { "id": "polars", "label": "Python / Polars" }, { "id": "sql", "label": "SQL" }, { "id": "r", "label": "R / tidyverse" } ], "default": "pandas" },
+      { "id": "issues", "label": "Known issues", "type": "textarea", "placeholder": "Duplicate emails, inconsistent country codes, missing signup dates." },
+      { "id": "outcome", "label": "Desired output", "type": "text", "required": true, "placeholder": "A deduplicated, typed table ready for analysis." }
+    ],
+    "template": "You are a meticulous data engineer. Produce a reproducible data-cleaning pipeline.\n\n## Dataset\n{{dataset}}\n- Source: {{source}}\n- Tooling: {{tool}}\n\n## Known issues\n{{#if issues}}{{issues}}{{else}}None stated — profile the data first and report what you find.{{/if}}\n\n## Desired output\n{{outcome}}\n\n## Requirements\n- Start by profiling: row counts, types, null rates, duplicates, outliers.\n- For every transformation, state the rule and the rationale; never silently drop data.\n- Make it idempotent and re-runnable; parameterize file paths/inputs.\n- Add validation/assertions on the final output.\n\n## Deliverables\n1. A short profiling summary.\n2. The full, runnable {{tool}} pipeline with comments.\n3. A list of assumptions and anything a human should review."
+  },
+  {
+    "id": "analysis-report",
+    "label": "Analysis Report",
+    "description": "An insight-driven report from a question.",
+    "icon": "LineChart",
+    "fields": [
+      { "id": "question", "label": "Business question", "type": "textarea", "required": true, "placeholder": "Why did trial-to-paid conversion drop in Q1?" },
+      { "id": "data", "label": "Available data", "type": "textarea", "required": true, "placeholder": "Events table, subscriptions table, support tickets — describe columns." },
+      { "id": "audience", "label": "Report audience", "type": "select", "optionsRef": "audiences", "default": "executives" },
+      { "id": "depth", "label": "Depth", "type": "select", "options": [ { "id": "summary", "label": "Executive summary" }, { "id": "standard", "label": "Standard report" }, { "id": "deep", "label": "Deep dive" } ], "default": "standard" },
+      { "id": "recommendations", "label": "Include recommendations", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior data analyst. Produce an analysis report.\n\n## Question\n{{question}}\n\n## Available data\n{{data}}\n\n## Audience & depth\n- Audience: {{audience}}.\n- Depth: {{depth}}.\n\n## Requirements\n- Lead with the answer and the 2-3 key findings (BLUF).\n- Support each claim with a specific metric or comparison; quantify impact.\n- Distinguish correlation from causation; state confidence and caveats.\n- Specify the exact analyses/queries you'd run and what each would show.\n{{#if recommendations}}- End with prioritized, actionable recommendations and expected impact.\n{{/if}}\nWrite the report itself (Markdown), not a description of how you'd write it. Use placeholders like [VALUE] where real numbers would go."
+  },
+  {
+    "id": "viz-spec",
+    "label": "Visualization Spec",
+    "description": "A precise brief for charts/dashboards.",
+    "icon": "PieChart",
+    "fields": [
+      { "id": "goal", "label": "What should the viewer learn?", "type": "textarea", "required": true, "placeholder": "Show how revenue mix shifted across plans over time." },
+      { "id": "chartTypes", "label": "Chart type(s)", "type": "multi-select", "optionsRef": "chart-types", "default": ["line"] },
+      { "id": "data", "label": "Data shape", "type": "textarea", "required": true, "placeholder": "date, plan, revenue — one row per plan per month." },
+      { "id": "tool", "label": "Implementation", "type": "select", "options": [ { "id": "spec", "label": "Tool-agnostic spec" }, { "id": "vega", "label": "Vega-Lite" }, { "id": "recharts", "label": "Recharts (React)" }, { "id": "matplotlib", "label": "Python / matplotlib" } ], "default": "spec" },
+      { "id": "interactive", "label": "Interactive", "type": "toggle", "default": false }
+    ],
+    "template": "You are a data-visualization expert. Specify a visualization.\n\n## Communication goal\n{{goal}}\n\n## Data shape\n{{data}}\n\n## Chart\n- Preferred type(s): {{chartTypes}} — choose the most honest encoding; recommend a better one if these mislead.\n- Output: {{#if tool == \"spec\"}}a tool-agnostic spec.{{else}}{{tool}} code.{{/if}}\n\n## Requirements\n- Define encodings (x, y, color, facet), scales, sort order, and axis/number formatting.\n- Accessible: colorblind-safe palette, labels and units, no chartjunk.\n{{#if interactive}}- Interactivity: tooltips, and relevant filters/zoom — describe each.\n{{/if}}- Note the single takeaway the chart should make obvious, and the title that states it.\n\n{{#if tool == \"spec\"}}Deliver the spec as a clear structured description.{{else}}Deliver runnable {{tool}} code plus a one-line caption.{{/if}}"
+  }
+]

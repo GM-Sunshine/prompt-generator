@@ -1,0 +1,14 @@
+[
+  { "id": "nextjs", "label": "Next.js (full-stack React)", "group": "Full-stack" },
+  { "id": "t3", "label": "T3 (Next.js + tRPC + Prisma)", "group": "Full-stack" },
+  { "id": "remix", "label": "Remix", "group": "Full-stack" },
+  { "id": "sveltekit", "label": "SvelteKit", "group": "Full-stack" },
+  { "id": "django", "label": "Django + DRF", "group": "Full-stack" },
+  { "id": "rails", "label": "Ruby on Rails", "group": "Full-stack" },
+  { "id": "laravel", "label": "Laravel", "group": "Full-stack" },
+  { "id": "spring", "label": "Spring Boot", "group": "Full-stack" },
+  { "id": "mern", "label": "MERN (Mongo/Express/React/Node)", "group": "JS" },
+  { "id": "fastapi-react", "label": "FastAPI + React", "group": "Split" },
+  { "id": "go-htmx", "label": "Go + HTMX", "group": "Server-rendered" },
+  { "id": "static", "label": "Static site (Astro)", "group": "Static" }
+]

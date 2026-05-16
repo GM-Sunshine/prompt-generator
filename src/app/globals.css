@@ -1,26 +1,237 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
+  --font-heading: var(--font-display);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-paper: var(--paper);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-3xl: calc(var(--radius) * 3);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/*
+  PROMPT FORGE — "the studio edition".
+  Warm paper, ink, one confident cobalt. Light, airy, editorial.
+  Hierarchy comes from type weight & whitespace, not boxes.
+*/
+:root {
+  --paper: oklch(0.974 0.007 83);
+  --background: oklch(0.974 0.007 83);
+  --foreground: oklch(0.235 0.013 64);
+  --card: oklch(0.995 0.003 83);
+  --card-foreground: oklch(0.235 0.013 64);
+  --popover: oklch(0.995 0.003 83);
+  --popover-foreground: oklch(0.235 0.013 64);
+
+  --primary: oklch(0.498 0.193 258);
+  --primary-foreground: oklch(0.99 0.004 250);
+
+  --secondary: oklch(0.932 0.008 80);
+  --secondary-foreground: oklch(0.3 0.013 64);
+  --muted: oklch(0.936 0.006 80);
+  --muted-foreground: oklch(0.495 0.013 62);
+  --accent: oklch(0.94 0.035 258);
+  --accent-foreground: oklch(0.34 0.12 258);
+  --destructive: oklch(0.58 0.21 27);
+
+  --border: oklch(0.235 0.02 64 / 13%);
+  --input: oklch(0.235 0.02 64 / 17%);
+  --ring: oklch(0.498 0.193 258 / 42%);
+
+  --radius: 0.625rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    outline-color: var(--ring);
+  }
+
+  html {
+    color-scheme: light;
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "ss01";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: oklch(0.498 0.193 258 / 22%);
+    color: var(--foreground);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.235 0.02 64 / 18%);
+    border-radius: 99px;
+    border: 3px solid var(--background);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.498 0.193 258 / 45%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  /* Editorial kicker — quiet, tracked, with a short accent lede */
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+  .kicker::before {
+    content: "";
+    width: 1.6rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--primary);
+  }
+
+  /* Soft atmosphere: warm light, one faint cobalt bloom — never a flat fill */
+  .stage {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        38rem 30rem at 88% -6%,
+        oklch(0.498 0.193 258 / 9%),
+        transparent 68%
+      ),
+      radial-gradient(
+        46rem 38rem at 8% 108%,
+        oklch(0.62 0.12 70 / 7%),
+        transparent 70%
+      ),
+      var(--paper);
+  }
+
+  /* Airy card — no heavy borders, depth via soft shadow + lift */
+  .card-soft {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow:
+      0 1px 2px oklch(0.235 0.02 64 / 4%),
+      0 1px 0 oklch(1 0 0 / 60%) inset;
+    transition:
+      transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.32s ease;
+  }
+  a.card-soft:hover,
+  .card-soft.is-interactive:hover {
+    transform: translateY(-3px);
+    border-color: oklch(0.498 0.193 258 / 28%);
+    box-shadow:
+      0 18px 40px -22px oklch(0.498 0.193 258 / 40%),
+      0 2px 6px oklch(0.235 0.02 64 / 5%);
+  }
+
+  /* Underline that draws in on hover */
+  .ulink {
+    position: relative;
+  }
+  .ulink::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ulink:hover::after,
+  .group:hover .ulink::after {
+    transform: scaleX(1);
+  }
+
+  .reveal {
+    opacity: 0;
+    animation: rise 0.78s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .d1 { animation-delay: 0.04s; }
+  .d2 { animation-delay: 0.12s; }
+  .d3 { animation-delay: 0.2s; }
+  .d4 { animation-delay: 0.28s; }
+  .d5 { animation-delay: 0.36s; }
+  .d6 { animation-delay: 0.44s; }
+  .d7 { animation-delay: 0.52s; }
+  .d8 { animation-delay: 0.6s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      animation: none;
+      opacity: 1;
+    }
+    .card-soft,
+    .ulink::after {
+      transition: none;
+    }
+  }
 }

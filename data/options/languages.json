@@ -1,0 +1,13 @@
+[
+  { "id": "ts", "label": "TypeScript" },
+  { "id": "js", "label": "JavaScript" },
+  { "id": "python", "label": "Python" },
+  { "id": "go", "label": "Go" },
+  { "id": "rust", "label": "Rust" },
+  { "id": "java", "label": "Java" },
+  { "id": "kotlin", "label": "Kotlin" },
+  { "id": "csharp", "label": "C#" },
+  { "id": "ruby", "label": "Ruby" },
+  { "id": "php", "label": "PHP" },
+  { "id": "swift", "label": "Swift" }
+]

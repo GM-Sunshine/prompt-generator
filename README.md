@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prompt Forge
 
-## Getting Started
+An open-source, **JSON-driven AI prompt generator**. Pick a category, choose a
+generator type, answer a few guided questions, and Prompt Forge assembles a
+sharp, reusable prompt — then exports it formatted for ChatGPT, Cursor and
+more.
 
-First, run the development server:
+No API keys. No LLM calls. Every page is server-rendered from JSON.
+
+- **Categories**: Software Development · Content & Writing · Data & Analysis · Design & UX
+- **Multi-model export**: Plain · ChatGPT · XML / Structured · Cursor · System + User
+- **All content is data**: add a category or generator by editing JSON — no code
+- **Conditional templates**: `{{#if}}`, `{{#each}}`, equality — no `eval`
+
+## Quick start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+npm run build && npm start   # production
+npm test                     # template-engine unit tests
+npm run lint
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How it works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+data/
+  categories.json              the top-level categories
+  options/<ref>.json           shared option pools (stacks, languages, …)
+  generators/<category>.json    generator types: fields[] + a template
+```
 
-## Learn More
+1. The user picks a category → a generator type.
+2. The generator's `fields[]` render as inputs/toggles/selection pills.
+3. Selections feed a [conditional-block template](#template-syntax).
+4. The rendered prompt is reshaped per export target and copied/downloaded.
 
-To learn more about Next.js, take a look at the following resources:
+Routes are statically generated (`generateStaticParams`); the only client code
+is the interactive builder island.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Adding content (no code)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Add a generator type by appending an object to the relevant
+`data/generators/<category>.json`:
 
-## Deploy on Vercel
+```jsonc
+{
+  "id": "my-generator",
+  "label": "My Generator",
+  "description": "What it produces.",
+  "icon": "Wand2",                       // any lucide-react icon name
+  "fields": [
+    { "id": "name", "label": "Name", "type": "text", "required": true },
+    { "id": "stack", "label": "Stack", "type": "select", "optionsRef": "stacks" },
+    { "id": "tests", "label": "Add tests", "type": "toggle", "default": true }
+  ],
+  "template": "Build {{name}}.{{#if tests}} Include tests.{{/if}}"
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Field types: `text`, `textarea`, `select`, `multi-select`, `toggle`. Options come
+inline (`options`) or from a shared pool (`optionsRef` → `data/options/<ref>.json`).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Template syntax
+
+```
+{{ name }}                       interpolate (arrays join with ", ")
+{{#if x}} … {{else}} … {{/if}}    truthiness
+{{#if x == "y"}} … {{/if}}        equality (also !=; arrays test includes)
+{{#unless x}} … {{/unless}}
+{{#each list}} {{this}} {{@index}} {{@last}} {{/each}}
+```
+
+See `src/lib/template.ts` and its tests in `src/lib/template.test.ts`.
+
+## Tech
+
+Next.js (App Router) · TypeScript · Tailwind CSS v4 · shadcn/ui · Vitest.
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md). New generators and option pools are the
+most welcome contributions — they're pure JSON.
+
+## License
+
+[MIT](./LICENSE)

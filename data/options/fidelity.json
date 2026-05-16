@@ -1,0 +1,6 @@
+[
+  { "id": "lowfi", "label": "Low-fi wireframe" },
+  { "id": "midfi", "label": "Mid-fi layout" },
+  { "id": "hifi", "label": "High-fidelity mockup" },
+  { "id": "production", "label": "Production-ready UI" }
+]

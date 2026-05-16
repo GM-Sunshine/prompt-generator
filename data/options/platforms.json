@@ -1,0 +1,7 @@
+[
+  { "id": "web", "label": "Responsive web" },
+  { "id": "mobile-web", "label": "Mobile web" },
+  { "id": "ios", "label": "iOS app" },
+  { "id": "android", "label": "Android app" },
+  { "id": "desktop", "label": "Desktop app" }
+]

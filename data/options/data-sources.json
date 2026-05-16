@@ -1,0 +1,10 @@
+[
+  { "id": "csv", "label": "CSV / flat file" },
+  { "id": "postgres", "label": "PostgreSQL" },
+  { "id": "mysql", "label": "MySQL" },
+  { "id": "bigquery", "label": "BigQuery" },
+  { "id": "snowflake", "label": "Snowflake" },
+  { "id": "sheets", "label": "Google Sheets" },
+  { "id": "api", "label": "REST/JSON API" },
+  { "id": "parquet", "label": "Parquet / data lake" }
+]

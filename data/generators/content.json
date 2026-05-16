@@ -1,0 +1,49 @@
+[
+  {
+    "id": "blog-post",
+    "label": "Blog Post / Article",
+    "description": "Long-form article with structure and a clear angle.",
+    "icon": "FileText",
+    "fields": [
+      { "id": "topic", "label": "Topic", "type": "text", "required": true, "placeholder": "How vector databases work" },
+      { "id": "angle", "label": "Angle / thesis", "type": "textarea", "required": true, "placeholder": "Most teams don't need a dedicated vector DB yet — here's how to decide." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "developers" },
+      { "id": "tone", "label": "Tone", "type": "multi-select", "optionsRef": "tones", "default": ["conversational"] },
+      { "id": "length", "label": "Target length", "type": "select", "options": [ { "id": "short", "label": "~600 words" }, { "id": "medium", "label": "~1200 words" }, { "id": "long", "label": "~2000+ words" } ], "default": "medium" },
+      { "id": "seo", "label": "Optimize for SEO", "type": "toggle", "default": true },
+      { "id": "keywords", "label": "Target keywords", "type": "text", "placeholder": "vector database, embeddings, RAG" },
+      { "id": "cta", "label": "Call to action", "type": "text", "placeholder": "Try the open-source starter repo" }
+    ],
+    "template": "You are an expert writer and editor. Write a blog post.\n\n## Topic\n{{topic}}\n\n## Thesis / angle\n{{angle}}\n\n## Audience & voice\n- Audience: {{audience}}.\n- Tone: {{tone}}.\n- Length: {{length}}.\n\n## Requirements\n- Lead with a hook; no throat-clearing.\n- Use clear headings and short paragraphs; show, don't just tell (examples, analogies).\n- Be accurate and specific; flag anything uncertain rather than inventing it.\n{{#if seo}}- SEO: work in these keywords naturally{{#if keywords}} ({{keywords}}){{/if}}, write a compelling title and meta description, and use descriptive subheadings.\n{{/if}}{{#if cta}}- End with a clear call to action: {{cta}}.\n{{/if}}\n## Deliverables\n1. 3 title options.\n2. The full post in Markdown.\n3. A one-sentence summary for social sharing.\n\nWrite the final piece directly; don't describe what you would do."
+  },
+  {
+    "id": "marketing-copy",
+    "label": "Marketing Copy",
+    "description": "Landing page, ad or email copy that converts.",
+    "icon": "Megaphone",
+    "fields": [
+      { "id": "product", "label": "Product / offer", "type": "text", "required": true, "placeholder": "An AI prompt generator for dev teams" },
+      { "id": "value", "label": "Core value proposition", "type": "textarea", "required": true, "placeholder": "Turn repetitive AI prompting into a guided, shareable workflow." },
+      { "id": "format", "label": "Format", "type": "select", "options": [ { "id": "landing", "label": "Landing page" }, { "id": "email", "label": "Email" }, { "id": "ads", "label": "Ad set" }, { "id": "social", "label": "Social posts" } ], "default": "landing" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "multi-select", "optionsRef": "tones", "default": ["persuasive"] },
+      { "id": "pains", "label": "Pain points to address", "type": "textarea", "placeholder": "Inconsistent prompts, wasted time, no reuse across the team." },
+      { "id": "variants", "label": "Number of variants", "type": "select", "options": [ { "id": "1", "label": "1" }, { "id": "3", "label": "3" }, { "id": "5", "label": "5" } ], "default": "3" }
+    ],
+    "template": "You are a senior conversion copywriter. Write {{format}} copy.\n\n## Product\n{{product}}\n\n## Value proposition\n{{value}}\n\n## Audience & tone\n- Audience: {{audience}}.\n- Tone: {{tone}}.\n{{#if pains}}- Pain points to speak to: {{pains}}.\n{{/if}}\n## Requirements\n- Benefit-led, concrete, no vague hype or filler.\n- Strong, specific headline and a clear primary call to action.\n{{#if format == \"landing\"}}- Provide: headline, subhead, 3 benefit blocks, social-proof placeholder, FAQ, final CTA.\n{{/if}}{{#if format == \"email\"}}- Provide: subject line (+2 alternates), preview text, body, CTA.\n{{/if}}{{#if format == \"ads\"}}- Provide platform-appropriate variants with character counts noted.\n{{/if}}- Produce {{variants}} distinct variant(s) with a one-line note on the differentiator of each.\n\nDeliver the finished copy, ready to paste."
+  },
+  {
+    "id": "documentation",
+    "label": "Technical Documentation",
+    "description": "Clear docs: guides, references or READMEs.",
+    "icon": "BookOpen",
+    "fields": [
+      { "id": "subject", "label": "What are you documenting?", "type": "text", "required": true, "placeholder": "The prompt-generator JSON data format" },
+      { "id": "docType", "label": "Doc type", "type": "select", "options": [ { "id": "readme", "label": "README" }, { "id": "guide", "label": "How-to guide" }, { "id": "reference", "label": "API/reference" }, { "id": "tutorial", "label": "Tutorial" } ], "default": "guide" },
+      { "id": "audience", "label": "Reader", "type": "select", "optionsRef": "audiences", "default": "developers" },
+      { "id": "context", "label": "Source material / facts", "type": "textarea", "required": true, "placeholder": "Paste the relevant code, schema or notes the docs must be faithful to." },
+      { "id": "examples", "label": "Include worked examples", "type": "toggle", "default": true }
+    ],
+    "template": "You are a staff technical writer. Produce {{docType}} documentation for: {{subject}}.\n\n## Reader\n{{audience}} — assume competence but not prior knowledge of this specific system.\n\n## Source material (treat as the source of truth)\n{{context}}\n\n## Requirements\n- Accurate and faithful to the source material above — never invent APIs, flags or behavior.\n- Skimmable structure with task-oriented headings.\n- Define terms on first use; keep sentences tight.\n{{#if examples}}- Include copy-pasteable, working examples for the common cases.\n{{/if}}{{#if docType == \"reference\"}}- Document every parameter: name, type, required?, default, description.\n{{/if}}\nDeliver the documentation in Markdown, final and complete."
+  }
+]

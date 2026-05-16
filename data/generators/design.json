@@ -1,0 +1,47 @@
+[
+  {
+    "id": "ui-brief",
+    "label": "UI Mockup Brief",
+    "description": "A precise brief to generate or design a screen.",
+    "icon": "LayoutDashboard",
+    "fields": [
+      { "id": "screen", "label": "Screen / component", "type": "text", "required": true, "placeholder": "Billing settings page" },
+      { "id": "purpose", "label": "User goal on this screen", "type": "textarea", "required": true, "placeholder": "Let an admin view their plan, change it, and update the payment method." },
+      { "id": "platform", "label": "Platform", "type": "select", "optionsRef": "platforms", "default": "web" },
+      { "id": "fidelity", "label": "Fidelity", "type": "select", "optionsRef": "fidelity", "default": "hifi" },
+      { "id": "style", "label": "Style direction", "type": "text", "placeholder": "Clean, modern SaaS; neutral palette; subtle depth" },
+      { "id": "elements", "label": "Must-have elements", "type": "textarea", "placeholder": "Current plan card, plan comparison, payment method, invoices table." },
+      { "id": "states", "label": "Include edge states", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior product designer. Produce a {{fidelity}} design brief for the \"{{screen}}\" screen.\n\n## User goal\n{{purpose}}\n\n## Constraints\n- Platform: {{platform}}.\n{{#if style}}- Style direction: {{style}}.\n{{/if}}{{#if elements}}- Must include: {{elements}}.\n{{/if}}\n## Requirements\n- Describe layout as a clear hierarchy (regions, sections, components) with intent for each.\n- Specify spacing rhythm, type roles, and color usage at a system level (not pixel-by-pixel unless production fidelity).\n- Define the primary action and how the layout guides the user to it.\n{{#if states}}- Cover empty, loading, error, and success states explicitly.\n{{/if}}- Note accessibility: contrast, focus order, touch targets, and labels.\n\n## Deliverables\n1. A structured layout description an AI image/UI tool can render faithfully.\n2. A short rationale for the two most important decisions.\n{{#if fidelity == \"production\"}}3. Component-level specs ready for a developer to implement.\n{{/if}}"
+  },
+  {
+    "id": "design-system",
+    "label": "Design System",
+    "description": "Foundational tokens and component rules.",
+    "icon": "Component",
+    "fields": [
+      { "id": "product", "label": "Product", "type": "text", "required": true, "placeholder": "A developer-tools dashboard" },
+      { "id": "brand", "label": "Brand personality", "type": "textarea", "required": true, "placeholder": "Precise, trustworthy, a little playful. Dark-mode first." },
+      { "id": "platform", "label": "Platform", "type": "multi-select", "optionsRef": "platforms", "default": ["web"] },
+      { "id": "scope", "label": "Scope", "type": "multi-select", "options": [ { "id": "color", "label": "Color" }, { "id": "type", "label": "Typography" }, { "id": "space", "label": "Spacing & layout" }, { "id": "components", "label": "Core components" }, { "id": "motion", "label": "Motion" } ], "default": ["color", "type", "space", "components"] },
+      { "id": "framework", "label": "Implementation target", "type": "select", "options": [ { "id": "none", "label": "Design only" }, { "id": "tailwind", "label": "Tailwind config" }, { "id": "css", "label": "CSS variables" } ], "default": "tailwind" }
+    ],
+    "template": "You are a design-systems lead. Define a design system.\n\n## Product\n{{product}}\n\n## Brand personality\n{{brand}}\n\n## Scope\n- Platforms: {{platform}}.\n- Cover: {{scope}}.\n\n## Requirements\n- Start from principles, then derive tokens — explain the reasoning, don't just list values.\n{{#if scope == \"color\"}}- Color: semantic roles (bg, surface, text, primary, danger…), light/dark, all pairs AA-contrast.\n{{/if}}{{#if scope == \"type\"}}- Typography: a modular scale with roles and line-heights.\n{{/if}}{{#if scope == \"space\"}}- Spacing: a consistent scale and layout/grid rules.\n{{/if}}{{#if scope == \"components\"}}- Components: states (default/hover/focus/active/disabled) and usage rules for buttons, inputs, cards.\n{{/if}}{{#if scope == \"motion\"}}- Motion: duration/easing tokens and when to use them.\n{{/if}}\n## Deliverables\n1. The token set with rationale.\n{{#if framework == \"tailwind\"}}2. A ready-to-use Tailwind theme config.\n{{/if}}{{#if framework == \"css\"}}2. A `:root` CSS custom-property sheet (incl. dark mode).\n{{/if}}3. Do/don't examples for the trickiest decisions."
+  },
+  {
+    "id": "user-flow",
+    "label": "User Flow",
+    "description": "An end-to-end flow an AI/team can build from.",
+    "icon": "Workflow",
+    "fields": [
+      { "id": "flowName", "label": "Flow name", "type": "text", "required": true, "placeholder": "New user onboarding" },
+      { "id": "actor", "label": "Primary actor", "type": "text", "required": true, "placeholder": "A first-time admin invited by a teammate" },
+      { "id": "goal", "label": "Their goal", "type": "textarea", "required": true, "placeholder": "Get from invite email to a configured workspace with data connected." },
+      { "id": "platform", "label": "Platform", "type": "select", "optionsRef": "platforms", "default": "web" },
+      { "id": "edgeCases", "label": "Map error / edge paths", "type": "toggle", "default": true },
+      { "id": "metrics", "label": "Define success metrics", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior UX designer. Map the \"{{flowName}}\" user flow.\n\n## Actor\n{{actor}}\n\n## Goal\n{{goal}}\n\n## Platform\n{{platform}}\n\n## Requirements\n- Describe the flow as ordered steps: for each, the screen, what the user sees, the action, and the system response.\n- Note the decision points and what determines each branch.\n- Keep the path to the goal as short as honestly possible; flag friction.\n{{#if edgeCases}}- Map the important error/edge paths (invalid input, no data, permission denied, drop-off) and the recovery.\n{{/if}}{{#if metrics}}- Define success metrics and the key drop-off points to instrument.\n{{/if}}\n## Deliverables\n1. The step-by-step flow (numbered, with branches).\n2. A compact text flow diagram (Step → Step, branches labeled).\n3. The top 3 design risks and how to de-risk them."
+  }
+]
