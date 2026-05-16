@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Fraunces, Schibsted_Grotesk, Geist_Mono } from "next/font/google";
+import { Newsreader, Hanken_Grotesk, Geist_Mono } from "next/font/google";
 import { ArrowUpRight } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import { getCategoryGroups } from "@/lib/data";
 import "./globals.css";
 
-const display = Fraunces({
+const display = Newsreader({
   subsets: ["latin"],
   style: ["normal", "italic"],
-  axes: ["opsz", "SOFT"],
   variable: "--font-display",
 });
-const sans = Schibsted_Grotesk({
+const sans = Hanken_Grotesk({
   subsets: ["latin"],
   variable: "--font-sans",
 });
