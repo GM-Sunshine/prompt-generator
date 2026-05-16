@@ -68,6 +68,65 @@
   --radius: 0.625rem;
 }
 
+/*
+  Dark, auto-detected from the OS (no JS, no flash). Warm near-black
+  ground, brighter cobalt so the accent keeps its punch on dark.
+*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: oklch(0.172 0.006 75);
+    --background: oklch(0.172 0.006 75);
+    --foreground: oklch(0.928 0.008 83);
+    --card: oklch(0.212 0.006 75);
+    --card-foreground: oklch(0.928 0.008 83);
+    --popover: oklch(0.2 0.006 75);
+    --popover-foreground: oklch(0.928 0.008 83);
+
+    --primary: oklch(0.62 0.17 262);
+    --primary-foreground: oklch(0.98 0.004 250);
+
+    --secondary: oklch(0.258 0.006 75);
+    --secondary-foreground: oklch(0.9 0.008 83);
+    --muted: oklch(0.255 0.006 75);
+    --muted-foreground: oklch(0.705 0.012 83);
+    --accent: oklch(0.302 0.04 262);
+    --accent-foreground: oklch(0.9 0.035 262);
+    --destructive: oklch(0.62 0.2 25);
+
+    --border: oklch(0.93 0.02 83 / 12%);
+    --input: oklch(0.93 0.02 83 / 16%);
+    --ring: oklch(0.62 0.17 262 / 50%);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  ::selection {
+    background: oklch(0.62 0.17 262 / 32%);
+    color: var(--foreground);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.93 0.02 83 / 16%);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.62 0.17 262 / 55%);
+  }
+
+  .card-soft {
+    box-shadow:
+      0 1px 2px oklch(0 0 0 / 28%),
+      0 1px 0 oklch(1 0 0 / 5%) inset;
+  }
+  a.card-soft:hover,
+  .card-soft.is-interactive:hover {
+    box-shadow:
+      0 18px 40px -22px oklch(0.62 0.17 262 / 45%),
+      0 2px 6px oklch(0 0 0 / 30%);
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
