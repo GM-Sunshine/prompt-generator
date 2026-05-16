@@ -1,0 +1,119 @@
+[
+  {
+    "id": "product-description",
+    "label": "Product Description",
+    "description": "Write conversion-focused product copy with benefits and SEO",
+    "icon": "ShoppingCart",
+    "fields": [
+      { "id": "productName", "label": "Product name", "type": "text", "required": true, "placeholder": "TrailLite 45L Hiking Backpack" },
+      { "id": "details", "label": "Key features & specs", "type": "textarea", "required": true, "placeholder": "45L, 1.2kg, waterproof ripstop, ventilated back panel, lifetime warranty." },
+      { "id": "audience", "label": "Target customer", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Brand tone", "type": "select", "optionsRef": "tones", "default": "friendly" },
+      { "id": "length", "label": "Length", "type": "select", "options": [ { "id": "short", "label": "Short (50-80 words)" }, { "id": "medium", "label": "Medium (120-180 words)" }, { "id": "long", "label": "Long (250+ words)" } ], "default": "medium" },
+      { "id": "elements", "label": "Include", "type": "multi-select", "options": [ { "id": "bullets", "label": "Feature bullets" }, { "id": "story", "label": "Brand/lifestyle hook" }, { "id": "specs", "label": "Spec table" }, { "id": "faq", "label": "Mini FAQ" } ], "default": ["bullets", "story"] },
+      { "id": "seo", "label": "Optimize for SEO", "type": "toggle", "default": true },
+      { "id": "keywords", "label": "Target keywords", "type": "text", "placeholder": "lightweight hiking backpack, waterproof daypack" }
+    ],
+    "template": "You are a senior e-commerce copywriter. Write a product description for \"{{productName}}\" that converts browsers into buyers.\n\n## Product details\n{{details}}\n\n## Brief\n- Target customer: {{audience}}\n- Brand tone: {{tone}}.\n- Length: {{length}}.\n- Include: {{elements}}.\n\n## Requirements\n- Lead with the core benefit, not the feature; translate every spec into what the customer gets.\n- Use sensory, specific language; avoid clichés and unverifiable superlatives.\n- Address the top purchase objection naturally.\n{{#if seo}}- Optimize for search: weave in {{#if keywords}}these keywords without stuffing: {{keywords}}{{else}}relevant natural keywords{{/if}}, and include an SEO title tag and meta description.\n{{/if}}\n## Deliverables\nThe finished description in the requested structure{{#if seo}}, plus the title tag and meta description{{/if}}.\n\nProceed with well-reasoned defaults; ask only if a critical product detail is missing."
+  },
+  {
+    "id": "category-page",
+    "label": "Category Page Copy",
+    "description": "Craft category landing copy that ranks and guides shoppers",
+    "icon": "LayoutGrid",
+    "fields": [
+      { "id": "category", "label": "Category name", "type": "text", "required": true, "placeholder": "Women's Running Shoes" },
+      { "id": "context", "label": "Assortment & positioning", "type": "textarea", "required": true, "placeholder": "200+ SKUs across road, trail, and stability; mid-to-premium price points." },
+      { "id": "audience", "label": "Target shopper", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Brand tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "sections", "label": "Sections to produce", "type": "multi-select", "options": [ { "id": "intro", "label": "Intro / hero copy" }, { "id": "buyingguide", "label": "Buying guide" }, { "id": "subcats", "label": "Subcategory blurbs" }, { "id": "faq", "label": "FAQ block" } ], "default": ["intro", "buyingguide", "faq"] },
+      { "id": "keywords", "label": "Primary keywords", "type": "text", "placeholder": "women's running shoes, best running shoes for women" },
+      { "id": "placement", "label": "Long-form copy placement", "type": "select", "options": [ { "id": "top", "label": "Above the grid" }, { "id": "bottom", "label": "Below the grid (SEO block)" } ], "default": "bottom" },
+      { "id": "internalLinks", "label": "Suggest internal links", "type": "toggle", "default": true }
+    ],
+    "template": "You are an e-commerce SEO content strategist. Write category page copy for \"{{category}}\".\n\n## Assortment & positioning\n{{context}}\n\n## Brief\n- Target shopper: {{audience}}\n- Brand tone: {{tone}}.\n- Produce these sections: {{sections}}.\n- Long-form copy is placed {{placement}}; keep above-the-fold copy tight.\n- Primary keywords: {{keywords}}.\n\n## Requirements\n- Help the shopper self-select quickly; clarify how the assortment is organized.\n- Be genuinely useful (buying considerations, fit, use cases), not keyword filler.\n{{#if internalLinks}}- Recommend internal links to relevant subcategories and guides with descriptive anchor text.\n{{/if}}- Provide an SEO title tag and meta description.\n\n## Deliverables\nAll requested sections, formatted with headings, plus the title tag and meta description.\n\nProceed with sensible defaults; ask only if the positioning is unclear."
+  },
+  {
+    "id": "lifecycle-flow",
+    "label": "Lifecycle Email Flow",
+    "description": "Design an automated email/SMS flow with triggers and copy",
+    "icon": "Workflow",
+    "fields": [
+      { "id": "flowGoal", "label": "Flow goal", "type": "text", "required": true, "placeholder": "Convert first-time buyers into repeat customers" },
+      { "id": "brand", "label": "Brand & product context", "type": "textarea", "required": true, "placeholder": "DTC coffee subscription; AOV $35; replenishment cycle ~30 days." },
+      { "id": "flowType", "label": "Flow type", "type": "select", "options": [ { "id": "welcome", "label": "Welcome series" }, { "id": "postpurchase", "label": "Post-purchase" }, { "id": "winback", "label": "Win-back / lapsed" }, { "id": "browse", "label": "Browse abandonment" }, { "id": "vip", "label": "VIP / loyalty" } ], "default": "postpurchase" },
+      { "id": "audience", "label": "Audience segment", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Brand tone", "type": "select", "optionsRef": "tones", "default": "friendly" },
+      { "id": "channels", "label": "Channels", "type": "multi-select", "options": [ { "id": "email", "label": "Email" }, { "id": "sms", "label": "SMS" } ], "default": ["email"] },
+      { "id": "messageCount", "label": "Number of messages", "type": "select", "options": [ { "id": "3", "label": "3" }, { "id": "4", "label": "4" }, { "id": "5", "label": "5" }, { "id": "6", "label": "6" } ], "default": "4" },
+      { "id": "includeOffer", "label": "Include an incentive/offer", "type": "toggle", "default": true }
+    ],
+    "template": "You are a lifecycle marketing strategist. Design a {{flowType}} flow whose goal is: {{flowGoal}}.\n\n## Brand context\n{{brand}}\n\n## Brief\n- Audience segment: {{audience}}\n- Tone: {{tone}}.\n- Channels: {{channels}}.\n- {{messageCount}} messages in the sequence.\n\n## For the flow specify\n1. The entry trigger and exit conditions.\n2. Each message: timing/delay, channel, goal, subject line (and preview text for email), and full body copy with a single clear CTA.\n3. Branching or conditional logic where it improves results.\n{{#if includeOffer}}4. Where and how to introduce an incentive without training customers to wait for discounts.\n{{/if}}5. The primary success metric for the flow and one A/B test worth running.\n\n## Deliverables\nThe complete flow spec plus ready-to-use copy for every message.\n\nProceed with proven lifecycle defaults; ask only if the brand context is insufficient."
+  },
+  {
+    "id": "cro-audit",
+    "label": "CRO Audit",
+    "description": "Audit a page for conversion friction and prioritized fixes",
+    "icon": "TrendingUp",
+    "fields": [
+      { "id": "pageType", "label": "Page to audit", "type": "select", "options": [ { "id": "pdp", "label": "Product page" }, { "id": "collection", "label": "Collection / category" }, { "id": "cart", "label": "Cart" }, { "id": "checkout", "label": "Checkout" }, { "id": "home", "label": "Homepage" }, { "id": "landing", "label": "Campaign landing page" } ], "default": "pdp" },
+      { "id": "pageDetails", "label": "Page description & current layout", "type": "textarea", "required": true, "placeholder": "PDP with gallery, price, variant picker, ATC, then reviews; no trust badges; slow on mobile." },
+      { "id": "audience", "label": "Primary audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "metrics", "label": "Known data / problem", "type": "textarea", "placeholder": "Mobile conversion 0.8% vs 2.1% desktop; 60% add-to-cart but high cart abandonment." },
+      { "id": "focus", "label": "Focus areas", "type": "multi-select", "options": [ { "id": "copy", "label": "Messaging & value prop" }, { "id": "ux", "label": "UX & layout" }, { "id": "trust", "label": "Trust & social proof" }, { "id": "speed", "label": "Performance / speed" }, { "id": "mobile", "label": "Mobile experience" } ], "default": ["copy", "ux", "trust"] },
+      { "id": "device", "label": "Primary device", "type": "select", "options": [ { "id": "mobile", "label": "Mobile" }, { "id": "desktop", "label": "Desktop" }, { "id": "both", "label": "Both" } ], "default": "mobile" },
+      { "id": "includeTests", "label": "Propose A/B tests", "type": "toggle", "default": true }
+    ],
+    "template": "You are a conversion-rate-optimization consultant. Audit this {{pageType}} for conversion friction.\n\n## Page\n{{pageDetails}}\n\n## Context\n- Primary audience: {{audience}}\n- Primary device: {{device}}.\n- Focus areas: {{focus}}.\n{{#if metrics}}- Known data / problem: {{metrics}}\n{{/if}}\n## Deliver the audit as\n1. The most likely conversion blockers, each with the friction it causes and the evidence or principle behind it.\n2. Prioritized recommendations ranked by expected impact vs. effort (ICE-style), with a specific change for each.\n3. Quick wins separated from larger structural changes.\n{{#if includeTests}}4. Concrete A/B test hypotheses (\"changing X will improve Y because Z\") with the metric to measure.\n{{/if}}\n## Deliverables\nThe full prioritized audit, specific enough to action without further clarification.\n\nProceed with established CRO principles; state assumptions rather than asking unless blocked."
+  },
+  {
+    "id": "merchandising-plan",
+    "label": "Merchandising Plan",
+    "description": "Plan assortment, pricing and promotions for a period",
+    "icon": "Store",
+    "fields": [
+      { "id": "scope", "label": "Plan scope", "type": "text", "required": true, "placeholder": "Q4 holiday plan for the outerwear category" },
+      { "id": "context", "label": "Business context & inventory", "type": "textarea", "required": true, "placeholder": "Overstocked on last season's parkas; new fleece line landing in October; target +20% category revenue." },
+      { "id": "audience", "label": "Target customer", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "objective", "label": "Primary objective", "type": "select", "options": [ { "id": "revenue", "label": "Maximize revenue" }, { "id": "margin", "label": "Protect margin" }, { "id": "clearance", "label": "Clear aging inventory" }, { "id": "launch", "label": "Launch new line" }, { "id": "acquisition", "label": "New-customer acquisition" } ], "default": "revenue" },
+      { "id": "levers", "label": "Levers to use", "type": "multi-select", "options": [ { "id": "pricing", "label": "Pricing & markdowns" }, { "id": "promo", "label": "Promotions & bundles" }, { "id": "placement", "label": "Site placement & nav" }, { "id": "crosssell", "label": "Cross-sell / upsell" }, { "id": "content", "label": "Editorial / lookbooks" } ], "default": ["pricing", "promo", "placement"] },
+      { "id": "horizon", "label": "Time horizon", "type": "select", "options": [ { "id": "month", "label": "1 month" }, { "id": "quarter", "label": "1 quarter" }, { "id": "season", "label": "Full season" } ], "default": "quarter" },
+      { "id": "includeCalendar", "label": "Include a promo calendar", "type": "toggle", "default": true }
+    ],
+    "template": "You are an e-commerce merchandising lead. Build a merchandising plan: {{scope}}.\n\n## Business context\n{{context}}\n\n## Brief\n- Target customer: {{audience}}\n- Primary objective: {{objective}}.\n- Levers in scope: {{levers}}.\n- Time horizon: {{horizon}}.\n\n## The plan should cover\n1. Assortment strategy: hero products, what to push, hold, or phase out, and why.\n2. Pricing and promotion strategy aligned to the objective, protecting margin where it matters.\n3. On-site execution: placement, navigation, and cross-sell tactics.\n{{#if includeCalendar}}4. A week-by-week promo calendar across the {{horizon}}.\n{{/if}}5. KPIs to track and a simple plan to react if targets are missed.\n\n## Deliverables\nThe complete plan, decision-ready and tied to the stated objective.\n\nMake confident, data-informed recommendations; ask only if the business context is insufficient."
+  },
+  {
+    "id": "review-response",
+    "label": "Review Response",
+    "description": "Draft on-brand replies to customer reviews and ratings",
+    "icon": "MessageCircle",
+    "fields": [
+      { "id": "reviewText", "label": "The customer review", "type": "textarea", "required": true, "placeholder": "Paste the review text here, including the star rating if known." },
+      { "id": "sentiment", "label": "Review sentiment", "type": "select", "options": [ { "id": "positive", "label": "Positive" }, { "id": "mixed", "label": "Mixed" }, { "id": "negative", "label": "Negative" } ], "default": "negative" },
+      { "id": "product", "label": "Product / order context", "type": "text", "placeholder": "Ceramic non-stick pan, replaced under warranty 2 weeks ago" },
+      { "id": "audience", "label": "Audience reading the reply", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Brand tone", "type": "select", "optionsRef": "tones", "default": "empathetic" },
+      { "id": "resolution", "label": "Resolution / next step offered", "type": "text", "placeholder": "Offer a replacement and a prepaid return label" },
+      { "id": "offerRemedy", "label": "Offer a concrete remedy", "type": "toggle", "default": true },
+      { "id": "moveOffline", "label": "Invite to continue privately", "type": "toggle", "default": true }
+    ],
+    "template": "You are a customer-experience specialist who writes public review responses that protect the brand and win trust.\n\n## The review\n{{reviewText}}\n\n## Context\n- Sentiment: {{sentiment}}.\n{{#if product}}- Product/order: {{product}}.\n{{/if}}- Audience reading the reply (future shoppers too): {{audience}}\n- Brand tone: {{tone}}.\n\n## How to respond\n- Address the reviewer by acknowledging their specific points; never use a generic template.\n{{#if sentiment == \"Negative\"}}- Take genuine ownership without being defensive or making excuses; do not dispute their experience publicly.\n{{/if}}{{#if sentiment == \"Positive\"}}- Reinforce what they loved and gently encourage continued engagement.\n{{/if}}{{#if offerRemedy}}- Offer a concrete next step: {{#if resolution}}{{resolution}}{{else}}an appropriate, specific remedy{{/if}}.\n{{/if}}{{#if moveOffline}}- Invite them to continue privately via a clear channel for anything sensitive.\n{{/if}}- Keep it concise; remember future buyers are reading this.\n\n## Deliverables\nThe ready-to-post reply{{#if sentiment == \"Negative\"}}, plus one shorter alternative version{{/if}}.\n\nProceed with sound CX judgment; ask only if the review is unintelligible."
+  },
+  {
+    "id": "abandoned-cart",
+    "label": "Abandoned Cart Sequence",
+    "description": "Recover lost sales with a timed, persuasive cart sequence",
+    "icon": "ShoppingBag",
+    "fields": [
+      { "id": "brand", "label": "Brand & product context", "type": "textarea", "required": true, "placeholder": "Premium skincare; AOV $70; common objection is price and uncertainty about results." },
+      { "id": "audience", "label": "Audience segment", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "tone", "label": "Brand tone", "type": "select", "optionsRef": "tones", "default": "friendly" },
+      { "id": "channels", "label": "Channels", "type": "multi-select", "options": [ { "id": "email", "label": "Email" }, { "id": "sms", "label": "SMS" } ], "default": ["email", "sms"] },
+      { "id": "messageCount", "label": "Messages in sequence", "type": "select", "options": [ { "id": "2", "label": "2" }, { "id": "3", "label": "3" }, { "id": "4", "label": "4" } ], "default": "3" },
+      { "id": "objection", "label": "Top abandonment reason to counter", "type": "select", "options": [ { "id": "price", "label": "Price / shipping cost" }, { "id": "trust", "label": "Trust / risk" }, { "id": "indecision", "label": "Indecision / comparison" }, { "id": "distraction", "label": "Distraction / forgot" } ], "default": "indecision" },
+      { "id": "discountStage", "label": "Discount strategy", "type": "select", "options": [ { "id": "none", "label": "No discount" }, { "id": "last", "label": "Only in the final message" }, { "id": "escalate", "label": "Escalating incentive" } ], "default": "last" },
+      { "id": "dynamicCart", "label": "Reference the abandoned items dynamically", "type": "toggle", "default": true }
+    ],
+    "template": "You are a retention marketer who writes high-recovery abandoned-cart sequences.\n\n## Brand context\n{{brand}}\n\n## Brief\n- Audience segment: {{audience}}\n- Tone: {{tone}}.\n- Channels: {{channels}}.\n- {{messageCount}} messages total.\n- Primary objection to overcome: {{objection}}.\n- Discount strategy: {{discountStage}}.\n\n## For each message provide\n1. Send timing relative to abandonment, and channel.\n2. The angle/goal of that message and how it counters the {{objection}} objection.\n3. Subject line + preview text (email) or full SMS copy, plus body copy with one clear CTA back to the cart.\n{{#if dynamicCart}}4. Where to insert dynamic cart contents (use {item} style placeholders).\n{{/if}}\n## Notes\n- Escalate persuasion across the sequence; don't repeat the same message louder.\n- Respect the discount strategy precisely.\n\n## Deliverables\nThe full sequence spec with ready-to-use copy for every message.\n\nProceed with proven retention defaults; ask only if the brand context is insufficient."
+  }
+]

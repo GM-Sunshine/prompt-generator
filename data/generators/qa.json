@@ -1,0 +1,114 @@
+[
+  {
+    "id": "test-plan",
+    "label": "Test Plan",
+    "description": "Write a focused test plan with scope, strategy, risks and exit criteria",
+    "icon": "ClipboardCheck",
+    "fields": [
+      { "id": "featureName", "label": "Feature / release under test", "type": "text", "required": true, "placeholder": "Saved Views v1" },
+      { "id": "summary", "label": "What is being tested?", "type": "textarea", "required": true, "placeholder": "Create/share/delete saved views with RBAC; web only; behind a feature flag." },
+      { "id": "levels", "label": "Test levels in scope", "type": "multi-select", "options": [ { "id": "unit", "label": "Unit" }, { "id": "integration", "label": "Integration" }, { "id": "e2e", "label": "End-to-end" }, { "id": "manual", "label": "Exploratory / manual" }, { "id": "perf", "label": "Performance" }, { "id": "security", "label": "Security" } ], "default": ["unit", "integration", "e2e"] },
+      { "id": "environments", "label": "Target environments", "type": "textarea", "required": true, "placeholder": "Staging with prod-like data; Chrome + Safari; seeded multi-tenant accounts." },
+      { "id": "riskLevel", "label": "Risk profile", "type": "select", "options": [ { "id": "low", "label": "Low (internal/non-critical)" }, { "id": "medium", "label": "Medium" }, { "id": "high", "label": "High (revenue/data critical)" } ], "required": true, "default": "medium" },
+      { "id": "automation", "label": "Prioritize automation", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints & out of scope", "type": "textarea", "placeholder": "No mobile testing; one week window; no access to prod data." }
+    ],
+    "template": "You are a senior QA engineer. Write a test plan for \"{{featureName}}\".\n\n## Scope\n{{summary}}\n- Test levels in scope: {{levels}}\n- Risk profile: {{riskLevel}}\n\n## Environments\n{{environments}}\n\n## Plan to produce\n- A risk-based test strategy that focuses effort where failure cost is highest.\n- Coverage: what each test level owns, plus what is explicitly out of scope.\n- Test data and environment setup, including how to reach edge states.\n{{#if automation}}- Automation strategy: what to automate vs. explore manually, and where it runs.\n{{/if}}- Entry and exit criteria, plus a clear go/no-go bar for release.\n\n{{#if constraints}}## Constraints & out of scope\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The full test plan in Markdown with the sections above.\n2. A prioritized risk table (risk → likelihood/impact → mitigating tests).\n3. The exit criteria and the assumptions the plan depends on.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "test-cases",
+    "label": "Test Cases",
+    "description": "Generate thorough test cases including edge and negative paths",
+    "icon": "ListChecks",
+    "fields": [
+      { "id": "featureName", "label": "Feature / requirement", "type": "text", "required": true, "placeholder": "Login with email + password" },
+      { "id": "behavior", "label": "Expected behavior / acceptance criteria", "type": "textarea", "required": true, "placeholder": "Valid creds log in; invalid show error; 5 failures lock for 15 min; remember-me persists 30d." },
+      { "id": "techniques", "label": "Design techniques to apply", "type": "multi-select", "options": [ { "id": "equivalence", "label": "Equivalence partitioning" }, { "id": "boundary", "label": "Boundary values" }, { "id": "negative", "label": "Negative testing" }, { "id": "state", "label": "State transitions" }, { "id": "decision", "label": "Decision tables" }, { "id": "pairwise", "label": "Pairwise combinations" } ], "default": ["equivalence", "boundary", "negative"] },
+      { "id": "format", "label": "Output format", "type": "select", "options": [ { "id": "table", "label": "Table (ID/steps/expected)" }, { "id": "gherkin", "label": "Gherkin scenarios" }, { "id": "checklist", "label": "Checklist" } ], "required": true, "default": "table" },
+      { "id": "priority", "label": "Include priority & traceability", "type": "toggle", "default": true },
+      { "id": "includeData", "label": "Include concrete test data", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Only public-facing flows; no destructive cases; max ~25 cases." }
+    ],
+    "template": "You are a QA engineer skilled in test design. Write test cases for \"{{featureName}}\".\n\n## Expected behavior\n{{behavior}}\n\n## How to design them\n- Apply these techniques deliberately: {{techniques}}.\n- Cover the happy path, boundaries, negative/invalid inputs, and error/recovery states.\n- Each case: clear preconditions, exact steps, and an unambiguous expected result.\n{{#if includeData}}- Include concrete, realistic test data for each case.\n{{/if}}{{#if priority}}- Add a priority (P0/P1/P2) and a traceability link back to the requirement.\n{{/if}}- Output in {{format}} format.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The full set of test cases in the chosen format.\n2. A short note on coverage and which techniques surfaced which cases.\n3. Any gaps or ambiguities in the requirement worth flagging.\n\nBe thorough but non-redundant; ask only if genuinely blocked."
+  },
+  {
+    "id": "e2e-automation",
+    "label": "E2E Automation",
+    "description": "Build a maintainable end-to-end UI automation suite for a flow",
+    "icon": "MousePointerClick",
+    "fields": [
+      { "id": "appName", "label": "App / flow name", "type": "text", "required": true, "placeholder": "Checkout flow" },
+      { "id": "flow", "label": "Critical flow to automate", "type": "textarea", "required": true, "placeholder": "Add to cart → checkout → pay (test card) → order confirmation, with a guest and a logged-in path." },
+      { "id": "framework", "label": "Framework", "type": "select", "options": [ { "id": "playwright", "label": "Playwright" }, { "id": "cypress", "label": "Cypress" }, { "id": "selenium", "label": "Selenium" }, { "id": "webdriverio", "label": "WebdriverIO" } ], "required": true, "default": "playwright" },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "patterns", "label": "Practices to apply", "type": "multi-select", "options": [ { "id": "pom", "label": "Page Object Model" }, { "id": "fixtures", "label": "Fixtures / factories" }, { "id": "datatestid", "label": "Stable test selectors" }, { "id": "network", "label": "Network mocking/stubbing" }, { "id": "visual", "label": "Visual regression" }, { "id": "a11y", "label": "Accessibility checks" } ], "default": ["pom", "fixtures", "datatestid"] },
+      { "id": "ci", "label": "Run in CI (parallel, sharded)", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "No third-party payment UI in CI; tests must be deterministic and < 5 min total." }
+    ],
+    "template": "You are an SDET specializing in UI automation. Build an end-to-end suite for \"{{appName}}\" using {{framework}}.\n\n## Flow to automate\n{{flow}}\n- Language: {{language}}\n- Practices to apply: {{patterns}}\n\n## Suite design\n- A clean structure (page objects/fixtures) that isolates selectors and setup from test logic.\n- Stable, semantic selectors; no brittle CSS/XPath or arbitrary sleeps — wait on real conditions.\n- Independent, idempotent tests with their own data setup/teardown.\n{{#if ci}}- CI integration: parallel/sharded runs, retries for known flakes only, and trace/video on failure.\n{{/if}}- Cover the happy path plus the key failure branches in the flow.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The runnable test project structure and the automated specs for the flow.\n2. Setup/run instructions and the CI configuration.\n3. Notes on flake prevention and how to debug a failed run.\n\nFavor reliability over coverage breadth; ask only if genuinely blocked."
+  },
+  {
+    "id": "bug-report",
+    "label": "Bug Report",
+    "description": "Turn a vague observation into a precise, reproducible bug report",
+    "icon": "Bug",
+    "fields": [
+      { "id": "title", "label": "Short bug summary", "type": "text", "required": true, "placeholder": "CSV export uses wrong timezone for created_at" },
+      { "id": "observed", "label": "What happened (raw notes)", "type": "textarea", "required": true, "placeholder": "Exported a report, the created_at column was 5 hours off vs the UI for a US customer." },
+      { "id": "expected", "label": "What you expected", "type": "textarea", "required": true, "placeholder": "Exported timestamps match the timezone shown in the app." },
+      { "id": "severity", "label": "Severity", "type": "select", "options": [ { "id": "blocker", "label": "Blocker" }, { "id": "critical", "label": "Critical" }, { "id": "major", "label": "Major" }, { "id": "minor", "label": "Minor" }, { "id": "trivial", "label": "Trivial" } ], "required": true, "default": "major" },
+      { "id": "environment", "label": "Environment", "type": "textarea", "required": true, "placeholder": "Prod, web, Chrome 124, account in US/Eastern, build 2.7.3." },
+      { "id": "frequency", "label": "Reproducibility", "type": "select", "options": [ { "id": "always", "label": "Always" }, { "id": "sometimes", "label": "Intermittent" }, { "id": "once", "label": "Seen once" } ], "default": "always" },
+      { "id": "includeTriage", "label": "Include impact & suspected-cause notes", "type": "toggle", "default": true }
+    ],
+    "template": "You are a QA engineer writing a developer-ready bug report.\n\n## Title\n{{title}}\n- Severity: {{severity}}\n- Reproducibility: {{frequency}}\n\n## Raw observation\n{{observed}}\n\n## Expected\n{{expected}}\n\n## Environment\n{{environment}}\n\n## Report to produce\n- A precise, single-sentence summary and clear, numbered reproduction steps from a known starting state.\n- Actual vs. expected result, stated unambiguously.\n- Evidence to attach (logs, screenshots, request/response, IDs) and what to capture if missing.\n{{#if includeTriage}}- User/business impact and a hypothesis on the likely area or root cause (clearly marked as a hypothesis).\n{{/if}}- Any workaround.\n\n## Deliverables\n1. The full bug report in a clean, copy-pasteable issue format.\n2. A minimal reproduction if it can be reduced further.\n3. Open questions or missing info needed to confirm the bug.\n\nBe specific and free of speculation in the factual sections; ask only if genuinely blocked."
+  },
+  {
+    "id": "regression-checklist",
+    "label": "Regression Checklist",
+    "description": "Build a risk-targeted regression checklist for a release",
+    "icon": "ListTodo",
+    "fields": [
+      { "id": "releaseName", "label": "Release / change set", "type": "text", "required": true, "placeholder": "Release 2.8 — billing refactor" },
+      { "id": "changes", "label": "What changed in this release", "type": "textarea", "required": true, "placeholder": "Refactored billing service, new export queue, dependency bumps, minor UI polish." },
+      { "id": "criticalAreas", "label": "Critical / high-traffic areas", "type": "textarea", "required": true, "placeholder": "Sign-in, checkout, subscription upgrades, dashboard load, CSV export." },
+      { "id": "depth", "label": "Regression depth", "type": "select", "options": [ { "id": "smoke", "label": "Smoke (fast sanity)" }, { "id": "targeted", "label": "Targeted (changed + adjacent)" }, { "id": "full", "label": "Full regression" } ], "required": true, "default": "targeted" },
+      { "id": "areas", "label": "Cross-cutting checks to include", "type": "multi-select", "options": [ { "id": "auth", "label": "Auth & permissions" }, { "id": "data", "label": "Data integrity" }, { "id": "integrations", "label": "Integrations / webhooks" }, { "id": "perf", "label": "Performance" }, { "id": "compat", "label": "Browser/device compat" }, { "id": "i18n", "label": "Localization" } ], "default": ["auth", "data", "integrations"] },
+      { "id": "automatable", "label": "Flag items that should become automated tests", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "2-hour pre-release window; staging only; two testers." }
+    ],
+    "template": "You are a QA lead. Build a regression checklist for \"{{releaseName}}\".\n\n## What changed\n{{changes}}\n- Regression depth: {{depth}}\n\n## Critical areas\n{{criticalAreas}}\n\n## Checklist to produce\n- Prioritize by blast radius: changed code first, then adjacent and dependent areas.\n- Include the selected cross-cutting checks: {{areas}}.\n- Each item: a concrete check with a clear pass condition (not a vague \"verify X works\").\n- Right-size the list to the {{depth}} depth so it fits the available window.\n{{#if automatable}}- Flag recurring high-value items that should be promoted to automated regression tests.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The ordered, prioritized regression checklist with pass conditions.\n2. A short rationale linking each section to a change or risk.\n3. Items recommended for automation and any coverage gaps.\n\nKeep it actionable and lean; ask only if genuinely blocked."
+  },
+  {
+    "id": "performance-test-plan",
+    "label": "Performance Test Plan",
+    "description": "Plan load, stress and soak tests with realistic workloads and SLOs",
+    "icon": "Gauge",
+    "fields": [
+      { "id": "systemName", "label": "System / endpoint under test", "type": "text", "required": true, "placeholder": "Checkout API" },
+      { "id": "summary", "label": "What it does & expected traffic", "type": "textarea", "required": true, "placeholder": "Order placement API; ~500 rps normal, 2k rps peak at flash sales; spiky." },
+      { "id": "testTypes", "label": "Test types to run", "type": "multi-select", "options": [ { "id": "load", "label": "Load" }, { "id": "stress", "label": "Stress / breakpoint" }, { "id": "soak", "label": "Soak / endurance" }, { "id": "spike", "label": "Spike" }, { "id": "scalability", "label": "Scalability" } ], "default": ["load", "stress", "spike"] },
+      { "id": "slos", "label": "Performance targets / SLOs", "type": "textarea", "required": true, "placeholder": "p95 < 300ms at 1k rps, error rate < 0.1%, no degradation over a 2h soak." },
+      { "id": "tool", "label": "Tooling", "type": "select", "options": [ { "id": "k6", "label": "k6" }, { "id": "jmeter", "label": "JMeter" }, { "id": "locust", "label": "Locust" }, { "id": "gatling", "label": "Gatling" } ], "required": true, "default": "k6" },
+      { "id": "monitor", "label": "Correlate with server-side metrics", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Test against staging at 50% prod capacity; no real payment provider; data must be synthetic." }
+    ],
+    "template": "You are a performance engineer. Write a performance test plan for \"{{systemName}}\" using {{tool}}.\n\n## System & traffic\n{{summary}}\n- Test types: {{testTypes}}\n\n## Performance targets\n{{slos}}\n\n## Plan to produce\n- A realistic workload model: scenarios, traffic mix, think time, ramp profile, and representative data.\n- For each test type, its goal, load shape, duration, and the pass/fail criteria tied to the SLOs.\n- How to scale staging results to a production conclusion (and the caveats).\n{{#if monitor}}- Correlate client metrics with server-side resource and saturation metrics to find the real bottleneck.\n{{/if}}- A defined warm-up, steady state, and a method to isolate noise.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The test plan plus the runnable {{tool}} scenario scripts.\n2. The metrics to capture and a results/report template with pass/fail logic.\n3. Likely bottlenecks to watch and how to triage a failed target.\n\nUse rigorous, realistic defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "accessibility-audit",
+    "label": "Accessibility Audit",
+    "description": "Audit a UI against WCAG with concrete issues and fixes",
+    "icon": "Accessibility",
+    "fields": [
+      { "id": "target", "label": "What is being audited", "type": "text", "required": true, "placeholder": "Checkout flow (web)" },
+      { "id": "summary", "label": "Description & key screens/flows", "type": "textarea", "required": true, "placeholder": "Multi-step checkout: cart, address form, payment, confirmation; modals and a date picker." },
+      { "id": "standard", "label": "Conformance target", "type": "select", "options": [ { "id": "wcag21aa", "label": "WCAG 2.1 AA" }, { "id": "wcag22aa", "label": "WCAG 2.2 AA" }, { "id": "wcag21aaa", "label": "WCAG 2.1 AAA" }, { "id": "section508", "label": "Section 508" } ], "required": true, "default": "wcag22aa" },
+      { "id": "focusAreas", "label": "Areas to focus on", "type": "multi-select", "options": [ { "id": "keyboard", "label": "Keyboard operability" }, { "id": "sr", "label": "Screen reader / semantics" }, { "id": "contrast", "label": "Color & contrast" }, { "id": "forms", "label": "Forms & errors" }, { "id": "motion", "label": "Motion & timing" }, { "id": "focus", "label": "Focus management" } ], "default": ["keyboard", "sr", "contrast", "forms"] },
+      { "id": "methods", "label": "Audit methods", "type": "select", "options": [ { "id": "manual", "label": "Manual + assistive tech" }, { "id": "automated", "label": "Automated tooling" }, { "id": "both", "label": "Combined (manual + automated)" } ], "default": "both" },
+      { "id": "remediation", "label": "Include prioritized remediation guidance", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Design system can't change this quarter; must support NVDA + VoiceOver." }
+    ],
+    "template": "You are an accessibility specialist. Audit \"{{target}}\" against {{standard}}.\n\n## What to audit\n{{summary}}\n- Focus areas: {{focusAreas}}\n- Methods: {{methods}}\n\n## Audit to produce\n- A method-by-method plan covering the focus areas (e.g. keyboard-only pass, screen-reader pass, contrast checks, form/error semantics).\n- For each issue: the affected element, the specific {{standard}} success criterion violated, severity (user impact), and a concrete code-level fix.\n- Distinguish blocking barriers from minor issues; note what passes too.\n{{#if remediation}}- A prioritized remediation list (impact vs. effort) with quick wins called out.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The audit report: issues with criterion, severity, location, and recommended fix.\n2. A prioritized remediation backlog.\n3. Suggested automated checks to prevent regressions, plus assumptions made.\n\nBe specific and standards-grounded, not generic; ask only if genuinely blocked."
+  }
+]

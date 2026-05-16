@@ -1,0 +1,115 @@
+[
+  {
+    "id": "financial-model",
+    "label": "Financial Model",
+    "description": "Spec a driver-based financial model with assumptions and scenarios",
+    "icon": "Calculator",
+    "fields": [
+      { "id": "company", "label": "Company / project", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "businessModel", "label": "Business model & revenue logic", "type": "textarea", "required": true, "placeholder": "B2B SaaS, monthly subscriptions, two tiers, sales-led with a free trial." },
+      { "id": "modelType", "label": "Model type", "type": "select", "required": true, "options": [ { "id": "threestatement", "label": "3-statement model" }, { "id": "saas", "label": "SaaS / ARR model" }, { "id": "unit", "label": "Unit economics" }, { "id": "fundraise", "label": "Fundraising / cap table" }, { "id": "dcf", "label": "DCF valuation" } ], "default": "saas" },
+      { "id": "horizon", "label": "Forecast horizon", "type": "select", "options": [ { "id": "12m", "label": "12 months" }, { "id": "3y", "label": "3 years" }, { "id": "5y", "label": "5 years" } ], "default": "3y" },
+      { "id": "drivers", "label": "Key drivers to model", "type": "multi-select", "options": [ { "id": "acquisition", "label": "Customer acquisition & CAC" }, { "id": "retention", "label": "Churn & retention" }, { "id": "pricing", "label": "Pricing & expansion" }, { "id": "headcount", "label": "Headcount & payroll" }, { "id": "opex", "label": "Operating expenses" }, { "id": "cash", "label": "Cash & runway" } ], "default": ["acquisition", "retention", "pricing", "headcount"] },
+      { "id": "scenarios", "label": "Include base/bull/bear scenarios", "type": "toggle", "default": true },
+      { "id": "currency", "label": "Currency", "type": "text", "placeholder": "USD" },
+      { "id": "constraints", "label": "Known assumptions / constraints", "type": "textarea", "placeholder": "Starting ARR $1.2M, 4% monthly churn, 18-month CAC payback target." }
+    ],
+    "template": "You are a finance professional who builds investor-grade financial models. Design a {{modelType}} for {{company}}{{#if currency}} in {{currency}}{{/if}}.\n\n## Business model\n{{businessModel}}\n\n## Model design\n- Forecast horizon: {{horizon}}, monthly granularity rolling up to annual.\n{{#if drivers}}- Model these drivers explicitly with their own assumption inputs: {{drivers}}.\n{{/if}}- Separate clearly: assumptions/inputs, calculations, and outputs. No hardcoded values inside formulas.\n{{#if scenarios}}- Build base, bull, and bear scenarios driven by a single switch.\n{{/if}}{{#if constraints}}- Anchor to these known assumptions: {{constraints}}.\n{{/if}}\n## What to produce\n- The full tab/section structure and the line items in each.\n- The formula logic for every driver, stated in plain terms.\n- Key output metrics and a sensitivity table on the 2-3 most important drivers.\n\n## Deliverables\n1. The model structure and assumption schema.\n2. Worked calculations for a representative period and the headline output summary.\n3. A list of assumptions to validate and their biggest risks.\n\nState every assumption explicitly. Proceed with reasonable, clearly-labeled defaults where inputs are missing; ask only if a number is genuinely blocking."
+  },
+  {
+    "id": "budget-plan",
+    "label": "Budget Plan",
+    "description": "Build an annual or departmental budget with assumptions and phasing",
+    "icon": "PiggyBank",
+    "fields": [
+      { "id": "scope", "label": "Budget scope", "type": "text", "required": true, "placeholder": "FY2027 Marketing department budget" },
+      { "id": "context", "label": "Context & objectives", "type": "textarea", "required": true, "placeholder": "Aggressive growth year; targeting 40% pipeline increase; headcount up from 8 to 12." },
+      { "id": "period", "label": "Budget period", "type": "select", "options": [ { "id": "annual", "label": "Annual" }, { "id": "quarterly", "label": "Quarterly" }, { "id": "monthly", "label": "Monthly" } ], "default": "annual" },
+      { "id": "method", "label": "Budgeting method", "type": "select", "options": [ { "id": "incremental", "label": "Incremental (prior year +/-)" }, { "id": "zerobased", "label": "Zero-based" }, { "id": "driver", "label": "Driver-based" } ], "default": "driver" },
+      { "id": "categories", "label": "Cost categories", "type": "multi-select", "options": [ { "id": "payroll", "label": "Payroll & benefits" }, { "id": "tools", "label": "Software & tools" }, { "id": "marketing", "label": "Marketing & programs" }, { "id": "contractors", "label": "Contractors & agencies" }, { "id": "travel", "label": "Travel & events" }, { "id": "overhead", "label": "Overhead & facilities" } ], "default": ["payroll", "tools", "marketing", "contractors"] },
+      { "id": "priorActuals", "label": "Prior period actuals / baseline", "type": "textarea", "placeholder": "FY2026 spend: payroll $720k, tools $90k, programs $310k." },
+      { "id": "phasing", "label": "Include monthly phasing", "type": "toggle", "default": true }
+    ],
+    "template": "You are an FP&A lead. Build a {{period}} budget for {{scope}} using a {{method}} approach.\n\n## Objectives & context\n{{context}}\n\n## Budget construction\n{{#if categories}}- Build line items grouped by: {{categories}}.\n{{/if}}{{#if priorActuals}}- Baseline against prior actuals: {{priorActuals}}.\n{{/if}}- For each line: the amount, the assumption/driver behind it, and a one-line justification.\n{{#if phasing}}- Phase the budget month-by-month to reflect hiring ramps, seasonality, and program timing.\n{{/if}}- Tie spend back to the stated objectives; flag any line not clearly serving a goal.\n\n## Deliverables\n1. The full budget table by category and line item with totals.\n2. The assumptions register driving the numbers.\n3. Top risks and 2-3 contingency levers if a 10% cut is required.\n\nMake explicit, conservative assumptions and label them. Proceed with well-reasoned defaults; ask only if a figure is genuinely blocking."
+  },
+  {
+    "id": "variance-analysis",
+    "label": "Variance Analysis",
+    "description": "Analyze actuals vs budget and explain the drivers behind variances",
+    "icon": "GitCompareArrows",
+    "fields": [
+      { "id": "period", "label": "Period under review", "type": "text", "required": true, "placeholder": "Q1 FY2027" },
+      { "id": "data", "label": "Budget vs actuals data", "type": "textarea", "required": true, "placeholder": "Revenue: budget $2.4M, actual $2.1M. Opex: budget $1.8M, actual $1.95M. ..." },
+      { "id": "lens", "label": "Primary lens", "type": "select", "options": [ { "id": "pnl", "label": "P&L by line" }, { "id": "department", "label": "By department / cost center" }, { "id": "project", "label": "By project / initiative" } ], "default": "pnl" },
+      { "id": "threshold", "label": "Materiality threshold", "type": "text", "placeholder": "Explain variances over 5% or $25k" },
+      { "id": "knownReasons", "label": "Known context for variances", "type": "textarea", "placeholder": "A large deal slipped to Q2; one-off legal spend on the Beta acquisition." },
+      { "id": "decomposition", "label": "Decompose price vs volume effects", "type": "toggle", "default": true },
+      { "id": "forecastImpact", "label": "Include impact on full-year outlook", "type": "toggle", "default": true }
+    ],
+    "template": "You are a financial controller presenting a variance analysis for {{period}}, viewed {{lens}}.\n\n## Data\n{{data}}\n\n## Analysis instructions\n{{#if threshold}}- Focus on material variances: {{threshold}}.\n{{/if}}- For each material variance: state actual vs budget, the absolute and % variance, and whether it is favorable or unfavorable.\n- Explain the most likely root cause; distinguish one-offs from structural/recurring shifts.\n{{#if decomposition}}- Where relevant, decompose variance into price, volume, and mix effects.\n{{/if}}{{#if knownReasons}}- Incorporate this known context where it explains the numbers: {{knownReasons}}.\n{{/if}}{{#if forecastImpact}}- Assess the implication for the full-year forecast and whether a reforecast is warranted.\n{{/if}}\n## Deliverables\n1. An executive summary: the 3-5 variances that actually matter and why.\n2. A line-by-line variance table with explanations.\n3. Recommended actions and any items needing management attention.\n\nBe specific and quantitative; do not over-explain immaterial noise. Flag where data is insufficient rather than guessing the cause."
+  },
+  {
+    "id": "board-report",
+    "label": "Board Report",
+    "description": "Draft a concise, decision-oriented financial report for the board",
+    "icon": "Presentation",
+    "fields": [
+      { "id": "company", "label": "Company", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "period", "label": "Reporting period", "type": "text", "required": true, "placeholder": "Q1 FY2027" },
+      { "id": "performance", "label": "Performance summary & metrics", "type": "textarea", "required": true, "placeholder": "ARR $14.2M (+6% QoQ), net retention 112%, cash $9M, runway 16 months." },
+      { "id": "highlights", "label": "Key wins & lowlights", "type": "textarea", "placeholder": "Closed two enterprise logos; churn ticked up in SMB; hiring behind plan." },
+      { "id": "sections", "label": "Sections to include", "type": "multi-select", "options": [ { "id": "financials", "label": "Financials vs plan" }, { "id": "kpis", "label": "KPI dashboard" }, { "id": "cash", "label": "Cash & runway" }, { "id": "risks", "label": "Risks & mitigations" }, { "id": "asks", "label": "Asks / decisions needed" }, { "id": "outlook", "label": "Outlook & forecast" } ], "default": ["financials", "kpis", "cash", "risks", "asks"] },
+      { "id": "asks", "label": "Decisions or approvals requested", "type": "textarea", "placeholder": "Approve $1.5M increase to the FY marketing budget; ratify new option pool." },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" }
+    ],
+    "template": "You are a CFO preparing a board report for {{company}} covering {{period}}. Write in a {{tone}}, decision-oriented style.\n\n## Performance\n{{performance}}\n\n{{#if highlights}}## Wins & lowlights\n{{highlights}}\n\n{{/if}}## Report structure\n{{#if sections}}- Include these sections: {{sections}}.\n{{/if}}- Lead with a one-paragraph executive summary stating whether the company is on, ahead of, or behind plan.\n- Present financials against plan with concise commentary on material variances only.\n{{#if asks}}- Be explicit about decisions requested: {{asks}}. State the recommendation and the implication of each.\n{{/if}}- Be candid about risks; pair every risk with a mitigation and owner.\n\n## Deliverables\n1. The full board report, skimmable, with headline metrics surfaced first.\n2. A clear \"asks of the board\" section with recommended decisions.\n\nBe concise and honest; no spin. Use the numbers given; flag any gap as a follow-up rather than estimating."
+  },
+  {
+    "id": "pricing-analysis",
+    "label": "Pricing Analysis",
+    "description": "Analyze and recommend a pricing and packaging strategy",
+    "icon": "Tags",
+    "fields": [
+      { "id": "product", "label": "Product / offering", "type": "text", "required": true, "placeholder": "Acme Analytics Pro plan" },
+      { "id": "current", "label": "Current pricing & context", "type": "textarea", "required": true, "placeholder": "Flat $99/user/mo; complaints it's pricey for small teams; competitor at $79." },
+      { "id": "objective", "label": "Primary objective", "type": "select", "required": true, "options": [ { "id": "revenue", "label": "Maximize revenue" }, { "id": "growth", "label": "Accelerate adoption" }, { "id": "margin", "label": "Improve margin" }, { "id": "upmarket", "label": "Move upmarket" } ], "default": "revenue" },
+      { "id": "model", "label": "Pricing models to evaluate", "type": "multi-select", "options": [ { "id": "perseat", "label": "Per-seat" }, { "id": "usage", "label": "Usage-based" }, { "id": "tiered", "label": "Tiered packages" }, { "id": "flat", "label": "Flat / platform fee" }, { "id": "hybrid", "label": "Hybrid (base + usage)" } ], "default": ["tiered", "usage", "hybrid"] },
+      { "id": "segments", "label": "Customer segments", "type": "text", "placeholder": "SMB, mid-market, enterprise" },
+      { "id": "competitors", "label": "Competitor pricing", "type": "textarea", "placeholder": "Competitor A $79/user; Competitor B usage-based ~$0.02/event." },
+      { "id": "elasticity", "label": "Model willingness-to-pay & elasticity", "type": "toggle", "default": true }
+    ],
+    "template": "You are a pricing strategist. Analyze pricing for {{product}} with the primary objective to {{objective}}.\n\n## Current state\n{{current}}\n{{#if segments}}- Customer segments: {{segments}}.\n{{/if}}{{#if competitors}}\n## Competitive pricing\n{{competitors}}\n{{/if}}\n## Analysis\n{{#if model}}- Evaluate these pricing models against the objective: {{model}}. State pros, cons, and revenue/risk implications of each.\n{{/if}}{{#if elasticity}}- Reason about willingness-to-pay and price elasticity per segment, including expected behavioral effects of a change.\n{{/if}}- Recommend a value metric and packaging that aligns price with realized customer value.\n- Quantify the likely impact of the recommendation with stated assumptions, including downside risk.\n\n## Deliverables\n1. A clear recommendation: model, packaging, and price points by segment.\n2. The reasoning and the assumptions behind the numbers.\n3. A migration plan for existing customers and a metric set to validate post-launch.\n\nBe explicit about assumptions and quantify where possible. Proceed with reasoned defaults; flag where market testing is needed rather than asserting certainty."
+  },
+  {
+    "id": "expense-policy",
+    "label": "Expense Policy",
+    "description": "Draft a clear, enforceable employee expense and reimbursement policy",
+    "icon": "ReceiptText",
+    "fields": [
+      { "id": "company", "label": "Company name", "type": "text", "required": true, "placeholder": "Acme Inc." },
+      { "id": "context", "label": "Company context", "type": "textarea", "required": true, "placeholder": "120-person remote-first company, US + EU staff, frequent client travel." },
+      { "id": "categories", "label": "Expense categories to cover", "type": "multi-select", "options": [ { "id": "travel", "label": "Travel & airfare" }, { "id": "lodging", "label": "Lodging" }, { "id": "meals", "label": "Meals & entertainment" }, { "id": "software", "label": "Software & subscriptions" }, { "id": "homeoffice", "label": "Home office & equipment" }, { "id": "mileage", "label": "Mileage & ground transport" } ], "default": ["travel", "lodging", "meals", "software", "homeoffice"] },
+      { "id": "approval", "label": "Approval model", "type": "select", "options": [ { "id": "manager", "label": "Manager approval" }, { "id": "threshold", "label": "Threshold-based tiers" }, { "id": "preapproval", "label": "Pre-approval for large spend" } ], "default": "threshold" },
+      { "id": "limits", "label": "Specific limits & rules", "type": "textarea", "placeholder": "Meals $60/day domestic; economy flights <6h; receipts required >$25." },
+      { "id": "reimbursement", "label": "Reimbursement timeline", "type": "text", "placeholder": "Submit within 30 days; paid in the next payroll cycle" },
+      { "id": "perDiem", "label": "Use per-diem instead of itemized meals", "type": "toggle", "default": false }
+    ],
+    "template": "You are a finance operations lead drafting an employee expense and reimbursement policy for {{company}}.\n\n## Company context\n{{context}}\n\n## Policy scope\n{{#if categories}}- Cover these categories with clear, enforceable rules: {{categories}}.\n{{/if}}- Approval model: {{approval}}.\n{{#if perDiem}}- Use a per-diem allowance for meals rather than itemized receipts; state the rates and how they apply.\n{{else}}- Reimburse meals on an itemized, receipt-backed basis within stated limits.\n{{/if}}{{#if limits}}- Apply these specific limits and rules: {{limits}}.\n{{/if}}{{#if reimbursement}}- Reimbursement process and timeline: {{reimbursement}}.\n{{/if}}- Define what is non-reimbursable and the consequences of policy violations.\n\n## Policy requirements\n- Plain language, scannable structure, with examples of compliant vs non-compliant expenses.\n- Clear submission steps, required documentation, and the escalation path for exceptions.\n\n## Deliverables\n1. The complete policy document with numbered sections.\n2. A one-page employee quick-reference summary.\n3. A short list of figures and approvers the company must confirm.\n\nUse sensible market-standard defaults where amounts are unspecified and label them clearly; ask only if a rule is genuinely blocking."
+  },
+  {
+    "id": "cash-flow-forecast",
+    "label": "Cash Flow Forecast",
+    "description": "Build a rolling cash flow forecast with runway and scenario stress tests",
+    "icon": "Banknote",
+    "fields": [
+      { "id": "company", "label": "Company", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "position", "label": "Cash position & inflow/outflow drivers", "type": "textarea", "required": true, "placeholder": "Cash $4.2M; $1.1M MRR collected net-30; payroll $620k/mo; quarterly tax." },
+      { "id": "horizon", "label": "Forecast horizon", "type": "select", "required": true, "options": [ { "id": "13week", "label": "13-week (short-term liquidity)" }, { "id": "6m", "label": "6 months" }, { "id": "12m", "label": "12 months" } ], "default": "13week" },
+      { "id": "method", "label": "Method", "type": "select", "options": [ { "id": "direct", "label": "Direct (receipts & disbursements)" }, { "id": "indirect", "label": "Indirect (from P&L/working capital)" } ], "default": "direct" },
+      { "id": "lumpy", "label": "Known large or one-off movements", "type": "textarea", "placeholder": "$900k Series A tranche in week 6; $250k annual insurance in week 9." },
+      { "id": "scenarios", "label": "Stress scenarios", "type": "multi-select", "options": [ { "id": "slowpay", "label": "Customers pay 30 days late" }, { "id": "churn", "label": "10% revenue loss" }, { "id": "delayfund", "label": "Funding delayed one quarter" }, { "id": "costcut", "label": "20% cost reduction" } ], "default": ["slowpay", "delayfund"] },
+      { "id": "runway", "label": "Calculate runway & low-cash alerts", "type": "toggle", "default": true }
+    ],
+    "template": "You are a treasury and FP&A specialist. Build a {{horizon}} {{method}} cash flow forecast for {{company}}.\n\n## Cash position & drivers\n{{position}}\n{{#if lumpy}}\n## Known lumpy movements\n{{lumpy}}\n{{/if}}\n## Forecast construction\n- Period-by-period opening cash, inflows by source, outflows by category, net movement, and closing cash.\n- State the timing assumptions (collection lag, payment terms, payroll dates) explicitly.\n{{#if runway}}- Calculate runway and flag every period where cash falls below a stated minimum buffer.\n{{/if}}{{#if scenarios}}- Run stress scenarios: {{scenarios}}. Show the cash impact and the earliest cash-risk date in each.\n{{/if}}\n## Deliverables\n1. The base-case cash flow table by period with closing balances.\n2. Scenario results and the binding constraint in each.\n3. Recommended actions to protect liquidity, ranked by speed and impact.\n\nMake timing assumptions explicit and conservative. Proceed with reasoned defaults where inputs are missing; flag the cash-critical unknowns rather than guessing silently."
+  }
+]

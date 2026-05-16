@@ -1,15 +1,16 @@
-# Prompt Forge
+# Prompt Generator
 
 An open-source, **JSON-driven AI prompt generator**. Pick a category, choose a
-generator type, answer a few guided questions, and Prompt Forge assembles a
+generator type, answer a few guided questions, and Prompt Generator assembles a
 sharp, reusable prompt — then exports it formatted for ChatGPT, Cursor and
 more.
 
 No API keys. No LLM calls. Every page is server-rendered from JSON.
 
-- **Categories**: Software Development · Content & Writing · Data & Analysis · Design & UX
+- **150+ generators across 24 categories** — Tech & Product, Content & Marketing, Business & Ops, Creative & Learning
+- **Browse & search**: `/browse` filters every generator by domain and keyword
 - **Multi-model export**: Plain · ChatGPT · XML / Structured · Cursor · System + User
-- **All content is data**: add a category or generator by editing JSON — no code
+- **All content is data**: add a category or generator by editing JSON — no code. See `/contribute` or [CONTRIBUTING.md](./CONTRIBUTING.md)
 - **Conditional templates**: `{{#if}}`, `{{#each}}`, equality — no `eval`
 
 ## Quick start

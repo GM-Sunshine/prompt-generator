@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping make Prompt Forge better!
+Thanks for helping make Prompt Generator better!
 
 ## Most wanted: new generators (pure JSON, no code)
 

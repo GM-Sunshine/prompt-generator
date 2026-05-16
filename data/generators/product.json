@@ -1,0 +1,117 @@
+[
+  {
+    "id": "prd",
+    "label": "Product Requirements Doc",
+    "description": "Write a sharp PRD with problem, scope, success metrics and open questions",
+    "icon": "FileText",
+    "fields": [
+      { "id": "productName", "label": "Product / feature name", "type": "text", "required": true, "placeholder": "Saved Views" },
+      { "id": "problem", "label": "Problem & evidence", "type": "textarea", "required": true, "placeholder": "Power users re-filter the same lists daily; top support theme; ~30% of sessions." },
+      { "id": "audience", "label": "Primary audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "goals", "label": "Goals & success metrics", "type": "textarea", "required": true, "placeholder": "Increase 4-week retention of power users by 5%; <2 clicks to a saved view." },
+      { "id": "scope", "label": "In scope (must-haves)", "type": "textarea", "required": true, "placeholder": "Create/rename/delete views, share with team, default view per user." },
+      { "id": "stage", "label": "Delivery stage", "type": "select", "options": [ { "id": "discovery", "label": "Discovery" }, { "id": "mvp", "label": "MVP" }, { "id": "ga", "label": "GA / scale" } ], "default": "mvp" },
+      { "id": "includeRisks", "label": "Include risks & open questions", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints & non-goals", "type": "textarea", "placeholder": "No mobile in v1; must respect existing permissions; ship within the quarter." }
+    ],
+    "template": "You are a senior product manager. Write a crisp PRD for \"{{productName}}\".\n\n## Problem\n{{problem}}\n{{#if audience}}- Primary audience: {{audience}}\n{{/if}}- Delivery stage: {{stage}}\n\n## Goals & success metrics\n{{goals}}\n\n## Scope\nIn scope (must-haves):\n{{scope}}\n\n## PRD to produce\n- A one-paragraph summary and the user problem in plain language with the evidence.\n- Target users and the core user journey / key user stories.\n- Functional requirements prioritized (must / should / could) tied to the goals.\n- Success metrics with baselines and targets, and how each is measured.\n{{#if includeRisks}}- Risks, dependencies, and explicit open questions with owners.\n{{/if}}{{#if constraints}}- Constraints & non-goals: {{constraints}}\n{{/if}}\n## Deliverables\n1. The full PRD in Markdown with the sections above.\n2. A prioritized requirement list and a proposed v1 cut line.\n3. The top 3 risks and how to de-risk them early.\n\nWrite decisively with well-reasoned assumptions stated explicitly; ask only if genuinely blocked."
+  },
+  {
+    "id": "roadmap",
+    "label": "Product Roadmap",
+    "description": "Build an outcome-driven roadmap with themes, bets and sequencing",
+    "icon": "Map",
+    "fields": [
+      { "id": "productName", "label": "Product / area", "type": "text", "required": true, "placeholder": "Analytics platform" },
+      { "id": "vision", "label": "Vision & strategic context", "type": "textarea", "required": true, "placeholder": "Become the default analytics layer for mid-market; win on time-to-insight." },
+      { "id": "horizon", "label": "Time horizon", "type": "select", "options": [ { "id": "quarter", "label": "This quarter" }, { "id": "half", "label": "Next 2 quarters" }, { "id": "year", "label": "Annual" }, { "id": "now-next-later", "label": "Now / Next / Later" } ], "required": true, "default": "now-next-later" },
+      { "id": "objectives", "label": "Key objectives / outcomes", "type": "textarea", "required": true, "placeholder": "Grow activation 15%, cut TTFV to <1 day, land 3 enterprise logos." },
+      { "id": "themes", "label": "Candidate themes", "type": "textarea", "required": true, "placeholder": "Onboarding, collaboration, performance, governance, integrations." },
+      { "id": "audience", "label": "Roadmap audience", "type": "select", "options": [ { "id": "exec", "label": "Executives" }, { "id": "eng", "label": "Engineering team" }, { "id": "customer", "label": "Customers / external" }, { "id": "gtm", "label": "Sales & marketing" } ], "default": "exec" },
+      { "id": "prioritize", "label": "Show prioritization rationale (impact vs effort)", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints & known commitments", "type": "textarea", "placeholder": "Team of 6; one committed enterprise integration; freeze in December." }
+    ],
+    "template": "You are a head of product. Build an outcome-driven roadmap for \"{{productName}}\".\n\n## Strategic context\n{{vision}}\n- Horizon: {{horizon}}\n- Audience: {{audience}}\n\n## Objectives / outcomes\n{{objectives}}\n\n## Candidate themes\n{{themes}}\n\n## Roadmap to produce\n- Organize by outcome/theme, not a feature laundry list; tie every item to an objective.\n- Sequence work across the {{horizon}} horizon with clear dependencies and bets vs. sure things.\n{{#if prioritize}}- Show prioritization rationale (impact vs. effort/confidence) and what was explicitly deprioritized and why.\n{{/if}}- Pitch each theme at the right altitude for the {{audience}} audience.\n{{#if constraints}}- Respect constraints & commitments: {{constraints}}\n{{/if}}\n## Deliverables\n1. The roadmap structured by theme with the chosen horizon framing.\n2. For each theme: target outcome, key bets, rough sizing, and success signal.\n3. The cut list and the assumptions the plan depends on.\n\nMake confident, well-reasoned prioritization calls; ask only if genuinely blocked."
+  },
+  {
+    "id": "user-stories",
+    "label": "User Stories",
+    "description": "Break a feature into clear user stories with acceptance criteria",
+    "icon": "ListChecks",
+    "fields": [
+      { "id": "featureName", "label": "Feature / epic name", "type": "text", "required": true, "placeholder": "Team sharing for saved views" },
+      { "id": "context", "label": "Context & goal", "type": "textarea", "required": true, "placeholder": "Users want to share saved views with teammates and control who can edit them." },
+      { "id": "personas", "label": "User personas involved", "type": "textarea", "required": true, "placeholder": "View owner, view collaborator, workspace admin." },
+      { "id": "acFormat", "label": "Acceptance criteria format", "type": "select", "options": [ { "id": "gherkin", "label": "Gherkin (Given/When/Then)" }, { "id": "checklist", "label": "Checklist" }, { "id": "rules", "label": "Rule-oriented" } ], "required": true, "default": "gherkin" },
+      { "id": "size", "label": "Story granularity", "type": "select", "options": [ { "id": "thin", "label": "Thin slices (small)" }, { "id": "standard", "label": "Standard" }, { "id": "epic-breakdown", "label": "Epic → stories breakdown" } ], "default": "standard" },
+      { "id": "includeEdge", "label": "Include edge cases & non-functional stories", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Must respect existing RBAC; no schema migration in this slice; ship behind a flag." }
+    ],
+    "template": "You are a product manager skilled at backlog refinement. Break down the feature \"{{featureName}}\" into user stories.\n\n## Context\n{{context}}\n- Personas: {{personas}}\n- Granularity: {{size}}\n\n## How to write the stories\n- Each story: \"As a <persona>, I want <capability>, so that <value>\" — independent, valuable, and testable.\n- Acceptance criteria in {{acFormat}} format, specific and verifiable.\n{{#if includeEdge}}- Include edge cases, error states, and non-functional stories (performance, accessibility, permissions).\n{{/if}}{{#if size == \"Epic → stories breakdown\"}}- Present the epic, then a vertically-sliced set of stories that each ship independent value.\n{{/if}}- Note dependencies and a sensible delivery order.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The ordered list of user stories with acceptance criteria.\n2. A short note on slicing rationale and dependencies.\n3. Any assumptions made and open questions worth flagging.\n\nWrite decisively with stated assumptions; ask only if genuinely blocked."
+  },
+  {
+    "id": "release-notes",
+    "label": "Release Notes",
+    "description": "Turn a changelog into clear, benefit-led release notes for an audience",
+    "icon": "Megaphone",
+    "fields": [
+      { "id": "productName", "label": "Product name", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "version", "label": "Version / release", "type": "text", "required": true, "placeholder": "v2.8.0" },
+      { "id": "changes", "label": "Raw changes / changelog", "type": "textarea", "required": true, "placeholder": "Added saved views; fixed CSV export timezone bug; faster dashboard load; deprecated old API v1." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones" },
+      { "id": "sections", "label": "Sections to include", "type": "multi-select", "options": [ { "id": "highlights", "label": "Highlights" }, { "id": "new", "label": "New features" }, { "id": "improvements", "label": "Improvements" }, { "id": "fixes", "label": "Bug fixes" }, { "id": "breaking", "label": "Breaking changes / deprecations" }, { "id": "upgrade", "label": "Upgrade notes" } ], "default": ["highlights", "new", "improvements", "fixes"] },
+      { "id": "includeCTA", "label": "Include a call to action", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Keep under 250 words; no internal jargon; link the migration guide for v1 API." }
+    ],
+    "template": "You are a product marketing writer. Write release notes for {{productName}} {{version}}.\n\n## Raw changes\n{{changes}}\n\n## Audience & voice\n{{#if audience}}- Audience: {{audience}}\n{{/if}}{{#if tone}}- Tone: {{tone}}\n{{/if}}- Sections to include: {{sections}}\n\n## How to write them\n- Lead with user benefit, not implementation detail; group related changes.\n- Be concrete and skimmable: clear headers, short sentences, no marketing fluff.\n{{#if sections == \"Breaking changes / deprecations\"}}- Call out breaking changes and deprecations prominently with the action users must take.\n{{/if}}{{#if includeCTA}}- End with a clear, single call to action.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The polished release notes in Markdown with the chosen sections.\n2. A one-line summary suitable for an in-app banner or email subject.\n3. A short list of anything in the changelog that needs clarification before publishing.\n\nWrite confidently for the stated audience; ask only if genuinely blocked."
+  },
+  {
+    "id": "discovery-interview",
+    "label": "Discovery Interview Guide",
+    "description": "Plan a bias-free customer discovery interview with sharp questions",
+    "icon": "MessagesSquare",
+    "fields": [
+      { "id": "topic", "label": "Research topic", "type": "text", "required": true, "placeholder": "How teams currently share analytics" },
+      { "id": "objective", "label": "What you need to learn & decisions it informs", "type": "textarea", "required": true, "placeholder": "Whether sharing pain is real and frequent enough to prioritize; informs next-quarter bets." },
+      { "id": "segment", "label": "Interviewee segment", "type": "select", "optionsRef": "audiences" },
+      { "id": "interviewType", "label": "Interview type", "type": "select", "options": [ { "id": "problem", "label": "Problem / generative" }, { "id": "solution", "label": "Solution / concept test" }, { "id": "jtbd", "label": "Jobs-to-be-done" }, { "id": "churn", "label": "Churn / win-loss" } ], "required": true, "default": "problem" },
+      { "id": "hypotheses", "label": "Hypotheses / assumptions to test", "type": "textarea", "required": true, "placeholder": "We assume sharing is done over Slack screenshots and that this loses context." },
+      { "id": "duration", "label": "Session length", "type": "select", "options": [ { "id": "30", "label": "30 minutes" }, { "id": "45", "label": "45 minutes" }, { "id": "60", "label": "60 minutes" } ], "default": "45" },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Non-technical participants; remote; avoid leading questions; record with consent." }
+    ],
+    "template": "You are a product discovery / UX research expert. Create an interview guide on \"{{topic}}\".\n\n## Objective\n{{objective}}\n- Interview type: {{interviewType}}\n{{#if segment}}- Segment: {{segment}}\n{{/if}}- Session length: {{duration}} minutes\n\n## Hypotheses to test\n{{hypotheses}}\n\n## Guide to produce\n- A brief intro script (purpose, consent, no-wrong-answers framing).\n- Warm-up questions, then open, non-leading questions that explore past behavior over hypotheticals.\n- Probing follow-ups (\"tell me about the last time...\", \"why did that matter?\") tied to each hypothesis.\n- A timeboxed flow that fits {{duration}} minutes with priority questions marked.\n- A wrap-up and what to capture immediately after.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The full interview guide with timings and priority markers.\n2. A note on which hypothesis each question line attacks.\n3. A simple synthesis template to capture findings consistently.\n\nDesign questions to avoid bias and leading; ask only if genuinely blocked."
+  },
+  {
+    "id": "competitive-analysis",
+    "label": "Competitive Analysis",
+    "description": "Produce a structured competitive analysis with positioning and gaps",
+    "icon": "Swords",
+    "fields": [
+      { "id": "productName", "label": "Our product", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "ourContext", "label": "Our positioning & target user", "type": "textarea", "required": true, "placeholder": "Self-serve analytics for mid-market ops teams; wins on speed and ease." },
+      { "id": "competitors", "label": "Competitors to analyze", "type": "textarea", "required": true, "placeholder": "Looker, Metabase, Mixpanel, plus the 'spreadsheet' status quo." },
+      { "id": "dimensions", "label": "Comparison dimensions", "type": "multi-select", "options": [ { "id": "features", "label": "Features" }, { "id": "pricing", "label": "Pricing & packaging" }, { "id": "ux", "label": "UX & onboarding" }, { "id": "segment", "label": "Target segment" }, { "id": "gtm", "label": "Go-to-market" }, { "id": "tech", "label": "Tech & integrations" } ], "default": ["features", "pricing", "ux", "segment"] },
+      { "id": "audience", "label": "Who is this analysis for", "type": "select", "options": [ { "id": "product", "label": "Product team" }, { "id": "exec", "label": "Executives" }, { "id": "sales", "label": "Sales enablement" }, { "id": "marketing", "label": "Marketing / positioning" } ], "default": "product" },
+      { "id": "includeStrategy", "label": "Include strategic recommendations", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints & known intel", "type": "textarea", "placeholder": "Use only public info; competitor X just raised prices; we can't match their integrations." }
+    ],
+    "template": "You are a product strategist. Produce a competitive analysis for \"{{productName}}\".\n\n## Our context\n{{ourContext}}\n- Audience for this analysis: {{audience}}\n\n## Competitors\n{{competitors}}\n\n## Analysis to produce\n- A comparison across these dimensions: {{dimensions}}, with an honest, evidence-based assessment.\n- A positioning map showing where we and each competitor sit and why.\n- Our differentiators, our genuine weaknesses, and unmet needs / market gaps.\n{{#if includeStrategy}}- Strategic recommendations: where to compete, where not to, and the sharpest wedge.\n{{/if}}- Frame conclusions for the {{audience}} audience.\n\n{{#if constraints}}## Constraints & known intel\n{{constraints}}\n\n{{/if}}## Deliverables\n1. A comparison matrix across the chosen dimensions.\n2. The positioning narrative with differentiators and gaps.\n3. A prioritized set of takeaways and the assumptions behind them.\n\nBe candid and avoid wishful thinking; ask only if genuinely blocked."
+  },
+  {
+    "id": "feature-spec",
+    "label": "Feature Spec",
+    "description": "Write a detailed feature spec covering behavior, states and edge cases",
+    "icon": "ClipboardList",
+    "fields": [
+      { "id": "featureName", "label": "Feature name", "type": "text", "required": true, "placeholder": "Bulk export" },
+      { "id": "summary", "label": "What it does & why", "type": "textarea", "required": true, "placeholder": "Let users export filtered records to CSV/Excel asynchronously and get notified when ready." },
+      { "id": "userFlow", "label": "Primary user flow", "type": "textarea", "required": true, "placeholder": "User filters list → clicks Export → picks format → job runs → email + in-app link to download." },
+      { "id": "surface", "label": "Surface", "type": "select", "options": [ { "id": "web", "label": "Web app" }, { "id": "mobile", "label": "Mobile" }, { "id": "api", "label": "API" }, { "id": "multi", "label": "Multi-surface" } ], "default": "web" },
+      { "id": "details", "label": "Detail areas to cover", "type": "multi-select", "options": [ { "id": "states", "label": "Empty/loading/error states" }, { "id": "permissions", "label": "Permissions" }, { "id": "edge", "label": "Edge cases" }, { "id": "analytics", "label": "Analytics / events" }, { "id": "a11y", "label": "Accessibility" }, { "id": "perf", "label": "Performance limits" } ], "default": ["states", "permissions", "edge", "analytics"] },
+      { "id": "includeMocks", "label": "Describe UI/interaction in detail (mock-level)", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints & dependencies", "type": "textarea", "placeholder": "Reuse existing job queue; max 100k rows; respects row-level permissions." }
+    ],
+    "template": "You are a senior product manager writing an implementation-ready feature spec for \"{{featureName}}\".\n\n## Summary\n{{summary}}\n- Surface: {{surface}}\n\n## Primary flow\n{{userFlow}}\n\n## Spec to produce\n- Detailed behavior for the happy path plus all branches and transitions.\n- Cover these areas explicitly: {{details}}.\n{{#if includeMocks}}- Describe each screen/interaction at mock level: layout intent, controls, copy, and state changes.\n{{/if}}- Acceptance criteria that are precise and testable.\n- Telemetry: the events/properties needed to measure success.\n\n{{#if constraints}}## Constraints & dependencies\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The full spec in Markdown with the sections above.\n2. A state/edge-case table (state → expected behavior).\n3. Open questions and explicit assumptions, plus a suggested v1 cut line.\n\nWrite decisively with stated assumptions; ask only if genuinely blocked."
+  }
+]

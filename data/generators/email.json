@@ -1,0 +1,119 @@
+[
+  {
+    "id": "newsletter",
+    "label": "Newsletter Issue",
+    "description": "A full newsletter issue with subject lines and structure",
+    "icon": "Newspaper",
+    "fields": [
+      { "id": "newsletterName", "label": "Newsletter name", "type": "text", "required": true, "placeholder": "The Activation Brief" },
+      { "id": "topic", "label": "Issue topic & key points", "type": "textarea", "required": true, "placeholder": "Why most onboarding emails fail; the 3-email minimum; a teardown of a good flow." },
+      { "id": "audience", "label": "Subscriber audience", "type": "select", "optionsRef": "audiences", "default": "customers" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "length", "label": "Length", "type": "select", "options": [ { "id": "short", "label": "Short (skimmable, ~300w)" }, { "id": "medium", "label": "Medium (~600w)" }, { "id": "long", "label": "Long-form (~1000w+)" } ], "default": "medium" },
+      { "id": "sections", "label": "Sections to include", "type": "multi-select", "options": [ { "id": "intro", "label": "Personal intro" }, { "id": "main", "label": "Main story / lesson" }, { "id": "links", "label": "Curated links" }, { "id": "tip", "label": "Quick tip / tool" }, { "id": "community", "label": "Community / shoutout" } ], "default": ["intro", "main", "tip"] },
+      { "id": "cta", "label": "Primary CTA", "type": "text", "placeholder": "Reply with your biggest onboarding blocker" },
+      { "id": "subjectCount", "label": "Number of subject-line options", "type": "select", "options": [ { "id": "three", "label": "3" }, { "id": "five", "label": "5" } ], "default": "five" }
+    ],
+    "template": "You are an expert newsletter writer with a strong, human voice. Write an issue of \"{{newsletterName}}\".\n\n## This issue\n{{topic}}\n\n- Audience: {{audience}}\n- Tone: {{tone}}\n- Length: {{length}}\n- Sections to include: {{sections}}\n{{#if cta}}- Primary CTA: {{cta}}\n{{/if}}\n## Requirements\n- Provide {{subjectCount}} subject-line options (curiosity, benefit, specific) plus a matching preview/preheader for each.\n- Open with a hook that earns the open being repaid; no \"hope you're well\" filler.\n- Deliver the chosen sections with clear structure, skimmable formatting, and one clear idea per issue.\n- End with a single, frictionless CTA and a human sign-off.\n- Keep it valuable first, promotional second; sound like a person, not a brand broadcast.\n\n## Deliverables\n1. The subject-line + preheader options.\n2. The full issue body, formatted for email (short paragraphs, scannable).\n3. A one-line note on the single metric this issue is optimizing for.\n\nWrite ready-to-send copy; make confident editorial choices and only ask if the topic is unclear."
+  },
+  {
+    "id": "drip-sequence",
+    "label": "Drip / Nurture Sequence",
+    "description": "Multi-email nurture sequence toward one conversion",
+    "icon": "Workflow",
+    "fields": [
+      { "id": "sequenceName", "label": "Sequence name", "type": "text", "required": true, "placeholder": "Free trial -> paid nurture" },
+      { "id": "context", "label": "Product, audience & the goal", "type": "textarea", "required": true, "placeholder": "B2B analytics tool. Audience: trial users who haven't connected data. Goal: get them to first insight, then upgrade." },
+      { "id": "emailCount", "label": "Number of emails", "type": "select", "options": [ { "id": "three", "label": "3" }, { "id": "five", "label": "5" }, { "id": "seven", "label": "7" } ], "default": "five" },
+      { "id": "trigger", "label": "Entry trigger", "type": "select", "options": [ { "id": "signup", "label": "Signup / opt-in" }, { "id": "trial", "label": "Trial started" }, { "id": "leadmagnet", "label": "Lead magnet download" }, { "id": "demo", "label": "Demo requested" }, { "id": "abandoned", "label": "Abandoned cart/checkout" } ], "default": "trial" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "cta", "label": "Final conversion action", "type": "text", "placeholder": "Upgrade to a paid plan" },
+      { "id": "branching", "label": "Include behavior-based branching", "type": "toggle", "default": true }
+    ],
+    "template": "You are a lifecycle email strategist and copywriter. Design a {{emailCount}}-email {{trigger}} nurture sequence: \"{{sequenceName}}\".\n\n## Context\n{{context}}\n\n- Audience: {{audience}}\n- Tone: {{tone}}\n{{#if cta}}- Final conversion action: {{cta}}\n{{/if}}\n## Requirements\n- Map the sequence arc: each email's single job, the objection/stage it addresses, and how it moves the reader forward (not just \"check in\").\n- For every email provide: send timing/trigger, goal, 2 subject-line options + preheader, full body copy, and one clear CTA.\n- Escalate intent gradually: educate and create value before asking for the conversion.\n{{#if branching}}- Add behavior-based branching (engaged vs inactive, clicked vs not, converted -> exit) with the alternate path logic.\n{{/if}}- Keep emails short, scannable, and human; no manipulative urgency.\n\n## Deliverables\n1. A sequence map (email, timing, goal, CTA{{#if branching}}, branch{{/if}}).\n2. Full copy for every email with subject + preheader options.\n3. Suggested success metric per email and the overall conversion KPI.\n\nMake well-reasoned assumptions about timing and product details, label them, and proceed."
+  },
+  {
+    "id": "onboarding-flow",
+    "label": "User Onboarding Flow",
+    "description": "Activation-focused onboarding email flow to first value",
+    "icon": "Rocket",
+    "fields": [
+      { "id": "productName", "label": "Product name", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "context", "label": "What it does & the activation moment", "type": "textarea", "required": true, "placeholder": "Product analytics tool. 'Aha' = seeing a funnel after connecting a data source within 7 days." },
+      { "id": "activationGoal", "label": "Activation goal", "type": "text", "required": true, "placeholder": "Connect a data source and view first funnel" },
+      { "id": "emailCount", "label": "Number of emails", "type": "select", "options": [ { "id": "three", "label": "3" }, { "id": "four", "label": "4" }, { "id": "six", "label": "6" } ], "default": "four" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "customers" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "empathetic" },
+      { "id": "milestones", "label": "Trigger emails off product milestones", "type": "toggle", "default": true },
+      { "id": "winback", "label": "Include a stalled-user nudge", "type": "toggle", "default": true }
+    ],
+    "template": "You are a product onboarding and lifecycle expert. Design an onboarding email flow for \"{{productName}}\" focused on activation, not feature tours.\n\n## Context\n{{context}}\n\n- Activation goal: {{activationGoal}}\n- Emails: {{emailCount}}\n- Audience: {{audience}}\n- Tone: {{tone}}\n\n## Requirements\n- Reverse-engineer the path to \"{{activationGoal}}\" and design each email to remove one specific blocker on that path.\n- {{#if milestones}}Trigger emails off product milestones/events (e.g. account created, data connected) rather than only time delays; specify the trigger per email.{{else}}Use sensible time-based delays and specify them per email.{{/if}}\n- For each email: trigger, the single next action it drives, subject + preheader, concise body, and one unmissable CTA. Reduce choices and cognitive load.\n{{#if winback}}- Include a re-engagement nudge for users who stall before activating, addressing the likely reason for the stall.\n{{/if}}- Reinforce the value/payoff of acting, not the mechanics of the product.\n\n## Deliverables\n1. The flow map (email, trigger, target action, CTA).\n2. Full copy for each email with subject + preheader.\n3. The activation metric to watch and a suggested experiment to improve it.\n\nMake reasoned assumptions about the product where unstated, mark them, and proceed."
+  },
+  {
+    "id": "reengagement",
+    "label": "Re-engagement Campaign",
+    "description": "Win-back emails for inactive or churned users",
+    "icon": "Undo2",
+    "fields": [
+      { "id": "brand", "label": "Brand / product", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "context", "label": "Who's inactive & why (if known)", "type": "textarea", "required": true, "placeholder": "Trial users who connected data but never returned after week 1; likely never hit a clear insight." },
+      { "id": "inactivityType", "label": "Segment", "type": "select", "options": [ { "id": "dormant", "label": "Dormant active users" }, { "id": "lapsedtrial", "label": "Lapsed trial" }, { "id": "churned", "label": "Churned customers" }, { "id": "coldlist", "label": "Cold subscribers" } ], "default": "lapsedtrial" },
+      { "id": "emailCount", "label": "Number of emails", "type": "select", "options": [ { "id": "two", "label": "2" }, { "id": "three", "label": "3" }, { "id": "four", "label": "4" } ], "default": "three" },
+      { "id": "incentive", "label": "Incentive / hook", "type": "text", "placeholder": "Extended trial, new feature, or just a useful insight" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "customers" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "empathetic" },
+      { "id": "sunset", "label": "Include a final break-up / sunset email", "type": "toggle", "default": true }
+    ],
+    "template": "You are a retention marketer specializing in win-back. Create a {{emailCount}}-email re-engagement campaign for \"{{brand}}\" targeting the {{inactivityType}} segment.\n\n## Context\n{{context}}\n\n- Audience: {{audience}}\n- Tone: {{tone}}\n{{#if incentive}}- Incentive/hook available: {{incentive}}\n{{/if}}\n## Requirements\n- Lead with the reason they left, not a guilt trip; reframe around the value they're missing.\n- Vary the angle across emails: reminder of value, new reason to return / what's changed, and a low-friction win or incentive.\n- For each email: timing, objective, 2 subject-line options + preheader, body, and one clear CTA (make returning effortless).\n{{#if sunset}}- End with a respectful sunset/break-up email that asks for a final decision and protects deliverability (offer to reduce frequency or unsubscribe cleanly).\n{{/if}}- Keep it short and respectful; no dark patterns or fake urgency.\n\n## Deliverables\n1. The campaign map (email, timing, angle, CTA).\n2. Full copy with subject + preheader options.\n3. Suppression/exit logic and the metric that defines success.\n\nMake sensible assumptions about the segment, label them, and proceed."
+  },
+  {
+    "id": "cold-email",
+    "label": "Cold Outreach Email",
+    "description": "Personalized B2B cold email with follow-ups",
+    "icon": "Send",
+    "fields": [
+      { "id": "offer", "label": "What you're offering", "type": "textarea", "required": true, "placeholder": "We help B2B SaaS cut onboarding time ~40% with done-for-you lifecycle email." },
+      { "id": "targetProfile", "label": "Who you're targeting (ICP)", "type": "textarea", "required": true, "placeholder": "Heads of Growth at 20-200 person B2B SaaS companies with a free trial." },
+      { "id": "trigger", "label": "Personalization angle", "type": "text", "placeholder": "Just raised a Series A; hiring growth roles; competitor recently launched onboarding" },
+      { "id": "goal", "label": "Goal of the email", "type": "select", "options": [ { "id": "meeting", "label": "Book a meeting" }, { "id": "reply", "label": "Start a conversation" }, { "id": "resource", "label": "Get them to take a resource" }, { "id": "demo", "label": "Get a demo" } ], "default": "meeting" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "minimal" },
+      { "id": "followups", "label": "Number of follow-ups", "type": "select", "options": [ { "id": "two", "label": "2" }, { "id": "three", "label": "3" }, { "id": "four", "label": "4" } ], "default": "three" },
+      { "id": "subjectVariants", "label": "Provide multiple subject-line options", "type": "toggle", "default": true }
+    ],
+    "template": "You are a top B2B cold-email copywriter who gets replies, not spam complaints. Write a cold outreach email plus follow-ups.\n\n## Offer\n{{offer}}\n\n## Target (ICP)\n{{targetProfile}}\n{{#if trigger}}\n- Personalization angle to lead with: {{trigger}}\n{{/if}}- Goal of the sequence: {{goal}}\n- Tone: {{tone}}\n\n## Requirements\n- Keep the first email short (under ~90 words): a relevant opener (about them, not you), a one-line credible value claim with proof, and one soft, specific ask.\n- No \"I hope this finds you well\", no feature dumps, no fake flattery. Write like a busy human to a busy human.\n{{#if subjectVariants}}- Provide 3 subject-line options (short, lowercase-ok, curiosity/relevance, no clickbait).\n{{else}}- Provide one strong, low-key subject line.\n{{/if}}- Then write {{followups}} follow-ups, each adding a NEW angle/value (case study, insight, different ask), never just \"bumping this\". Include send-day spacing.\n- Make the CTA frictionless and aligned to: {{goal}}.\n\n## Deliverables\n1. {{#if subjectVariants}}Subject-line options.\n{{/if}}2. Email 1 body, then each follow-up with timing and its distinct angle.\n3. One personalization checklist the rep must complete before sending.\n\nMake confident copy choices; only ask if the offer or ICP is unclear."
+  },
+  {
+    "id": "product-announcement",
+    "label": "Product Announcement",
+    "description": "Launch email for a new product, feature or update",
+    "icon": "Sparkles",
+    "fields": [
+      { "id": "productName", "label": "What's launching", "type": "text", "required": true, "placeholder": "Funnel Compare 2.0" },
+      { "id": "details", "label": "What it is & why it matters", "type": "textarea", "required": true, "placeholder": "Compare funnels across segments side by side. Solves the #1 requested workflow; saves analysts hours." },
+      { "id": "announcementType", "label": "Type", "type": "select", "options": [ { "id": "newproduct", "label": "New product" }, { "id": "feature", "label": "New feature" }, { "id": "majorupdate", "label": "Major update" }, { "id": "beta", "label": "Beta / early access" }, { "id": "deprecation", "label": "Change / deprecation" } ], "default": "feature" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "customers" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "cta", "label": "Primary CTA", "type": "text", "placeholder": "Try Funnel Compare now" },
+      { "id": "segmented", "label": "Tailor copy for different segments", "type": "toggle", "default": false },
+      { "id": "subjectCount", "label": "Number of subject-line options", "type": "select", "options": [ { "id": "three", "label": "3" }, { "id": "five", "label": "5" } ], "default": "three" }
+    ],
+    "template": "You are a product marketing copywriter. Write a {{announcementType}} announcement email for \"{{productName}}\".\n\n## What's launching\n{{details}}\n\n- Audience: {{audience}}\n- Tone: {{tone}}\n{{#if cta}}- Primary CTA: {{cta}}\n{{/if}}\n## Requirements\n- Lead with the customer outcome/benefit, not the feature name or internal excitement.\n- Structure: hook -> the problem it solves -> what it does (briefly) -> proof or example -> one clear CTA.\n- Provide {{subjectCount}} subject-line options + a preheader for each (benefit-led, no hype words that trip spam filters).\n{{#if announcementType == \"Change / deprecation\"}}- Be transparent and specific about what changes, the timeline, the impact, and exactly what the user must do; lead with empathy.\n{{/if}}{{#if segmented}}- Provide tailored body variants for distinct segments (e.g. power users vs new users) noting what differs and why.\n{{/if}}- Keep it tight and scannable; respect the reader's time.\n\n## Deliverables\n1. Subject-line + preheader options.\n2. The full email body{{#if segmented}} plus segment variants{{/if}}.\n3. A suggested in-product or follow-up touch to pair with the email.\n\nMake confident messaging choices; only ask if the launch details are ambiguous."
+  },
+  {
+    "id": "subject-line-set",
+    "label": "Subject Line Set",
+    "description": "A/B-ready subject lines and preheaders for one email",
+    "icon": "Type",
+    "fields": [
+      { "id": "emailPurpose", "label": "Email purpose & key message", "type": "textarea", "required": true, "placeholder": "Promo: 20% off annual plans this week for trial users who haven't upgraded." },
+      { "id": "emailType", "label": "Email type", "type": "select", "options": [ { "id": "promo", "label": "Promotional / offer" }, { "id": "newsletter", "label": "Newsletter" }, { "id": "lifecycle", "label": "Lifecycle / nurture" }, { "id": "announcement", "label": "Announcement" }, { "id": "transactional", "label": "Transactional+" }, { "id": "winback", "label": "Win-back" } ], "default": "promo" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "customers" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "count", "label": "How many subject lines", "type": "select", "options": [ { "id": "five", "label": "5" }, { "id": "ten", "label": "10" }, { "id": "fifteen", "label": "15" } ], "default": "ten" },
+      { "id": "angles", "label": "Angles to cover", "type": "multi-select", "options": [ { "id": "curiosity", "label": "Curiosity" }, { "id": "benefit", "label": "Benefit / outcome" }, { "id": "urgency", "label": "Urgency / scarcity" }, { "id": "personal", "label": "Personal / direct" }, { "id": "question", "label": "Question" }, { "id": "number", "label": "Number / specificity" }, { "id": "contrarian", "label": "Contrarian / pattern-break" } ], "default": ["curiosity", "benefit", "personal", "number"] },
+      { "id": "emoji", "label": "Allow emoji", "type": "toggle", "default": false }
+    ],
+    "template": "You are an email copywriter who lives and dies by open rates. Generate a subject-line test set for a {{emailType}} email.\n\n## Email purpose\n{{emailPurpose}}\n\n- Audience: {{audience}}\n- Tone: {{tone}}\n- Angles to cover: {{angles}}\n\n## Requirements\n- Write {{count}} subject lines spread deliberately across the requested angles (label each line with its angle).\n- Keep them mostly under ~50 characters / mobile-safe; pair each with a complementary preheader (don't repeat the subject).\n- Avoid spam-trigger words and ALL CAPS; no clickbait that the email can't pay off.\n{{#if emoji}}- Emoji allowed where it genuinely adds clarity or emotion; never more than one, never decorative.\n{{else}}- No emoji.\n{{/if}}- Ensure variety in length and structure so a real A/B/n test is meaningful.\n\n## Deliverables\n1. The numbered subject + preheader pairs, each tagged with its angle and character count.\n2. A recommended top 3 to test first, with a one-line rationale each.\n3. One note on what a win on each would tell you about the audience.\n\nMake confident copy choices; only ask if the email's core promise is unclear."
+  }
+]

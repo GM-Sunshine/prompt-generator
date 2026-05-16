@@ -1,0 +1,118 @@
+[
+  {
+    "id": "ci-pipeline",
+    "label": "CI Pipeline",
+    "description": "Design a fast, reliable CI pipeline with caching and parallel stages",
+    "icon": "Workflow",
+    "fields": [
+      { "id": "projectName", "label": "Project name", "type": "text", "required": true, "placeholder": "orders-service" },
+      { "id": "summary", "label": "What is being built & tested?", "type": "textarea", "required": true, "placeholder": "A TypeScript monorepo with an API and a web app; needs lint, test, build and image push." },
+      { "id": "platform", "label": "CI platform", "type": "select", "options": [ { "id": "gha", "label": "GitHub Actions" }, { "id": "gitlab", "label": "GitLab CI" }, { "id": "circle", "label": "CircleCI" }, { "id": "buildkite", "label": "Buildkite" } ], "required": true, "default": "gha" },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "stages", "label": "Stages to include", "type": "multi-select", "options": [ { "id": "lint", "label": "Lint" }, { "id": "unit", "label": "Unit tests" }, { "id": "integration", "label": "Integration tests" }, { "id": "build", "label": "Build" }, { "id": "scan", "label": "Security scan" }, { "id": "publish", "label": "Publish artifact/image" } ], "default": ["lint", "unit", "build"] },
+      { "id": "matrix", "label": "Build matrix (versions/OS)", "type": "toggle", "default": false },
+      { "id": "caching", "label": "Aggressive dependency/layer caching", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints & SLOs", "type": "textarea", "placeholder": "Pipeline must finish under 8 minutes; required check on main." }
+    ],
+    "template": "You are a senior CI/CD engineer. Design a CI pipeline for \"{{projectName}}\" on {{platform}}.\n\n## Context\n{{summary}}\n- Primary language: {{language}}\n\n## Pipeline stages\nImplement these stages with sensible ordering and fail-fast behavior: {{stages}}.\n{{#if matrix}}- Run a build matrix across the relevant runtime versions and OSes.\n{{/if}}{{#if caching}}- Cache dependencies and build/layer artifacts keyed on lockfiles for fast warm runs.\n{{/if}}- Parallelize independent stages; gate merges on required checks.\n\n## Quality bar\n- Deterministic, reproducible runs with pinned tool versions.\n- Clear logs and actionable failure annotations.\n- Secrets handled via the platform's secret store, never inlined.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The complete pipeline configuration file(s), commented.\n2. A short rationale for stage ordering and caching strategy.\n3. Notes on expected runtime and how to debug a failed run.\n\nProceed with well-reasoned defaults; ask only if a requirement is genuinely blocking."
+  },
+  {
+    "id": "dockerfile",
+    "label": "Dockerfile",
+    "description": "Produce a secure, small, multi-stage Dockerfile for a service",
+    "icon": "Container",
+    "fields": [
+      { "id": "serviceName", "label": "Service name", "type": "text", "required": true, "placeholder": "payments-api" },
+      { "id": "summary", "label": "What does the service do & how does it run?", "type": "textarea", "required": true, "placeholder": "A Node.js HTTP API started with `node dist/server.js`, listens on 8080." },
+      { "id": "language", "label": "Runtime", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "baseImage", "label": "Base image preference", "type": "select", "options": [ { "id": "distroless", "label": "Distroless" }, { "id": "alpine", "label": "Alpine" }, { "id": "slim", "label": "Debian slim" }, { "id": "scratch", "label": "Scratch (static binary)" } ], "default": "distroless" },
+      { "id": "multistage", "label": "Multi-stage build", "type": "toggle", "default": true },
+      { "id": "nonroot", "label": "Run as non-root user", "type": "toggle", "default": true },
+      { "id": "healthcheck", "label": "Include HEALTHCHECK", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Final image < 120MB; build args for version; no shell in final stage." }
+    ],
+    "template": "You are a container build expert. Write a production Dockerfile for the service \"{{serviceName}}\".\n\n## Service\n{{summary}}\n- Runtime: {{language}}\n- Preferred base: {{baseImage}}\n\n## Requirements\n{{#if multistage}}- Use a multi-stage build: a builder stage and a minimal runtime stage that copies only artifacts.\n{{/if}}{{#if nonroot}}- Create and run as a dedicated non-root user with a read-only-friendly layout.\n{{/if}}{{#if healthcheck}}- Add a HEALTHCHECK appropriate to how the service reports readiness.\n{{/if}}- Pin the base image by digest or explicit tag; order layers for cache efficiency.\n- Minimize layers and final size; no build tools or secrets in the final image.\n- Set sensible ENV, EXPOSE, WORKDIR and a correct ENTRYPOINT/CMD.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The complete Dockerfile, commented.\n2. A matching .dockerignore.\n3. The build and run commands, plus notes on image size and security choices.\n\nMake confident, well-documented decisions; ask only if truly blocked."
+  },
+  {
+    "id": "k8s-manifests",
+    "label": "Kubernetes Manifests",
+    "description": "Generate hardened Kubernetes manifests for deploying a service",
+    "icon": "Boxes",
+    "fields": [
+      { "id": "appName", "label": "Application name", "type": "text", "required": true, "placeholder": "checkout" },
+      { "id": "summary", "label": "What is being deployed?", "type": "textarea", "required": true, "placeholder": "A stateless HTTP API container on port 8080 needing 2 replicas and config from a secret." },
+      { "id": "workload", "label": "Workload type", "type": "select", "options": [ { "id": "deployment", "label": "Deployment" }, { "id": "statefulset", "label": "StatefulSet" }, { "id": "cronjob", "label": "CronJob" }, { "id": "job", "label": "Job" } ], "default": "deployment" },
+      { "id": "expose", "label": "How to expose it", "type": "select", "options": [ { "id": "none", "label": "Internal only" }, { "id": "clusterip", "label": "Service (ClusterIP)" }, { "id": "ingress", "label": "Service + Ingress" }, { "id": "gateway", "label": "Gateway API" } ], "default": "ingress" },
+      { "id": "extras", "label": "Include resources", "type": "multi-select", "options": [ { "id": "hpa", "label": "HorizontalPodAutoscaler" }, { "id": "pdb", "label": "PodDisruptionBudget" }, { "id": "netpol", "label": "NetworkPolicy" }, { "id": "configmap", "label": "ConfigMap" }, { "id": "secret", "label": "Secret" } ], "default": ["configmap", "hpa"] },
+      { "id": "tooling", "label": "Packaging", "type": "select", "options": [ { "id": "raw", "label": "Raw YAML" }, { "id": "kustomize", "label": "Kustomize" }, { "id": "helm", "label": "Helm chart" } ], "default": "raw" },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Must set resource requests/limits; restricted PodSecurity; namespace = prod." }
+    ],
+    "template": "You are a Kubernetes platform engineer. Produce {{tooling}} manifests to deploy \"{{appName}}\".\n\n## What to deploy\n{{summary}}\n- Workload: {{workload}}\n- Exposure: {{expose}}\n\n## Required objects\n- The core {{workload}} with probes (liveness/readiness/startup), resource requests and limits, and a rolling update strategy.\n{{#if extras}}- Also include: {{extras}}.\n{{/if}}{{#if expose == \"Service + Ingress\"}}- A Service plus an Ingress with sane host/path and TLS placeholder.\n{{/if}}{{#if expose == \"Gateway API\"}}- A Service plus Gateway API HTTPRoute.\n{{/if}}\n## Hardening\n- securityContext: non-root, read-only root filesystem, dropped capabilities.\n- Labels/annotations following recommended Kubernetes conventions.\n- No secrets in plain manifests; reference Secret objects.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. All manifests, organized clearly{{#if tooling == \"Helm chart\"}} as a chart with values.yaml{{/if}}.\n2. The apply/install commands and a rollback note.\n3. A brief rationale for resource sizing and security choices.\n\nUse production-grade defaults and explain notable trade-offs; ask only if blocked."
+  },
+  {
+    "id": "terraform-module",
+    "label": "Terraform Module",
+    "description": "Author a reusable, well-documented Terraform module",
+    "icon": "Layers",
+    "fields": [
+      { "id": "moduleName", "label": "Module name", "type": "text", "required": true, "placeholder": "vpc-network" },
+      { "id": "summary", "label": "What infrastructure does it provision?", "type": "textarea", "required": true, "placeholder": "A VPC with public/private subnets across 3 AZs, NAT gateways and routing." },
+      { "id": "cloud", "label": "Cloud provider", "type": "select", "options": [ { "id": "aws", "label": "AWS" }, { "id": "gcp", "label": "GCP" }, { "id": "azure", "label": "Azure" }, { "id": "multi", "label": "Multi/agnostic" } ], "required": true, "default": "aws" },
+      { "id": "tfVersion", "label": "Terraform version target", "type": "select", "options": [ { "id": "1x", "label": "Terraform 1.x" }, { "id": "opentofu", "label": "OpenTofu" } ], "default": "1x" },
+      { "id": "remoteState", "label": "Document remote state/backend", "type": "toggle", "default": true },
+      { "id": "examples", "label": "Include usage examples", "type": "toggle", "default": true },
+      { "id": "tests", "label": "Include automated tests/validation", "type": "toggle", "default": false },
+      { "id": "constraints", "label": "Constraints & conventions", "type": "textarea", "placeholder": "Tag everything with cost-center; no hardcoded regions; least-privilege IAM." }
+    ],
+    "template": "You are an infrastructure-as-code expert. Write a reusable Terraform module \"{{moduleName}}\" for {{cloud}}.\n\n## Purpose\n{{summary}}\n- Target: {{tfVersion}}\n\n## Module design\n- Clean separation of variables.tf, outputs.tf, main.tf and versions.tf with pinned provider constraints.\n- Typed variables with descriptions, sensible defaults, and validation where useful.\n- Meaningful outputs for downstream composition.\n- No hardcoded account/region/secret values; everything parameterized.\n{{#if remoteState}}- Document the expected remote state/backend setup (do not hardcode it in the module).\n{{/if}}{{#if examples}}- Provide a runnable examples/ directory showing minimal and full usage.\n{{/if}}{{#if tests}}- Include validation/tests (e.g. terraform validate plus a tofu/terratest example).\n{{/if}}\n{{#if constraints}}## Constraints & conventions\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The complete module file tree.\n2. A README with inputs/outputs table and usage example.\n3. Notes on idempotency, drift, and how to extend the module.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "observability-setup",
+    "label": "Observability Setup",
+    "description": "Define metrics, logs, traces, dashboards and alerts for a service",
+    "icon": "Activity",
+    "fields": [
+      { "id": "serviceName", "label": "Service name", "type": "text", "required": true, "placeholder": "search-api" },
+      { "id": "summary", "label": "What does the service do & what matters?", "type": "textarea", "required": true, "placeholder": "User-facing search API; latency and error rate matter most; ~2k rps peak." },
+      { "id": "pillars", "label": "Observability pillars", "type": "multi-select", "options": [ { "id": "metrics", "label": "Metrics" }, { "id": "logs", "label": "Logs" }, { "id": "traces", "label": "Traces" }, { "id": "profiling", "label": "Continuous profiling" } ], "default": ["metrics", "logs", "traces"] },
+      { "id": "stack", "label": "Tooling stack", "type": "select", "options": [ { "id": "prom", "label": "Prometheus + Grafana" }, { "id": "otel", "label": "OpenTelemetry + vendor backend" }, { "id": "elastic", "label": "Elastic / ELK" }, { "id": "datadog", "label": "Datadog" } ], "default": "otel" },
+      { "id": "slos", "label": "Define SLOs & error budgets", "type": "toggle", "default": true },
+      { "id": "alerting", "label": "Include alerting rules", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Cardinality budget; PII must be scrubbed from logs; on-call via PagerDuty." }
+    ],
+    "template": "You are an observability/SRE engineer. Design an observability setup for the service \"{{serviceName}}\".\n\n## Service\n{{summary}}\n- Tooling: {{stack}}\n- Pillars to instrument: {{pillars}}\n\n## Instrumentation plan\n- Define the golden signals (latency, traffic, errors, saturation) and the specific metrics, log fields and span attributes to emit.\n- Use consistent naming and bounded label/tag cardinality.\n- Structured, correlatable logs (trace/span IDs propagated).\n{{#if slos}}- Define SLIs, SLOs and error budgets tied to user-facing impact.\n{{/if}}{{#if alerting}}- Author alerting rules that page on symptoms (SLO burn), not noisy causes, with runbook links.\n{{/if}}\n## Dashboards\n- A service overview dashboard and a deep-dive/troubleshooting dashboard.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The instrumentation spec and config (collector/exporter/scrape config as code).\n2. Dashboard definitions and alert rules as code.\n3. A short rationale linking each signal to a failure mode.\n\nUse production-grade defaults and explain notable trade-offs; ask only if blocked."
+  },
+  {
+    "id": "incident-runbook",
+    "label": "Incident Runbook",
+    "description": "Write an actionable on-call runbook for a specific failure scenario",
+    "icon": "Siren",
+    "fields": [
+      { "id": "serviceName", "label": "Service / system", "type": "text", "required": true, "placeholder": "checkout-service" },
+      { "id": "scenario", "label": "Failure scenario", "type": "textarea", "required": true, "placeholder": "Elevated 5xx and p99 latency on checkout, often correlated with DB connection saturation." },
+      { "id": "severity", "label": "Typical severity", "type": "select", "options": [ { "id": "sev1", "label": "SEV1 (critical, customer-facing outage)" }, { "id": "sev2", "label": "SEV2 (major degradation)" }, { "id": "sev3", "label": "SEV3 (minor / partial)" } ], "default": "sev2" },
+      { "id": "signals", "label": "Detection signals available", "type": "multi-select", "options": [ { "id": "alerts", "label": "Alerts" }, { "id": "dashboards", "label": "Dashboards" }, { "id": "logs", "label": "Logs" }, { "id": "traces", "label": "Traces" }, { "id": "synthetics", "label": "Synthetics" } ], "default": ["alerts", "dashboards", "logs"] },
+      { "id": "rollback", "label": "Rollback/feature-flag available", "type": "toggle", "default": true },
+      { "id": "comms", "label": "Include comms & escalation steps", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Environment specifics", "type": "textarea", "placeholder": "Runs on Kubernetes; DB is RDS Postgres; primary on-call is the platform team." }
+    ],
+    "template": "You are an SRE writing an on-call incident runbook for \"{{serviceName}}\".\n\n## Scenario\n{{scenario}}\n- Typical severity: {{severity}}\n- Available signals: {{signals}}\n\n## Runbook structure\nProduce a runbook a tired on-call engineer can follow at 3am:\n1. Detection — exact alerts/queries/dashboards that indicate this incident and how to confirm it is real.\n2. Triage — quick checks to scope blast radius and likely cause, with concrete commands/queries.\n3. Mitigation — ordered, copy-pasteable steps to stop the bleeding{{#if rollback}}, including how to roll back or toggle the relevant feature flag{{/if}}.\n4. Verification — how to confirm recovery (signals returning to normal).\n{{#if comms}}5. Communication & escalation — who to notify, status-page wording, and when/how to escalate.\n{{/if}}6. Follow-up — what to capture for the postmortem.\n\n{{#if constraints}}## Environment specifics\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The full runbook in Markdown, with explicit commands and decision points.\n2. A one-line summary suitable for an alert annotation link.\n3. A list of assumptions and any gaps that need human follow-up.\n\nBe specific and operational; avoid generic advice. Ask only if genuinely blocked."
+  },
+  {
+    "id": "github-actions-workflow",
+    "label": "GitHub Actions Workflow",
+    "description": "Build a specific, secure GitHub Actions workflow file",
+    "icon": "GitBranch",
+    "fields": [
+      { "id": "workflowName", "label": "Workflow name", "type": "text", "required": true, "placeholder": "Release" },
+      { "id": "summary", "label": "What should the workflow do?", "type": "textarea", "required": true, "placeholder": "On tag push, build the app, run tests, publish a Docker image to GHCR and create a GitHub Release." },
+      { "id": "trigger", "label": "Primary trigger", "type": "select", "options": [ { "id": "push", "label": "Push" }, { "id": "pr", "label": "Pull request" }, { "id": "tag", "label": "Tag / release" }, { "id": "schedule", "label": "Schedule (cron)" }, { "id": "manual", "label": "Manual (workflow_dispatch)" } ], "required": true, "default": "push" },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "jobs", "label": "Jobs to include", "type": "multi-select", "options": [ { "id": "test", "label": "Test" }, { "id": "build", "label": "Build" }, { "id": "lint", "label": "Lint" }, { "id": "docker", "label": "Build & push image" }, { "id": "release", "label": "Create release" }, { "id": "deploy", "label": "Deploy" } ], "default": ["test", "build"] },
+      { "id": "oidc", "label": "Use OIDC for cloud auth (no long-lived secrets)", "type": "toggle", "default": true },
+      { "id": "concurrency", "label": "Add concurrency control & least-privilege permissions", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Pin all actions by SHA; environment protection on deploy; cache npm." }
+    ],
+    "template": "You are a GitHub Actions expert. Write the workflow \"{{workflowName}}\".\n\n## Goal\n{{summary}}\n- Trigger: {{trigger}}\n- Language: {{language}}\n- Jobs: {{jobs}}\n\n## Requirements\n- Correct event filters for the {{trigger}} trigger, with sensible path/branch filters where useful.\n- Job dependencies and outputs wired so jobs run in the right order and in parallel where safe.\n- Dependency caching keyed on lockfiles.\n{{#if oidc}}- Use OIDC for cloud authentication; avoid long-lived secrets.\n{{/if}}{{#if concurrency}}- Set least-privilege `permissions:` and a `concurrency:` group to cancel superseded runs.\n{{/if}}- Pin actions to trusted versions and keep steps readable and commented.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The complete .github/workflows file (valid YAML), commented.\n2. A list of required secrets/variables and how to set them.\n3. Notes on expected runtime and how to test the workflow safely.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
+  }
+]

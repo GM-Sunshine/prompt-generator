@@ -1,0 +1,114 @@
+[
+  {
+    "id": "keyword-strategy",
+    "label": "Keyword Strategy",
+    "description": "Topic-cluster keyword strategy mapped to intent and funnel",
+    "icon": "Search",
+    "fields": [
+      { "id": "brand", "label": "Brand / site", "type": "text", "required": true, "placeholder": "Acme CRM" },
+      { "id": "businessContext", "label": "What you offer & goals", "type": "textarea", "required": true, "placeholder": "B2B CRM for small agencies. Goal: organic signups, not just traffic." },
+      { "id": "seedTopics", "label": "Seed topics / products", "type": "textarea", "required": true, "placeholder": "client management, agency invoicing, project tracking, CRM alternatives" },
+      { "id": "market", "label": "Market / language", "type": "text", "placeholder": "US English; secondary UK" },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "intentMix", "label": "Search intents to cover", "type": "multi-select", "options": [ { "id": "informational", "label": "Informational" }, { "id": "commercial", "label": "Commercial investigation" }, { "id": "transactional", "label": "Transactional" }, { "id": "navigational", "label": "Navigational" } ], "default": ["informational", "commercial", "transactional"] },
+      { "id": "competitiveness", "label": "Domain authority", "type": "select", "options": [ { "id": "new", "label": "New / low authority" }, { "id": "mid", "label": "Established / mid" }, { "id": "strong", "label": "Strong / high authority" } ], "default": "mid" },
+      { "id": "clusters", "label": "Organize into topic clusters", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior SEO strategist. Build a keyword strategy for \"{{brand}}\" that prioritizes business outcomes over vanity traffic.\n\n## Business context\n{{businessContext}}\n\n## Inputs\n- Seed topics: {{seedTopics}}\n{{#if market}}- Market/language: {{market}}\n{{/if}}- Target audience: {{audience}}\n- Domain authority: {{competitiveness}}\n- Intents to cover: {{intentMix}}\n\n## Method\n- Expand seeds into a structured keyword universe, each tagged with intent, funnel stage, and a realistic difficulty estimate for a {{competitiveness}} domain.\n- Prioritize by opportunity = relevance to conversion x winnability, not just volume; flag quick wins vs long-term plays.\n{{#if clusters}}- Group keywords into topic clusters with one pillar + supporting pages, and define internal-linking direction.\n{{/if}}- Note where existing pages should be optimized vs where new content is needed.\n\n## Deliverables\n1. A prioritized keyword table (keyword, intent, stage, difficulty, priority, target page).\n{{#if clusters}}2. The cluster map (pillar -> supporting pages) with linking notes.\n{{/if}}3. A phased 90-day action plan (quick wins first) tied to the stated goal.\n\nUse reasonable difficulty/volume estimates from the topic and authority described; state them as estimates and proceed."
+  },
+  {
+    "id": "content-brief",
+    "label": "SEO Content Brief",
+    "description": "Writer-ready brief to rank for a target keyword",
+    "icon": "FileText",
+    "fields": [
+      { "id": "primaryKeyword", "label": "Primary keyword", "type": "text", "required": true, "placeholder": "best crm for agencies" },
+      { "id": "goal", "label": "Page goal & context", "type": "textarea", "required": true, "placeholder": "Rank top 3 and drive trial signups. We sell an agency CRM." },
+      { "id": "secondaryKeywords", "label": "Secondary / semantic keywords", "type": "textarea", "placeholder": "agency client management software, crm for marketing agencies, ..." },
+      { "id": "contentType", "label": "Content type", "type": "select", "options": [ { "id": "guide", "label": "Ultimate guide" }, { "id": "listicle", "label": "Listicle / comparison" }, { "id": "howto", "label": "How-to / tutorial" }, { "id": "landing", "label": "Commercial landing page" }, { "id": "blog", "label": "Blog post" } ], "default": "listicle" },
+      { "id": "audience", "label": "Reader", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "wordCount", "label": "Target length", "type": "select", "options": [ { "id": "short", "label": "800-1200 words" }, { "id": "medium", "label": "1500-2200 words" }, { "id": "long", "label": "2500+ words" } ], "default": "medium" },
+      { "id": "eeat", "label": "Include E-E-A-T & SERP-feature notes", "type": "toggle", "default": true }
+    ],
+    "template": "You are an SEO content strategist creating a writer-ready brief targeting the keyword \"{{primaryKeyword}}\".\n\n## Goal\n{{goal}}\n\n- Content type: {{contentType}}\n- Reader: {{audience}}\n- Tone: {{tone}}\n- Target length: {{wordCount}}\n{{#if secondaryKeywords}}- Secondary/semantic terms to weave in naturally: {{secondaryKeywords}}\n{{/if}}\n## Brief requirements\n- Infer the dominant search intent and what a top-ranking page must do to satisfy it.\n- Provide a recommended H1, meta title (<=60 chars), meta description (<=155 chars), and URL slug.\n- Give a full H2/H3 outline with a one-line note on what each section must cover and which keyword it serves.\n- Specify entities/subtopics to include for topical depth and 3-5 questions to answer (PAA-style).\n{{#if eeat}}- Add E-E-A-T signals to include (author expertise, sources, original data) and SERP features to target (featured snippet, FAQ, etc.).\n{{/if}}- Note internal links to add and a clear call to action aligned with the goal.\n\n## Deliverables\n1. The metadata block (title, description, slug, H1).\n2. The annotated outline with keyword mapping.\n3. A pre-publish SEO checklist for the writer.\n\nMake confident, intent-driven recommendations; ask only if the goal is genuinely ambiguous."
+  },
+  {
+    "id": "onpage-audit",
+    "label": "On-Page SEO Audit",
+    "description": "Page-level audit of content and on-page signals",
+    "icon": "FileSearch",
+    "fields": [
+      { "id": "pageUrl", "label": "Page URL or title", "type": "text", "required": true, "placeholder": "https://acme.com/blog/agency-crm-guide" },
+      { "id": "targetKeyword", "label": "Target keyword & intent", "type": "text", "required": true, "placeholder": "agency crm guide (informational)" },
+      { "id": "pageContent", "label": "Current page content / structure", "type": "textarea", "required": true, "placeholder": "Paste the copy, headings, title tag, meta description, and current ranking if known." },
+      { "id": "competitors", "label": "Top-ranking competitors", "type": "textarea", "placeholder": "URLs currently ranking 1-3 for the keyword, with anything notable about them." },
+      { "id": "checks", "label": "Audit dimensions", "type": "multi-select", "options": [ { "id": "relevance", "label": "Intent & content relevance" }, { "id": "structure", "label": "Headings & structure" }, { "id": "metadata", "label": "Title / meta / schema" }, { "id": "depth", "label": "Topical depth & gaps" }, { "id": "internal", "label": "Internal linking" }, { "id": "ux", "label": "Readability & UX" } ], "default": ["relevance", "structure", "metadata", "depth"] },
+      { "id": "rewrite", "label": "Provide rewritten title & meta", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior on-page SEO specialist auditing the page \"{{pageUrl}}\" targeting \"{{targetKeyword}}\".\n\n## Page under review\n{{pageContent}}\n{{#if competitors}}\n## Competitors ranking above\n{{competitors}}\n{{/if}}\n## Audit\n- Assess these dimensions: {{checks}}.\n- For each issue: state the problem, why it costs rankings for this keyword, and the specific fix (concrete, not generic).\n- Compare against the intent and, where given, the ranking competitors to find content/topical gaps.\n{{#if rewrite}}- Provide a rewritten meta title (<=60 chars), meta description (<=155 chars), and an improved H1.\n{{/if}}- Recommend structural changes (headings to add/merge), entities to add, and internal links.\n\n## Deliverables\n1. A prioritized issue list (issue, impact, fix, effort).\n2. The optimized content outline / heading structure.\n{{#if rewrite}}3. The rewritten metadata block ready to ship.\n{{/if}}\nWork only from the content provided; where data (e.g. current ranking) is missing, note it and proceed with reasoned recommendations."
+  },
+  {
+    "id": "technical-seo-audit",
+    "label": "Technical SEO Audit",
+    "description": "Crawl, indexation and Core Web Vitals audit plan",
+    "icon": "Wrench",
+    "fields": [
+      { "id": "siteName", "label": "Site", "type": "text", "required": true, "placeholder": "shop.acme.com" },
+      { "id": "siteContext", "label": "Stack, scale & known issues", "type": "textarea", "required": true, "placeholder": "Next.js SSR, ~40k product pages, faceted navigation, recent traffic drop after migration." },
+      { "id": "platform", "label": "Platform / rendering", "type": "select", "options": [ { "id": "ssr", "label": "Server-rendered" }, { "id": "spa", "label": "Client-rendered SPA" }, { "id": "static", "label": "Static / SSG" }, { "id": "cms", "label": "CMS (WordPress/Shopify)" } ], "default": "ssr" },
+      { "id": "areas", "label": "Audit areas", "type": "multi-select", "options": [ { "id": "crawl", "label": "Crawlability & robots" }, { "id": "index", "label": "Indexation & canonicals" }, { "id": "cwv", "label": "Core Web Vitals / speed" }, { "id": "structured", "label": "Structured data" }, { "id": "intl", "label": "Internationalization (hreflang)" }, { "id": "architecture", "label": "Site architecture & internal links" }, { "id": "mobile", "label": "Mobile / rendering" } ], "default": ["crawl", "index", "cwv", "architecture"] },
+      { "id": "scale", "label": "Site size", "type": "select", "options": [ { "id": "small", "label": "Small (<1k pages)" }, { "id": "medium", "label": "Medium (1k-50k)" }, { "id": "large", "label": "Large / enterprise (>50k)" } ], "default": "medium" },
+      { "id": "migration", "label": "Recent migration / replatform", "type": "toggle", "default": false },
+      { "id": "tooling", "label": "Recommend tooling & queries", "type": "toggle", "default": true }
+    ],
+    "template": "You are a technical SEO lead auditing \"{{siteName}}\" ({{platform}} rendering, {{scale}} site).\n\n## Context\n{{siteContext}}\n\n- Audit areas: {{areas}}\n{{#if migration}}- Treat this as a post-migration audit: prioritize regressions, redirects, and lost equity.\n{{/if}}\n## Approach\n- For each area, list what to check, the symptom of failure, how to detect it, and the remediation, tailored to {{platform}} rendering at {{scale}} scale.\n- Distinguish indexation/crawl-budget concerns appropriate to the site size; for large sites prioritize crawl efficiency and faceted-URL control.\n- Flag rendering pitfalls specific to the platform (e.g. hydration, JS-dependent content, CDN caching).\n{{#if tooling}}- Recommend tools and concrete checks/queries (log-file analysis, GSC reports, crawler config) to validate each finding.\n{{/if}}\n## Deliverables\n1. A prioritized findings table (issue, area, severity, impact on rankings, fix, owner).\n2. A crawl/indexation health summary and Core Web Vitals action list.\n3. A sequenced remediation roadmap (this week / this quarter).\n\nUse standard technical-SEO best practice for anything unspecified and call out checks that need live data access."
+  },
+  {
+    "id": "backlink-strategy",
+    "label": "Backlink Strategy",
+    "description": "White-hat link-building plan with outreach angles",
+    "icon": "Link",
+    "fields": [
+      { "id": "brand", "label": "Brand / site", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "context", "label": "Niche, assets & link goals", "type": "textarea", "required": true, "placeholder": "Product-analytics SaaS. Have a free benchmark report and an open-source SDK. Want authority + referral traffic." },
+      { "id": "targetPages", "label": "Pages / keywords to boost", "type": "textarea", "placeholder": "/pricing, /vs-competitor, the benchmark report" },
+      { "id": "tactics", "label": "Tactics to prioritize", "type": "multi-select", "options": [ { "id": "digitalpr", "label": "Digital PR / data study" }, { "id": "guestpost", "label": "Guest posting" }, { "id": "linkable", "label": "Linkable assets" }, { "id": "brokenlink", "label": "Broken-link building" }, { "id": "partnerships", "label": "Partnerships / integrations" }, { "id": "unlinked", "label": "Unlinked mention reclamation" } ], "default": ["digitalpr", "linkable", "partnerships"] },
+      { "id": "authority", "label": "Current link authority", "type": "select", "options": [ { "id": "low", "label": "Thin profile" }, { "id": "mid", "label": "Moderate" }, { "id": "strong", "label": "Strong" } ], "default": "low" },
+      { "id": "outreach", "label": "Include outreach templates", "type": "toggle", "default": true }
+    ],
+    "template": "You are a digital-PR and link-building strategist. Design a white-hat backlink strategy for \"{{brand}}\".\n\n## Context\n{{context}}\n{{#if targetPages}}\n- Priority pages/keywords to strengthen: {{targetPages}}\n{{/if}}- Current authority: {{authority}}\n- Tactics to prioritize: {{tactics}}\n\n## Requirements\n- Recommend only sustainable, guideline-compliant tactics; explicitly avoid PBNs, paid links, and link schemes.\n- For each prioritized tactic: the link-worthy angle, target site profile, expected effort/return for a {{authority}} profile, and how to find prospects.\n- Define link quality criteria (relevance, authority, traffic) and how to qualify a prospect before outreach.\n{{#if outreach}}- Provide 2-3 concise, personalized outreach email templates with subject lines and a follow-up.\n{{/if}}- Suggest internal-link and anchor-text guidance to distribute earned equity to the priority pages.\n\n## Deliverables\n1. A tactic playbook ranked by ROI for this profile.\n2. A prospecting & qualification framework.\n{{#if outreach}}3. Outreach templates and a 90-day campaign cadence.\n{{else}}3. A 90-day campaign cadence with milestones.\n{{/if}}\nMake pragmatic assumptions about resources and proceed; flag anything that materially changes the plan."
+  },
+  {
+    "id": "meta-tags",
+    "label": "Meta Tags & SERP Snippet",
+    "description": "Optimized titles, descriptions and structured data",
+    "icon": "Tags",
+    "fields": [
+      { "id": "pageTopic", "label": "Page topic / name", "type": "text", "required": true, "placeholder": "Agency CRM pricing page" },
+      { "id": "targetKeyword", "label": "Primary keyword", "type": "text", "required": true, "placeholder": "agency crm pricing" },
+      { "id": "pageSummary", "label": "Page content & value prop", "type": "textarea", "required": true, "placeholder": "Transparent per-seat pricing, free trial, no setup fee. Differentiator: agency-specific features." },
+      { "id": "pageType", "label": "Page type (for schema)", "type": "select", "options": [ { "id": "article", "label": "Article / blog" }, { "id": "product", "label": "Product" }, { "id": "service", "label": "Service / landing" }, { "id": "faq", "label": "FAQ" }, { "id": "howto", "label": "How-to" }, { "id": "local", "label": "Local business" } ], "default": "service" },
+      { "id": "brand", "label": "Brand suffix", "type": "text", "placeholder": "Acme CRM" },
+      { "id": "variants", "label": "Number of title/description variants", "type": "select", "options": [ { "id": "three", "label": "3 variants" }, { "id": "five", "label": "5 variants" } ], "default": "three" },
+      { "id": "schema", "label": "Include JSON-LD structured data", "type": "toggle", "default": true },
+      { "id": "social", "label": "Include Open Graph / Twitter tags", "type": "toggle", "default": true }
+    ],
+    "template": "You are an SEO copywriter optimizing search snippets for the page \"{{pageTopic}}\" targeting \"{{targetKeyword}}\".\n\n## Page\n{{pageSummary}}\n\n- Page type: {{pageType}}\n{{#if brand}}- Brand suffix to append where it fits: {{brand}}\n{{/if}}\n## Requirements\n- Produce {{variants}} meta-title options (each <=60 chars, keyword near the front, click-worthy, not clickbait) and a matching meta description (<=155 chars, includes the keyword and a clear value prop + CTA).\n- Briefly explain the angle of each variant (curiosity, benefit, specificity) so the team can A/B choose.\n- Recommend a clean, keyword-relevant URL slug.\n{{#if social}}- Provide Open Graph and Twitter Card tags (og:title, og:description, og:type, twitter:card).\n{{/if}}{{#if schema}}- Provide valid JSON-LD structured data appropriate for a {{pageType}} page.\n{{/if}}\n## Deliverables\n1. The titled/numbered metadata variants with rationale.\n2. The recommended slug.\n{{#if social}}3. Ready-to-paste social meta tags{{#if schema}} and JSON-LD{{/if}}.\n{{else}}{{#if schema}}3. Ready-to-paste JSON-LD structured data.\n{{/if}}{{/if}}\nKeep within character limits exactly; if a limit forces a trade-off, prioritize keyword + clarity and note the choice."
+  },
+  {
+    "id": "serp-competitor-analysis",
+    "label": "SERP Competitor Analysis",
+    "description": "Reverse-engineer the SERP and find the winning angle",
+    "icon": "BarChart3",
+    "fields": [
+      { "id": "keyword", "label": "Target keyword", "type": "text", "required": true, "placeholder": "best project management software" },
+      { "id": "goal", "label": "Your offering & objective", "type": "textarea", "required": true, "placeholder": "We're a PM tool for creative teams. Want to break into the top 5 for this term." },
+      { "id": "competitors", "label": "Current top results", "type": "textarea", "required": true, "placeholder": "1) g2.com listicle, 2) competitor A guide, 3) Forbes Advisor, 4) Reddit thread, ..." },
+      { "id": "dimensions", "label": "Analyze along", "type": "multi-select", "options": [ { "id": "intent", "label": "Dominant intent & format" }, { "id": "depth", "label": "Content depth & angle" }, { "id": "structure", "label": "Structure & SERP features" }, { "id": "authority", "label": "Authority & backlinks" }, { "id": "freshness", "label": "Freshness & updates" }, { "id": "gaps", "label": "Coverage gaps" } ], "default": ["intent", "depth", "structure", "gaps"] },
+      { "id": "domainStrength", "label": "Your relative authority", "type": "select", "options": [ { "id": "weaker", "label": "Weaker than incumbents" }, { "id": "comparable", "label": "Comparable" }, { "id": "stronger", "label": "Stronger" } ], "default": "weaker" },
+      { "id": "blueprint", "label": "Output a content blueprint to win", "type": "toggle", "default": true }
+    ],
+    "template": "You are a competitive SEO analyst reverse-engineering the SERP for \"{{keyword}}\".\n\n## Objective\n{{goal}}\n\n- Your relative authority: {{domainStrength}}\n- Analyze along: {{dimensions}}\n\n## Current top results\n{{competitors}}\n\n## Analysis\n- Determine the dominant intent and the content format Google is rewarding for this query.\n- For each competing result, summarize its angle, depth, structure, and apparent authority, and why it ranks.\n- Identify shared patterns (the table-stakes a page must have) and, crucially, the gaps and weaknesses no one is covering well.\n- Given a {{domainStrength}} domain, recommend a realistic differentiation strategy (out-depth, out-format, unique data, or niche-down) rather than a like-for-like copy.\n{{#if blueprint}}- Produce a content blueprint: recommended format, H2/H3 outline, must-cover entities, SERP features to capture, and the unique angle.\n{{/if}}\n## Deliverables\n1. A SERP intent + format verdict.\n2. A competitor comparison table (page, angle, strengths, weaknesses).\n3. The differentiation strategy{{#if blueprint}} and the content blueprint to execute it{{/if}}.\n\nReason from the results provided; where signals (e.g. backlink counts) are unknown, infer cautiously and label inferences."
+  }
+]

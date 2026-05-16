@@ -54,6 +54,8 @@ export interface Category {
   icon?: string;
   /** Tailwind color token used for accents, e.g. "violet". */
   accent?: string;
+  /** Top-level grouping for nav/footer, e.g. "Tech & Product". */
+  group?: string;
 }
 
 /** A generator with all optionsRef pools inlined by the loader. */

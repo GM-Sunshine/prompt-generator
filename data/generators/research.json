@@ -1,0 +1,118 @@
+[
+  {
+    "id": "literature-review",
+    "label": "Literature Review",
+    "description": "Synthesize prior work into a structured, critical review",
+    "icon": "BookMarked",
+    "fields": [
+      { "id": "topic", "label": "Review topic / question", "type": "text", "required": true, "placeholder": "Effects of intermittent fasting on metabolic health" },
+      { "id": "scope", "label": "Scope & boundaries", "type": "textarea", "required": true, "placeholder": "Human RCTs from 2010-2024; exclude animal studies and case reports." },
+      { "id": "discipline", "label": "Discipline / field", "type": "text", "placeholder": "Clinical nutrition" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "organization", "label": "Organize by", "type": "select", "options": [ { "id": "thematic", "label": "Theme" }, { "id": "chrono", "label": "Chronology" }, { "id": "method", "label": "Methodology" }, { "id": "debate", "label": "Competing positions" } ], "default": "thematic" },
+      { "id": "depth", "label": "Depth", "type": "select", "options": [ { "id": "scoping", "label": "Scoping overview" }, { "id": "narrative", "label": "Narrative review" }, { "id": "systematic", "label": "Systematic-style synthesis" } ], "default": "narrative" },
+      { "id": "identifyGaps", "label": "Identify research gaps", "type": "toggle", "default": true },
+      { "id": "citationStyle", "label": "Citation style", "type": "select", "options": [ { "id": "apa", "label": "APA" }, { "id": "mla", "label": "MLA" }, { "id": "chicago", "label": "Chicago" }, { "id": "ieee", "label": "IEEE" } ], "default": "apa" }
+    ],
+    "template": "You are a research scholar writing a rigorous literature review on \"{{topic}}\".\n\n## Scope\n{{scope}}\n{{#if discipline}}Field: {{discipline}}.\n{{/if}}\n## Parameters\n- Audience: {{audience}}\n- Depth: {{depth}}.\n- Organize the body by {{organization}}.\n- Use {{citationStyle}} citation style for any references.\n\n## Requirements\n- Open with the review's purpose, scope, and the criteria for what is included.\n- Synthesize across sources rather than summarizing them one by one; compare and contrast findings and methods.\n- Be explicit about strength of evidence and disagreements in the field.\n{{#if identifyGaps}}- Devote a section to gaps, contradictions, and concrete directions for future research.\n{{/if}}- Use placeholder citation markers where you would cite real sources, and flag any claim that needs verification.\n\n## Deliverables\nThe structured review with introduction, synthesized body, and conclusion.\n\nProceed with well-reasoned defaults; ask only if the scope is too broad to be tractable."
+  },
+  {
+    "id": "research-proposal",
+    "label": "Research Proposal",
+    "description": "Draft a fundable proposal with aims, methods and timeline",
+    "icon": "FileText",
+    "fields": [
+      { "id": "title", "label": "Working title", "type": "text", "required": true, "placeholder": "Microplastics and freshwater invertebrate biodiversity" },
+      { "id": "problem", "label": "Problem & motivation", "type": "textarea", "required": true, "placeholder": "Microplastic loads in rivers are rising but ecological impacts are poorly quantified." },
+      { "id": "questions", "label": "Research questions / hypotheses", "type": "textarea", "required": true, "placeholder": "Does microplastic concentration predict reduced macroinvertebrate diversity?" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "approach", "label": "Methodological approach", "type": "select", "options": [ { "id": "quant", "label": "Quantitative" }, { "id": "qual", "label": "Qualitative" }, { "id": "mixed", "label": "Mixed methods" } ], "default": "quant" },
+      { "id": "duration", "label": "Project duration", "type": "select", "options": [ { "id": "6m", "label": "6 months" }, { "id": "1y", "label": "1 year" }, { "id": "2y", "label": "2 years" }, { "id": "3y", "label": "3+ years" } ], "default": "1y" },
+      { "id": "includeBudget", "label": "Include budget justification", "type": "toggle", "default": true },
+      { "id": "includeEthics", "label": "Include ethics / approvals section", "type": "toggle", "default": true }
+    ],
+    "template": "You are a principal investigator writing a competitive research proposal: \"{{title}}\".\n\n## Problem statement\n{{problem}}\n\n## Research questions / hypotheses\n{{questions}}\n\n## Parameters\n- Audience: {{audience}}\n- Approach: {{approach}}.\n- Duration: {{duration}}.\n\n## Structure the proposal as\n1. Background and significance, grounded in the current state of the field.\n2. Specific aims, each tied to a question or hypothesis.\n3. Methods: design, sampling, data collection, and analysis plan appropriate to a {{approach}} approach.\n4. A realistic timeline with milestones across the {{duration}} period.\n5. Anticipated outcomes, impact, and limitations.\n{{#if includeEthics}}6. Ethical considerations, approvals required, and data management.\n{{/if}}{{#if includeBudget}}7. A budget with justification for major line items.\n{{/if}}\n## Deliverables\nThe complete proposal, persuasive and methodologically sound.\n\nMake confident methodological choices and justify them; ask only if a hypothesis is untestable as stated."
+  },
+  {
+    "id": "survey-design",
+    "label": "Survey Design",
+    "description": "Design a validated questionnaire with sound item wording",
+    "icon": "ClipboardList",
+    "fields": [
+      { "id": "objective", "label": "Research objective", "type": "text", "required": true, "placeholder": "Measure remote-worker burnout and its drivers" },
+      { "id": "context", "label": "Context & constructs to measure", "type": "textarea", "required": true, "placeholder": "Workload, autonomy, isolation, manager support, intent to leave." },
+      { "id": "population", "label": "Target population", "type": "text", "required": true, "placeholder": "Full-time remote knowledge workers, 12+ months tenure" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "length", "label": "Target length", "type": "select", "options": [ { "id": "short", "label": "Short (<5 min)" }, { "id": "medium", "label": "Medium (5-10 min)" }, { "id": "long", "label": "Long (10-20 min)" } ], "default": "medium" },
+      { "id": "questionTypes", "label": "Question types to use", "type": "multi-select", "options": [ { "id": "likert", "label": "Likert scales" }, { "id": "mc", "label": "Multiple choice" }, { "id": "ranking", "label": "Ranking" }, { "id": "open", "label": "Open-ended" }, { "id": "matrix", "label": "Matrix / grid" } ], "default": ["likert", "mc", "open"] },
+      { "id": "includeScreening", "label": "Include screening / qualifying questions", "type": "toggle", "default": true },
+      { "id": "includeAnalysisPlan", "label": "Include an analysis plan", "type": "toggle", "default": true }
+    ],
+    "template": "You are a survey methodologist. Design a rigorous questionnaire to: {{objective}}.\n\n## Constructs & context\n{{context}}\n\n## Parameters\n- Target population: {{population}}.\n- Audience for the instrument: {{audience}}\n- Target length: {{length}}.\n- Use these question types where appropriate: {{questionTypes}}.\n\n## Requirements\n- Map every item to a construct; avoid double-barreled, leading, or loaded wording.\n- Order items to minimize bias and fatigue; include clear instructions and transitions.\n{{#if includeScreening}}- Begin with screening questions that qualify or disqualify respondents.\n{{/if}}- Use balanced, labeled response scales.\n{{#if includeAnalysisPlan}}- Conclude with an analysis plan stating how each construct will be scored and analyzed.\n{{/if}}\n## Deliverables\nThe full questionnaire grouped by section, plus a brief construct-to-item map.\n\nProceed with established survey best practices; ask only if a construct is undefined."
+  },
+  {
+    "id": "interview-guide",
+    "label": "Interview Guide",
+    "description": "Build a semi-structured qualitative interview protocol",
+    "icon": "MessageSquare",
+    "fields": [
+      { "id": "objective", "label": "Study objective", "type": "text", "required": true, "placeholder": "Understand how clinicians decide to adopt new diagnostic tools" },
+      { "id": "background", "label": "Background & what you need to learn", "type": "textarea", "required": true, "placeholder": "Decision triggers, perceived risks, influence of peers, and barriers to adoption." },
+      { "id": "participants", "label": "Participant profile", "type": "text", "required": true, "placeholder": "Hospital physicians involved in procurement decisions" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "structure", "label": "Structure", "type": "select", "options": [ { "id": "structured", "label": "Structured" }, { "id": "semi", "label": "Semi-structured" }, { "id": "narrative", "label": "Narrative / life-story" } ], "default": "semi" },
+      { "id": "duration", "label": "Interview length", "type": "select", "options": [ { "id": "30", "label": "30 minutes" }, { "id": "45", "label": "45 minutes" }, { "id": "60", "label": "60 minutes" } ], "default": "45" },
+      { "id": "includeProbes", "label": "Include follow-up probes", "type": "toggle", "default": true },
+      { "id": "includeConsent", "label": "Include consent & intro script", "type": "toggle", "default": true }
+    ],
+    "template": "You are a qualitative researcher designing an interview protocol. Study objective: {{objective}}.\n\n## What we need to learn\n{{background}}\n\n## Parameters\n- Participants: {{participants}}.\n- Audience: {{audience}}\n- Structure: {{structure}}.\n- Fits within {{duration}} minutes.\n\n## Build the guide as\n1. {{#if includeConsent}}A short opening: rapport, purpose, confidentiality, consent, and recording permission.{{else}}A brief opening that sets context and builds rapport.{{/if}}\n2. Warm-up questions, then core questions grouped by theme, then closing questions.\n3. Open, non-leading questions phrased in plain language.\n{{#if includeProbes}}4. Optional follow-up probes under each core question to elicit depth.\n{{/if}}5. A wrap-up that invites anything missed and explains next steps.\n\n## Deliverables\nThe complete interview guide with estimated time per section.\n\nProceed with qualitative best practices; ask only if the objective is too vague to derive themes."
+  },
+  {
+    "id": "synthesis-report",
+    "label": "Synthesis Report",
+    "description": "Distill multiple sources into findings and implications",
+    "icon": "Combine",
+    "fields": [
+      { "id": "question", "label": "Question being answered", "type": "text", "required": true, "placeholder": "What works to reduce customer churn in B2B SaaS?" },
+      { "id": "sources", "label": "Sources / inputs to synthesize", "type": "textarea", "required": true, "placeholder": "12 interview transcripts, 4 vendor case studies, and our last 3 quarterly reports." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "lens", "label": "Synthesis lens", "type": "select", "options": [ { "id": "themes", "label": "Themes & patterns" }, { "id": "tension", "label": "Agreements vs. tensions" }, { "id": "causal", "label": "Causal / driver analysis" }, { "id": "framework", "label": "Against a framework" } ], "default": "themes" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "includeConfidence", "label": "Note confidence / evidence strength", "type": "toggle", "default": true },
+      { "id": "includeRecommendations", "label": "Include actionable recommendations", "type": "toggle", "default": true }
+    ],
+    "template": "You are a research analyst producing a synthesis report. Question: {{question}}.\n\n## Inputs to synthesize\n{{sources}}\n\n## Parameters\n- Audience: {{audience}}\n- Tone: {{tone}}.\n- Synthesize through the lens of {{lens}}.\n\n## Requirements\n- Lead with an executive summary that answers the question directly in 3-5 sentences.\n- Integrate across sources; cite which inputs support each finding and note where they conflict.\n{{#if includeConfidence}}- Mark each major finding with a confidence level and the basis for it.\n{{/if}}- Separate observation from interpretation.\n{{#if includeRecommendations}}- Close with prioritized, actionable recommendations tied to the findings.\n{{/if}}\n## Deliverables\nThe full report: executive summary, findings, {{#if includeRecommendations}}recommendations, {{/if}}and limitations.\n\nProceed with well-reasoned defaults; ask only if the inputs are insufficient to answer the question."
+  },
+  {
+    "id": "methodology-plan",
+    "label": "Methodology Plan",
+    "description": "Specify a defensible design, sampling and analysis plan",
+    "icon": "FlaskConical",
+    "fields": [
+      { "id": "question", "label": "Research question", "type": "text", "required": true, "placeholder": "Does a 4-day workweek affect team productivity?" },
+      { "id": "context", "label": "Study context & constraints", "type": "textarea", "required": true, "placeholder": "Single mid-size company, 6-month window, no control over team assignment." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "design", "label": "Preferred design", "type": "select", "options": [ { "id": "experimental", "label": "Experimental / RCT" }, { "id": "quasi", "label": "Quasi-experimental" }, { "id": "observational", "label": "Observational" }, { "id": "casestudy", "label": "Case study" }, { "id": "open", "label": "Recommend the best fit" } ], "default": "open" },
+      { "id": "dataType", "label": "Data type", "type": "select", "options": [ { "id": "quant", "label": "Quantitative" }, { "id": "qual", "label": "Qualitative" }, { "id": "mixed", "label": "Mixed" } ], "default": "quant" },
+      { "id": "includeValidity", "label": "Address validity & threats", "type": "toggle", "default": true },
+      { "id": "includePower", "label": "Include sample-size / power reasoning", "type": "toggle", "default": true }
+    ],
+    "template": "You are a research methodologist. Produce a defensible methodology plan for the question: {{question}}.\n\n## Context & constraints\n{{context}}\n\n## Parameters\n- Audience: {{audience}}\n- {{#if design == \"Recommend the best fit\"}}Recommend the most appropriate research design and justify it.{{else}}Design: {{design}}.{{/if}}\n- Data type: {{dataType}}.\n\n## Specify\n1. The design and its rationale given the constraints.\n2. Population, sampling strategy, and recruitment.\n{{#if includePower}}3. Sample-size reasoning or power considerations.\n{{/if}}4. Variables/constructs, instruments, and data-collection procedure.\n5. The analysis plan matched to the data type.\n{{#if includeValidity}}6. Threats to validity (internal, external, construct) and how the design mitigates them.\n{{/if}}\n## Deliverables\nThe complete methodology section, rigorous enough to withstand peer review.\n\nMake confident design decisions and state assumptions; ask only if the question is not empirically answerable."
+  },
+  {
+    "id": "annotated-bibliography",
+    "label": "Annotated Bibliography",
+    "description": "Summarize and evaluate sources with consistent annotations",
+    "icon": "Library",
+    "fields": [
+      { "id": "topic", "label": "Topic / focus", "type": "text", "required": true, "placeholder": "Algorithmic bias in hiring tools" },
+      { "id": "sources", "label": "Sources to annotate", "type": "textarea", "required": true, "placeholder": "Paste citations or describe the works (author, year, title) to annotate." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "annotationType", "label": "Annotation type", "type": "select", "options": [ { "id": "descriptive", "label": "Descriptive" }, { "id": "evaluative", "label": "Evaluative / critical" }, { "id": "combined", "label": "Combined" } ], "default": "evaluative" },
+      { "id": "length", "label": "Annotation length", "type": "select", "options": [ { "id": "brief", "label": "Brief (~75 words)" }, { "id": "standard", "label": "Standard (~150 words)" }, { "id": "detailed", "label": "Detailed (~250 words)" } ], "default": "standard" },
+      { "id": "citationStyle", "label": "Citation style", "type": "select", "options": [ { "id": "apa", "label": "APA" }, { "id": "mla", "label": "MLA" }, { "id": "chicago", "label": "Chicago" } ], "default": "apa" },
+      { "id": "includeRelevance", "label": "Note relevance to the topic", "type": "toggle", "default": true }
+    ],
+    "template": "You are a research librarian compiling an annotated bibliography on \"{{topic}}\".\n\n## Sources\n{{sources}}\n\n## Parameters\n- Audience: {{audience}}\n- Annotation type: {{annotationType}}.\n- Target length per annotation: {{length}}.\n- Format citations in {{citationStyle}} style.\n\n## For each source provide\n1. The full citation in {{citationStyle}} style.\n2. A concise summary of its scope, argument, and methods.\n{{#if annotationType == \"Descriptive\"}}\n{{else}}3. A critical appraisal: credibility, strengths, limitations, and biases.\n{{/if}}{{#if includeRelevance}}4. How it relates to \"{{topic}}\" and to the other sources.\n{{/if}}\n## Notes\n- Keep annotation structure and length consistent across entries.\n- Flag any citation detail you had to infer as needing verification.\n\n## Deliverables\nThe complete annotated bibliography, alphabetized by author.\n\nProceed with well-reasoned defaults; ask only if a source cannot be identified at all."
+  }
+]

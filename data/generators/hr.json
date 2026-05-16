@@ -1,0 +1,118 @@
+[
+  {
+    "id": "job-description",
+    "label": "Job Description",
+    "description": "Inclusive, compelling JD that attracts the right people",
+    "icon": "Briefcase",
+    "fields": [
+      { "id": "role", "label": "Job title", "type": "text", "required": true, "placeholder": "Senior Backend Engineer" },
+      { "id": "company", "label": "Company & what it does", "type": "textarea", "required": true, "placeholder": "Loamhealth builds remote patient monitoring tools used by 300 clinics. Series B, 80 people, remote-first." },
+      { "id": "responsibilities", "label": "Core responsibilities", "type": "textarea", "required": true, "placeholder": "Own our event pipeline, mentor 2 engineers, drive reliability to 99.95%, partner with product on roadmap." },
+      { "id": "requirements", "label": "Must-have & nice-to-have skills", "type": "textarea", "required": true, "placeholder": "Must: 5+ yrs backend, Go or Java, distributed systems. Nice: healthcare, Kubernetes, on-call experience." },
+      { "id": "level", "label": "Seniority", "type": "select", "options": [ { "id": "junior", "label": "Junior / entry" }, { "id": "mid", "label": "Mid-level" }, { "id": "senior", "label": "Senior" }, { "id": "lead", "label": "Lead / staff" }, { "id": "manager", "label": "Manager" } ], "default": "senior" },
+      { "id": "location", "label": "Location / work model", "type": "text", "placeholder": "Remote (US time zones) or hybrid in Berlin" },
+      { "id": "compensation", "label": "Compensation & benefits", "type": "textarea", "placeholder": "$160k-$190k + equity, 30 days PTO, learning budget, home-office stipend." },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "diversity", "label": "Include inclusive language & EEO statement", "type": "toggle", "default": true }
+    ],
+    "template": "You are an expert recruiter and employer-branding writer who creates job descriptions that attract strong, diverse candidates. Write a JD for a {{level}} \"{{role}}\".\n\n## Company\n{{company}}\n\n## The role\nResponsibilities:\n{{responsibilities}}\n\nSkills & experience:\n{{requirements}}\n\n## Details\n{{#if location}}- Location / work model: {{location}}\n{{/if}}{{#if compensation}}- Compensation & benefits: {{compensation}}\n{{/if}}- Tone: {{tone}}, candidate-centric, honest about the role.\n\n## Requirements\n- Open with a hook on impact and mission, not a company boilerplate paragraph.\n- Distinguish genuine must-haves from nice-to-haves; cut inflated requirements that deter good candidates.\n- Make responsibilities concrete and outcome-oriented.\n{{#if diversity}}- Use inclusive, bias-checked language and include a brief, genuine EEO/inclusion statement.\n{{/if}}- Keep it scannable with clear sections.\n\n## Deliverables\n1. The full job description, ready to post.\n2. A 280-character version for job-board snippets / LinkedIn.\n3. One note on any requirement likely to shrink the qualified pool unnecessarily.\n\nProceed with well-reasoned defaults; ask only if the role scope is ambiguous."
+  },
+  {
+    "id": "interview-kit",
+    "label": "Interview Kit",
+    "description": "Structured interview plan, questions and scorecard",
+    "icon": "ClipboardCheck",
+    "fields": [
+      { "id": "role", "label": "Role", "type": "text", "required": true, "placeholder": "Product Manager" },
+      { "id": "competencies", "label": "Competencies to assess", "type": "textarea", "required": true, "placeholder": "Product sense, prioritization, stakeholder influence, data fluency, communication, ownership." },
+      { "id": "level", "label": "Seniority", "type": "select", "options": [ { "id": "junior", "label": "Junior / entry" }, { "id": "mid", "label": "Mid-level" }, { "id": "senior", "label": "Senior" }, { "id": "lead", "label": "Lead / staff" }, { "id": "manager", "label": "Manager" } ], "default": "senior" },
+      { "id": "stage", "label": "Interview stage", "type": "select", "options": [ { "id": "screen", "label": "Recruiter / phone screen" }, { "id": "hm", "label": "Hiring manager" }, { "id": "panel", "label": "Panel / onsite loop" }, { "id": "exec", "label": "Final / executive" } ], "default": "panel" },
+      { "id": "format", "label": "Question style", "type": "multi-select", "options": [ { "id": "behavioral", "label": "Behavioral (STAR)" }, { "id": "case", "label": "Case / scenario" }, { "id": "technical", "label": "Technical / craft" }, { "id": "values", "label": "Values / culture-add" } ], "default": ["behavioral", "case"] },
+      { "id": "duration", "label": "Interview length", "type": "select", "options": [ { "id": "30", "label": "30 minutes" }, { "id": "45", "label": "45 minutes" }, { "id": "60", "label": "60 minutes" } ], "default": "45" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" }
+    ],
+    "template": "You are a hiring expert who designs structured, bias-resistant interviews. Build an interview kit for a {{level}} \"{{role}}\" at the {{stage}} stage.\n\n## Competencies to assess\n{{competencies}}\n\n## Setup\n- Question styles: {{format}}\n- Interview length: {{duration}} minutes\n- Tone: {{tone}}, candidate-friendly, consistent across candidates.\n\n## Requirements\n- A timed interview plan that fits {{duration}} minutes (intro, core questions, candidate Q&A).\n- For each competency: 2 primary questions plus targeted follow-up probes.\n{{#each format}}- Include {{this}} questions where appropriate to the competencies.\n{{/each}}- A behaviorally-anchored scorecard: define what 1 / 3 / 5 looks like per competency.\n- Guidance to reduce bias (ask everyone the same core set; evaluate against the anchors, not gut feel).\n\n## Deliverables\n1. The interview plan and full question bank.\n2. The scorecard with rating anchors.\n3. 3 red flags and 3 strong-signal indicators for this role.\n\nProceed with well-reasoned defaults; ask only if the competencies are unclear."
+  },
+  {
+    "id": "screening-questions",
+    "label": "Screening Questions",
+    "description": "Phone-screen and application questions that filter fast",
+    "icon": "ListChecks",
+    "fields": [
+      { "id": "role", "label": "Role", "type": "text", "required": true, "placeholder": "Customer Success Manager" },
+      { "id": "mustHaves", "label": "Non-negotiable requirements", "type": "textarea", "required": true, "placeholder": "3+ yrs B2B SaaS CS, owned a renewal book, comfortable with light SQL, based in EU time zone." },
+      { "id": "purpose", "label": "Screen type", "type": "select", "options": [ { "id": "application", "label": "Application form questions" }, { "id": "phone", "label": "Recruiter phone screen" }, { "id": "async", "label": "Async / written prompt" } ], "default": "phone" },
+      { "id": "dealbreakers", "label": "Common disqualifiers to catch early", "type": "textarea", "placeholder": "Comp expectations out of band, no renewal ownership, needs visa sponsorship we can't offer." },
+      { "id": "count", "label": "Number of questions", "type": "select", "options": [ { "id": "5", "label": "5" }, { "id": "8", "label": "8" }, { "id": "10", "label": "10" } ], "default": "8" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "scoring", "label": "Include pass/fail signals per question", "type": "toggle", "default": true }
+    ],
+    "template": "You are a recruiter who designs efficient screens that catch mismatches in the first conversation. Create {{count}} {{purpose}} questions for a \"{{role}}\".\n\n## Non-negotiables\n{{mustHaves}}\n\n## Setup\n{{#if dealbreakers}}- Disqualifiers to surface early: {{dealbreakers}}\n{{/if}}- Tone: {{tone}}, fair, two-way (candidate should also learn about the role).\n\n## Requirements\n- Front-load the questions that most cheaply rule candidates in or out.\n- Mix factual (verify must-haves) and short behavioral questions; keep them open, not leading.\n- Avoid questions that invite bias or aren't job-related.\n{{#if scoring}}- For each question, give a clear pass signal and a clear concern/red-flag signal.\n{{/if}}{{#if purpose == \"phone\"}}- Add a 2-line opener and a polite close that sets expectations on next steps.\n{{/if}}\n## Deliverables\n1. The numbered question set{{#if scoring}} with pass / concern signals{{/if}}.\n2. A quick disposition rubric (advance / hold / reject) based on the answers.\n3. One note on the single most predictive question and why.\n\nProceed with well-reasoned defaults; ask only if the must-haves are ambiguous."
+  },
+  {
+    "id": "candidate-feedback",
+    "label": "Candidate Feedback",
+    "description": "Structured interview write-up and hire recommendation",
+    "icon": "UserCheck",
+    "fields": [
+      { "id": "candidate", "label": "Candidate & role", "type": "text", "required": true, "placeholder": "Priya Shah - Senior Data Analyst" },
+      { "id": "notes", "label": "Your raw interview notes", "type": "textarea", "required": true, "placeholder": "Strong SQL, walked through a real funnel analysis well. Vague on stakeholder pushback. Great communication." },
+      { "id": "competencies", "label": "Competencies evaluated", "type": "textarea", "placeholder": "SQL/analysis, business sense, stakeholder communication, ownership, statistical rigor." },
+      { "id": "audience", "label": "Who reads this", "type": "select", "options": [ { "id": "panel", "label": "Hiring panel / debrief" }, { "id": "hm", "label": "Hiring manager" }, { "id": "candidate", "label": "Candidate (constructive feedback)" } ], "default": "panel" },
+      { "id": "recommendation", "label": "Your recommendation", "type": "select", "options": [ { "id": "strong-hire", "label": "Strong hire" }, { "id": "hire", "label": "Hire" }, { "id": "no-hire", "label": "No hire" }, { "id": "strong-no-hire", "label": "Strong no hire" }, { "id": "undecided", "label": "Undecided" } ], "default": "hire" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "evidence", "label": "Require evidence for every claim", "type": "toggle", "default": true }
+    ],
+    "template": "You are an interviewer trained in evidence-based, bias-aware hiring decisions. Turn these notes into a structured write-up for the {{audience}}.\n\n## Candidate\n{{candidate}}\nRaw notes:\n{{notes}}\n\n## Setup\n{{#if competencies}}- Competencies evaluated: {{competencies}}\n{{/if}}- Recommendation: {{recommendation}}\n- Tone: {{tone}}, specific, fair, free of vague impressions.\n\n## Requirements\n- Assess each competency separately: rating, plus the strengths and concerns.\n{{#if evidence}}- Tie every judgment to specific evidence from the interview; flag anything that is impression-only.\n{{/if}}- Separate observed behavior from inference; avoid biased or non-job-related language.\n{{#if audience == \"candidate\"}}- Rewrite the summary as kind, actionable, growth-oriented feedback the candidate can act on.\n{{/if}}{{#if audience == \"panel\"}}- End with a clear recommendation and the one question the debrief should resolve.\n{{/if}}\n## Deliverables\n1. The competency-by-competency assessment.\n2. A concise overall summary and the {{recommendation}} recommendation with rationale.\n3. The single biggest open risk or unknown about this candidate.\n\nProceed with well-reasoned defaults; ask only if the notes are too thin to assess a competency."
+  },
+  {
+    "id": "offer-letter",
+    "label": "Offer Letter",
+    "description": "Warm, clear job offer that closes the candidate",
+    "icon": "Mail",
+    "fields": [
+      { "id": "candidate", "label": "Candidate name", "type": "text", "required": true, "placeholder": "Alex Romero" },
+      { "id": "role", "label": "Role & team", "type": "text", "required": true, "placeholder": "Staff Designer on the Platform team" },
+      { "id": "company", "label": "Company", "type": "text", "required": true, "placeholder": "Northstar Labs" },
+      { "id": "compensation", "label": "Compensation package", "type": "textarea", "required": true, "placeholder": "$185k base, 0.25% equity (4-yr/1-yr cliff), 15% target bonus, $2k learning budget." },
+      { "id": "logistics", "label": "Start date, location, terms", "type": "textarea", "placeholder": "Start June 2; remote (US); at-will; offer valid 7 days; contingent on references." },
+      { "id": "why", "label": "Why we're excited about them", "type": "textarea", "placeholder": "The team loved your systems thinking and the portfolio teardown; you'd raise the bar for design craft." },
+      { "id": "formality", "label": "Style", "type": "select", "options": [ { "id": "warm", "label": "Warm + formal terms attached" }, { "id": "formal", "label": "Formal legal letter" }, { "id": "email", "label": "Personal offer email" } ], "default": "warm" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" }
+    ],
+    "template": "You are an experienced people/HR partner who writes offers that make great candidates say yes. Draft an offer for {{candidate}}.\n\n## Offer\n- Role: {{role}} at {{company}}\n- Compensation: {{compensation}}\n{{#if logistics}}- Logistics & terms: {{logistics}}\n{{/if}}{{#if why}}- Why we're excited about them (personalize the opening): {{why}}\n{{/if}}- Style: {{formality}}\n- Tone: {{tone}}, genuine, confident, never pushy.\n\n## Requirements\n- Open with a warm, specific note on why we want them (not generic enthusiasm).\n- State the role, compensation, and key terms clearly and unambiguously.\n- Make the package easy to understand (plain-language summary of equity and benefits).\n{{#if formality == \"formal\"}}- Keep the body precise and legally clean; avoid promises beyond stated terms.\n{{else}}- Keep it human and exciting while still covering all the essential terms.\n{{/if}}- Close with clear next steps, the decision deadline, and an open door for questions.\n\n## Deliverables\n1. The offer {{#if formality == \"email\"}}email{{else}}letter{{/if}}, ready to send.\n2. A short, friendly cover note to accompany it.\n3. A reminder list of placeholders to fill before sending (dates, legal entity, signatory).\n\nProceed with well-reasoned defaults; flag anything that needs legal or comp sign-off."
+  },
+  {
+    "id": "performance-review",
+    "label": "Performance Review",
+    "description": "Fair, evidence-based review with clear next steps",
+    "icon": "Gauge",
+    "fields": [
+      { "id": "employee", "label": "Employee & role", "type": "text", "required": true, "placeholder": "Sam Lee - Senior Marketing Manager" },
+      { "id": "period", "label": "Review period", "type": "text", "placeholder": "H1 2026 (Jan-Jun)" },
+      { "id": "achievements", "label": "Key work, results & evidence", "type": "textarea", "required": true, "placeholder": "Led rebrand (on time), grew MQLs 40%, mentored 2 juniors. Missed Q2 webinar target by 20%." },
+      { "id": "goals", "label": "Goals / expectations for the period", "type": "textarea", "placeholder": "Hit 4,500 MQLs, ship rebrand, build a repeatable webinar program, develop the team." },
+      { "id": "ratingScale", "label": "Rating scale", "type": "select", "options": [ { "id": "3", "label": "3-point (below / meets / exceeds)" }, { "id": "5", "label": "5-point scale" }, { "id": "narrative", "label": "Narrative (no numeric rating)" } ], "default": "5" },
+      { "id": "framework", "label": "Structure", "type": "select", "options": [ { "id": "sbi", "label": "SBI (Situation-Behavior-Impact)" }, { "id": "startstop", "label": "Start / Stop / Continue" }, { "id": "goals", "label": "Goal-by-goal review" } ], "default": "sbi" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "empathetic" },
+      { "id": "development", "label": "Include development & growth plan", "type": "toggle", "default": true }
+    ],
+    "template": "You are a people manager and coach who writes performance reviews that are fair, specific, and motivating. Write a review for {{employee}}{{#if period}} covering {{period}}{{/if}}.\n\n## Work, results & evidence\n{{achievements}}\n\n## Setup\n{{#if goals}}- Goals / expectations for the period: {{goals}}\n{{/if}}- Rating scale: {{ratingScale}}\n- Structure feedback using the {{framework}} model.\n- Tone: {{tone}}, candid, growth-oriented, never vague.\n\n## Requirements\n- Assess performance against the stated goals with concrete evidence; balance strengths and gaps honestly.\n- Use the {{framework}} structure so feedback is behavioral and actionable, not personality-based.\n- Keep language unbiased and job-related; recency and halo effects should not skew the assessment.\n{{#unless ratingScale == \"narrative\"}}- Provide a justified overall rating on the {{ratingScale}}.\n{{/unless}}{{#if development}}- Include 2-3 specific development goals with owners, support needed, and how success is measured.\n{{/if}}\n## Deliverables\n1. The full review, structured by goal/competency.\n2. A 3-4 sentence overall summary{{#unless ratingScale == \"narrative\"}} with the rating and rationale{{/unless}}.\n3. A short list of talking points to make the live conversation effective.\n\nProceed with well-reasoned defaults; ask only if the evidence is too thin to assess a goal."
+  },
+  {
+    "id": "onboarding-plan",
+    "label": "Onboarding Plan",
+    "description": "30-60-90 day plan that ramps a new hire fast",
+    "icon": "Rocket",
+    "fields": [
+      { "id": "role", "label": "Role & team", "type": "text", "required": true, "placeholder": "Account Executive on the Mid-Market team" },
+      { "id": "hire", "label": "New hire context", "type": "textarea", "placeholder": "Joining from a smaller startup, strong closer, new to our vertical and our sales stack." },
+      { "id": "successDefinition", "label": "What success looks like by day 90", "type": "textarea", "required": true, "placeholder": "Fully ramped pipeline, 2 closed deals, confident with the product demo and the CRM." },
+      { "id": "areas", "label": "Areas to cover", "type": "multi-select", "options": [ { "id": "people", "label": "People & relationships" }, { "id": "product", "label": "Product knowledge" }, { "id": "process", "label": "Tools & process" }, { "id": "customers", "label": "Customers / market" }, { "id": "culture", "label": "Culture & norms" }, { "id": "goals", "label": "Goals & metrics" } ], "default": ["people", "product", "process", "goals"] },
+      { "id": "workModel", "label": "Work model", "type": "select", "options": [ { "id": "remote", "label": "Remote" }, { "id": "hybrid", "label": "Hybrid" }, { "id": "office", "label": "In office" } ], "default": "remote" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "buddy", "label": "Include a buddy / mentor program", "type": "toggle", "default": true }
+    ],
+    "template": "You are an onboarding and enablement expert who designs ramp plans that make new hires productive and confident fast. Build a 30-60-90 day onboarding plan for a \"{{role}}\".\n\n## Definition of success (day 90)\n{{successDefinition}}\n\n## Setup\n{{#if hire}}- New hire context: {{hire}}\n{{/if}}- Work model: {{workModel}}\n- Areas to cover: {{areas}}\n- Tone: {{tone}}, supportive, structured.\n\n## Requirements\n- Three phases: Days 1-30 (learn), 31-60 (contribute with support), 61-90 (own it).\n- For each phase: goals, key activities, who's involved, and a clear success checkpoint.\n{{#each areas}}- Weave \"{{this}}\" into the relevant phases with concrete activities.\n{{/each}}- Make week 1 explicit, hour-blocked, and not overwhelming.\n{{#if buddy}}- Define a buddy/mentor: cadence, what they own, and how they help the hire feel included.\n{{/if}}{{#if workModel == \"remote\"}}- Add deliberate steps to build relationships and visibility in a remote setting.\n{{/if}}\n## Deliverables\n1. The full 30-60-90 plan with checkpoints.\n2. An hour-blocked first-week schedule.\n3. The 3 leading indicators that this hire is ramping on track.\n\nProceed with well-reasoned defaults; ask only if the success definition is unclear."
+  }
+]

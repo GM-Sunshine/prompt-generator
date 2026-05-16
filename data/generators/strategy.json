@@ -1,0 +1,117 @@
+[
+  {
+    "id": "swot-analysis",
+    "label": "SWOT Analysis",
+    "description": "Produce a rigorous, evidence-based SWOT with strategic implications",
+    "icon": "LayoutGrid",
+    "fields": [
+      { "id": "subject", "label": "Subject of analysis", "type": "text", "required": true, "placeholder": "Acme Analytics' position in mid-market BI" },
+      { "id": "context", "label": "Business context", "type": "textarea", "required": true, "placeholder": "Series A SaaS, $14M ARR, strong product, weak brand, well-funded incumbents." },
+      { "id": "objective", "label": "Strategic objective", "type": "text", "placeholder": "Decide whether to expand into enterprise next year" },
+      { "id": "lens", "label": "Analytical lens", "type": "multi-select", "options": [ { "id": "market", "label": "Market & demand" }, { "id": "product", "label": "Product & technology" }, { "id": "gtm", "label": "Go-to-market" }, { "id": "financial", "label": "Financial" }, { "id": "team", "label": "Team & org" }, { "id": "competitive", "label": "Competitive" } ], "default": ["market", "product", "gtm", "competitive"] },
+      { "id": "competitors", "label": "Key competitors", "type": "text", "placeholder": "Looker, Metabase, Tableau" },
+      { "id": "tows", "label": "Include TOWS strategic actions", "type": "toggle", "default": true }
+    ],
+    "template": "You are a strategy consultant. Produce a rigorous SWOT analysis of {{subject}}.\n\n## Context\n{{context}}\n{{#if objective}}- Strategic objective framing the analysis: {{objective}}.\n{{/if}}{{#if competitors}}- Key competitors to benchmark against: {{competitors}}.\n{{/if}}{{#if lens}}- Analyze through these lenses: {{lens}}.\n{{/if}}\n## Standards\n- Strengths and weaknesses are internal and relative to competitors; opportunities and threats are external.\n- Every point is specific and evidence-backed (a fact, metric, or trend), not a platitude.\n- Rank items within each quadrant by strategic significance.\n{{#if tows}}- Add a TOWS matrix translating the SWOT into concrete strategies (SO, ST, WO, WT).\n{{/if}}\n## Deliverables\n1. The four quadrants, ranked, with evidence for each item.\n{{#if tows}}2. A TOWS action set with the 3-5 highest-leverage moves.\n{{else}}2. The 3-5 highest-leverage strategic implications.\n{{/if}}3. The single most important strategic question this analysis raises.\n\nBe decisive and specific; cut generic points. Where evidence is thin, label the item as an assumption rather than asserting it."
+  },
+  {
+    "id": "market-analysis",
+    "label": "Market Analysis",
+    "description": "Size a market and assess demand, competition and entry attractiveness",
+    "icon": "Globe",
+    "fields": [
+      { "id": "market", "label": "Market / segment", "type": "text", "required": true, "placeholder": "Embedded analytics for vertical SaaS" },
+      { "id": "context", "label": "Why you're analyzing this", "type": "textarea", "required": true, "placeholder": "Evaluating whether to launch an embeddable analytics SDK as a new line." },
+      { "id": "geography", "label": "Geography", "type": "text", "placeholder": "North America + Western Europe" },
+      { "id": "components", "label": "Analysis components", "type": "multi-select", "options": [ { "id": "sizing", "label": "TAM/SAM/SOM sizing" }, { "id": "segmentation", "label": "Customer segmentation" }, { "id": "competition", "label": "Competitive landscape" }, { "id": "trends", "label": "Trends & drivers" }, { "id": "porter", "label": "Porter's Five Forces" }, { "id": "entry", "label": "Entry barriers & risks" } ], "default": ["sizing", "segmentation", "competition", "trends", "entry"] },
+      { "id": "knownData", "label": "Known data points", "type": "textarea", "placeholder": "~12k vertical SaaS firms in scope; analytics budget ~3-5% of R&D." },
+      { "id": "audience", "label": "Audience for the analysis", "type": "select", "optionsRef": "audiences" },
+      { "id": "recommendation", "label": "Conclude with an entry recommendation", "type": "toggle", "default": true }
+    ],
+    "template": "You are a market research analyst. Analyze the market for {{market}}{{#if geography}} in {{geography}}{{/if}}, for a {{audience}} audience.\n\n## Purpose\n{{context}}\n{{#if knownData}}\n## Known data points\n{{knownData}}\n{{/if}}\n## Scope\n{{#if components}}- Cover: {{components}}.\n{{/if}}- For sizing, build TAM/SAM/SOM bottom-up with stated assumptions and a sanity-check from the top down.\n- For competition, map the major players, their positioning, and where the gaps are.\n- Distinguish facts (cite or label the basis) from estimates and assumptions.\n\n## Deliverables\n1. An executive summary with the 3-5 findings that matter most.\n2. The full analysis by component, quantified where possible, with an assumptions register.\n{{#if recommendation}}3. A clear entry recommendation (enter / wait / avoid) with the rationale and the key risks.\n{{else}}3. The strategic implications and the most important open questions.\n{{/if}}\nBe quantitative and explicit about assumptions. Proceed with reasoned estimates rather than refusing for lack of data; clearly flag low-confidence figures."
+  },
+  {
+    "id": "business-case",
+    "label": "Business Case",
+    "description": "Build a decision-ready business case with options, costs and ROI",
+    "icon": "ClipboardCheck",
+    "fields": [
+      { "id": "initiative", "label": "Initiative / investment", "type": "text", "required": true, "placeholder": "Build an in-house customer data platform" },
+      { "id": "problem", "label": "Problem & desired outcome", "type": "textarea", "required": true, "placeholder": "Fragmented customer data slows go-to-market; want a single source of truth in 9 months." },
+      { "id": "options", "label": "Options to evaluate", "type": "textarea", "required": true, "placeholder": "1) Build in-house 2) Buy Segment 3) Do nothing / status quo." },
+      { "id": "costs", "label": "Known costs & resources", "type": "textarea", "placeholder": "Build: 4 engineers x 9 months + ~$30k infra/yr. Buy: ~$120k/yr." },
+      { "id": "benefits", "label": "Expected benefits", "type": "textarea", "placeholder": "~15% faster campaign launch; reduced data-eng toil; better targeting." },
+      { "id": "metrics", "label": "Financial metrics to include", "type": "multi-select", "options": [ { "id": "roi", "label": "ROI" }, { "id": "npv", "label": "NPV" }, { "id": "payback", "label": "Payback period" }, { "id": "tco", "label": "Total cost of ownership" }, { "id": "breakeven", "label": "Break-even analysis" } ], "default": ["roi", "payback", "tco"] },
+      { "id": "horizon", "label": "Evaluation horizon", "type": "text", "placeholder": "3 years" },
+      { "id": "risks", "label": "Include risk & sensitivity analysis", "type": "toggle", "default": true }
+    ],
+    "template": "You are a strategy and finance partner building a decision-ready business case for: {{initiative}}.\n\n## Problem & desired outcome\n{{problem}}\n\n## Options\n{{options}}\n{{#if costs}}\n## Known costs\n{{costs}}\n{{/if}}{{#if benefits}}\n## Expected benefits\n{{benefits}}\n{{/if}}\n## Analysis\n- Evaluate each option (including the do-nothing baseline) on cost, benefit, time-to-value, and strategic fit.\n{{#if metrics}}- Quantify with: {{metrics}}{{#if horizon}} over {{horizon}}{{/if}}. State every assumption.\n{{/if}}- Convert qualitative benefits into quantified or clearly-bounded estimates.\n{{#if risks}}- Include a risk register and a sensitivity analysis on the 2-3 assumptions the decision is most sensitive to.\n{{/if}}\n## Deliverables\n1. A one-page executive summary with a clear recommended option and why.\n2. The options comparison, the financial model summary, and the assumptions register.\n3. The decision, conditions for proceeding, and what would change the recommendation.\n\nBe decisive and quantitative. Proceed with explicit, labeled assumptions rather than withholding a recommendation; flag the assumptions most worth validating."
+  },
+  {
+    "id": "strategy-deck",
+    "label": "Strategy Deck",
+    "description": "Outline a tight, narrative-driven strategy presentation slide by slide",
+    "icon": "MonitorPlay",
+    "fields": [
+      { "id": "topic", "label": "Deck topic", "type": "text", "required": true, "placeholder": "FY2027 growth strategy" },
+      { "id": "thesis", "label": "Core thesis / recommendation", "type": "textarea", "required": true, "placeholder": "Concentrate spend on mid-market upmarket motion; sunset the self-serve free tier." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "context", "label": "Supporting context & data", "type": "textarea", "placeholder": "Mid-market NRR 121% vs self-serve 78%; CAC payback 14 vs 31 months." },
+      { "id": "length", "label": "Deck length", "type": "select", "options": [ { "id": "short", "label": "Short (~8 slides)" }, { "id": "standard", "label": "Standard (~15 slides)" }, { "id": "full", "label": "Full (~25 slides)" } ], "default": "standard" },
+      { "id": "framework", "label": "Narrative structure", "type": "select", "options": [ { "id": "scqa", "label": "Situation-Complication-Question-Answer" }, { "id": "pyramid", "label": "Minto Pyramid (answer first)" }, { "id": "problemsolution", "label": "Problem-Solution-Plan" } ], "default": "scqa" },
+      { "id": "speakerNotes", "label": "Include speaker notes", "type": "toggle", "default": true }
+    ],
+    "template": "You are a management consultant who builds executive-grade strategy decks. Outline a deck on \"{{topic}}\" for a {{audience}} audience.\n\n## Core thesis\n{{thesis}}\n{{#if context}}\n## Supporting context\n{{context}}\n{{/if}}\n## Deck design\n- Length: {{length}}. Narrative structure: {{framework}}.\n- Lead with the answer; every slide must advance the argument, not just present data.\n- For each slide give: an action-title (the takeaway as a full sentence), the key content/visual, and the supporting evidence.\n{{#if speakerNotes}}- Include concise speaker notes per slide (what to say, what to anticipate).\n{{/if}}- End with a clear ask and next steps.\n\n## Deliverables\n1. The slide-by-slide outline with action-titles and content.\n2. The one-sentence storyline that connects every action-title in order.\n3. A note of the 2-3 charts or proof points that most need real data.\n\nMake the argument tight and decisive. Proceed with reasoned placeholders where data is missing and label them clearly."
+  },
+  {
+    "id": "exec-memo",
+    "label": "Executive Memo",
+    "description": "Write a crisp, recommendation-first memo for senior decision-makers",
+    "icon": "FileText",
+    "fields": [
+      { "id": "subject", "label": "Memo subject", "type": "text", "required": true, "placeholder": "Recommendation: pause the EU expansion until H2" },
+      { "id": "recommendation", "label": "Your recommendation", "type": "textarea", "required": true, "placeholder": "Delay EU launch by two quarters and redirect spend to mid-market US." },
+      { "id": "rationale", "label": "Reasoning & evidence", "type": "textarea", "required": true, "placeholder": "EU pipeline 60% below plan; localization unfinished; US payback far better." },
+      { "id": "audience", "label": "Recipient", "type": "select", "optionsRef": "audiences" },
+      { "id": "decision", "label": "Decision or action requested", "type": "text", "placeholder": "Approve the reprioritization at Thursday's leadership review" },
+      { "id": "length", "label": "Length", "type": "select", "options": [ { "id": "one", "label": "One page" }, { "id": "two", "label": "Two pages" }, { "id": "brief", "label": "Brief (under half a page)" } ], "default": "one" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "alternatives", "label": "Address alternatives considered", "type": "toggle", "default": true }
+    ],
+    "template": "You are a chief of staff writing an executive memo for a {{audience}} reader, in a {{tone}} register.\n\n## Subject\n{{subject}}\n\n## Recommendation\n{{recommendation}}\n\n## Reasoning\n{{rationale}}\n\n## Memo standards\n- Length: {{length}}. Recommendation and the ask appear in the first three sentences.\n- BLUF (bottom line up front), then the supporting argument in ranked order of importance.\n{{#if alternatives}}- Briefly state the alternatives considered and why they were rejected.\n{{/if}}{{#if decision}}- Make the requested decision explicit: {{decision}}. Include what happens if it is deferred.\n{{/if}}- Tight prose, no filler, no hedging; quantify claims where possible.\n\n## Deliverables\n1. The complete memo, ready to send.\n2. A one-line subject and a single-sentence summary suitable for a calendar invite.\n\nBe direct and decisive. Use the evidence given; flag any critical unknown as an explicit risk rather than padding the memo."
+  },
+  {
+    "id": "okrs",
+    "label": "OKRs",
+    "description": "Draft sharp, measurable objectives and key results for a team or company",
+    "icon": "Target",
+    "fields": [
+      { "id": "scope", "label": "OKR scope", "type": "select", "required": true, "options": [ { "id": "company", "label": "Company-wide" }, { "id": "department", "label": "Department / function" }, { "id": "team", "label": "Team" }, { "id": "individual", "label": "Individual" } ], "default": "team" },
+      { "id": "owner", "label": "Team / owner name", "type": "text", "required": true, "placeholder": "Growth Marketing team" },
+      { "id": "context", "label": "Strategic context & priorities", "type": "textarea", "required": true, "placeholder": "Company goal: reach $20M ARR. Our role: improve pipeline volume and quality." },
+      { "id": "period", "label": "Time period", "type": "select", "options": [ { "id": "quarter", "label": "Quarterly" }, { "id": "half", "label": "Half-year" }, { "id": "annual", "label": "Annual" } ], "default": "quarter" },
+      { "id": "count", "label": "Number of objectives", "type": "select", "options": [ { "id": "2", "label": "2" }, { "id": "3", "label": "3" }, { "id": "4", "label": "4" } ], "default": "3" },
+      { "id": "baseline", "label": "Current baselines & metrics", "type": "textarea", "placeholder": "MQLs 800/qtr, SQL conversion 18%, pipeline $4.5M." },
+      { "id": "ambition", "label": "Ambition level", "type": "select", "options": [ { "id": "committed", "label": "Committed (must-hit)" }, { "id": "stretch", "label": "Stretch (aspirational)" }, { "id": "mixed", "label": "Mixed" } ], "default": "stretch" },
+      { "id": "initiatives", "label": "Include key initiatives per objective", "type": "toggle", "default": true }
+    ],
+    "template": "You are an operating-cadence coach. Draft {{period}} OKRs for {{owner}} at the {{scope}} level.\n\n## Strategic context\n{{context}}\n{{#if baseline}}\n## Baselines\n{{baseline}}\n{{/if}}\n## OKR standards\n- Produce {{count}} objectives. Objectives are qualitative, inspiring, and aligned to the strategic context.\n- Each objective has 2-4 key results that are measurable, outcome-based (not task lists), with a from -> to target.\n- Ambition: {{ambition}}. State the success threshold for each key result.\n{{#if initiatives}}- For each objective, list the 2-3 key initiatives expected to move the results.\n{{/if}}- Reject vanity metrics and unmeasurable language; every KR must be objectively scorable.\n\n## Deliverables\n1. The full OKR set, formatted clearly by objective.\n2. A one-line note on how this set ladders up to the company strategy.\n3. Any KR where the baseline is missing, flagged with a sensible proposed target.\n\nBe specific and outcome-focused. Propose concrete numeric targets using the baselines; where a baseline is unknown, state the assumption rather than leaving it vague."
+  },
+  {
+    "id": "go-to-market-plan",
+    "label": "Go-to-Market Plan",
+    "description": "Build a focused GTM plan covering segment, motion, channels and metrics",
+    "icon": "Rocket",
+    "fields": [
+      { "id": "offering", "label": "Product / offering", "type": "text", "required": true, "placeholder": "Acme Analytics Embedded SDK" },
+      { "id": "context", "label": "What it is & why now", "type": "textarea", "required": true, "placeholder": "An embeddable analytics SDK for vertical SaaS; launching to expand TAM." },
+      { "id": "icp", "label": "Target customer / ICP", "type": "textarea", "required": true, "placeholder": "Series B+ vertical SaaS, 50-500 employees, has a product/eng team." },
+      { "id": "motion", "label": "Primary GTM motion", "type": "select", "required": true, "options": [ { "id": "plg", "label": "Product-led" }, { "id": "sales", "label": "Sales-led" }, { "id": "channel", "label": "Channel / partner" }, { "id": "hybrid", "label": "Hybrid PLG + sales" } ], "default": "hybrid" },
+      { "id": "channels", "label": "Channels to use", "type": "multi-select", "options": [ { "id": "content", "label": "Content & SEO" }, { "id": "outbound", "label": "Outbound sales" }, { "id": "paid", "label": "Paid acquisition" }, { "id": "partnerships", "label": "Partnerships" }, { "id": "community", "label": "Community & developer relations" }, { "id": "events", "label": "Events & field" } ], "default": ["content", "outbound", "partnerships"] },
+      { "id": "pricing", "label": "Pricing & packaging direction", "type": "text", "placeholder": "Usage-based, free dev tier, enterprise contract above 1M events/mo" },
+      { "id": "timeline", "label": "Launch timeline", "type": "text", "placeholder": "Beta in 6 weeks, GA in Q3" },
+      { "id": "metrics", "label": "Define success metrics & targets", "type": "toggle", "default": true }
+    ],
+    "template": "You are a go-to-market strategist. Build a GTM plan for {{offering}} with a primarily {{motion}} motion.\n\n## What it is & why now\n{{context}}\n\n## Ideal customer profile\n{{icp}}\n\n## Plan components\n- Positioning and a one-sentence value proposition for the ICP, plus the core differentiation.\n- Segmentation and prioritization: which segment to win first and why.\n{{#if channels}}- Channel strategy across: {{channels}}. For each, the role, expected motion, and a first 90-day play.\n{{/if}}{{#if pricing}}- Pricing & packaging direction: {{pricing}}.\n{{/if}}{{#if timeline}}- Phased rollout aligned to: {{timeline}}.\n{{/if}}{{#if metrics}}- Success metrics with explicit targets and the leading indicators to watch.\n{{/if}}\n## Deliverables\n1. The GTM plan organized by component.\n2. A 90-day launch roadmap with owners and milestones.\n3. The top 3 risks and the assumptions to validate before scaling spend.\n\nBe specific and prioritized; avoid doing everything at once. Proceed with reasoned defaults and label assumptions; ask only if a decision is genuinely blocking."
+  }
+]

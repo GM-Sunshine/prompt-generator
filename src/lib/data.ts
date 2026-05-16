@@ -85,3 +85,48 @@ export function getAllGeneratorParams(): {
     getGenerators(c.id).map((g) => ({ category: c.id, generator: g.id })),
   );
 }
+
+export interface GeneratorIndexItem {
+  category: string;
+  categoryLabel: string;
+  group: string;
+  id: string;
+  label: string;
+  description: string;
+  icon?: string;
+}
+
+/** Flat, lightweight index of every generator — for the browse/search page. */
+export function getGeneratorIndex(): GeneratorIndexItem[] {
+  return getCategories().flatMap((c) =>
+    getGenerators(c.id).map((g) => ({
+      category: c.id,
+      categoryLabel: c.label,
+      group: c.group ?? "Other",
+      id: g.id,
+      label: g.label,
+      description: g.description,
+      icon: g.icon,
+    })),
+  );
+}
+
+export interface CategoryGroup {
+  group: string;
+  categories: (Category & { count: number })[];
+}
+
+/** Categories bucketed by their `group`, preserving categories.json order. */
+export function getCategoryGroups(): CategoryGroup[] {
+  const groups: CategoryGroup[] = [];
+  for (const c of getCategories()) {
+    const key = c.group ?? "Other";
+    let g = groups.find((x) => x.group === key);
+    if (!g) {
+      g = { group: key, categories: [] };
+      groups.push(g);
+    }
+    g.categories.push({ ...c, count: getGenerators(c.id).length });
+  }
+  return groups;
+}

@@ -1,0 +1,113 @@
+[
+  {
+    "id": "threat-model",
+    "label": "Threat Model",
+    "description": "STRIDE-style threat model for a system or feature",
+    "icon": "ShieldAlert",
+    "fields": [
+      { "id": "systemName", "label": "System / feature name", "type": "text", "required": true, "placeholder": "Checkout payment service" },
+      { "id": "summary", "label": "What it does & key components", "type": "textarea", "required": true, "placeholder": "Handles card payments via Stripe; API, worker, Postgres, S3 receipts." },
+      { "id": "dataSensitivity", "label": "Data sensitivity", "type": "select", "options": [ { "id": "public", "label": "Public" }, { "id": "internal", "label": "Internal" }, { "id": "confidential", "label": "Confidential" }, { "id": "regulated", "label": "Regulated (PII/PCI/PHI)" } ], "default": "confidential" },
+      { "id": "trustBoundaries", "label": "Trust boundaries & entry points", "type": "textarea", "placeholder": "Public API gateway, internal service mesh, third-party webhook, admin panel." },
+      { "id": "methodology", "label": "Methodology", "type": "select", "options": [ { "id": "stride", "label": "STRIDE" }, { "id": "pasta", "label": "PASTA" }, { "id": "linddun", "label": "LINDDUN (privacy)" }, { "id": "attacktree", "label": "Attack trees" } ], "default": "stride" },
+      { "id": "compliance", "label": "Compliance regimes", "type": "multi-select", "options": [ { "id": "soc2", "label": "SOC 2" }, { "id": "iso27001", "label": "ISO 27001" }, { "id": "pcidss", "label": "PCI-DSS" }, { "id": "hipaa", "label": "HIPAA" }, { "id": "gdpr", "label": "GDPR" } ] },
+      { "id": "dfd", "label": "Include a data-flow diagram", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Known assumptions / out of scope", "type": "textarea", "placeholder": "Cloud provider assumed trusted; physical security out of scope." }
+    ],
+    "template": "You are a senior application security engineer and threat-modeling specialist. Produce a {{methodology}} threat model for \"{{systemName}}\".\n\n## System under analysis\n{{summary}}\n\n- Data sensitivity: {{dataSensitivity}}\n{{#if trustBoundaries}}- Trust boundaries & entry points: {{trustBoundaries}}\n{{/if}}{{#if compliance}}- Compliance to respect: {{compliance}}\n{{/if}}\n## Analysis requirements\n- Enumerate assets, actors, and trust boundaries first.\n{{#if dfd}}- Provide a text/Mermaid data-flow diagram annotated with trust boundaries.\n{{/if}}- For each component, identify threats using {{methodology}}, with realistic attack scenarios.\n- Rate each threat by likelihood and impact, and propose concrete, prioritized mitigations mapped to specific controls.\n- Call out residual risk and any assumptions that, if false, change the model.\n\n{{#if constraints}}## Scope & assumptions\n{{constraints}}\n\n{{/if}}## Deliverables\n1. Assets, actors, and trust-boundary inventory.\n2. A threat table (component, threat, likelihood, impact, mitigation, owner).\n3. A prioritized remediation roadmap and residual-risk summary.\n\nProceed with well-reasoned defaults based on the architecture described; ask only if a critical boundary is undefined."
+  },
+  {
+    "id": "code-security-audit",
+    "label": "Code Security Audit",
+    "description": "Deep secure-code review of a codebase or component",
+    "icon": "ShieldCheck",
+    "fields": [
+      { "id": "targetName", "label": "Codebase / component", "type": "text", "required": true, "placeholder": "auth-service" },
+      { "id": "context", "label": "What the code does & where code goes", "type": "textarea", "required": true, "placeholder": "JWT auth + session service. Paste code or describe modules below." },
+      { "id": "language", "label": "Language", "type": "select", "optionsRef": "languages", "default": "ts" },
+      { "id": "focus", "label": "Focus areas", "type": "multi-select", "options": [ { "id": "authz", "label": "AuthN / AuthZ" }, { "id": "injection", "label": "Injection (SQLi/XSS/SSRF)" }, { "id": "crypto", "label": "Cryptography & secrets" }, { "id": "deps", "label": "Dependency / supply chain" }, { "id": "logic", "label": "Business logic flaws" }, { "id": "dataexp", "label": "Data exposure / IDOR" } ], "default": ["authz", "injection", "crypto"] },
+      { "id": "standard", "label": "Reference standard", "type": "select", "options": [ { "id": "owasp", "label": "OWASP Top 10" }, { "id": "asvs", "label": "OWASP ASVS" }, { "id": "cwe", "label": "CWE Top 25" }, { "id": "sans", "label": "SANS / CERT" } ], "default": "owasp" },
+      { "id": "fixes", "label": "Propose patched code", "type": "toggle", "default": true },
+      { "id": "severity", "label": "Use CVSS-style severity scoring", "type": "toggle", "default": true }
+    ],
+    "template": "You are a principal security engineer performing an adversarial secure-code review of \"{{targetName}}\" ({{language}}).\n\n## Context\n{{context}}\n\n- Reference standard: {{standard}}\n- Priority focus: {{focus}}\n\n## Review method\n- Read for intent, then think like an attacker: trace untrusted input to every sink.\n- For each finding give: location, vulnerability class (with CWE id), exploit scenario, and {{#if severity}}a CVSS-style severity with vector{{else}}a severity rating{{/if}}.\n- Distinguish confirmed issues from suspected ones; avoid false positives and explain reasoning.\n{{#if fixes}}- Provide a minimal, correct patched code snippet for each high/critical finding.\n{{/if}}- Note any systemic patterns (missing input validation layer, weak crypto defaults) rather than only instances.\n\n## Deliverables\n1. Executive summary with risk posture in 3-4 sentences.\n2. Findings table ordered by severity, mapped to {{standard}}.\n3. Detailed write-ups{{#if fixes}} with patches{{/if}} and a prioritized fix order.\n\nIf code is not fully provided, audit what is given and clearly flag the assumptions made for the rest."
+  },
+  {
+    "id": "pentest-plan",
+    "label": "Penetration Test Plan",
+    "description": "Scoped, rules-of-engagement penetration test plan",
+    "icon": "Crosshair",
+    "fields": [
+      { "id": "engagementName", "label": "Engagement name", "type": "text", "required": true, "placeholder": "Q3 External Web App Pentest" },
+      { "id": "scope", "label": "In-scope targets & description", "type": "textarea", "required": true, "placeholder": "app.example.com, api.example.com, mobile app v4. Exclude prod DB and 3rd-party SaaS." },
+      { "id": "testType", "label": "Test type", "type": "multi-select", "options": [ { "id": "webapp", "label": "Web application" }, { "id": "api", "label": "API" }, { "id": "network", "label": "External network" }, { "id": "internal", "label": "Internal / lateral" }, { "id": "mobile", "label": "Mobile" }, { "id": "cloud", "label": "Cloud config" }, { "id": "social", "label": "Social engineering" } ], "default": ["webapp", "api"] },
+      { "id": "knowledge", "label": "Knowledge level", "type": "select", "options": [ { "id": "black", "label": "Black box" }, { "id": "grey", "label": "Grey box" }, { "id": "white", "label": "White box" } ], "default": "grey" },
+      { "id": "methodology", "label": "Methodology", "type": "select", "options": [ { "id": "ptes", "label": "PTES" }, { "id": "owaspwstg", "label": "OWASP WSTG" }, { "id": "osstmm", "label": "OSSTMM" }, { "id": "nist", "label": "NIST SP 800-115" } ], "default": "ptes" },
+      { "id": "constraints", "label": "Rules of engagement & windows", "type": "textarea", "placeholder": "Test window 02:00-06:00 UTC; no DoS; rate-limit aware; emergency contact on call." },
+      { "id": "retest", "label": "Include remediation retest phase", "type": "toggle", "default": true }
+    ],
+    "template": "You are a lead penetration tester scoping the engagement \"{{engagementName}}\" following the {{methodology}} methodology.\n\n## Scope\n{{scope}}\n\n- Test types: {{testType}}\n- Knowledge level: {{knowledge}} testing\n\n## Plan requirements\n- Define clear objectives, in/out-of-scope assets, and authorization prerequisites.\n- Lay out phases (recon, scanning, exploitation, post-exploitation, reporting) with tooling and techniques per phase mapped to {{methodology}}.\n- Specify rules of engagement: test windows, prohibited actions, data-handling, and escalation/abort criteria.\n{{#if constraints}}- Honor these constraints: {{constraints}}\n{{/if}}- Define severity rubric and how findings will be reported and tracked.\n{{#if retest}}- Include a remediation retest phase with pass/fail criteria.\n{{/if}}\n## Deliverables\n1. Engagement charter (objectives, scope, RoE, contacts).\n2. Phase-by-phase test plan with techniques and tooling.\n3. Reporting template and severity rubric{{#if retest}} plus retest checklist{{/if}}.\n\nAssume a standard professional engagement and fill gaps with industry-standard defaults; flag only authorization-blocking ambiguities."
+  },
+  {
+    "id": "security-policy",
+    "label": "Security Policy",
+    "description": "Clear, enforceable security policy document",
+    "icon": "FileLock2",
+    "fields": [
+      { "id": "policyName", "label": "Policy name", "type": "text", "required": true, "placeholder": "Acceptable Use & Access Control Policy" },
+      { "id": "orgContext", "label": "Organization context", "type": "textarea", "required": true, "placeholder": "120-person SaaS company, remote-first, AWS, handles customer PII." },
+      { "id": "policyType", "label": "Policy type", "type": "select", "options": [ { "id": "acceptableuse", "label": "Acceptable use" }, { "id": "access", "label": "Access control" }, { "id": "datahandling", "label": "Data classification & handling" }, { "id": "vendor", "label": "Vendor / third-party" }, { "id": "bcdr", "label": "Business continuity / DR" }, { "id": "infosec", "label": "Overarching InfoSec" } ], "default": "access" },
+      { "id": "audience", "label": "Primary audience", "type": "select", "optionsRef": "audiences", "default": "general" },
+      { "id": "frameworks", "label": "Align to frameworks", "type": "multi-select", "options": [ { "id": "soc2", "label": "SOC 2" }, { "id": "iso27001", "label": "ISO 27001" }, { "id": "nistcsf", "label": "NIST CSF" }, { "id": "gdpr", "label": "GDPR" }, { "id": "hipaa", "label": "HIPAA" } ], "default": ["soc2"] },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "authoritative" },
+      { "id": "enforcement", "label": "Include enforcement & exceptions", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior GRC and information-security policy author. Draft a \"{{policyName}}\" ({{policyType}} policy) that is clear, enforceable, and audit-ready.\n\n## Organization context\n{{orgContext}}\n\n- Primary audience: {{audience}}\n{{#if frameworks}}- Align controls to: {{frameworks}}\n{{/if}}- Tone: {{tone}}\n\n## Requirements\n- Use plain, unambiguous language with defined terms; avoid vague \"should\" where \"must\" is intended.\n- Standard structure: purpose, scope, definitions, policy statements, roles & responsibilities{{#if enforcement}}, enforcement, and exceptions/waivers{{/if}}, review cadence.\n- Make each requirement testable and map key statements to the named frameworks' controls.\n- Be realistic for the org size described; no aspirational controls that cannot be operated.\n\n## Deliverables\n1. The complete policy document, ready to circulate.\n2. A control-mapping table (policy statement -> framework control id).\n3. A short rollout note: who approves, who is trained, and the review interval.\n\nFill organizational gaps with sensible industry defaults and label any such assumptions inline."
+  },
+  {
+    "id": "incident-response-playbook",
+    "label": "Incident Response Playbook",
+    "description": "Step-by-step IR playbook for a specific incident type",
+    "icon": "Siren",
+    "fields": [
+      { "id": "playbookName", "label": "Playbook name", "type": "text", "required": true, "placeholder": "Ransomware Containment Playbook" },
+      { "id": "incidentType", "label": "Incident type", "type": "select", "options": [ { "id": "ransomware", "label": "Ransomware" }, { "id": "databreach", "label": "Data breach / exfiltration" }, { "id": "accounttakeover", "label": "Account takeover" }, { "id": "phishing", "label": "Phishing / BEC" }, { "id": "ddos", "label": "DDoS" }, { "id": "insider", "label": "Insider threat" }, { "id": "supplychain", "label": "Supply-chain compromise" } ], "default": "ransomware" },
+      { "id": "envContext", "label": "Environment & tooling", "type": "textarea", "required": true, "placeholder": "AWS + GitHub, EDR on endpoints, SIEM = Splunk, IdP = Okta, 24x7 on-call." },
+      { "id": "framework", "label": "IR framework", "type": "select", "options": [ { "id": "nist", "label": "NIST SP 800-61" }, { "id": "sans", "label": "SANS 6-step" } ], "default": "nist" },
+      { "id": "regulated", "label": "Breach-notification obligations", "type": "multi-select", "options": [ { "id": "gdpr", "label": "GDPR (72h)" }, { "id": "ccpa", "label": "CCPA/CPRA" }, { "id": "hipaa", "label": "HIPAA" }, { "id": "sec", "label": "SEC disclosure" }, { "id": "contractual", "label": "Customer contractual" } ] },
+      { "id": "raci", "label": "Include RACI & comms templates", "type": "toggle", "default": true },
+      { "id": "tabletop", "label": "Include a tabletop exercise scenario", "type": "toggle", "default": true }
+    ],
+    "template": "You are an incident-response lead writing an operational playbook: \"{{playbookName}}\" for a {{incidentType}} incident, following the {{framework}} lifecycle.\n\n## Environment\n{{envContext}}\n{{#if regulated}}\n- Notification obligations to plan for: {{regulated}}\n{{/if}}\n## Playbook requirements\n- Organize by lifecycle phase: preparation, detection & analysis, containment, eradication, recovery, post-incident.\n- For each phase give concrete, ordered actions with the responsible role, expected evidence to collect, and decision points.\n- Be specific to the tooling described (exact consoles/commands where reasonable), not generic advice.\n{{#if regulated}}- Include a notification-timeline checklist for the listed obligations with trigger criteria.\n{{/if}}{{#if raci}}- Include a RACI matrix and ready-to-send internal/external/legal communication templates.\n{{/if}}{{#if tabletop}}- Add a realistic tabletop exercise scenario with injects and discussion questions.\n{{/if}}\n## Deliverables\n1. The phase-by-phase runbook with roles and evidence handling.\n2. Severity classification and escalation criteria.\n3. A post-incident review template{{#if tabletop}} and the tabletop scenario{{/if}}.\n\nUse battle-tested defaults for any unspecified detail and call out where local validation is required."
+  },
+  {
+    "id": "vuln-triage",
+    "label": "Vulnerability Triage",
+    "description": "Prioritize and route a batch of reported vulnerabilities",
+    "icon": "ListChecks",
+    "fields": [
+      { "id": "batchName", "label": "Batch / source", "type": "text", "required": true, "placeholder": "Weekly Dependabot + scanner output" },
+      { "id": "findings", "label": "Findings to triage", "type": "textarea", "required": true, "placeholder": "Paste CVEs/scanner output: CVE-2024-XXXX in lib X (transitive), reflected XSS on /search, ..." },
+      { "id": "assetContext", "label": "Asset context & exposure", "type": "textarea", "required": true, "placeholder": "Internet-facing API handling PII; lib X used only in offline batch job, not the API path." },
+      { "id": "scoring", "label": "Prioritization model", "type": "select", "options": [ { "id": "cvss", "label": "CVSS base" }, { "id": "ssvc", "label": "SSVC (decision tree)" }, { "id": "epss", "label": "CVSS + EPSS + exposure" }, { "id": "risk", "label": "Business-risk weighted" } ], "default": "epss" },
+      { "id": "slas", "label": "Remediation SLAs", "type": "textarea", "placeholder": "Critical 7d, High 30d, Medium 90d, Low best-effort." },
+      { "id": "owners", "label": "Suggest owners & tickets", "type": "toggle", "default": true }
+    ],
+    "template": "You are a security engineer running vulnerability triage for the batch \"{{batchName}}\" using a {{scoring}} prioritization model.\n\n## Findings\n{{findings}}\n\n## Asset context\n{{assetContext}}\n\n## Triage method\n- For each finding determine: real exploitability in THIS context, exposure, reachability of the vulnerable code path, and business impact.\n- Down-rank non-reachable / non-exploitable items and explain why; up-rank actively exploited or internet-exposed ones.\n- Assign a final priority and recommended action (patch, mitigate, accept-with-justification, monitor).\n{{#if slas}}- Map each priority to these SLAs: {{slas}}\n{{/if}}{{#if owners}}- Suggest a likely owning team and a concise ticket title + description per actionable item.\n{{/if}}\n## Deliverables\n1. A ranked triage table (finding, context-adjusted severity, priority, action, rationale).\n2. The \"fix now\" shortlist with justification.\n3. Items recommended for risk acceptance with the reasoning to record.\n\nWhere context is thin, state the assumption and triage conservatively rather than guessing optimistically."
+  },
+  {
+    "id": "secure-design-review",
+    "label": "Secure Design Review",
+    "description": "Security review of an architecture or design doc",
+    "icon": "ShieldQuestion",
+    "fields": [
+      { "id": "featureName", "label": "Feature / design name", "type": "text", "required": true, "placeholder": "Self-serve API key management" },
+      { "id": "designDoc", "label": "Design summary / doc", "type": "textarea", "required": true, "placeholder": "Users mint scoped API keys in dashboard; keys stored hashed; rate-limited; webhook on rotation." },
+      { "id": "stage", "label": "Design stage", "type": "select", "options": [ { "id": "concept", "label": "Concept / RFC" }, { "id": "detailed", "label": "Detailed design" }, { "id": "prebuild", "label": "Pre-implementation sign-off" } ], "default": "detailed" },
+      { "id": "concerns", "label": "Security domains to weight", "type": "multi-select", "options": [ { "id": "authz", "label": "AuthN / AuthZ" }, { "id": "secrets", "label": "Secrets & key management" }, { "id": "tenancy", "label": "Multi-tenant isolation" }, { "id": "privacy", "label": "Data privacy" }, { "id": "abuse", "label": "Abuse / rate limiting" }, { "id": "logging", "label": "Audit logging" } ], "default": ["authz", "secrets", "tenancy"] },
+      { "id": "audience", "label": "Review audience", "type": "select", "optionsRef": "audiences", "default": "developers" },
+      { "id": "checklist", "label": "Include a security acceptance checklist", "type": "toggle", "default": true }
+    ],
+    "template": "You are a security architect conducting a {{stage}} secure design review of \"{{featureName}}\" for an audience of {{audience}}.\n\n## Proposed design\n{{designDoc}}\n\n- Domains to weight heavily: {{concerns}}\n\n## Review approach\n- Restate the security-relevant assumptions and trust boundaries you infer from the design.\n- Evaluate the design against secure-by-design principles: least privilege, fail-safe defaults, defense in depth, complete mediation, and minimized attack surface.\n- For each concern, identify weaknesses, give a concrete attack scenario, and recommend a specific design change (not just \"add validation\").\n- Separate must-fix-before-build issues from improvements and nice-to-haves.\n{{#if checklist}}- Produce a security acceptance checklist the team must satisfy before implementation.\n{{/if}}\n## Deliverables\n1. Inferred trust model and assumptions.\n2. Findings grouped as blocking / recommended / optional, each with a remediation.\n3. A clear go / go-with-changes / no-go recommendation{{#if checklist}} plus the acceptance checklist{{/if}}.\n\nMake well-reasoned assumptions where the doc is silent and mark them explicitly so the author can confirm."
+  }
+]

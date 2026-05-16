@@ -1,0 +1,119 @@
+[
+  {
+    "id": "cold-outreach",
+    "label": "Cold Outreach Email",
+    "description": "Personalized, relevant cold email that earns a reply",
+    "icon": "Mail",
+    "fields": [
+      { "id": "product", "label": "What you're selling", "type": "text", "required": true, "placeholder": "Automated invoice reconciliation for finance teams" },
+      { "id": "valueProp", "label": "Value proposition & proof", "type": "textarea", "required": true, "placeholder": "Cut month-end close from 10 days to 3. Similar finance teams at Acme and Globex saved 15 hrs/week." },
+      { "id": "prospect", "label": "Prospect / persona", "type": "text", "required": true, "placeholder": "VP Finance at a 500-person SaaS company" },
+      { "id": "trigger", "label": "Personalization / trigger", "type": "textarea", "placeholder": "They just announced a new funding round and are scaling headcount fast." },
+      { "id": "channel", "label": "Channel", "type": "select", "options": [ { "id": "email", "label": "Email" }, { "id": "linkedin", "label": "LinkedIn message" }, { "id": "both", "label": "Email + LinkedIn" } ], "default": "email" },
+      { "id": "cta", "label": "Desired next step", "type": "select", "options": [ { "id": "meeting", "label": "Book a 15-min call" }, { "id": "interest", "label": "Gauge interest (soft ask)" }, { "id": "resource", "label": "Share a resource" }, { "id": "intro", "label": "Get a referral / intro" } ], "default": "interest" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Under 90 words; no jargon; one CTA; mobile-readable; no attachments." }
+    ],
+    "template": "You are a top-performing SDR and cold-email copywriter known for high reply rates. Write {{channel}} cold outreach selling \"{{product}}\".\n\n## Value\n{{valueProp}}\n\n## Prospect\n- Persona: {{prospect}}\n{{#if trigger}}- Personalization / trigger to open with: {{trigger}}\n{{/if}}- Desired next step: {{cta}}\n- Tone: {{tone}}, human, not templated.\n\n## Rules\n- Lead with relevance to the prospect, not your company.\n- Make it scannable and short; one clear ask; no \"hope this finds you well\".\n- Tie the value to an outcome they plausibly care about; use proof sparingly and specifically.\n{{#if channel == \"both\"}}- Provide a matched email and a shorter LinkedIn variant that don't repeat verbatim.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The primary message with 3 subject line options (if email).\n2. Two follow-up messages (a bump and a value-add break-up).\n3. A one-line note on the core personalization angle.\n\nProceed with well-reasoned defaults; ask only if the persona is unclear."
+  },
+  {
+    "id": "discovery-call-plan",
+    "label": "Discovery Call Plan",
+    "description": "Question framework and agenda for a qualifying call",
+    "icon": "ClipboardList",
+    "fields": [
+      { "id": "company", "label": "Prospect company", "type": "text", "required": true, "placeholder": "Northwind Logistics" },
+      { "id": "product", "label": "What you sell", "type": "text", "required": true, "placeholder": "Fleet routing optimization software" },
+      { "id": "context", "label": "Known context & hypothesis", "type": "textarea", "required": true, "placeholder": "Mid-market carrier, manual route planning, rising fuel costs. Hypothesis: 10-15% mileage reduction." },
+      { "id": "persona", "label": "Who you're meeting", "type": "text", "placeholder": "Director of Operations + a fleet manager" },
+      { "id": "methodology", "label": "Qualification framework", "type": "select", "options": [ { "id": "meddic", "label": "MEDDIC" }, { "id": "bant", "label": "BANT" }, { "id": "spiced", "label": "SPICED" }, { "id": "spin", "label": "SPIN selling" } ], "default": "meddic" },
+      { "id": "duration", "label": "Call length", "type": "select", "options": [ { "id": "30", "label": "30 minutes" }, { "id": "45", "label": "45 minutes" }, { "id": "60", "label": "60 minutes" } ], "default": "30" },
+      { "id": "goals", "label": "Goals for this call", "type": "textarea", "placeholder": "Confirm pain, identify decision process, secure a technical deep-dive as next step." },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" }
+    ],
+    "template": "You are a sales coach who designs discovery calls that surface real pain and qualify rigorously. Plan a {{duration}}-minute discovery call with \"{{company}}\" for selling \"{{product}}\".\n\n## Context & hypothesis\n{{context}}\n\n## Setup\n{{#if persona}}- Attendees: {{persona}}\n{{/if}}- Qualify against the {{methodology}} framework.\n{{#if goals}}- Goals for the call: {{goals}}\n{{/if}}- Tone: {{tone}}, consultative, curious.\n\n## What to produce\n- A timed agenda fitting {{duration}} minutes (open, agenda-setting, discovery, next steps).\n- 10-14 open, layered discovery questions mapped to each element of the {{methodology}} framework.\n- 3 likely objections or red flags and how to probe them.\n- A clear, mutually valuable next-step proposal.\n\n## Deliverables\n1. The agenda and the mapped question set.\n2. A pre-call research checklist (5 items).\n3. A short success definition for this call.\n\nProceed with well-reasoned defaults; ask only if the goals are unclear."
+  },
+  {
+    "id": "sales-proposal",
+    "label": "Sales Proposal",
+    "description": "Tailored proposal with scope, value and pricing",
+    "icon": "FileText",
+    "fields": [
+      { "id": "company", "label": "Client / company", "type": "text", "required": true, "placeholder": "Helios Retail Group" },
+      { "id": "solution", "label": "Solution you're proposing", "type": "textarea", "required": true, "placeholder": "Implement our inventory forecasting platform across 40 stores with a 90-day rollout." },
+      { "id": "problem", "label": "Client's problem & goals", "type": "textarea", "required": true, "placeholder": "Frequent stockouts and overstock; goal is to cut carrying costs 20% and lift availability to 98%." },
+      { "id": "scope", "label": "Scope & deliverables", "type": "textarea", "placeholder": "Integration, data migration, training for 60 staff, 3 months of hypercare." },
+      { "id": "pricing", "label": "Pricing & terms", "type": "textarea", "placeholder": "$120k/yr platform + $30k implementation. Annual contract, net-30, opt-out at 6 months." },
+      { "id": "audience", "label": "Decision audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "sections", "label": "Sections to include", "type": "multi-select", "options": [ { "id": "summary", "label": "Executive summary" }, { "id": "problem", "label": "Problem & goals" }, { "id": "solution", "label": "Proposed solution" }, { "id": "value", "label": "Value / ROI" }, { "id": "scope", "label": "Scope & timeline" }, { "id": "pricing", "label": "Pricing" }, { "id": "proof", "label": "Case studies / proof" }, { "id": "terms", "label": "Terms & next steps" } ], "default": ["summary", "problem", "solution", "value", "scope", "pricing", "terms"] },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" }
+    ],
+    "template": "You are a senior account executive who writes proposals that win on value, not features. Write a tailored sales proposal for \"{{company}}\".\n\n## Client problem & goals\n{{problem}}\n\n## Proposed solution\n{{solution}}\n\n## Inputs\n{{#if scope}}- Scope & deliverables: {{scope}}\n{{/if}}{{#if pricing}}- Pricing & terms: {{pricing}}\n{{/if}}{{#if audience}}- Decision audience: {{audience}}\n{{/if}}- Tone: {{tone}}, confident, client-centric.\n\n## Structure\nWrite ready-to-send copy for each section, in order:\n{{#each sections}}- {{this}}\n{{/each}}\n- Frame everything around the client's goals and quantified value; make the ROI explicit and conservative.\n- Make scope and assumptions crisp to prevent scope creep.\n\n## Deliverables\n1. The full proposal with clear section headers.\n2. A one-paragraph executive summary that could stand alone.\n3. A recommended next step with a date-driven CTA.\n\nProceed with well-reasoned defaults; flag any assumption that materially affects pricing."
+  },
+  {
+    "id": "objection-handling",
+    "label": "Objection Handling",
+    "description": "Responses and reframes for tough sales objections",
+    "icon": "ShieldQuestion",
+    "fields": [
+      { "id": "product", "label": "What you sell", "type": "text", "required": true, "placeholder": "Enterprise observability platform" },
+      { "id": "objections", "label": "Objections to handle", "type": "textarea", "required": true, "placeholder": "Too expensive vs incumbent; we already use Datadog; no budget this quarter; security concerns." },
+      { "id": "prospect", "label": "Prospect / persona", "type": "text", "placeholder": "VP Engineering, cost-conscious, risk-averse" },
+      { "id": "stage", "label": "Deal stage", "type": "select", "options": [ { "id": "early", "label": "Early / discovery" }, { "id": "eval", "label": "Evaluation" }, { "id": "late", "label": "Negotiation / closing" } ], "default": "eval" },
+      { "id": "framework", "label": "Response framework", "type": "select", "options": [ { "id": "laer", "label": "LAER (Listen, Acknowledge, Explore, Respond)" }, { "id": "feelfeltfound", "label": "Feel-Felt-Found" }, { "id": "reframe", "label": "Reframe & evidence" } ], "default": "laer" },
+      { "id": "differentiators", "label": "Your strengths / proof", "type": "textarea", "placeholder": "30% lower TCO at scale, SOC 2 + HIPAA, 4-week migration with white-glove support." },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "empathetic" }
+    ],
+    "template": "You are a sales enablement expert who coaches reps to handle objections without being defensive. Prepare objection-handling guidance for selling \"{{product}}\".\n\n## Objections\n{{objections}}\n\n## Context\n{{#if prospect}}- Persona: {{prospect}}\n{{/if}}- Deal stage: {{stage}}\n- Use the {{framework}} framework.\n{{#if differentiators}}- Strengths / proof to draw on: {{differentiators}}\n{{/if}}- Tone: {{tone}}, calm, curious, never combative.\n\n## What to produce\nFor each objection: (a) the likely root concern beneath it, (b) a clarifying question to ask first, (c) a concise spoken response using the {{framework}} structure, and (d) a forward-moving next step.\n- Acknowledge real trade-offs honestly; never bluff.\n\n## Deliverables\n1. The per-objection playbook in the structure above.\n2. 3 reusable bridging phrases to buy time and stay composed.\n3. One note on which objection is most likely deal-threatening at the {{stage}} stage and why.\n\nProceed with well-reasoned defaults; ask only if an objection is ambiguous."
+  },
+  {
+    "id": "follow-up-sequence",
+    "label": "Follow-up Sequence",
+    "description": "Multi-touch cadence that adds value, not pressure",
+    "icon": "Repeat",
+    "fields": [
+      { "id": "product", "label": "What you sell", "type": "text", "required": true, "placeholder": "HR onboarding automation" },
+      { "id": "scenario", "label": "Scenario & where things stand", "type": "textarea", "required": true, "placeholder": "Had a great demo 2 weeks ago, champion went quiet. Need to re-engage without nagging." },
+      { "id": "prospect", "label": "Prospect / persona", "type": "text", "placeholder": "Head of People Ops at a 300-person company" },
+      { "id": "touches", "label": "Number of touches", "type": "select", "options": [ { "id": "3", "label": "3" }, { "id": "5", "label": "5" }, { "id": "7", "label": "7" } ], "default": "5" },
+      { "id": "channels", "label": "Channels to use", "type": "multi-select", "options": [ { "id": "email", "label": "Email" }, { "id": "linkedin", "label": "LinkedIn" }, { "id": "call", "label": "Call / voicemail" }, { "id": "video", "label": "Personalized video" } ], "default": ["email", "linkedin", "call"] },
+      { "id": "valueAssets", "label": "Value to offer along the way", "type": "textarea", "placeholder": "ROI calculator, a relevant case study, a benchmark report, a short Loom walkthrough." },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" }
+    ],
+    "template": "You are a sales sequence strategist who designs cadences that re-engage without annoying. Build a {{touches}}-touch follow-up sequence for selling \"{{product}}\".\n\n## Situation\n{{scenario}}\n\n## Setup\n{{#if prospect}}- Persona: {{prospect}}\n{{/if}}- Channels available: {{channels}}\n{{#if valueAssets}}- Value assets to weave in: {{valueAssets}}\n{{/if}}- Tone: {{tone}}, persistent but respectful.\n\n## Sequence rules\n- Spread {{touches}} touches over a sensible timeline; specify the day offset and channel for each.\n- Every touch must add new value or a new angle; never just \"following up\".\n- Vary the ask; include a graceful break-up message as the final touch.\n\n## Deliverables\n1. The full sequence as a table-style list: day, channel, goal, and the ready-to-send copy.\n2. Subject lines for every email touch.\n3. A one-line note on the re-engagement hypothesis.\n\nProceed with well-reasoned defaults; ask only if the scenario is unclear."
+  },
+  {
+    "id": "demo-script",
+    "label": "Demo Script",
+    "description": "Value-led product demo tailored to the buyer",
+    "icon": "MonitorPlay",
+    "fields": [
+      { "id": "product", "label": "Product", "type": "text", "required": true, "placeholder": "Customer data platform" },
+      { "id": "useCase", "label": "Buyer's use case & pains", "type": "textarea", "required": true, "placeholder": "Marketing wants unified profiles to stop sending duplicate campaigns; data is siloed across 6 tools." },
+      { "id": "audience", "label": "Demo audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "duration", "label": "Demo length", "type": "select", "options": [ { "id": "15", "label": "15 minutes" }, { "id": "30", "label": "30 minutes" }, { "id": "45", "label": "45 minutes" } ], "default": "30" },
+      { "id": "features", "label": "Features to show (in priority order)", "type": "textarea", "placeholder": "1) Identity resolution 2) Audience builder 3) Activation to ad platforms 4) Governance." },
+      { "id": "style", "label": "Demo style", "type": "select", "options": [ { "id": "story", "label": "Story-led (day in the life)" }, { "id": "problem", "label": "Problem-solution per pain" }, { "id": "outcome", "label": "Outcome-first then how" } ], "default": "problem" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "objections", "label": "Anticipated objections", "type": "textarea", "placeholder": "Implementation effort, data security, will it replace our current stack?" }
+    ],
+    "template": "You are a senior solutions consultant who runs demos that sell outcomes, not features. Script a {{duration}}-minute {{style}} demo of \"{{product}}\".\n\n## Buyer use case & pains\n{{useCase}}\n\n## Setup\n{{#if audience}}- Audience: {{audience}}\n{{/if}}{{#if features}}- Features in priority order: {{features}}\n{{/if}}- Tone: {{tone}}, confident, dialog-driven not monologue.\n{{#if objections}}- Anticipated objections to defuse in-flow: {{objections}}\n{{/if}}\n## Script requirements\n- Open by restating their pain and the value they'll see, then a 1-line agenda.\n- For each feature, lead with the buyer outcome, then show it, then a quick \"so what\".\n- Build in deliberate engagement checkpoints and discovery questions.\n- Fit the flow to {{duration}} minutes with timing per segment; close on next steps.\n\n## Deliverables\n1. The timestamped demo script with talk track and click-path notes.\n2. 3 \"tell me about a time...\" engagement questions.\n3. A fallback plan if you're running short on time.\n\nProceed with well-reasoned defaults; ask only if the use case is unclear."
+  },
+  {
+    "id": "account-plan",
+    "label": "Strategic Account Plan",
+    "description": "Plan to grow and retain a key account",
+    "icon": "Network",
+    "fields": [
+      { "id": "account", "label": "Account name", "type": "text", "required": true, "placeholder": "Globex Corporation" },
+      { "id": "status", "label": "Current relationship & footprint", "type": "textarea", "required": true, "placeholder": "$240k ARR in one BU, single champion, renewal in 7 months, low product adoption in two teams." },
+      { "id": "objective", "label": "Objective", "type": "select", "options": [ { "id": "expand", "label": "Expansion / upsell" }, { "id": "renew", "label": "Secure renewal" }, { "id": "land", "label": "Land & expand (new logo)" }, { "id": "rescue", "label": "At-risk / rescue" } ], "default": "expand" },
+      { "id": "goals", "label": "Specific goals & targets", "type": "textarea", "required": true, "placeholder": "Grow to $500k ARR in 12 months by expanding to 3 BUs and adding the analytics module." },
+      { "id": "stakeholders", "label": "Known stakeholders & politics", "type": "textarea", "placeholder": "Champion: VP Ops (advocate). Economic buyer: CFO (skeptical). Blocker: incumbent vendor relationship." },
+      { "id": "framework", "label": "Planning framework", "type": "select", "options": [ { "id": "whitespace", "label": "Whitespace mapping" }, { "id": "miller", "label": "Miller Heiman Blue Sheet" }, { "id": "rasci", "label": "Stakeholder / power map" } ], "default": "whitespace" },
+      { "id": "horizon", "label": "Planning horizon", "type": "select", "options": [ { "id": "quarter", "label": "This quarter" }, { "id": "half", "label": "6 months" }, { "id": "year", "label": "12 months" } ], "default": "year" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" }
+    ],
+    "template": "You are a strategic account manager who builds account plans that drive measurable growth. Build a {{horizon}} account plan for \"{{account}}\".\n\n## Current state\n{{status}}\n\n## Objective & goals\n- Primary objective: {{objective}}\n- Goals & targets: {{goals}}\n{{#if stakeholders}}- Stakeholders & politics: {{stakeholders}}\n{{/if}}- Apply the {{framework}} approach.\n- Tone: {{tone}}, candid, action-oriented.\n\n## What to produce\n- A concise account summary and SWOT for our position.\n- A stakeholder map: roles, sentiment, and an action per key person.\n- Whitespace / expansion opportunities ranked by value and effort.\n- A {{horizon}} action plan with owners, milestones, and risks/mitigations.\n- Leading metrics to track progress against the goals.\n\n## Deliverables\n1. The full account plan in the structure above.\n2. The single most important next action this week.\n3. The top risk to the {{objective}} objective and how to mitigate it.\n\nProceed with well-reasoned defaults; flag any critical unknown about the buying group."
+  }
+]

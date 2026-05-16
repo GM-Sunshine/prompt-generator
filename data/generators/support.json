@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ticket-reply",
+    "label": "Support Ticket Reply",
+    "description": "Clear, empathetic resolution to a customer ticket",
+    "icon": "MessageSquare",
+    "fields": [
+      { "id": "subject", "label": "Ticket subject", "type": "text", "required": true, "placeholder": "Can't export reports to CSV" },
+      { "id": "message", "label": "Customer's message", "type": "textarea", "required": true, "placeholder": "Every time I click Export, the page reloads and nothing downloads. I've tried Chrome and Safari." },
+      { "id": "context", "label": "Known context / diagnosis", "type": "textarea", "placeholder": "Known bug on accounts with >50k rows; fix shipping Friday; workaround is filtered export." },
+      { "id": "resolution", "label": "Resolution / next step", "type": "select", "options": [ { "id": "solved", "label": "Resolved with steps" }, { "id": "workaround", "label": "Workaround provided" }, { "id": "investigating", "label": "Escalated / investigating" }, { "id": "needinfo", "label": "Need more info" }, { "id": "wontfix", "label": "Cannot do / declined" } ], "default": "workaround" },
+      { "id": "sentiment", "label": "Customer sentiment", "type": "select", "options": [ { "id": "neutral", "label": "Neutral" }, { "id": "frustrated", "label": "Frustrated" }, { "id": "angry", "label": "Angry / churn risk" }, { "id": "happy", "label": "Happy / appreciative" } ], "default": "frustrated" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "empathetic" },
+      { "id": "channel", "label": "Channel", "type": "select", "options": [ { "id": "email", "label": "Email" }, { "id": "chat", "label": "Live chat" }, { "id": "social", "label": "Social / public" } ], "default": "email" },
+      { "id": "signoff", "label": "Agent name / team", "type": "text", "placeholder": "Maya, Customer Support" }
+    ],
+    "template": "You are an experienced customer support specialist who resolves issues clearly and with genuine empathy. Write a {{channel}} reply to this ticket.\n\n## Ticket: {{subject}}\nCustomer wrote:\n{{message}}\n\n## Handling\n{{#if context}}- Internal context (do not paste verbatim; use it to be accurate): {{context}}\n{{/if}}- Resolution path: {{resolution}}\n- Customer sentiment: {{sentiment}}\n- Tone: {{tone}}, warm, never robotic or defensive.\n\n## Reply requirements\n- Acknowledge the specific problem and impact first{{#if sentiment == \"angry\"}}; lead with a sincere, non-templated apology{{/if}}.\n- Give clear, numbered steps the customer can follow{{#if resolution == \"needinfo\"}}; ask only the few questions truly needed to proceed{{/if}}.\n- Set accurate expectations on timing; never overpromise.\n- Close with a check that it's resolved and a way to get back to you.\n{{#if channel == \"chat\"}}- Keep it concise and skimmable for a live chat pace.\n{{/if}}\n## Deliverables\n1. The customer-ready reply{{#if signoff}}, signed off as {{signoff}}{{/if}}.\n2. A one-line internal note summarizing status for the ticket log.\n\nProceed with well-reasoned defaults; ask only if the issue is genuinely ambiguous."
+  },
+  {
+    "id": "macro-library",
+    "label": "Macro / Canned Reply Library",
+    "description": "Reusable saved replies for common support scenarios",
+    "icon": "Library",
+    "fields": [
+      { "id": "product", "label": "Product / area", "type": "text", "required": true, "placeholder": "Billing & subscriptions" },
+      { "id": "scenarios", "label": "Scenarios to cover", "type": "textarea", "required": true, "placeholder": "Refund request, failed payment, downgrade, cancel & save, invoice copy, change billing email." },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "variables", "label": "Personalization variables to use", "type": "text", "placeholder": "{{customer_name}}, {{plan}}, {{amount}}, {{agent_name}}" },
+      { "id": "channel", "label": "Primary channel", "type": "select", "options": [ { "id": "email", "label": "Email" }, { "id": "chat", "label": "Live chat" }, { "id": "both", "label": "Email + chat" } ], "default": "both" },
+      { "id": "includeInternal", "label": "Include internal usage notes", "type": "toggle", "default": true },
+      { "id": "brandRules", "label": "Brand / voice rules", "type": "textarea", "placeholder": "No 'unfortunately'; never blame the customer; always offer a next step; we say 'teammate' not 'agent'." }
+    ],
+    "template": "You are a support operations lead who writes macros that stay on-brand and reduce handle time. Build a canned-reply library for \"{{product}}\".\n\n## Scenarios\n{{scenarios}}\n\n## Standards\n- Tone: {{tone}}, consistent across every macro.\n- Channel(s): {{channel}}.\n{{#if variables}}- Use these personalization placeholders verbatim where natural: {{variables}}\n{{/if}}{{#if brandRules}}- Voice rules to follow strictly: {{brandRules}}\n{{/if}}\n## Requirements\n- One macro per scenario: a short clear name, the reply body, and the customer outcome it drives.\n- Keep replies modular and editable; avoid over-specific details an agent must always rewrite.\n- Each reply must acknowledge, resolve or set next step, and close politely.\n{{#if includeInternal}}- Add a one-line internal usage note per macro (when to use it / when not to).\n{{/if}}{{#if channel == \"both\"}}- Where wording differs, give a tighter chat variant alongside the email version.\n{{/if}}\n## Deliverables\n1. The full macro library, grouped logically and named.\n2. A list of every placeholder used so it can be wired into the help desk.\n3. One note on the highest-volume scenario to prioritize.\n\nProceed with well-reasoned defaults; ask only if a scenario is ambiguous."
+  },
+  {
+    "id": "kb-article",
+    "label": "Knowledge Base Article",
+    "description": "Self-serve help article that actually deflects tickets",
+    "icon": "BookOpen",
+    "fields": [
+      { "id": "topic", "label": "Article topic", "type": "text", "required": true, "placeholder": "How to set up single sign-on (SSO) with Okta" },
+      { "id": "goal", "label": "What the reader is trying to do", "type": "textarea", "required": true, "placeholder": "An admin wants to enable SAML SSO so their team logs in with company credentials." },
+      { "id": "audience", "label": "Reader", "type": "select", "optionsRef": "audiences" },
+      { "id": "type", "label": "Article type", "type": "select", "options": [ { "id": "howto", "label": "Step-by-step how-to" }, { "id": "troubleshoot", "label": "Troubleshooting" }, { "id": "concept", "label": "Concept / overview" }, { "id": "faq", "label": "FAQ" } ], "default": "howto" },
+      { "id": "steps", "label": "Key steps / facts", "type": "textarea", "placeholder": "Get metadata URL, add SAML app in Okta, paste ACS URL, map attributes, test with a non-admin user." },
+      { "id": "prerequisites", "label": "Prerequisites", "type": "text", "placeholder": "Admin role, an Okta tenant, the Enterprise plan" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "minimal" },
+      { "id": "screenshots", "label": "Mark where screenshots / videos go", "type": "toggle", "default": true }
+    ],
+    "template": "You are a technical writer who creates help-center articles optimized for findability and ticket deflection. Write a {{type}} article: \"{{topic}}\".\n\n## Reader goal\n{{goal}}\n\n## Inputs\n{{#if audience}}- Reader: {{audience}}\n{{/if}}{{#if prerequisites}}- Prerequisites: {{prerequisites}}\n{{/if}}{{#if steps}}- Key steps / facts to cover accurately: {{steps}}\n{{/if}}- Tone: {{tone}}, plain language, no jargon without a definition.\n\n## Structure\n- A clear, search-friendly title and a one-sentence summary of what the reader will achieve.\n{{#if prerequisites}}- A short \"Before you start\" prerequisites list.\n{{/if}}{{#if type == \"howto\"}}- Numbered steps, one action per step, written imperatively, with the expected result.\n{{/if}}{{#if type == \"troubleshoot\"}}- Symptom -> likely cause -> fix, ordered from most to least common.\n{{/if}}{{#if type == \"faq\"}}- Concise question/answer pairs ordered by likely frequency.\n{{/if}}- A \"Still stuck?\" section pointing to next steps.\n{{#if screenshots}}- Insert clear [Screenshot: ...] / [Video: ...] markers where a visual aids comprehension.\n{{/if}}\n## Deliverables\n1. The full article in clean Markdown.\n2. 4-6 alternate search phrases users might type, for SEO/metadata.\n3. One related-article suggestion.\n\nProceed with well-reasoned defaults; ask only if the procedure is ambiguous."
+  },
+  {
+    "id": "escalation-summary",
+    "label": "Escalation Summary",
+    "description": "Crisp handoff so the next team can act immediately",
+    "icon": "ArrowUpCircle",
+    "fields": [
+      { "id": "issue", "label": "Issue title", "type": "text", "required": true, "placeholder": "Data sync failing for Enterprise customer Acme" },
+      { "id": "details", "label": "What happened & timeline", "type": "textarea", "required": true, "placeholder": "Reported 09:10. Webhooks 500ing since deploy at 08:50. ~12k events queued. Affects Acme only." },
+      { "id": "troubleshooting", "label": "Steps already tried", "type": "textarea", "placeholder": "Verified API key valid, replayed 3 events (failed), checked status page (green), rolled customer to retry queue." },
+      { "id": "escalateTo", "label": "Escalating to", "type": "select", "options": [ { "id": "eng", "label": "Engineering" }, { "id": "tier2", "label": "Tier 2 / specialist" }, { "id": "manager", "label": "Support manager" }, { "id": "csm", "label": "Customer Success" }, { "id": "incident", "label": "Incident / on-call" } ], "default": "eng" },
+      { "id": "severity", "label": "Severity", "type": "select", "options": [ { "id": "sev1", "label": "Sev 1 - critical / outage" }, { "id": "sev2", "label": "Sev 2 - major" }, { "id": "sev3", "label": "Sev 3 - minor" } ], "default": "sev2" },
+      { "id": "impact", "label": "Customer & business impact", "type": "textarea", "placeholder": "Enterprise account ($180k ARR), renewal in 60 days, exec visibility, blocking their go-live." },
+      { "id": "ask", "label": "Specific ask of the receiving team", "type": "text", "placeholder": "Confirm root cause and ETA for fix within 2 hours" }
+    ],
+    "template": "You are a senior support engineer who writes escalations the receiving team can act on without a single follow-up question. Summarize this escalation for {{escalateTo}}.\n\n## Issue: {{issue}} ({{severity}})\nWhat happened & timeline:\n{{details}}\n\n## Diagnostics\n{{#if troubleshooting}}- Steps already taken (don't repeat these): {{troubleshooting}}\n{{/if}}{{#if impact}}- Customer & business impact: {{impact}}\n{{/if}}{{#if ask}}- Specific ask: {{ask}}\n{{/if}}\n## Summary requirements\n- Lead with a 2-sentence TL;DR: what's broken, who's affected, and what you need.\n- State severity and impact up front with concrete numbers.\n- Provide a clean reproduction / evidence section and what's been ruled out.\n- Be precise and neutral; no blame, no speculation presented as fact.\n\n## Deliverables\n1. The escalation write-up structured as: TL;DR, Impact, Timeline, Tried & ruled out, Suspected cause, The ask.\n2. A one-line customer-facing holding update the support team can send now.\n\nProceed with well-reasoned defaults; flag any missing data the receiving team will need."
+  },
+  {
+    "id": "churn-save-reply",
+    "label": "Churn-Save Reply",
+    "description": "Retention response to a cancellation request",
+    "icon": "HeartHandshake",
+    "fields": [
+      { "id": "customer", "label": "Customer / account", "type": "text", "required": true, "placeholder": "Brightline Studios (Pro plan, 14 months)" },
+      { "id": "reason", "label": "Stated reason for leaving", "type": "textarea", "required": true, "placeholder": "Too expensive for our current usage and we're not using the analytics features." },
+      { "id": "history", "label": "Account context", "type": "textarea", "placeholder": "Healthy usage until 2 months ago, no recent tickets, champion left the company in March." },
+      { "id": "levers", "label": "Retention levers available", "type": "multi-select", "options": [ { "id": "discount", "label": "Discount / pricing flex" }, { "id": "downgrade", "label": "Downgrade option" }, { "id": "pause", "label": "Pause subscription" }, { "id": "onboarding", "label": "Re-onboarding / training" }, { "id": "feature", "label": "Roadmap / feature commitment" }, { "id": "csm", "label": "Dedicated CSM time" } ], "default": ["downgrade", "pause", "onboarding"] },
+      { "id": "approach", "label": "Approach", "type": "select", "options": [ { "id": "understand", "label": "Understand first, then offer" }, { "id": "offer", "label": "Lead with a save offer" }, { "id": "graceful", "label": "Graceful exit (low save odds)" } ], "default": "understand" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "empathetic" },
+      { "id": "channel", "label": "Channel", "type": "select", "options": [ { "id": "email", "label": "Email" }, { "id": "call", "label": "Call outline" } ], "default": "email" }
+    ],
+    "template": "You are a customer retention specialist who saves accounts by being genuinely helpful, never pushy. Write a {{channel}} churn-save response for \"{{customer}}\".\n\n## Stated reason for leaving\n{{reason}}\n\n## Context\n{{#if history}}- Account context: {{history}}\n{{/if}}- Approach: {{approach}}\n- Retention levers you may offer: {{levers}}\n- Tone: {{tone}}, respectful of their decision, zero pressure.\n\n## Requirements\n- Acknowledge their reason specifically and thank them honestly.\n- Diagnose the real root cause before pitching anything; ask one or two precise questions if needed.\n- Match a relevant lever to the stated reason; never offer everything at once.\n{{#if approach == \"graceful\"}}- Prioritize a clean, goodwill-preserving exit and an easy door back; keep any offer light.\n{{/if}}- Make staying easy and leaving frictionless; don't hold the cancellation hostage.\n\n## Deliverables\n1. The customer-ready {{channel}} response.\n2. A short internal note: likely root cause, save probability, and the recommended lever.\n3. One follow-up step if they still decide to cancel.\n\nProceed with well-reasoned defaults; ask only if the cancellation reason is unclear."
+  },
+  {
+    "id": "csat-followup",
+    "label": "CSAT / Feedback Follow-up",
+    "description": "Response to a customer satisfaction score or review",
+    "icon": "Star",
+    "fields": [
+      { "id": "customer", "label": "Customer name / account", "type": "text", "placeholder": "Jordan at Meridian Co." },
+      { "id": "score", "label": "Score / rating type", "type": "select", "options": [ { "id": "promoter", "label": "Positive (promoter / 5-star)" }, { "id": "passive", "label": "Neutral / passive" }, { "id": "detractor", "label": "Negative (detractor / low)" } ], "default": "detractor" },
+      { "id": "feedback", "label": "Their verbatim feedback", "type": "textarea", "required": true, "placeholder": "Support was slow to respond and I had to explain my issue three times to different people." },
+      { "id": "context", "label": "Context / what we know", "type": "textarea", "placeholder": "Ticket bounced between 3 agents over 2 days due to a routing gap we've since fixed." },
+      { "id": "goal", "label": "Goal of the follow-up", "type": "select", "options": [ { "id": "recover", "label": "Service recovery" }, { "id": "thank", "label": "Thank & deepen relationship" }, { "id": "learn", "label": "Learn more / root cause" }, { "id": "review", "label": "Encourage a public review" } ], "default": "recover" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "empathetic" },
+      { "id": "offer", "label": "Goodwill gesture available", "type": "text", "placeholder": "Account credit, a call with the support lead, expedited fix" }
+    ],
+    "template": "You are a customer experience specialist who turns feedback into trust. Write a follow-up to this {{score}} feedback.\n\n## Their feedback\n{{feedback}}\n\n## Context & intent\n{{#if customer}}- Customer: {{customer}}\n{{/if}}{{#if context}}- What we know internally: {{context}}\n{{/if}}- Goal: {{goal}}\n- Tone: {{tone}}, sincere, specific, never canned.\n{{#if offer}}- Goodwill gesture available (use only if it fits): {{offer}}\n{{/if}}\n## Requirements\n- Reference their actual words so it's clearly not a form letter.\n{{#if score == \"detractor\"}}- Own the failure plainly, explain (briefly) what went wrong and what's changing, and make it right.\n{{/if}}{{#if score == \"promoter\"}}- Thank them genuinely and deepen the relationship{{#if goal == \"review\"}}; make a low-friction ask for a public review{{/if}}.\n{{/if}}{{#if score == \"passive\"}}- Probe gently for the one change that would move them to a higher score.\n{{/if}}- Be concise; close with a clear, optional next step.\n\n## Deliverables\n1. The customer-ready message.\n2. A one-line internal takeaway: the systemic issue (if any) worth flagging.\n\nProceed with well-reasoned defaults; ask only if the feedback is ambiguous."
+  },
+  {
+    "id": "troubleshooting-guide",
+    "label": "Troubleshooting Guide",
+    "description": "Decision-tree guide agents and customers can follow",
+    "icon": "Wrench",
+    "fields": [
+      { "id": "problem", "label": "Problem / symptom", "type": "text", "required": true, "placeholder": "Email notifications are not being delivered" },
+      { "id": "product", "label": "Product / feature", "type": "text", "required": true, "placeholder": "Notification system" },
+      { "id": "causes", "label": "Known causes & fixes", "type": "textarea", "required": true, "placeholder": "Spam filtering, unverified sender domain, disabled notification setting, bounced address, suppression list." },
+      { "id": "audience", "label": "Who follows this", "type": "select", "options": [ { "id": "customer", "label": "End customer (self-serve)" }, { "id": "agent", "label": "Support agent" }, { "id": "both", "label": "Both, with internal notes" } ], "default": "both" },
+      { "id": "diagnostics", "label": "Diagnostic checks available", "type": "textarea", "placeholder": "Delivery logs in admin, sender domain DKIM/SPF status, per-user notification settings, suppression list." },
+      { "id": "format", "label": "Format", "type": "select", "options": [ { "id": "tree", "label": "Decision tree / branching" }, { "id": "checklist", "label": "Ordered checklist" }, { "id": "table", "label": "Symptom-cause-fix table" } ], "default": "tree" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "minimal" },
+      { "id": "escalation", "label": "Include escalation criteria", "type": "toggle", "default": true }
+    ],
+    "template": "You are a support enablement engineer who writes troubleshooting guides that resolve issues fast and consistently. Create a {{format}} guide for: \"{{problem}}\" in {{product}}.\n\n## Known causes & fixes\n{{causes}}\n\n## Inputs\n- Audience: {{audience}}\n{{#if diagnostics}}- Diagnostic checks available: {{diagnostics}}\n{{/if}}- Tone: {{tone}}, precise, imperative.\n\n## Requirements\n- Start with a 30-second triage: the 2-3 fastest checks that resolve the most cases.\n- Order causes from most to least likely; for each give: how to confirm it, the fix, and how to verify it's resolved.\n{{#if format == \"tree\"}}- Express the flow as clear yes/no branches a reader can follow without backtracking.\n{{/if}}{{#if audience == \"both\"}}- Mark internal-only diagnostic steps distinctly from customer-safe steps.\n{{/if}}{{#if escalation}}- Define explicit escalation criteria: exactly when to stop self-serve and hand off, and what info to capture first.\n{{/if}}\n## Deliverables\n1. The complete guide in the chosen format.\n2. A one-line summary of the single most common root cause.\n3. A short list of data to collect before escalating.\n\nProceed with well-reasoned defaults; ask only if the symptom is ambiguous."
+  }
+]

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "contract-draft",
+    "label": "Contract Draft",
+    "description": "Draft a clear, balanced commercial agreement from your deal terms",
+    "icon": "FileSignature",
+    "fields": [
+      { "id": "contractType", "label": "Contract type", "type": "select", "required": true, "options": [ { "id": "msa", "label": "Master Services Agreement" }, { "id": "nda", "label": "Non-Disclosure Agreement" }, { "id": "saas", "label": "SaaS Subscription Agreement" }, { "id": "consulting", "label": "Consulting Agreement" }, { "id": "employment", "label": "Employment Agreement" }, { "id": "sow", "label": "Statement of Work" } ], "default": "msa" },
+      { "id": "parties", "label": "Parties", "type": "text", "required": true, "placeholder": "Acme Inc. (Provider) and Beta LLC (Customer)" },
+      { "id": "purpose", "label": "Deal terms & scope", "type": "textarea", "required": true, "placeholder": "Acme provides analytics software; 12-month term; $5k/mo; net-30 payment." },
+      { "id": "governingLaw", "label": "Governing law", "type": "text", "placeholder": "State of Delaware, USA" },
+      { "id": "term", "label": "Term & termination", "type": "text", "placeholder": "12 months, auto-renew, 30-day notice to terminate" },
+      { "id": "clauses", "label": "Key clauses to include", "type": "multi-select", "options": [ { "id": "confidentiality", "label": "Confidentiality" }, { "id": "ip", "label": "IP ownership" }, { "id": "liability", "label": "Limitation of liability" }, { "id": "indemnity", "label": "Indemnification" }, { "id": "warranty", "label": "Warranties" }, { "id": "noncompete", "label": "Non-compete / non-solicit" }, { "id": "dispute", "label": "Dispute resolution / arbitration" } ], "default": ["confidentiality", "ip", "liability", "indemnity"] },
+      { "id": "favor", "label": "Drafting posture", "type": "select", "options": [ { "id": "balanced", "label": "Balanced / mutual" }, { "id": "party1", "label": "Favor first party" }, { "id": "party2", "label": "Favor second party" } ], "default": "balanced" },
+      { "id": "plainLanguage", "label": "Plain-language style", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Other instructions", "type": "textarea", "placeholder": "Cap liability at fees paid; exclude consequential damages; US jurisdiction only." }
+    ],
+    "template": "You are a senior commercial contracts attorney. Draft a {{contractType}} between {{parties}}.\n\n## Deal terms\n{{purpose}}\n\n## Structure\n- Recitals, definitions, then numbered operative clauses, signature block, and any schedules/exhibits.\n{{#if term}}- Term & termination: {{term}}.\n{{/if}}{{#if governingLaw}}- Governing law and venue: {{governingLaw}}.\n{{/if}}{{#if clauses}}- Include and fully draft these clauses: {{clauses}}.\n{{/if}}- Drafting posture: {{#if favor == \"Balanced / mutual\"}}mutual and even-handed.{{/if}}{{#if favor == \"Favor first party\"}}protective of the first-named party while remaining commercially reasonable.{{/if}}{{#if favor == \"Favor second party\"}}protective of the second-named party while remaining commercially reasonable.{{/if}}\n\n## Drafting standards\n- Precise defined terms used consistently; no undefined capitalized terms.\n{{#if plainLanguage}}- Plain, readable language; short sentences; avoid archaic legalese where a clearer term works.\n{{/if}}- Flag any open business decisions with a clearly marked [BRACKETED] placeholder rather than guessing.\n{{#if constraints}}\n## Specific instructions\n{{constraints}}\n{{/if}}\n## Deliverables\n1. The complete draft agreement, ready to populate.\n2. A short bullet list of assumptions made and decision points to confirm.\n\nThis is a draft for review by a qualified lawyer and is not legal advice. Proceed with well-reasoned, clearly-flagged defaults; ask only if a term is genuinely blocking."
+  },
+  {
+    "id": "contract-review",
+    "label": "Contract Review",
+    "description": "Get a risk-flagged review and redline of an agreement you received",
+    "icon": "FileSearch",
+    "fields": [
+      { "id": "role", "label": "Which side are you on", "type": "select", "required": true, "options": [ { "id": "receiving", "label": "Receiving party" }, { "id": "disclosing", "label": "Disclosing party" }, { "id": "customer", "label": "Customer / buyer" }, { "id": "vendor", "label": "Vendor / supplier" } ], "default": "customer" },
+      { "id": "contractText", "label": "Contract text", "type": "textarea", "required": true, "placeholder": "Paste the full agreement or the clauses you want reviewed." },
+      { "id": "context", "label": "Deal context", "type": "text", "placeholder": "$120k/yr SaaS deal, our data is sensitive, hard go-live date" },
+      { "id": "concerns", "label": "Areas of concern", "type": "multi-select", "options": [ { "id": "liability", "label": "Liability & damages caps" }, { "id": "ip", "label": "IP ownership & license" }, { "id": "data", "label": "Data protection & security" }, { "id": "termination", "label": "Termination & renewal" }, { "id": "payment", "label": "Payment & pricing" }, { "id": "indemnity", "label": "Indemnification" }, { "id": "sla", "label": "SLAs & remedies" } ], "default": ["liability", "ip", "termination"] },
+      { "id": "riskAppetite", "label": "Risk appetite", "type": "select", "options": [ { "id": "low", "label": "Conservative" }, { "id": "medium", "label": "Moderate" }, { "id": "high", "label": "Aggressive / speed over protection" } ], "default": "medium" },
+      { "id": "redline", "label": "Include suggested redline language", "type": "toggle", "default": true },
+      { "id": "summary", "label": "Include plain-English summary", "type": "toggle", "default": true }
+    ],
+    "template": "You are an experienced contracts counsel reviewing an agreement on behalf of the {{role}}.\n\n## Agreement under review\n{{contractText}}\n\n{{#if context}}## Deal context\n{{context}}\n\n{{/if}}## Review focus\n{{#if concerns}}- Prioritize: {{concerns}}.\n{{/if}}- Risk appetite: {{riskAppetite}}.\n\n## What to produce\n{{#if summary}}- A plain-English summary of what the {{role}} is agreeing to.\n{{/if}}- A risk register: each issue with severity (High / Medium / Low), the clause reference, why it matters to the {{role}}, and a recommended position.\n{{#if redline}}- Concrete suggested redline language for High and Medium issues.\n{{/if}}- Any missing protective clauses the {{role}} should request.\n\n## Deliverables\n1. Summary{{#if summary}} and{{/if}} prioritized risk register.\n2. Recommended negotiation asks, ranked by leverage and importance.\n\nThis is a draft review for confirmation by a qualified lawyer and is not legal advice. Be specific and cite clause numbers; do not speculate beyond the text provided."
+  },
+  {
+    "id": "privacy-policy",
+    "label": "Privacy Policy",
+    "description": "Generate a privacy policy tailored to how your product handles data",
+    "icon": "ShieldCheck",
+    "fields": [
+      { "id": "company", "label": "Company / product name", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "dataPractices", "label": "What data you collect & why", "type": "textarea", "required": true, "placeholder": "Account email, usage analytics, support messages; used to provide and improve the service." },
+      { "id": "jurisdictions", "label": "Applicable regimes", "type": "multi-select", "options": [ { "id": "gdpr", "label": "GDPR (EU/UK)" }, { "id": "ccpa", "label": "CCPA/CPRA (California)" }, { "id": "pipeda", "label": "PIPEDA (Canada)" }, { "id": "lgpd", "label": "LGPD (Brazil)" }, { "id": "coppa", "label": "COPPA (children)" } ], "default": ["gdpr", "ccpa"] },
+      { "id": "audience", "label": "Primary audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "thirdParties", "label": "Third parties / sub-processors", "type": "textarea", "placeholder": "Stripe (payments), AWS (hosting), Segment (analytics), Intercom (support)." },
+      { "id": "contact", "label": "Privacy contact", "type": "text", "placeholder": "privacy@acme.com" },
+      { "id": "cookies", "label": "Uses cookies / tracking", "type": "toggle", "default": true },
+      { "id": "selling", "label": "Sells or shares data for ads", "type": "toggle", "default": false }
+    ],
+    "template": "You are a privacy counsel specializing in data protection compliance. Draft a privacy policy for {{company}} written for a {{audience}} reader.\n\n## Data practices\n{{dataPractices}}\n\n## Compliance scope\n{{#if jurisdictions}}- Must satisfy: {{jurisdictions}}. Include the rights and disclosures each regime requires.\n{{/if}}{{#if thirdParties}}- Third parties / sub-processors: {{thirdParties}}.\n{{/if}}{{#if cookies}}- Cover cookies and tracking technologies and how users can control them.\n{{/if}}{{#if selling}}- Disclose data sharing/sale for advertising and the opt-out mechanism (incl. \"Do Not Sell or Share\").\n{{else}}- State clearly that personal data is not sold or shared for cross-context behavioral advertising.\n{{/if}}\n## Required sections\n- Data collected and purposes, legal bases, retention, security, international transfers, user rights and how to exercise them, children's data, changes to the policy, and contact{{#if contact}} ({{contact}}){{/if}}.\n\n## Deliverables\n1. The complete, well-organized policy with clear headings and an \"effective date\" placeholder.\n2. A short list of facts the company must verify or fill in before publishing.\n\nThis is a draft for review by a qualified lawyer and is not legal advice. Use plain language, mark any unknowns as [BRACKETED] placeholders, and do not invent practices not described above."
+  },
+  {
+    "id": "terms-of-service",
+    "label": "Terms of Service",
+    "description": "Draft terms of service covering use, payment, liability and termination",
+    "icon": "ScrollText",
+    "fields": [
+      { "id": "company", "label": "Company / product name", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "serviceDescription", "label": "What the service does & how it's used", "type": "textarea", "required": true, "placeholder": "A web analytics dashboard offered on monthly and annual subscription tiers." },
+      { "id": "model", "label": "Commercial model", "type": "select", "options": [ { "id": "free", "label": "Free" }, { "id": "freemium", "label": "Freemium" }, { "id": "subscription", "label": "Paid subscription" }, { "id": "marketplace", "label": "Marketplace / platform" } ], "default": "subscription" },
+      { "id": "governingLaw", "label": "Governing law", "type": "text", "placeholder": "State of Delaware, USA" },
+      { "id": "policies", "label": "Provisions to include", "type": "multi-select", "options": [ { "id": "acceptable", "label": "Acceptable use" }, { "id": "ugc", "label": "User-generated content & license" }, { "id": "payment", "label": "Payment, refunds & auto-renewal" }, { "id": "ip", "label": "IP & DMCA" }, { "id": "disclaimer", "label": "Warranty disclaimer" }, { "id": "liability", "label": "Limitation of liability" }, { "id": "arbitration", "label": "Arbitration & class-action waiver" } ], "default": ["acceptable", "payment", "disclaimer", "liability"] },
+      { "id": "minAge", "label": "Minimum user age", "type": "text", "placeholder": "18 (or 13 with consent)" },
+      { "id": "arbitration", "label": "Require binding arbitration", "type": "toggle", "default": false }
+    ],
+    "template": "You are a technology transactions attorney. Draft Terms of Service for {{company}}.\n\n## The service\n{{serviceDescription}}\n- Commercial model: {{model}}.\n{{#if minAge}}- Minimum age to use the service: {{minAge}}.\n{{/if}}\n## Provisions to draft\n{{#if policies}}- Include fully drafted sections for: {{policies}}.\n{{/if}}{{#if arbitration}}- Include a binding individual-arbitration clause and class-action waiver, with a clearly described opt-out.\n{{/if}}{{#if governingLaw}}- Governing law and venue: {{governingLaw}}.\n{{/if}}- Standard sections: acceptance, account terms, user obligations, termination/suspension, disclaimers, limitation of liability, indemnification, changes to terms, and contact.\n\n## Drafting standards\n- Numbered sections with clear headings; defined terms used consistently.\n- Enforceable, readable language; conspicuous formatting for disclaimers and liability limits.\n- Mark any business specifics as [BRACKETED] placeholders rather than inventing them.\n\n## Deliverables\n1. The complete Terms of Service with an \"effective date\" placeholder.\n2. A short list of items the company must confirm before going live.\n\nThis is a draft for review by a qualified lawyer and is not legal advice. Proceed with well-reasoned defaults and flag open points clearly."
+  },
+  {
+    "id": "clause-explainer",
+    "label": "Clause Explainer",
+    "description": "Explain what a contract clause means and its practical risks",
+    "icon": "BookOpen",
+    "fields": [
+      { "id": "clause", "label": "Clause text", "type": "textarea", "required": true, "placeholder": "Paste the exact clause or provision you want explained." },
+      { "id": "perspective", "label": "Explain from the view of", "type": "select", "required": true, "options": [ { "id": "signing", "label": "The party being asked to sign" }, { "id": "drafting", "label": "The party that drafted it" }, { "id": "neutral", "label": "A neutral observer" } ], "default": "signing" },
+      { "id": "audience", "label": "Reader expertise", "type": "select", "options": [ { "id": "layperson", "label": "Non-lawyer business owner" }, { "id": "manager", "label": "Procurement / ops manager" }, { "id": "legal", "label": "Junior lawyer / paralegal" } ], "default": "layperson" },
+      { "id": "context", "label": "Surrounding context", "type": "text", "placeholder": "It's in a SaaS vendor agreement; we'd be the customer." },
+      { "id": "examples", "label": "Include a worked example", "type": "toggle", "default": true },
+      { "id": "alternatives", "label": "Suggest fairer alternatives", "type": "toggle", "default": true }
+    ],
+    "template": "You are a contracts lawyer who is excellent at explaining legal language to a {{audience}}. Explain the following clause from the perspective of {{perspective}}.\n\n## Clause\n{{clause}}\n\n{{#if context}}## Context\n{{context}}\n\n{{/if}}## Explain\n- Plain-English meaning, sentence by sentence where it helps.\n- What it obligates or protects, and the practical consequences if things go wrong.\n- The realistic risks and any red flags for {{perspective}}.\n{{#if examples}}- A concrete worked example showing how the clause would play out.\n{{/if}}{{#if alternatives}}- Fairer or more balanced alternative wording, with a one-line rationale for each change.\n{{/if}}\n## Deliverables\n1. The explanation, structured and jargon-free.\n2. A one-sentence \"bottom line\" verdict on whether this clause is standard, aggressive, or unusual.\n\nThis is an educational explanation for review by a qualified lawyer and is not legal advice. Stay strictly grounded in the clause text provided; note where context is needed rather than assuming."
+  },
+  {
+    "id": "compliance-checklist",
+    "label": "Compliance Checklist",
+    "description": "Build an actionable compliance checklist for a regulation or framework",
+    "icon": "ListChecks",
+    "fields": [
+      { "id": "framework", "label": "Regulation / framework", "type": "text", "required": true, "placeholder": "GDPR, SOC 2 Type II, HIPAA, PCI-DSS, ISO 27001" },
+      { "id": "business", "label": "Business & data context", "type": "textarea", "required": true, "placeholder": "B2B SaaS, 40 staff, EU + US customers, stores customer PII in AWS." },
+      { "id": "stage", "label": "Current maturity", "type": "select", "options": [ { "id": "none", "label": "Starting from zero" }, { "id": "partial", "label": "Some controls in place" }, { "id": "audit", "label": "Preparing for an audit" } ], "default": "partial" },
+      { "id": "domains", "label": "Focus domains", "type": "multi-select", "options": [ { "id": "governance", "label": "Governance & policies" }, { "id": "access", "label": "Access control" }, { "id": "data", "label": "Data handling & retention" }, { "id": "vendor", "label": "Vendor / third-party risk" }, { "id": "incident", "label": "Incident response" }, { "id": "training", "label": "Training & awareness" } ], "default": ["governance", "access", "data", "incident"] },
+      { "id": "owners", "label": "Assign owners & priority", "type": "toggle", "default": true },
+      { "id": "evidence", "label": "Note evidence/artifacts to collect", "type": "toggle", "default": true }
+    ],
+    "template": "You are a compliance and information-governance specialist. Build a practical compliance checklist for {{framework}}.\n\n## Organization context\n{{business}}\n- Current maturity: {{stage}}.\n{{#if domains}}- Cover these domains: {{domains}}.\n{{/if}}\n## Checklist requirements\n- Organize by domain; each item is a concrete, verifiable control written as an action.\n{{#if owners}}- For each item include a suggested owner role and a priority (Critical / High / Medium).\n{{/if}}{{#if evidence}}- For each item note the evidence or artifact that would demonstrate compliance.\n{{/if}}- Highlight the gaps most likely to fail an audit given the stated maturity.\n\n## Deliverables\n1. The structured checklist, grouped by domain.\n2. A prioritized \"first 30 days\" shortlist of the highest-impact items.\n\nThis is a draft for review by a qualified compliance professional or lawyer and is not legal advice. Tie items to the named framework's actual requirements; flag where a formal mapping or external assessment is required."
+  },
+  {
+    "id": "demand-letter",
+    "label": "Demand Letter",
+    "description": "Draft a firm, professional demand letter setting out your claim",
+    "icon": "Mail",
+    "fields": [
+      { "id": "sender", "label": "Sender", "type": "text", "required": true, "placeholder": "Acme Inc., 123 Main St" },
+      { "id": "recipient", "label": "Recipient", "type": "text", "required": true, "placeholder": "Beta LLC, attn: Accounts Payable" },
+      { "id": "facts", "label": "Facts & background", "type": "textarea", "required": true, "placeholder": "Invoice #482 for $18,400 issued 2026-01-10, due net-30, unpaid despite 3 reminders." },
+      { "id": "claimType", "label": "Nature of the claim", "type": "select", "required": true, "options": [ { "id": "payment", "label": "Unpaid invoice / debt" }, { "id": "breach", "label": "Breach of contract" }, { "id": "ip", "label": "IP infringement" }, { "id": "refund", "label": "Refund / faulty goods" }, { "id": "cease", "label": "Cease and desist" } ], "default": "payment" },
+      { "id": "remedy", "label": "Remedy demanded", "type": "text", "required": true, "placeholder": "Payment of $18,400 plus late fees within 14 days" },
+      { "id": "deadline", "label": "Response deadline", "type": "text", "placeholder": "14 days from the date of this letter" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "escalation", "label": "State next steps if ignored", "type": "toggle", "default": true }
+    ],
+    "template": "You are a litigation attorney drafting a pre-action demand letter. Write a {{tone}} demand letter from {{sender}} to {{recipient}}.\n\n## Nature of claim\n{{claimType}}\n\n## Facts\n{{facts}}\n\n## Demand\n- Clearly state the remedy demanded: {{remedy}}.\n{{#if deadline}}- Set a firm response deadline: {{deadline}}.\n{{/if}}{{#if escalation}}- State, professionally and without bluffing, the next steps the sender is prepared to take if the demand is not met by the deadline.\n{{/if}}\n## Letter requirements\n- Formal letter format: date, parties, RE: line, numbered factual background, the demand, deadline, and a closing.\n- Assertive but measured; factual, not emotional or threatening; no admissions.\n- Reserve all rights and remedies. Mark any unknown details as [BRACKETED] placeholders.\n\n## Deliverables\n1. The complete, send-ready letter.\n2. A short note of facts or documents the sender should attach or verify.\n\nThis is a draft for review by a qualified lawyer and is not legal advice. Do not assert legal conclusions or statute citations unless clearly supported by the facts given."
+  }
+]

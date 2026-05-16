@@ -4,27 +4,167 @@
     "label": "Software Development",
     "description": "Scaffold apps, APIs, SPAs and tools. Pick a stack, language and framework and get a production-grade build prompt.",
     "icon": "Code2",
-    "accent": "violet"
+    "group": "Tech & Product"
   },
   {
-    "id": "content",
-    "label": "Content & Writing",
-    "description": "Blog posts, marketing copy, docs and social — guided by audience, tone and goal.",
-    "icon": "PenLine",
-    "accent": "amber"
+    "id": "devops",
+    "label": "DevOps & Cloud",
+    "description": "CI/CD, infrastructure-as-code, containers, observability and incident response prompts.",
+    "icon": "Cloud",
+    "group": "Tech & Product"
   },
   {
     "id": "data",
     "label": "Data & Analysis",
     "description": "SQL, data cleaning, analysis reports and visualization specs from a clear brief.",
     "icon": "BarChart3",
-    "accent": "emerald"
+    "group": "Tech & Product"
+  },
+  {
+    "id": "ai-ml",
+    "label": "AI & Machine Learning",
+    "description": "Model training, evaluation, RAG pipelines, agents and prompt-engineering systems.",
+    "icon": "Brain",
+    "group": "Tech & Product"
+  },
+  {
+    "id": "product",
+    "label": "Product Management",
+    "description": "PRDs, roadmaps, user stories, release notes and discovery research.",
+    "icon": "ClipboardList",
+    "group": "Tech & Product"
+  },
+  {
+    "id": "qa",
+    "label": "QA & Testing",
+    "description": "Test plans, test cases, automation suites and bug reports.",
+    "icon": "FlaskConical",
+    "group": "Tech & Product"
+  },
+  {
+    "id": "security",
+    "label": "Security & Privacy",
+    "description": "Threat models, code audits, pentest plans, policies and incident playbooks.",
+    "icon": "ShieldCheck",
+    "group": "Tech & Product"
+  },
+  {
+    "id": "content",
+    "label": "Content & Writing",
+    "description": "Blog posts, marketing copy, docs and social — guided by audience, tone and goal.",
+    "icon": "PenLine",
+    "group": "Content & Marketing"
+  },
+  {
+    "id": "seo",
+    "label": "SEO",
+    "description": "Keyword strategy, on-page optimization, content briefs and technical SEO audits.",
+    "icon": "Search",
+    "group": "Content & Marketing"
+  },
+  {
+    "id": "social",
+    "label": "Social Media",
+    "description": "Platform-native posts, content calendars, hooks and community replies.",
+    "icon": "Share2",
+    "group": "Content & Marketing"
+  },
+  {
+    "id": "email",
+    "label": "Email & Lifecycle",
+    "description": "Newsletters, drip sequences, onboarding and re-engagement flows.",
+    "icon": "Mail",
+    "group": "Content & Marketing"
+  },
+  {
+    "id": "ads",
+    "label": "Advertising & Copy",
+    "description": "Ad creative, landing pages, value props and conversion copywriting.",
+    "icon": "Megaphone",
+    "group": "Content & Marketing"
+  },
+  {
+    "id": "sales",
+    "label": "Sales",
+    "description": "Cold outreach, discovery calls, proposals, objection handling and follow-ups.",
+    "icon": "Handshake",
+    "group": "Business & Ops"
+  },
+  {
+    "id": "support",
+    "label": "Customer Support",
+    "description": "Help-desk replies, macros, knowledge-base articles and escalation handling.",
+    "icon": "Headphones",
+    "group": "Business & Ops"
+  },
+  {
+    "id": "hr",
+    "label": "HR & Recruiting",
+    "description": "Job descriptions, interview kits, screening, feedback and people policies.",
+    "icon": "Users",
+    "group": "Business & Ops"
+  },
+  {
+    "id": "legal",
+    "label": "Legal",
+    "description": "Contract drafting and review, policies, clause explainers and compliance checklists.",
+    "icon": "Scale",
+    "group": "Business & Ops"
+  },
+  {
+    "id": "finance",
+    "label": "Finance & Accounting",
+    "description": "Models, budgets, variance analysis, board reporting and bookkeeping help.",
+    "icon": "Landmark",
+    "group": "Business & Ops"
+  },
+  {
+    "id": "strategy",
+    "label": "Strategy & Consulting",
+    "description": "Frameworks, market analysis, business cases, decks and executive memos.",
+    "icon": "Target",
+    "group": "Business & Ops"
   },
   {
     "id": "design",
     "label": "Design & UX",
     "description": "UI briefs, design systems and user-flow descriptions an AI can act on.",
     "icon": "Palette",
-    "accent": "rose"
+    "group": "Creative & Learning"
+  },
+  {
+    "id": "video",
+    "label": "Video & Scriptwriting",
+    "description": "Scripts, storyboards, YouTube and short-form video, voiceover and shot lists.",
+    "icon": "Clapperboard",
+    "group": "Creative & Learning"
+  },
+  {
+    "id": "education",
+    "label": "Education & Tutoring",
+    "description": "Lesson plans, explanations, quizzes, curricula and study aids.",
+    "icon": "GraduationCap",
+    "group": "Creative & Learning"
+  },
+  {
+    "id": "research",
+    "label": "Research",
+    "description": "Literature reviews, synthesis, methodology, surveys and interview guides.",
+    "icon": "Microscope",
+    "group": "Creative & Learning"
+  },
+  {
+    "id": "ecommerce",
+    "label": "E-commerce",
+    "description": "Product descriptions, category pages, lifecycle, merchandising and CRO.",
+    "icon": "ShoppingCart",
+    "group": "Creative & Learning"
+  },
+  {
+    "id": "productivity",
+    "label": "Personal & Productivity",
+    "description": "Planning, decisions, summaries, meeting notes and habit systems.",
+    "icon": "ListChecks",
+    "group": "Creative & Learning"
   }
 ]

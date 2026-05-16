@@ -1,0 +1,119 @@
+[
+  {
+    "id": "youtube-script",
+    "label": "YouTube Script",
+    "description": "Write a retention-optimized long-form YouTube script with hook and CTA",
+    "icon": "Youtube",
+    "fields": [
+      { "id": "topic", "label": "Video topic", "type": "text", "required": true, "placeholder": "How we cut our cloud bill by 60%" },
+      { "id": "angle", "label": "Angle & key points", "type": "textarea", "required": true, "placeholder": "Counterintuitive: most savings came from deleting things, not optimizing. 5 steps." },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "length", "label": "Target length", "type": "select", "options": [ { "id": "short", "label": "Under 5 min" }, { "id": "standard", "label": "8-12 min" }, { "id": "long", "label": "15-20 min" } ], "default": "standard" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "format", "label": "Video format", "type": "select", "options": [ { "id": "talking", "label": "Talking head" }, { "id": "tutorial", "label": "Tutorial / screen share" }, { "id": "vlog", "label": "Vlog / story" }, { "id": "listicle", "label": "Listicle / countdown" } ], "default": "talking" },
+      { "id": "broll", "label": "Include B-roll & visual cues", "type": "toggle", "default": true },
+      { "id": "cta", "label": "Call to action", "type": "text", "placeholder": "Subscribe + grab the free cost-audit checklist in the description" }
+    ],
+    "template": "You are a YouTube scriptwriter who specializes in audience retention. Write a {{format}} script on \"{{topic}}\" for a {{audience}} audience, in a {{tone}} tone.\n\n## Angle & key points\n{{angle}}\n\n## Script requirements\n- Target length: {{length}}. Pace it so the value-to-talk ratio stays high.\n- Open with a 5-10 second hook that creates an open loop or a bold claim; no slow intro.\n- Front-load value, then deliver the points with clear segment transitions and pattern interrupts to hold attention.\n{{#if broll}}- Mark B-roll, on-screen text, and visual cues inline as [VISUAL: ...].\n{{/if}}- Use spoken-word rhythm: short sentences, direct address, natural contractions.\n{{#if cta}}- Work in the call to action naturally near a value peak: {{cta}}.\n{{/if}}\n## Deliverables\n1. The full script with timestamps/segments and the hook called out separately.\n2. Three alternative hook options.\n3. A title and a one-line thumbnail concept.\n\nWrite the actual spoken words, not a summary. Proceed with confident creative choices; flag only genuinely blocking gaps."
+  },
+  {
+    "id": "short-form-script",
+    "label": "Short-Form Script",
+    "description": "Write a punchy script for Reels, Shorts or TikTok with a scroll-stopping hook",
+    "icon": "Smartphone",
+    "fields": [
+      { "id": "topic", "label": "Topic / idea", "type": "text", "required": true, "placeholder": "One npm command that finds your slowest dependency" },
+      { "id": "payoff", "label": "Core message & payoff", "type": "textarea", "required": true, "placeholder": "Show the command, run it live, reveal the surprising slow package, one fix." },
+      { "id": "platform", "label": "Platform", "type": "select", "required": true, "options": [ { "id": "tiktok", "label": "TikTok" }, { "id": "reels", "label": "Instagram Reels" }, { "id": "shorts", "label": "YouTube Shorts" } ], "default": "shorts" },
+      { "id": "duration", "label": "Duration", "type": "select", "options": [ { "id": "15", "label": "~15 sec" }, { "id": "30", "label": "~30 sec" }, { "id": "60", "label": "~60 sec" } ], "default": "30" },
+      { "id": "hookStyle", "label": "Hook style", "type": "select", "options": [ { "id": "question", "label": "Provocative question" }, { "id": "claim", "label": "Bold claim" }, { "id": "mistake", "label": "Common mistake call-out" }, { "id": "result", "label": "Result-first reveal" } ], "default": "result" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "casual" },
+      { "id": "captions", "label": "Include on-screen caption text", "type": "toggle", "default": true },
+      { "id": "cta", "label": "Call to action", "type": "text", "placeholder": "Follow for more dev speed tips" }
+    ],
+    "template": "You are a short-form video writer who consistently makes scroll-stopping content for {{platform}}. Write a {{duration}} script on \"{{topic}}\" in a {{tone}} tone.\n\n## Core message & payoff\n{{payoff}}\n\n## Script requirements\n- Hook in the first 1-2 seconds using a {{hookStyle}}; no intro, no \"hey guys\".\n- Every line earns the next; remove anything that doesn't push to the payoff.\n- Deliver the payoff fast and end on a loop or a reason to rewatch.\n{{#if captions}}- Provide the on-screen caption text per beat, kept short and punchy.\n{{/if}}- Write second-by-second beats with what's said and what's shown.\n{{#if cta}}- Close with a light CTA: {{cta}}.\n{{/if}}\n## Deliverables\n1. The beat-by-beat script (spoken + visual + caption).\n2. Three alternative hooks.\n3. A one-line caption/description with hashtag suggestions.\n\nWrite the actual words. Be bold and specific; make confident creative calls rather than hedging."
+  },
+  {
+    "id": "explainer-script",
+    "label": "Explainer Script",
+    "description": "Script a clear, concise explainer that makes a concept or product click",
+    "icon": "Lightbulb",
+    "fields": [
+      { "id": "subject", "label": "What you're explaining", "type": "text", "required": true, "placeholder": "How our API authentication works" },
+      { "id": "details", "label": "Key information to convey", "type": "textarea", "required": true, "placeholder": "OAuth flow, token scopes, refresh tokens; viewer should be able to integrate after." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "purpose", "label": "Explainer purpose", "type": "select", "options": [ { "id": "product", "label": "Product / SaaS explainer" }, { "id": "concept", "label": "Concept / educational" }, { "id": "onboarding", "label": "Onboarding / how-to" }, { "id": "internal", "label": "Internal / training" } ], "default": "product" },
+      { "id": "duration", "label": "Target duration", "type": "select", "options": [ { "id": "60", "label": "~60 sec" }, { "id": "90", "label": "~90 sec" }, { "id": "120", "label": "~2 min" }, { "id": "180", "label": "~3 min" } ], "default": "90" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "friendly" },
+      { "id": "analogy", "label": "Use an analogy or metaphor", "type": "toggle", "default": true },
+      { "id": "visualDirection", "label": "Include visual / animation direction", "type": "toggle", "default": true }
+    ],
+    "template": "You are a scriptwriter for explainer videos who excels at making complex things simple. Script a {{purpose}} explaining \"{{subject}}\" for a {{audience}} audience, in a {{tone}} tone.\n\n## Key information to convey\n{{details}}\n\n## Script requirements\n- Target duration: {{duration}} (write to roughly 150 words per minute).\n- Structure: relatable problem -> the idea -> how it works -> the payoff for the viewer.\n- One core idea; ruthlessly cut jargon and tangents. Define any necessary term in plain words.\n{{#if analogy}}- Anchor the explanation with a single concrete analogy carried through the script.\n{{/if}}{{#if visualDirection}}- Provide paired visual/animation direction per line as [VISUAL: ...].\n{{/if}}- End by making the next step obvious for the viewer.\n\n## Deliverables\n1. The full narration script{{#if visualDirection}} with paired visual direction{{/if}}.\n2. A tightened 30-second cutdown version.\n3. A one-line summary of the single thing the viewer should remember.\n\nWrite the actual narration. Favor clarity over completeness; proceed with confident choices and flag only blocking gaps."
+  },
+  {
+    "id": "storyboard",
+    "label": "Storyboard",
+    "description": "Turn a concept or script into a shot-by-shot storyboard breakdown",
+    "icon": "Clapperboard",
+    "fields": [
+      { "id": "project", "label": "Project / video title", "type": "text", "required": true, "placeholder": "Acme Analytics 60-sec product launch" },
+      { "id": "source", "label": "Script or concept", "type": "textarea", "required": true, "placeholder": "Paste the script, or describe the concept and key moments to visualize." },
+      { "id": "videoType", "label": "Video type", "type": "select", "options": [ { "id": "ad", "label": "Ad / promo" }, { "id": "explainer", "label": "Explainer" }, { "id": "narrative", "label": "Narrative / story" }, { "id": "social", "label": "Social short" } ], "default": "ad" },
+      { "id": "style", "label": "Visual style", "type": "text", "placeholder": "Clean, bright, motion-graphics with a single accent color" },
+      { "id": "aspect", "label": "Aspect ratio", "type": "select", "options": [ { "id": "169", "label": "16:9 (landscape)" }, { "id": "916", "label": "9:16 (vertical)" }, { "id": "11", "label": "1:1 (square)" } ], "default": "169" },
+      { "id": "detail", "label": "Per-shot detail", "type": "multi-select", "options": [ { "id": "shottype", "label": "Shot type & framing" }, { "id": "camera", "label": "Camera movement" }, { "id": "action", "label": "Action / subject" }, { "id": "vo", "label": "VO / dialogue line" }, { "id": "onscreen", "label": "On-screen text" }, { "id": "audio", "label": "Music / SFX" }, { "id": "duration", "label": "Shot duration" } ], "default": ["shottype", "camera", "action", "vo", "duration"] },
+      { "id": "transitions", "label": "Specify transitions between shots", "type": "toggle", "default": true }
+    ],
+    "template": "You are a video director and storyboard artist. Create a shot-by-shot storyboard for \"{{project}}\" ({{videoType}}, {{aspect}}).\n\n## Source\n{{source}}\n{{#if style}}\n## Visual style\n{{style}}\n{{/if}}\n## Storyboard requirements\n- Break the piece into numbered scenes and shots in sequence.\n{{#if detail}}- For each shot specify: {{detail}}.\n{{/if}}{{#if transitions}}- Specify the transition into the next shot (cut, dissolve, match cut, etc.).\n{{/if}}- Include a brief frame-description of what the viewer literally sees, vivid enough for an artist or editor to execute.\n- Keep timing realistic and ensure the shot durations sum to the intended runtime.\n\n## Deliverables\n1. The storyboard as an ordered shot list (table-style: Shot # | Visual | details).\n2. A running timecode and the total runtime.\n3. A short shot-list of any assets or footage that must be sourced or created.\n\nBe concrete and visual. Proceed with strong directorial choices; flag only genuinely blocking gaps."
+  },
+  {
+    "id": "voiceover-script",
+    "label": "Voiceover Script",
+    "description": "Write a performance-ready voiceover script with pacing and delivery cues",
+    "icon": "Mic",
+    "fields": [
+      { "id": "project", "label": "Project", "type": "text", "required": true, "placeholder": "Acme Analytics brand film" },
+      { "id": "content", "label": "Message & content", "type": "textarea", "required": true, "placeholder": "Data should feel calm, not chaotic. Position Acme as the clarity layer for teams." },
+      { "id": "useCase", "label": "Use case", "type": "select", "options": [ { "id": "brand", "label": "Brand film" }, { "id": "ad", "label": "Commercial / ad" }, { "id": "explainer", "label": "Explainer" }, { "id": "elearning", "label": "E-learning / training" }, { "id": "documentary", "label": "Documentary / narration" } ], "default": "brand" },
+      { "id": "duration", "label": "Target duration", "type": "select", "options": [ { "id": "30", "label": "~30 sec" }, { "id": "60", "label": "~60 sec" }, { "id": "90", "label": "~90 sec" }, { "id": "custom", "label": "Longer-form" } ], "default": "60" },
+      { "id": "voice", "label": "Voice persona", "type": "text", "placeholder": "Warm, grounded, mid-30s, understated confidence" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "inspirational" },
+      { "id": "cues", "label": "Include delivery & pacing cues", "type": "toggle", "default": true },
+      { "id": "syncNotes", "label": "Include timing/sync markers", "type": "toggle", "default": true }
+    ],
+    "template": "You are a professional copywriter who writes for the ear. Write a {{useCase}} voiceover script for \"{{project}}\" in a {{tone}} tone.\n\n## Message & content\n{{content}}\n{{#if voice}}\n## Voice persona\n{{voice}}\n{{/if}}\n## Script requirements\n- Target duration: {{duration}}; write to natural spoken pace (~150 words/min) and read it aloud in your head as you write.\n- Sentences built for breath and rhythm; vary length; land on a strong final line.\n- Concrete, evocative language; no corporate filler or tongue-twisters.\n{{#if cues}}- Add delivery cues inline: (pause), (emphasis), (warmer), (slow) where they help the read.\n{{/if}}{{#if syncNotes}}- Add approximate timecode markers per paragraph so it can be synced to picture.\n{{/if}}\n## Deliverables\n1. The performance-ready VO script.\n2. A tightened alternate take that runs ~20% shorter.\n3. One line of direction for the voice talent on overall feel.\n\nWrite the actual spoken words. Make confident tonal choices; flag only genuinely blocking gaps."
+  },
+  {
+    "id": "video-ad-script",
+    "label": "Video Ad Script",
+    "description": "Write a conversion-focused video ad script built around a single benefit",
+    "icon": "Megaphone",
+    "fields": [
+      { "id": "product", "label": "Product / service", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "offer", "label": "Offer, audience & key benefit", "type": "textarea", "required": true, "placeholder": "Free 14-day trial; for data teams drowning in dashboards; benefit: clarity in minutes." },
+      { "id": "platform", "label": "Ad platform", "type": "select", "required": true, "options": [ { "id": "youtube", "label": "YouTube pre-roll" }, { "id": "meta", "label": "Meta (FB/IG)" }, { "id": "tiktok", "label": "TikTok" }, { "id": "ctv", "label": "Connected TV" } ], "default": "meta" },
+      { "id": "duration", "label": "Ad length", "type": "select", "options": [ { "id": "6", "label": "6 sec (bumper)" }, { "id": "15", "label": "15 sec" }, { "id": "30", "label": "30 sec" }, { "id": "60", "label": "60 sec" } ], "default": "15" },
+      { "id": "framework", "label": "Persuasion framework", "type": "select", "options": [ { "id": "pas", "label": "Problem-Agitate-Solve" }, { "id": "aida", "label": "AIDA" }, { "id": "bab", "label": "Before-After-Bridge" }, { "id": "ugc", "label": "UGC / testimonial style" } ], "default": "pas" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "bold" },
+      { "id": "cta", "label": "Call to action", "type": "text", "required": true, "placeholder": "Start your free trial today" },
+      { "id": "variants", "label": "Produce A/B hook variants", "type": "toggle", "default": true }
+    ],
+    "template": "You are a direct-response video ad copywriter. Write a {{duration}} {{platform}} ad for {{product}} using the {{framework}} framework, in a {{tone}} tone.\n\n## Offer, audience & benefit\n{{offer}}\n\n## Ad requirements\n- Hook within the first 2 seconds, before any logo or branding.\n- Built around ONE clear benefit and ONE clear action; no feature dump.\n- Tight, punchy, conversion-led writing that fits the duration when read aloud.\n- Provide paired visual direction per beat as [VISUAL: ...] and on-screen text.\n- End on an unmissable CTA: {{cta}}.\n{{#if variants}}- Provide 3 alternative opening hooks for A/B testing.\n{{/if}}\n## Deliverables\n1. The full ad script (spoken + visual + on-screen text), beat by beat.\n2. The headline/primary text to accompany the ad.\n3. A one-line note on the single metric this ad is optimized for.\n\nWrite the actual words. Be bold and specific; make confident creative calls rather than hedging."
+  },
+  {
+    "id": "interview-questions",
+    "label": "Interview Questions",
+    "description": "Build a structured interview question set for an on-camera conversation",
+    "icon": "MessageCircleQuestion",
+    "fields": [
+      { "id": "topic", "label": "Interview topic / focus", "type": "text", "required": true, "placeholder": "How the founder built a remote-first eng culture" },
+      { "id": "guest", "label": "Guest & background", "type": "textarea", "required": true, "placeholder": "Jane Doe, CTO of Acme; ex-Stripe; scaled eng from 5 to 80 fully remote." },
+      { "id": "format", "label": "Interview format", "type": "select", "options": [ { "id": "podcast", "label": "Podcast / long-form" }, { "id": "documentary", "label": "Documentary / B-roll interview" }, { "id": "testimonial", "label": "Customer testimonial" }, { "id": "press", "label": "Press / journalistic" } ], "default": "podcast" },
+      { "id": "goal", "label": "What the piece should achieve", "type": "textarea", "placeholder": "Get quotable, specific stories; surface lessons; usable as standalone clips." },
+      { "id": "themes", "label": "Themes to cover", "type": "multi-select", "options": [ { "id": "origin", "label": "Origin / backstory" }, { "id": "decisions", "label": "Key decisions & turning points" }, { "id": "challenges", "label": "Challenges & failures" }, { "id": "howto", "label": "Practical how-to / lessons" }, { "id": "vision", "label": "Vision / future" }, { "id": "personal", "label": "Personal / human angle" } ], "default": ["origin", "decisions", "challenges", "howto"] },
+      { "id": "depth", "label": "Question count", "type": "select", "options": [ { "id": "focused", "label": "Focused (~8)" }, { "id": "standard", "label": "Standard (~15)" }, { "id": "deep", "label": "Deep (~25)" } ], "default": "standard" },
+      { "id": "followups", "label": "Include suggested follow-up probes", "type": "toggle", "default": true }
+    ],
+    "template": "You are an experienced interviewer and producer. Build an interview question set for a {{format}} on \"{{topic}}\".\n\n## Guest\n{{guest}}\n{{#if goal}}\n## What the piece should achieve\n{{goal}}\n{{/if}}\n## Question set requirements\n- Depth: {{depth}}. Order the questions into a natural arc: warm-up, core, depth, reflective close.\n{{#if themes}}- Cover these themes, grouped clearly: {{themes}}.\n{{/if}}- Open-ended and specific; avoid yes/no and leading questions; invite stories and concrete examples.\n{{#if followups}}- Under each main question, add 1-2 follow-up probes to push for depth and specifics.\n{{/if}}- Include 2-3 questions engineered to produce a quotable, standalone soundbite.\n\n## Deliverables\n1. The grouped, ordered question set{{#if followups}} with follow-up probes{{/if}}.\n2. Three icebreakers to relax the guest on camera.\n3. One \"if you only ask one question\" recommendation.\n\nBe specific to this guest and topic, not generic. Proceed with strong editorial choices; flag only genuinely blocking gaps."
+  }
+]

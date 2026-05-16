@@ -1,0 +1,121 @@
+[
+  {
+    "id": "google-ads",
+    "label": "Google Ads Copy",
+    "description": "Search campaign with headlines, descriptions and extensions",
+    "icon": "Search",
+    "fields": [
+      { "id": "product", "label": "Product or service", "type": "text", "required": true, "placeholder": "Project management software for agencies" },
+      { "id": "details", "label": "Offer, benefits & differentiators", "type": "textarea", "required": true, "placeholder": "14-day free trial, no card required. Used by 2,000+ agencies. Time tracking + invoicing built in." },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "keywords", "label": "Target keywords", "type": "textarea", "placeholder": "agency project management, client work tracker, agency time tracking" },
+      { "id": "cta", "label": "Primary call to action", "type": "select", "options": [ { "id": "trial", "label": "Start free trial" }, { "id": "demo", "label": "Book a demo" }, { "id": "buy", "label": "Buy now" }, { "id": "quote", "label": "Get a quote" }, { "id": "learn", "label": "Learn more" } ], "default": "trial" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "persuasive" },
+      { "id": "campaignType", "label": "Campaign type", "type": "select", "options": [ { "id": "search", "label": "Search" }, { "id": "pmax", "label": "Performance Max" }, { "id": "display", "label": "Display" } ], "default": "search" },
+      { "id": "sitelinks", "label": "Include sitelink & callout extensions", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints & compliance", "type": "textarea", "placeholder": "No superlatives without proof; avoid trademark terms; finance ad policy applies." }
+    ],
+    "template": "You are a senior paid-search copywriter and Google Ads specialist. Write conversion-focused {{campaignType}} ad copy for \"{{product}}\".\n\n## Offer & value\n{{details}}\n\n## Targeting\n{{#if audience}}- Audience: {{audience}}\n{{/if}}{{#if keywords}}- Priority keywords (work the highest-intent ones into headlines naturally): {{keywords}}\n{{/if}}- Primary CTA: {{cta}}\n- Tone: {{tone}}\n\n## What to produce\n- 15 unique responsive search ad headlines (<=30 chars each), front-loading the value and including 3-4 keyword-aligned variants.\n- 4 descriptions (<=90 chars each) covering benefit, proof, and CTA.\n- 2 display paths (<=15 chars each).\n{{#if sitelinks}}- 4 sitelink labels with 2 description lines each, plus 6 callout extensions.\n{{/if}}- Honor character limits exactly and avoid Google Ads policy violations (no excessive caps, no unverified claims).\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The full ad asset set, grouped and labeled by type.\n2. A 2-sentence rationale for the strongest headline/description angle.\n3. One A/B test recommendation.\n\nProceed with well-reasoned defaults; only ask if the offer is ambiguous."
+  },
+  {
+    "id": "meta-ads",
+    "label": "Meta Ads Copy",
+    "description": "Facebook & Instagram primary text, headlines and hooks",
+    "icon": "Megaphone",
+    "fields": [
+      { "id": "product", "label": "Product or service", "type": "text", "required": true, "placeholder": "Sustainable activewear brand" },
+      { "id": "details", "label": "Offer, benefits & proof", "type": "textarea", "required": true, "placeholder": "Made from recycled ocean plastic. 30-day returns. 4.8/5 from 12k reviews. Launch offer: 20% off." },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "placement", "label": "Primary placement", "type": "select", "options": [ { "id": "feed", "label": "Feed" }, { "id": "stories", "label": "Stories / Reels" }, { "id": "both", "label": "Feed + Stories" } ], "default": "both" },
+      { "id": "objective", "label": "Campaign objective", "type": "select", "options": [ { "id": "conversions", "label": "Conversions / sales" }, { "id": "leads", "label": "Lead generation" }, { "id": "traffic", "label": "Traffic" }, { "id": "awareness", "label": "Awareness" } ], "default": "conversions" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "angles", "label": "Angles to cover", "type": "multi-select", "options": [ { "id": "pain", "label": "Pain / problem" }, { "id": "social", "label": "Social proof" }, { "id": "offer", "label": "Offer / urgency" }, { "id": "story", "label": "Founder / story" }, { "id": "feature", "label": "Feature spotlight" } ], "default": ["pain", "social", "offer"] },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "No before/after health claims; keep primary text under 125 chars for mobile." }
+    ],
+    "template": "You are a direct-response social ad copywriter who has scaled Meta campaigns profitably. Write scroll-stopping ad copy for \"{{product}}\".\n\n## Offer & proof\n{{details}}\n\n## Setup\n{{#if audience}}- Audience: {{audience}}\n{{/if}}- Objective: {{objective}}\n- Placement: {{placement}}\n- Tone: {{tone}}\n\n## What to produce\nProduce one full ad variant per angle below, each with: a thumb-stopping hook (first line), primary text, a headline (<=40 chars), and a description (<=30 chars).\n{{#each angles}}- Angle: {{this}}\n{{/each}}\n- Hooks must earn the next line; lead with the prospect, not the brand.\n{{#if placement == \"stories\"}}- Keep copy ultra-short and caption-style for vertical placements.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The ad variants, labeled by angle.\n2. 5 standalone hook lines for rapid creative testing.\n3. A note on which angle to test first and why.\n\nMake confident creative decisions; ask only if the offer is unclear."
+  },
+  {
+    "id": "landing-page-copy",
+    "label": "Landing Page Copy",
+    "description": "Full conversion page from hero to final CTA",
+    "icon": "LayoutTemplate",
+    "fields": [
+      { "id": "product", "label": "Product or service", "type": "text", "required": true, "placeholder": "AI meeting notetaker" },
+      { "id": "summary", "label": "What it does & who it's for", "type": "textarea", "required": true, "placeholder": "Auto-records, transcribes and summarizes meetings. For sales teams who hate manual CRM updates." },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "benefits", "label": "Key benefits & proof points", "type": "textarea", "required": true, "placeholder": "Save 5 hrs/week. Auto-syncs to CRM. SOC 2 compliant. 'Cut our admin in half' - VP Sales, Acme." },
+      { "id": "cta", "label": "Primary CTA", "type": "text", "placeholder": "Start free trial", "default": "Start free trial" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "persuasive" },
+      { "id": "sections", "label": "Sections to include", "type": "multi-select", "options": [ { "id": "hero", "label": "Hero" }, { "id": "logos", "label": "Trust logos" }, { "id": "problem", "label": "Problem" }, { "id": "features", "label": "Features / benefits" }, { "id": "social", "label": "Testimonials" }, { "id": "pricing", "label": "Pricing" }, { "id": "faq", "label": "FAQ" }, { "id": "finalcta", "label": "Final CTA" } ], "default": ["hero", "logos", "problem", "features", "social", "faq", "finalcta"] },
+      { "id": "seo", "label": "Optimize for search intent", "type": "toggle", "default": false }
+    ],
+    "template": "You are a conversion copywriter specializing in high-converting SaaS landing pages. Write the full page copy for \"{{product}}\".\n\n## Product\n{{summary}}\n\n## Audience & message\n{{#if audience}}- Audience: {{audience}}\n{{/if}}- Tone: {{tone}}\n- Primary CTA (use consistently): {{cta}}\n\n## Benefits & proof\n{{benefits}}\n\n## Page structure\nWrite distinct, ready-to-ship copy for each section, in order:\n{{#each sections}}- {{this}}\n{{/each}}\n- Hero must lead with a benefit-driven headline + supporting subhead and the primary CTA.\n- Translate features into outcomes; use the proof points as concrete evidence, not vague claims.\n{{#if seo}}- Weave in natural search-intent language and propose an SEO title tag + meta description.\n{{/if}}\n## Deliverables\n1. The complete section-by-section copy with clear headers.\n2. 3 hero headline alternatives to A/B test.\n3. A one-line note on the core conversion narrative.\n\nUse well-reasoned defaults; ask only if the value proposition is unclear."
+  },
+  {
+    "id": "value-proposition",
+    "label": "Value Proposition",
+    "description": "Sharp positioning statement and messaging pillars",
+    "icon": "Target",
+    "fields": [
+      { "id": "product", "label": "Product or company", "type": "text", "required": true, "placeholder": "Linear" },
+      { "id": "summary", "label": "What it does", "type": "textarea", "required": true, "placeholder": "Issue tracking and project planning built for high-velocity software teams." },
+      { "id": "audience", "label": "Primary audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "problem", "label": "Core problem you solve", "type": "textarea", "required": true, "placeholder": "Existing trackers are slow, bloated, and built for managers, not engineers." },
+      { "id": "alternatives", "label": "Main alternatives / competitors", "type": "text", "placeholder": "Jira, GitHub Issues, spreadsheets" },
+      { "id": "differentiators", "label": "Why you're different", "type": "textarea", "placeholder": "Keyboard-first, instant sync, opinionated workflow, beautiful by default." },
+      { "id": "framework", "label": "Framework", "type": "select", "options": [ { "id": "asw", "label": "April Dunford positioning" }, { "id": "value-map", "label": "Value Proposition Canvas" }, { "id": "xyz", "label": "Geoff Moore 'For X who Y'" } ], "default": "xyz" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "authoritative" }
+    ],
+    "template": "You are a product marketing strategist who crafts positioning that sales and marketing can actually use. Define the value proposition for \"{{product}}\".\n\n## Product\n{{summary}}\n\n## Context\n{{#if audience}}- Primary audience: {{audience}}\n{{/if}}- Core problem: {{problem}}\n{{#if alternatives}}- Competing alternatives: {{alternatives}}\n{{/if}}{{#if differentiators}}- Differentiators: {{differentiators}}\n{{/if}}- Apply the {{framework}} framework.\n- Tone: {{tone}}\n\n## What to produce\n- One sharp primary value proposition statement (one or two sentences, no jargon).\n- 3 supporting messaging pillars, each with a one-line proof or capability.\n- A one-sentence positioning statement contrasting with the alternatives.\n- 3 tagline options.\n\n## Deliverables\n1. The value proposition, pillars, positioning statement and taglines.\n2. A short rationale for the chosen angle and why it beats the alternatives.\n3. One risk or assumption to validate with customers.\n\nProceed with well-reasoned defaults; ask only if the audience or problem is ambiguous."
+  },
+  {
+    "id": "ad-variations",
+    "label": "Ad Variations",
+    "description": "Many test-ready variants from one core message",
+    "icon": "Copy",
+    "fields": [
+      { "id": "product", "label": "Product or service", "type": "text", "required": true, "placeholder": "Budgeting app for freelancers" },
+      { "id": "baseAd", "label": "Base ad or core message", "type": "textarea", "required": true, "placeholder": "Stop guessing your tax bill. Auto-set aside taxes from every invoice. Free for your first 3 months." },
+      { "id": "channel", "label": "Channel", "type": "select", "options": [ { "id": "meta", "label": "Meta" }, { "id": "google", "label": "Google Search" }, { "id": "tiktok", "label": "TikTok" }, { "id": "linkedin", "label": "LinkedIn" }, { "id": "x", "label": "X / Twitter" } ], "default": "meta" },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "count", "label": "Variants per dimension", "type": "select", "options": [ { "id": "3", "label": "3" }, { "id": "5", "label": "5" }, { "id": "8", "label": "8" } ], "default": "5" },
+      { "id": "dimensions", "label": "Vary along", "type": "multi-select", "options": [ { "id": "hook", "label": "Hook" }, { "id": "angle", "label": "Angle" }, { "id": "tone", "label": "Tone" }, { "id": "length", "label": "Length" }, { "id": "cta", "label": "CTA" } ], "default": ["hook", "angle", "cta"] },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Keep claims provable; no emojis; stay within channel character limits." }
+    ],
+    "template": "You are a performance creative strategist who builds disciplined ad-testing matrices. Generate test-ready variations from one core message for \"{{product}}\".\n\n## Base message\n{{baseAd}}\n\n## Setup\n- Channel: {{channel}}\n{{#if audience}}- Audience: {{audience}}\n{{/if}}- Produce {{count}} distinct variants for each dimension below, keeping the offer and claims constant so the test isolates one variable.\n{{#each dimensions}}- Vary the: {{this}}\n{{/each}}\n- Respect the native format and character limits of {{channel}}.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The variants, grouped under a clear header per dimension and numbered.\n2. A recommended test sequence (what to test first and why).\n3. The single success metric to judge winners by.\n\nMake confident creative calls; ask only if the base message is ambiguous."
+  },
+  {
+    "id": "ugc-script",
+    "label": "UGC Video Script",
+    "description": "Authentic creator-style script with hook and beats",
+    "icon": "Video",
+    "fields": [
+      { "id": "product", "label": "Product", "type": "text", "required": true, "placeholder": "Hydrating face serum" },
+      { "id": "details", "label": "Product details & key benefit", "type": "textarea", "required": true, "placeholder": "Lightweight serum that visibly plumps skin in 7 days. Fragrance-free, dermatologist-tested." },
+      { "id": "audience", "label": "Target audience", "type": "select", "optionsRef": "audiences" },
+      { "id": "length", "label": "Video length", "type": "select", "options": [ { "id": "15", "label": "15 seconds" }, { "id": "30", "label": "30 seconds" }, { "id": "60", "label": "60 seconds" } ], "default": "30" },
+      { "id": "format", "label": "Format / angle", "type": "select", "options": [ { "id": "testimonial", "label": "Testimonial / review" }, { "id": "unboxing", "label": "Unboxing" }, { "id": "problem", "label": "Problem-solution" }, { "id": "routine", "label": "Day in the life / routine" }, { "id": "listicle", "label": "Listicle (3 reasons)" } ], "default": "problem" },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "tiktok", "label": "TikTok" }, { "id": "reels", "label": "Instagram Reels" }, { "id": "shorts", "label": "YouTube Shorts" } ], "default": "tiktok" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "captions", "label": "Include on-screen captions & b-roll notes", "type": "toggle", "default": true }
+    ],
+    "template": "You are a UGC creative director who writes scripts that feel like a real person, not an ad. Write a {{length}}-second UGC script for \"{{product}}\".\n\n## Product\n{{details}}\n\n## Setup\n{{#if audience}}- Audience: {{audience}}\n{{/if}}- Platform: {{platform}}\n- Format: {{format}}\n- Tone: {{tone}} and unpolished/authentic, never salesy.\n\n## Script requirements\n- Open with a 1-2 second scroll-stopping verbal + visual hook.\n- Structure the rest in timed beats that fit {{length}} seconds of natural speech.\n- Show, don't claim: tie the key benefit to a believable moment.\n- End with a soft, native call to action.\n{{#if captions}}- Provide on-screen caption text and b-roll / shot direction per beat.\n{{/if}}\n## Deliverables\n1. The script as a timestamped beat sheet (spoken line + visual{{#if captions}} + caption{{/if}}).\n2. 3 alternative hook lines.\n3. A one-line note on why this angle suits {{platform}}.\n\nProceed with well-reasoned defaults; ask only if the product benefit is unclear."
+  },
+  {
+    "id": "linkedin-ads",
+    "label": "LinkedIn Ads Copy",
+    "description": "B2B sponsored content and lead-gen ad copy",
+    "icon": "Linkedin",
+    "fields": [
+      { "id": "product", "label": "Product or service", "type": "text", "required": true, "placeholder": "Revenue intelligence platform" },
+      { "id": "details", "label": "Offer, value & proof", "type": "textarea", "required": true, "placeholder": "Forecast accuracy up 25%. Used by 400+ revenue teams. Whitepaper: The 2026 Revenue Operations Benchmark." },
+      { "id": "audience", "label": "Target persona", "type": "select", "optionsRef": "audiences" },
+      { "id": "industry", "label": "Industry / segment", "type": "text", "placeholder": "B2B SaaS, mid-market, 200-1000 employees" },
+      { "id": "adFormat", "label": "Ad format", "type": "select", "options": [ { "id": "single", "label": "Single image" }, { "id": "carousel", "label": "Carousel" }, { "id": "document", "label": "Document / lead-gen" }, { "id": "message", "label": "Conversation / message ad" } ], "default": "single" },
+      { "id": "funnel", "label": "Funnel stage", "type": "select", "options": [ { "id": "tofu", "label": "Awareness (thought leadership)" }, { "id": "mofu", "label": "Consideration (gated asset)" }, { "id": "bofu", "label": "Decision (demo / trial)" } ], "default": "mofu" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "professional" },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Keep intro text under 150 chars before the 'see more' fold; no hype; cite sources." }
+    ],
+    "template": "You are a B2B demand-generation copywriter who writes LinkedIn ads that respect a busy professional's time. Write {{adFormat}} ad copy for \"{{product}}\".\n\n## Offer & proof\n{{details}}\n\n## Targeting\n{{#if audience}}- Persona: {{audience}}\n{{/if}}{{#if industry}}- Segment: {{industry}}\n{{/if}}- Funnel stage: {{funnel}}\n- Tone: {{tone}}, peer-to-peer, credible.\n\n## What to produce\n- 3 intro text variants (front-load the value within the first ~150 characters before the fold).\n- 3 headline options (<=70 chars) and a supporting description line.\n{{#if adFormat == \"carousel\"}}- A 5-card carousel outline: one idea per card with a headline and one line of body, ending on a CTA card.\n{{/if}}{{#if adFormat == \"message\"}}- A conversation/message ad: opening line, body, and CTA button text, written to feel 1:1 not broadcast.\n{{/if}}- A CTA matched to the {{funnel}} stage (no \"Buy now\" at awareness).\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The full ad copy set, labeled by component.\n2. A note on the strongest hook and why it fits this persona.\n3. One follow-up ad idea for the next funnel stage.\n\nMake confident calls; ask only if the offer or persona is unclear."
+  }
+]

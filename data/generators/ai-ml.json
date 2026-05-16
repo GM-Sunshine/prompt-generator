@@ -1,0 +1,116 @@
+[
+  {
+    "id": "model-training-plan",
+    "label": "Model Training Plan",
+    "description": "Plan a rigorous model training run with data, metrics and compute",
+    "icon": "Brain",
+    "fields": [
+      { "id": "projectName", "label": "Project name", "type": "text", "required": true, "placeholder": "churn-predictor-v2" },
+      { "id": "objective", "label": "Problem & success criteria", "type": "textarea", "required": true, "placeholder": "Predict 30-day churn; success = recall > 0.7 at precision > 0.4 on the holdout set." },
+      { "id": "taskType", "label": "Task type", "type": "select", "options": [ { "id": "classification", "label": "Classification" }, { "id": "regression", "label": "Regression" }, { "id": "ranking", "label": "Ranking / recsys" }, { "id": "cv", "label": "Computer vision" }, { "id": "nlp", "label": "NLP" }, { "id": "ts", "label": "Time series" } ], "required": true, "default": "classification" },
+      { "id": "data", "label": "Data available", "type": "textarea", "required": true, "placeholder": "~2M labeled events in BigQuery, class imbalance ~5%, some leakage risk on billing fields." },
+      { "id": "modelFamily", "label": "Model family", "type": "select", "options": [ { "id": "gbdt", "label": "Gradient-boosted trees" }, { "id": "linear", "label": "Linear / GLM" }, { "id": "nn", "label": "Deep neural net" }, { "id": "transformer", "label": "Transformer" }, { "id": "ensemble", "label": "Ensemble" } ], "default": "gbdt" },
+      { "id": "compute", "label": "Compute budget", "type": "select", "options": [ { "id": "cpu", "label": "CPU only" }, { "id": "single-gpu", "label": "Single GPU" }, { "id": "multi-gpu", "label": "Multi-GPU" }, { "id": "cluster", "label": "Distributed cluster" } ], "default": "single-gpu" },
+      { "id": "tracking", "label": "Require experiment tracking & reproducibility", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Inference must be < 50ms; model must be explainable; no PII in features." }
+    ],
+    "template": "You are a senior ML engineer. Write a training plan for \"{{projectName}}\".\n\n## Objective\n{{objective}}\n- Task type: {{taskType}}\n- Candidate model family: {{modelFamily}}\n- Compute budget: {{compute}}\n\n## Data\n{{data}}\n\n## Plan to produce\n- Data pipeline: splits (train/val/test) with leakage and distribution-shift checks, plus a baseline.\n- Feature/representation strategy and preprocessing.\n- Training setup: loss, optimizer, schedule, regularization, and a hyperparameter search plan scoped to the compute budget.\n- Evaluation: primary and guardrail metrics tied to the success criteria, plus slice/fairness analysis.\n{{#if tracking}}- Reproducibility: seeded runs, versioned data/code, and experiment tracking for every run.\n{{/if}}- Stopping criteria and a clear go/no-go bar for promotion.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The end-to-end plan with a baseline-first sequence of experiments.\n2. The metric definitions and how each maps to the objective.\n3. Risks (leakage, imbalance, drift) and concrete mitigations.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "eval-harness",
+    "label": "Evaluation Harness",
+    "description": "Design an automated eval harness for an AI system with scored metrics",
+    "icon": "FlaskConical",
+    "fields": [
+      { "id": "systemName", "label": "System under test", "type": "text", "required": true, "placeholder": "support-assistant" },
+      { "id": "summary", "label": "What does the system do?", "type": "textarea", "required": true, "placeholder": "An LLM assistant that answers billing questions using retrieved docs and tools." },
+      { "id": "systemType", "label": "System type", "type": "select", "options": [ { "id": "llm", "label": "LLM / prompt" }, { "id": "rag", "label": "RAG pipeline" }, { "id": "agent", "label": "Agent / tool-use" }, { "id": "classifier", "label": "Classifier / model" } ], "required": true, "default": "rag" },
+      { "id": "dimensions", "label": "Quality dimensions to score", "type": "multi-select", "options": [ { "id": "accuracy", "label": "Accuracy / correctness" }, { "id": "faithfulness", "label": "Faithfulness / groundedness" }, { "id": "safety", "label": "Safety" }, { "id": "format", "label": "Format adherence" }, { "id": "latency", "label": "Latency / cost" }, { "id": "robustness", "label": "Robustness to adversarial input" } ], "default": ["accuracy", "faithfulness", "safety"] },
+      { "id": "scoring", "label": "Scoring method", "type": "select", "options": [ { "id": "exact", "label": "Exact / rule-based" }, { "id": "llm-judge", "label": "LLM-as-judge" }, { "id": "human", "label": "Human rating" }, { "id": "hybrid", "label": "Hybrid" } ], "default": "hybrid" },
+      { "id": "regression", "label": "Run as a CI regression gate", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Eval set ~300 cases; judge cost capped; must catch faithfulness regressions." }
+    ],
+    "template": "You are an AI evaluation specialist. Design an evaluation harness for \"{{systemName}}\".\n\n## System\n{{summary}}\n- Type: {{systemType}}\n- Quality dimensions: {{dimensions}}\n- Scoring method: {{scoring}}\n\n## Harness design\n- Dataset: how to build a representative eval set (including hard/edge/adversarial cases) and how to version it.\n- Metrics: a precise, reproducible definition and scoring rubric for each dimension.\n{{#if scoring == \"LLM-as-judge\"}}- Judge design: a strict rubric prompt, calibration against human labels, and bias controls.\n{{/if}}{{#if scoring == \"Hybrid\"}}- Combine deterministic checks with an LLM/human judge; calibrate the judge against human labels.\n{{/if}}- Aggregation: per-slice scores, confidence intervals, and pass/fail thresholds.\n{{#if regression}}- CI integration: a regression gate that blocks merges on score drops, with a stable seed and a flake budget.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The harness architecture and the runnable scoring code/config.\n2. The dataset schema and a starter set of example cases.\n3. A report format showing scores, regressions and failure exemplars.\n\nUse rigorous, reproducible defaults and explain trade-offs; ask only if blocked."
+  },
+  {
+    "id": "rag-pipeline",
+    "label": "RAG Pipeline",
+    "description": "Architect a retrieval-augmented generation pipeline end to end",
+    "icon": "Database",
+    "fields": [
+      { "id": "projectName", "label": "Project name", "type": "text", "required": true, "placeholder": "docs-copilot" },
+      { "id": "useCase", "label": "Use case & corpus", "type": "textarea", "required": true, "placeholder": "Answer engineering questions over ~50k internal Markdown/PDF docs that change weekly." },
+      { "id": "retrieval", "label": "Retrieval strategy", "type": "select", "options": [ { "id": "dense", "label": "Dense (embeddings)" }, { "id": "sparse", "label": "Sparse (BM25)" }, { "id": "hybrid", "label": "Hybrid + rerank" }, { "id": "graph", "label": "Graph / structured" } ], "required": true, "default": "hybrid" },
+      { "id": "vectorStore", "label": "Vector store", "type": "select", "options": [ { "id": "pgvector", "label": "pgvector" }, { "id": "qdrant", "label": "Qdrant" }, { "id": "pinecone", "label": "Pinecone" }, { "id": "elastic", "label": "Elasticsearch" }, { "id": "faiss", "label": "FAISS (local)" } ], "default": "pgvector" },
+      { "id": "features", "label": "Pipeline features", "type": "multi-select", "options": [ { "id": "rerank", "label": "Reranking" }, { "id": "citations", "label": "Citations" }, { "id": "queryrewrite", "label": "Query rewriting" }, { "id": "guardrails", "label": "Guardrails" }, { "id": "caching", "label": "Caching" }, { "id": "freshness", "label": "Incremental re-indexing" } ], "default": ["rerank", "citations", "freshness"] },
+      { "id": "evals", "label": "Include retrieval & answer evals", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Answers must cite sources; p95 < 3s; corpus is confidential, stays in our VPC." }
+    ],
+    "template": "You are an applied AI engineer specializing in RAG. Architect a RAG pipeline for \"{{projectName}}\".\n\n## Use case\n{{useCase}}\n- Retrieval strategy: {{retrieval}}\n- Vector store: {{vectorStore}}\n- Features: {{features}}\n\n## Pipeline design\n- Ingestion: parsing, cleaning, chunking strategy with rationale, embedding model choice, and metadata schema.\n- Retrieval: the {{retrieval}} approach with top-k, filters, and {{#if features}}the selected features wired in (e.g. reranking, query rewriting){{else}}sensible relevance defaults{{/if}}.\n- Generation: a grounded prompt that forces use of retrieved context and refuses when context is insufficient.\n{{#if features}}{{#if features == \"freshness\"}}- Freshness: an incremental re-indexing path so corpus changes propagate without full rebuilds.\n{{/if}}{{/if}}{{#if evals}}- Evaluation: retrieval metrics (recall@k, MRR) and answer metrics (faithfulness, correctness) on a versioned eval set.\n{{/if}}\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The architecture (ingestion, index, retrieve, generate) with the chunking and embedding rationale.\n2. The runnable pipeline code and configuration.\n3. The eval plan and the main failure modes with mitigations.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "ai-agent",
+    "label": "AI Agent",
+    "description": "Specify a tool-using AI agent with safe autonomy and clear stop rules",
+    "icon": "Bot",
+    "fields": [
+      { "id": "agentName", "label": "Agent name", "type": "text", "required": true, "placeholder": "triage-agent" },
+      { "id": "goal", "label": "Goal & success criteria", "type": "textarea", "required": true, "placeholder": "Triage inbound bug reports: label, deduplicate, request missing info, and assign." },
+      { "id": "tools", "label": "Tools / capabilities", "type": "textarea", "required": true, "placeholder": "GitHub API (read/write issues), search over docs, internal user-lookup endpoint." },
+      { "id": "autonomy", "label": "Autonomy level", "type": "select", "options": [ { "id": "suggest", "label": "Suggest only (human approves)" }, { "id": "act-confirm", "label": "Act with confirmation on risky steps" }, { "id": "autonomous", "label": "Fully autonomous within guardrails" } ], "required": true, "default": "act-confirm" },
+      { "id": "pattern", "label": "Reasoning pattern", "type": "select", "options": [ { "id": "react", "label": "ReAct (reason + act loop)" }, { "id": "plan-execute", "label": "Plan then execute" }, { "id": "reflexion", "label": "Plan + reflect/critique" } ], "default": "react" },
+      { "id": "memory", "label": "Needs persistent memory/state", "type": "toggle", "default": false },
+      { "id": "guardrails", "label": "Include safety guardrails & limits", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Max 15 tool calls per task; never close an issue without confirmation; budget $0.10/task." }
+    ],
+    "template": "You are an AI agent architect. Specify and build the agent \"{{agentName}}\".\n\n## Goal\n{{goal}}\n- Autonomy: {{autonomy}}\n- Reasoning pattern: {{pattern}}\n\n## Tools\n{{tools}}\n\n## Agent design\n- A precise system prompt defining role, objective, the tool contract, and exactly when the task is done.\n- The control loop using the {{pattern}} pattern, with explicit termination and failure handling (no infinite loops).\n- Tool schemas with strict input validation and safe, idempotent side effects.\n{{#if memory}}- Memory: what state persists across steps/sessions and how it is read/written.\n{{/if}}{{#if guardrails}}- Guardrails: action allowlists, confirmation on irreversible/risky actions, step/cost budgets, and graceful give-up behavior.\n{{/if}}- Observability: structured traces of every decision and tool call for debugging.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The system prompt and tool/schema definitions.\n2. The runnable agent loop code with guardrails enforced.\n3. Test scenarios (happy path, tool failure, adversarial) and how to evaluate them.\n\nMake confident, well-documented decisions; ask only if genuinely blocked."
+  },
+  {
+    "id": "prompt-system",
+    "label": "Prompt System",
+    "description": "Engineer a robust, structured prompt for a production LLM task",
+    "icon": "MessageSquareCode",
+    "fields": [
+      { "id": "taskName", "label": "Task name", "type": "text", "required": true, "placeholder": "support-reply-drafter" },
+      { "id": "task", "label": "What should the LLM do?", "type": "textarea", "required": true, "placeholder": "Draft an empathetic support reply from a ticket plus relevant KB snippets." },
+      { "id": "inputs", "label": "Inputs available", "type": "textarea", "required": true, "placeholder": "Ticket text, customer tier, KB snippets, prior conversation." },
+      { "id": "outputFormat", "label": "Output format", "type": "select", "options": [ { "id": "json", "label": "Structured JSON" }, { "id": "markdown", "label": "Markdown" }, { "id": "plain", "label": "Plain text" }, { "id": "xml", "label": "XML / tagged" } ], "required": true, "default": "json" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones" },
+      { "id": "techniques", "label": "Techniques to apply", "type": "multi-select", "options": [ { "id": "fewshot", "label": "Few-shot examples" }, { "id": "cot", "label": "Step-by-step reasoning" }, { "id": "rubric", "label": "Self-check rubric" }, { "id": "refusal", "label": "Refusal/uncertainty handling" }, { "id": "delimiters", "label": "Strict delimiters" } ], "default": ["fewshot", "delimiters", "refusal"] },
+      { "id": "constraints", "label": "Constraints & failure modes", "type": "textarea", "placeholder": "Never invent policy; must stay under 150 words; handle non-English input." }
+    ],
+    "template": "You are a prompt engineer. Design a production prompt system for the task \"{{taskName}}\".\n\n## Task\n{{task}}\n- Inputs available: {{inputs}}\n- Required output format: {{outputFormat}}\n{{#if tone}}- Tone: {{tone}}\n{{/if}}- Techniques to apply: {{techniques}}\n\n## Prompt design\n- A clear role and objective, with the input contract and how inputs are delimited unambiguously.\n- An exact, machine-checkable specification of the {{outputFormat}} output.\n{{#if techniques}}- Apply the selected techniques deliberately (e.g. few-shot exemplars chosen to cover edge cases; an internal self-check before final output).\n{{/if}}- Explicit handling of missing/contradictory inputs and an uncertainty/refusal path instead of hallucination.\n\n{{#if constraints}}## Constraints & failure modes\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The final prompt template (with variable placeholders) ready to drop in.\n2. 3-5 labeled test cases including hard/adversarial ones with expected outputs.\n3. Notes on known failure modes and how the prompt mitigates each.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "fine-tuning-plan",
+    "label": "Fine-Tuning Plan",
+    "description": "Plan a fine-tuning effort with data curation and clear go/no-go gates",
+    "icon": "Sliders",
+    "fields": [
+      { "id": "projectName", "label": "Project name", "type": "text", "required": true, "placeholder": "tone-adapter" },
+      { "id": "objective", "label": "Why fine-tune (vs prompting/RAG)?", "type": "textarea", "required": true, "placeholder": "Need consistent brand voice and a fixed JSON schema that prompting can't reliably hit." },
+      { "id": "baseModel", "label": "Base model class", "type": "select", "options": [ { "id": "small-open", "label": "Small open model (<= 8B)" }, { "id": "mid-open", "label": "Mid open model (8-70B)" }, { "id": "hosted", "label": "Hosted provider model" } ], "required": true, "default": "small-open" },
+      { "id": "method", "label": "Tuning method", "type": "select", "options": [ { "id": "sft", "label": "Supervised fine-tuning" }, { "id": "lora", "label": "LoRA / PEFT" }, { "id": "dpo", "label": "Preference tuning (DPO)" }, { "id": "rlhf", "label": "RLHF" } ], "default": "lora" },
+      { "id": "dataSource", "label": "Training data", "type": "textarea", "required": true, "placeholder": "~5k production transcripts; need cleaning, dedup, PII scrubbing and a held-out set." },
+      { "id": "evalAgainstBaseline", "label": "Require A/B vs prompted baseline before adoption", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Single A100; must not regress safety; deployable as a LoRA adapter." }
+    ],
+    "template": "You are an ML engineer specializing in model adaptation. Write a fine-tuning plan for \"{{projectName}}\".\n\n## Objective & justification\n{{objective}}\n- Base model class: {{baseModel}}\n- Method: {{method}}\n\n## Training data\n{{dataSource}}\n\n## Plan to produce\n- A justification that fine-tuning beats prompting/RAG for this objective, or a recommendation to stop.\n- Data curation: cleaning, dedup, PII scrubbing, formatting to the training schema, and a frozen held-out set.\n- Training config for {{method}}: hyperparameters, run scope, and overfitting safeguards.\n- Evaluation: task metrics plus regression checks on general capability and safety.\n{{#if evalAgainstBaseline}}- A blind A/B vs the best prompted baseline as the explicit adoption gate.\n{{/if}}- Deployment & rollback: how the tuned model/adapter ships and how to revert.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The end-to-end plan with a clear go/no-go decision gate.\n2. The data spec and example formatted training records.\n3. Risks (overfitting, capability/safety regression, data leakage) with mitigations.\n\nProceed with well-reasoned defaults; ask only if genuinely blocked."
+  },
+  {
+    "id": "data-labeling-guide",
+    "label": "Data Labeling Guide",
+    "description": "Write precise labeling guidelines and a QA process for annotators",
+    "icon": "Tags",
+    "fields": [
+      { "id": "datasetName", "label": "Dataset / task name", "type": "text", "required": true, "placeholder": "intent-classification-v3" },
+      { "id": "purpose", "label": "What is the labeled data for?", "type": "textarea", "required": true, "placeholder": "Training an intent classifier for support chat; 12 intent classes plus 'other'." },
+      { "id": "labelType", "label": "Annotation type", "type": "select", "options": [ { "id": "class", "label": "Classification" }, { "id": "span", "label": "Span / entity" }, { "id": "rank", "label": "Ranking / preference" }, { "id": "bbox", "label": "Bounding box / segmentation" }, { "id": "freeform", "label": "Free-form / rewrite" } ], "required": true, "default": "class" },
+      { "id": "schema", "label": "Label schema / categories", "type": "textarea", "required": true, "placeholder": "billing, cancel, refund, technical, account, ... ; one primary label per item." },
+      { "id": "qa", "label": "QA approach", "type": "select", "options": [ { "id": "spotcheck", "label": "Spot-check sample" }, { "id": "double", "label": "Double-label + adjudication" }, { "id": "gold", "label": "Gold-set seeding" }, { "id": "consensus", "label": "Consensus / majority vote" } ], "default": "double" },
+      { "id": "edgeCases", "label": "Include worked edge-case examples", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints", "type": "textarea", "placeholder": "Annotators non-expert; PII must be flagged not transcribed; target IAA kappa > 0.7." }
+    ],
+    "template": "You are a data annotation lead. Write a labeling guide for \"{{datasetName}}\".\n\n## Purpose\n{{purpose}}\n- Annotation type: {{labelType}}\n\n## Label schema\n{{schema}}\n\n## Guide to produce\n- A crisp definition of each label/category with inclusion and exclusion criteria.\n- Decision rules for ambiguous cases and a deterministic tie-breaking order.\n{{#if edgeCases}}- Worked examples: clear positives, clear negatives, and tricky edge cases with the correct label and reasoning.\n{{/if}}- Annotator instructions: workflow, what to skip/flag, and how to mark uncertainty.\n- QA process: {{qa}}, including how disagreements are adjudicated and inter-annotator agreement is measured and acted on.\n\n{{#if constraints}}## Constraints\n{{constraints}}\n\n{{/if}}## Deliverables\n1. The complete guidelines document, written for the stated annotators.\n2. A labeled gold/example set illustrating each rule.\n3. The QA plan with agreement metrics and a path for guideline updates.\n\nBe unambiguous and operational; ask only if genuinely blocked."
+  }
+]

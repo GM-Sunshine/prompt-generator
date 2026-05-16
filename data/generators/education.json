@@ -1,0 +1,119 @@
+[
+  {
+    "id": "lesson-plan",
+    "label": "Lesson Plan",
+    "description": "A structured, standards-aligned lesson with timing and assessment",
+    "icon": "BookOpen",
+    "fields": [
+      { "id": "topic", "label": "Lesson topic", "type": "text", "required": true, "placeholder": "Photosynthesis and the carbon cycle" },
+      { "id": "objectives", "label": "Learning objectives", "type": "textarea", "required": true, "placeholder": "Students will explain how plants convert light energy into chemical energy." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "duration", "label": "Lesson length", "type": "select", "options": [ { "id": "30", "label": "30 minutes" }, { "id": "45", "label": "45 minutes" }, { "id": "60", "label": "60 minutes" }, { "id": "90", "label": "90 minutes / block" } ], "default": "60" },
+      { "id": "modality", "label": "Modality", "type": "select", "options": [ { "id": "inperson", "label": "In-person" }, { "id": "online", "label": "Online / synchronous" }, { "id": "hybrid", "label": "Hybrid" } ], "default": "inperson" },
+      { "id": "strategies", "label": "Instructional strategies", "type": "multi-select", "options": [ { "id": "direct", "label": "Direct instruction" }, { "id": "inquiry", "label": "Inquiry-based" }, { "id": "groupwork", "label": "Collaborative groups" }, { "id": "discussion", "label": "Socratic discussion" }, { "id": "handson", "label": "Hands-on / lab" } ], "default": ["direct", "groupwork"] },
+      { "id": "standards", "label": "Standards to align to", "type": "text", "placeholder": "NGSS MS-LS1-6" },
+      { "id": "differentiation", "label": "Include differentiation & supports", "type": "toggle", "default": true },
+      { "id": "constraints", "label": "Constraints or context", "type": "textarea", "placeholder": "No lab equipment; mixed-ability class of 28; one ELL group." }
+    ],
+    "template": "You are an experienced instructional designer and master teacher. Write a complete, classroom-ready lesson plan on \"{{topic}}\".\n\n## Learning objectives\n{{objectives}}\n\n## Context\n- Audience: {{audience}}\n- Length: {{duration}} minutes, delivered {{modality}}.\n{{#if standards}}- Align explicitly to: {{standards}}.\n{{/if}}{{#if strategies}}- Lean on these strategies: {{strategies}}.\n{{/if}}\n## Structure the plan as\n1. Hook / activation (with an estimated time per segment throughout).\n2. Direct instruction and modeling of the key concepts.\n3. Guided then independent practice with clear instructions.\n4. Formative checks for understanding tied to each objective.\n5. Closure and a brief exit ticket.\n{{#if differentiation}}\n## Differentiation\nProvide concrete scaffolds for struggling learners, extensions for advanced learners, and accommodations for diverse needs.\n{{/if}}{{#if constraints}}\n## Constraints\n{{constraints}}\n{{/if}}\n## Deliverables\n- The full lesson plan with a timed agenda, materials list, and the exit ticket.\n- Answer keys or model responses where relevant.\n\nProceed with sound pedagogical defaults; ask only if an objective is genuinely ambiguous."
+  },
+  {
+    "id": "concept-explainer",
+    "label": "Concept Explainer",
+    "description": "Explain any concept clearly with analogies and examples",
+    "icon": "Lightbulb",
+    "fields": [
+      { "id": "concept", "label": "Concept to explain", "type": "text", "required": true, "placeholder": "Recursion in programming" },
+      { "id": "context", "label": "Why are they learning this?", "type": "textarea", "required": true, "placeholder": "First-year CS students preparing for a unit on tree traversal." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "depth", "label": "Explanation depth", "type": "select", "options": [ { "id": "intuitive", "label": "Intuitive overview" }, { "id": "working", "label": "Working understanding" }, { "id": "rigorous", "label": "Rigorous / formal" } ], "default": "working" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "friendly" },
+      { "id": "useAnalogies", "label": "Use analogies & metaphors", "type": "toggle", "default": true },
+      { "id": "includeMisconceptions", "label": "Address common misconceptions", "type": "toggle", "default": true },
+      { "id": "format", "label": "Output format", "type": "select", "options": [ { "id": "prose", "label": "Explanatory prose" }, { "id": "qa", "label": "Question & answer" }, { "id": "steps", "label": "Step-by-step build-up" } ], "default": "steps" }
+    ],
+    "template": "You are a gifted teacher known for making hard ideas click. Explain \"{{concept}}\" so it genuinely lands.\n\n## Learner context\n{{context}}\n\n## Calibration\n- Audience: {{audience}}\n- Depth: {{depth}}.\n- Tone: {{tone}}.\n- Present it as {{format}}.\n\n## How to explain\n- Start from what the learner likely already knows and build up deliberately.\n{{#if useAnalogies}}- Use at least one vivid, accurate analogy, then note where the analogy breaks down.\n{{/if}}- Include 2-3 concrete worked examples, increasing in difficulty.\n{{#if includeMisconceptions}}- Surface the most common misconceptions and correct them directly.\n{{/if}}- End with a one-paragraph recap and a single check-your-understanding question with the answer.\n\n## Deliverables\nThe complete explanation, self-contained and ready to hand to the learner.\n\nProceed with well-reasoned defaults; do not ask clarifying questions unless the concept is ambiguous."
+  },
+  {
+    "id": "quiz-generator",
+    "label": "Quiz Generator",
+    "description": "Generate a balanced quiz with an answer key and rationale",
+    "icon": "ListChecks",
+    "fields": [
+      { "id": "topic", "label": "Quiz topic", "type": "text", "required": true, "placeholder": "World War II causes and timeline" },
+      { "id": "source", "label": "Source material or scope", "type": "textarea", "required": true, "placeholder": "Covers chapters 4-6: appeasement, the invasion of Poland, the Pacific theater." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "count", "label": "Number of questions", "type": "select", "options": [ { "id": "5", "label": "5" }, { "id": "10", "label": "10" }, { "id": "15", "label": "15" }, { "id": "20", "label": "20" } ], "default": "10" },
+      { "id": "types", "label": "Question types", "type": "multi-select", "options": [ { "id": "mcq", "label": "Multiple choice" }, { "id": "tf", "label": "True / false" }, { "id": "short", "label": "Short answer" }, { "id": "essay", "label": "Extended response" } ], "default": ["mcq", "short"] },
+      { "id": "difficulty", "label": "Difficulty mix", "type": "select", "options": [ { "id": "easy", "label": "Mostly recall" }, { "id": "balanced", "label": "Balanced (recall + application)" }, { "id": "hard", "label": "Analysis-heavy" } ], "default": "balanced" },
+      { "id": "rationale", "label": "Include answer rationale", "type": "toggle", "default": true },
+      { "id": "bloom", "label": "Tag each item with Bloom's level", "type": "toggle", "default": false }
+    ],
+    "template": "You are an assessment specialist who writes fair, valid quiz items. Create a {{count}}-question quiz on \"{{topic}}\".\n\n## Scope\n{{source}}\n\n## Specifications\n- Audience: {{audience}}\n- Question types: {{types}}.\n- Difficulty profile: {{difficulty}}.\n{{#if bloom}}- Tag every item with its Bloom's taxonomy level.\n{{/if}}\n## Quality rules\n- Each question maps clearly to the scope above; no trick questions or ambiguous wording.\n- Multiple-choice items have one unambiguous correct answer and plausible, non-overlapping distractors.\n- Vary the position of correct answers.\n\n## Deliverables\n1. The numbered quiz, ready to administer.\n2. A separate answer key.{{#if rationale}} Each answer includes a one-sentence rationale and, for wrong options, why they are wrong.{{/if}}\n\nProceed with sensible defaults; only ask if the scope is too vague to write valid items."
+  },
+  {
+    "id": "curriculum-outline",
+    "label": "Curriculum Outline",
+    "description": "Design a sequenced unit or course with outcomes and pacing",
+    "icon": "GraduationCap",
+    "fields": [
+      { "id": "subject", "label": "Course or unit title", "type": "text", "required": true, "placeholder": "Introduction to Data Science" },
+      { "id": "goals", "label": "Overarching goals", "type": "textarea", "required": true, "placeholder": "Learners can frame a question, clean data, build a model, and communicate findings." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "scope", "label": "Total duration", "type": "select", "options": [ { "id": "week", "label": "1 week intensive" }, { "id": "unit", "label": "3-4 week unit" }, { "id": "term", "label": "Full term / semester" }, { "id": "year", "label": "Full year" } ], "default": "term" },
+      { "id": "cadence", "label": "Session cadence", "type": "select", "options": [ { "id": "daily", "label": "Daily" }, { "id": "weekly", "label": "Weekly" }, { "id": "selfpaced", "label": "Self-paced" } ], "default": "weekly" },
+      { "id": "priorKnowledge", "label": "Assumed prior knowledge", "type": "text", "placeholder": "Basic Python; high-school statistics" },
+      { "id": "includeAssessment", "label": "Include assessment plan", "type": "toggle", "default": true },
+      { "id": "includeResources", "label": "Suggest resources per module", "type": "toggle", "default": true }
+    ],
+    "template": "You are a curriculum architect. Design a coherent, sequenced curriculum outline for \"{{subject}}\".\n\n## Goals\n{{goals}}\n\n## Parameters\n- Audience: {{audience}}\n- Scope: {{scope}}, delivered on a {{cadence}} cadence.\n{{#if priorKnowledge}}- Assumed prior knowledge: {{priorKnowledge}}.\n{{/if}}\n## Build the outline as\n1. A short statement of measurable end-of-course outcomes.\n2. Modules in deliberate order, each with: focus, 2-4 learning objectives, key activities, and estimated time.\n3. A pacing guide mapping modules to the {{cadence}} schedule.\n{{#if includeAssessment}}4. An assessment plan: formative checkpoints and a summative assessment per module, aligned to the outcomes.\n{{/if}}{{#if includeResources}}5. Recommended readings/tools for each module.\n{{/if}}\n## Deliverables\nThe complete outline, structured so another instructor could teach from it.\n\nMake confident sequencing decisions and note any assumptions; ask only if blocked."
+  },
+  {
+    "id": "study-guide",
+    "label": "Study Guide",
+    "description": "A focused revision guide with summaries and self-checks",
+    "icon": "NotebookPen",
+    "fields": [
+      { "id": "topic", "label": "Subject / exam topic", "type": "text", "required": true, "placeholder": "Organic chemistry: reaction mechanisms" },
+      { "id": "scope", "label": "What's covered", "type": "textarea", "required": true, "placeholder": "SN1/SN2, E1/E2, addition reactions, and the relevant nomenclature." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "timeAvailable", "label": "Time available to study", "type": "select", "options": [ { "id": "night", "label": "One night" }, { "id": "week", "label": "About a week" }, { "id": "month", "label": "A few weeks" } ], "default": "week" },
+      { "id": "sections", "label": "Include sections", "type": "multi-select", "options": [ { "id": "summaries", "label": "Concept summaries" }, { "id": "keyterms", "label": "Key terms & definitions" }, { "id": "practice", "label": "Practice questions" }, { "id": "mnemonics", "label": "Mnemonics & memory aids" }, { "id": "pitfalls", "label": "Common pitfalls" } ], "default": ["summaries", "keyterms", "practice"] },
+      { "id": "studyPlan", "label": "Include a day-by-day study plan", "type": "toggle", "default": true },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "encouraging" }
+    ],
+    "template": "You are a study-skills coach and subject expert. Produce a focused study guide for \"{{topic}}\".\n\n## Scope to cover\n{{scope}}\n\n## Setup\n- Audience: {{audience}}\n- Time available: {{timeAvailable}}.\n- Tone: {{tone}}.\n- Include these sections: {{sections}}.\n\n## Requirements\n- Prioritize the highest-yield material first; be concise and skimmable.\n- Concept summaries explain, not just list; practice questions come with worked answers.\n{{#if studyPlan}}- Provide a realistic day-by-day study plan that fits the time available.\n{{/if}}- End with a quick self-assessment the learner can use to gauge readiness.\n\n## Deliverables\nThe complete study guide, formatted for fast review.\n\nProceed with sensible defaults; do not ask clarifying questions unless the scope is unclear."
+  },
+  {
+    "id": "rubric",
+    "label": "Grading Rubric",
+    "description": "Build a clear, criteria-based rubric with performance levels",
+    "icon": "ClipboardCheck",
+    "fields": [
+      { "id": "assignment", "label": "Assignment or task", "type": "text", "required": true, "placeholder": "Persuasive essay on a current issue" },
+      { "id": "description", "label": "Assignment description", "type": "textarea", "required": true, "placeholder": "A 1,000-word argumentative essay with a clear thesis, evidence, and counterargument." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "criteria", "label": "Criteria to assess", "type": "textarea", "required": true, "placeholder": "Thesis & argument, evidence, organization, style, mechanics." },
+      { "id": "levels", "label": "Performance levels", "type": "select", "options": [ { "id": "3", "label": "3 levels" }, { "id": "4", "label": "4 levels" }, { "id": "5", "label": "5 levels" } ], "default": "4" },
+      { "id": "scale", "label": "Scoring scale", "type": "select", "options": [ { "id": "points", "label": "Points / weighted" }, { "id": "letter", "label": "Letter equivalents" }, { "id": "qualitative", "label": "Qualitative only" } ], "default": "points" },
+      { "id": "studentFriendly", "label": "Add a student-friendly version", "type": "toggle", "default": true }
+    ],
+    "template": "You are an assessment designer specializing in valid, transparent rubrics. Build a grading rubric for \"{{assignment}}\".\n\n## Assignment\n{{description}}\n\n## Criteria to assess\n{{criteria}}\n\n## Format\n- Audience: {{audience}}\n- Use {{levels}} performance levels with a {{scale}} scale.\n- Present the rubric as a table: rows are criteria, columns are performance levels.\n\n## Requirements\n- Each cell describes observable, distinguishable performance; adjacent levels must be clearly differentiated.\n- Language is concrete and free of vague qualifiers like \"good\" or \"adequate\" unless defined.\n{{#if studentFriendly}}- After the rubric, add a plain-language version students can self-assess against before submitting.\n{{/if}}\n## Deliverables\nThe complete rubric{{#if studentFriendly}} plus the student-friendly version{{/if}}, ready to use.\n\nProceed with well-reasoned defaults; ask only if the criteria are too vague to differentiate levels."
+  },
+  {
+    "id": "flashcards",
+    "label": "Flashcard Set",
+    "description": "Create spaced-repetition-ready flashcards from any material",
+    "icon": "Layers",
+    "fields": [
+      { "id": "topic", "label": "Topic", "type": "text", "required": true, "placeholder": "Spanish travel vocabulary" },
+      { "id": "material", "label": "Material to draw from", "type": "textarea", "required": true, "placeholder": "Airport, hotel, directions, and restaurant phrases from unit 5." },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "required": true },
+      { "id": "count", "label": "Number of cards", "type": "select", "options": [ { "id": "10", "label": "10" }, { "id": "20", "label": "20" }, { "id": "30", "label": "30" }, { "id": "50", "label": "50" } ], "default": "20" },
+      { "id": "cardStyle", "label": "Card style", "type": "select", "options": [ { "id": "qa", "label": "Question / answer" }, { "id": "term", "label": "Term / definition" }, { "id": "cloze", "label": "Cloze deletion" } ], "default": "qa" },
+      { "id": "outputFormat", "label": "Output format", "type": "select", "options": [ { "id": "csv", "label": "CSV (front,back)" }, { "id": "table", "label": "Markdown table" }, { "id": "list", "label": "Numbered list" } ], "default": "csv" },
+      { "id": "addHints", "label": "Include a hint per card", "type": "toggle", "default": false }
+    ],
+    "template": "You are a learning engineer who designs effective spaced-repetition decks. Create a set of {{count}} flashcards on \"{{topic}}\".\n\n## Source material\n{{material}}\n\n## Specifications\n- Audience: {{audience}}\n- Card style: {{cardStyle}}.\n- Output as {{outputFormat}}.\n{{#if addHints}}- Add a brief optional hint to each card.\n{{/if}}\n## Quality rules\n- One discrete idea per card; fronts are unambiguous and answers are atomic.\n- Avoid yes/no prompts; favor active recall.\n- No duplicate or trivially overlapping cards.\n\n## Deliverables\nThe full deck in the requested format, ready to import.\n\nProceed with sensible defaults; do not ask questions unless the material is insufficient to make {{count}} solid cards."
+  }
+]

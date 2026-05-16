@@ -1,0 +1,121 @@
+[
+  {
+    "id": "post-pack",
+    "label": "Social Post Pack",
+    "description": "A batch of platform-tailored posts from one idea",
+    "icon": "LayoutGrid",
+    "fields": [
+      { "id": "brand", "label": "Brand / creator", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "topic", "label": "Topic / message", "type": "textarea", "required": true, "placeholder": "Announcing our free benchmark report; key insight: median activation is 14 days." },
+      { "id": "platforms", "label": "Platforms", "type": "multi-select", "options": [ { "id": "linkedin", "label": "LinkedIn" }, { "id": "x", "label": "X / Twitter" }, { "id": "instagram", "label": "Instagram" }, { "id": "tiktok", "label": "TikTok" }, { "id": "facebook", "label": "Facebook" }, { "id": "threads", "label": "Threads" } ], "default": ["linkedin", "x"] },
+      { "id": "postsPer", "label": "Posts per platform", "type": "select", "options": [ { "id": "two", "label": "2" }, { "id": "three", "label": "3" }, { "id": "five", "label": "5" } ], "default": "three" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "cta", "label": "Call to action", "type": "text", "placeholder": "Download the free report (link)" },
+      { "id": "hashtags", "label": "Include hashtags & emoji", "type": "toggle", "default": true }
+    ],
+    "template": "You are a senior social media copywriter. Create a post pack for \"{{brand}}\" from a single core message.\n\n## Core message\n{{topic}}\n\n- Platforms: {{platforms}}\n- {{postsPer}} variations per platform\n- Audience: {{audience}}\n- Tone: {{tone}}\n{{#if cta}}- Call to action: {{cta}}\n{{/if}}\n## Requirements\n- Tailor each post to the platform's native style, ideal length, and norms (hook-first on X, narrative + line breaks on LinkedIn, caption + visual cue on Instagram/TikTok).\n- Make every post lead with a scroll-stopping first line; vary the angle across variations (story, stat, contrarian, question).\n- Keep the brand voice consistent while respecting the chosen tone.\n{{#if hashtags}}- Add a tight set of relevant hashtags and tasteful emoji where they fit the platform.\n{{else}}- No hashtags or emoji.\n{{/if}}- For visual platforms, include a one-line description of the suggested image/video.\n\n## Deliverables\n1. Posts grouped by platform, each labeled with its angle.\n2. A note on the best posting time/format per platform.\n3. One recommended \"lead\" post to publish first and why.\n\nWrite ready-to-publish copy; make confident creative choices and only ask if the offer is unclear."
+  },
+  {
+    "id": "content-calendar",
+    "label": "Content Calendar",
+    "description": "Themed multi-week social content calendar",
+    "icon": "CalendarDays",
+    "fields": [
+      { "id": "brand", "label": "Brand / creator", "type": "text", "required": true, "placeholder": "Acme Analytics" },
+      { "id": "goals", "label": "Goals & context", "type": "textarea", "required": true, "placeholder": "Grow LinkedIn following and drive trial signups before Q3 launch." },
+      { "id": "platforms", "label": "Platforms", "type": "multi-select", "options": [ { "id": "linkedin", "label": "LinkedIn" }, { "id": "x", "label": "X / Twitter" }, { "id": "instagram", "label": "Instagram" }, { "id": "tiktok", "label": "TikTok" }, { "id": "youtube", "label": "YouTube" }, { "id": "newsletter", "label": "Newsletter" } ], "default": ["linkedin", "x"] },
+      { "id": "duration", "label": "Duration", "type": "select", "options": [ { "id": "twoweek", "label": "2 weeks" }, { "id": "month", "label": "4 weeks" }, { "id": "quarter", "label": "Quarter (themes)" } ], "default": "month" },
+      { "id": "cadence", "label": "Posting cadence", "type": "text", "placeholder": "LinkedIn 4x/wk, X daily" },
+      { "id": "pillars", "label": "Content pillars", "type": "textarea", "placeholder": "Education, behind-the-scenes, customer proof, product, industry takes" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "repurpose", "label": "Include repurposing plan", "type": "toggle", "default": true }
+    ],
+    "template": "You are a social media content strategist building a {{duration}} content calendar for \"{{brand}}\".\n\n## Goals\n{{goals}}\n\n- Platforms: {{platforms}}\n- Audience: {{audience}}\n- Tone: {{tone}}\n{{#if cadence}}- Cadence: {{cadence}}\n{{/if}}{{#if pillars}}- Content pillars: {{pillars}}\n{{else}}- Propose 4-5 content pillars aligned to the goals.\n{{/if}}\n## Requirements\n- Map every slot to a pillar and a funnel stage; keep a healthy value-to-promotion ratio (mostly value).\n- For each entry give: date/slot, platform, pillar, format, a working hook/headline, and the intended outcome.\n- Sequence content so it builds momentum toward the stated goal; note tentpole/launch moments.\n{{#if repurpose}}- Include a repurposing plan (turn one anchor piece into multiple platform-native posts).\n{{/if}}- Keep it realistic for the cadence and team implied.\n\n## Deliverables\n1. The calendar as a table (date, platform, pillar, format, hook, goal).\n2. The content-pillar definitions and target mix.\n{{#if repurpose}}3. The repurposing workflow and a weekly review checklist.\n{{else}}3. A weekly review checklist and KPI to track.\n{{/if}}\nFill scheduling gaps with sensible best-practice defaults and proceed; ask only if goals conflict."
+  },
+  {
+    "id": "video-hook-script",
+    "label": "Short-Video Hook & Script",
+    "description": "Scroll-stopping hooks and a tight script for Reels/TikTok/Shorts",
+    "icon": "Clapperboard",
+    "fields": [
+      { "id": "topic", "label": "Video topic / takeaway", "type": "textarea", "required": true, "placeholder": "3 mistakes that kill SaaS activation, and the fix." },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "tiktok", "label": "TikTok" }, { "id": "reels", "label": "Instagram Reels" }, { "id": "shorts", "label": "YouTube Shorts" } ], "default": "reels" },
+      { "id": "length", "label": "Target length", "type": "select", "options": [ { "id": "fifteen", "label": "~15s" }, { "id": "thirty", "label": "~30s" }, { "id": "sixty", "label": "~60s" } ], "default": "thirty" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "general" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "hookCount", "label": "Number of hook options", "type": "select", "options": [ { "id": "three", "label": "3" }, { "id": "five", "label": "5" } ], "default": "five" },
+      { "id": "format", "label": "Format", "type": "select", "options": [ { "id": "talking", "label": "Talking head" }, { "id": "voiceover", "label": "Voiceover + b-roll" }, { "id": "tutorial", "label": "Screen / tutorial" }, { "id": "skit", "label": "Skit / story" } ], "default": "talking" },
+      { "id": "captions", "label": "Include on-screen text & shot notes", "type": "toggle", "default": true }
+    ],
+    "template": "You are a short-form video scriptwriter who understands retention. Write hooks and a script for a {{platform}} video.\n\n## Topic / payoff\n{{topic}}\n\n- Target length: {{length}}\n- Format: {{format}}\n- Audience: {{audience}}\n- Tone: {{tone}}\n\n## Requirements\n- Open with {{hookCount}} distinct hook options (first 1-2 seconds) using different patterns: bold claim, curiosity gap, problem call-out, surprising stat, pattern interrupt. Label each pattern.\n- Then write one tight script for the strongest hook, paced to {{length}}, front-loading value and avoiding any slow intro.\n- Build in a retention beat (open loop / re-hook) around the midpoint and end with a clear CTA and a comment-bait line.\n{{#if captions}}- Include on-screen text overlays and brief shot/visual notes per beat.\n{{/if}}- Keep language spoken-word and punchy; no corporate filler.\n\n## Deliverables\n1. The labeled hook options.\n2. The full script with timestamps{{#if captions}}, on-screen text and shot notes{{/if}}.\n3. A caption + 3-5 hashtags and the suggested cover-frame text.\n\nMake confident creative calls; only ask if the core takeaway is unclear."
+  },
+  {
+    "id": "community-reply",
+    "label": "Community Reply Pack",
+    "description": "On-brand replies to comments, reviews and DMs",
+    "icon": "MessagesSquare",
+    "fields": [
+      { "id": "brand", "label": "Brand / handle", "type": "text", "required": true, "placeholder": "Acme Support" },
+      { "id": "messages", "label": "Messages to respond to", "type": "textarea", "required": true, "placeholder": "Paste comments/reviews/DMs, e.g. '1-star: app crashed and lost my data', 'how do I export?', troll comment ..." },
+      { "id": "context", "label": "Brand voice & relevant facts", "type": "textarea", "required": true, "placeholder": "Friendly but precise. Export lives under Settings > Data. Data-loss bug was fixed in v4.2." },
+      { "id": "channel", "label": "Channel", "type": "select", "options": [ { "id": "social", "label": "Public social comments" }, { "id": "reviews", "label": "App store / review sites" }, { "id": "dm", "label": "DMs / inbox" }, { "id": "community", "label": "Community forum / Discord" } ], "default": "social" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "empathetic" },
+      { "id": "escalation", "label": "Flag items needing escalation", "type": "toggle", "default": true },
+      { "id": "variants", "label": "Two reply variants per message", "type": "toggle", "default": false }
+    ],
+    "template": "You are a community manager known for de-escalating and building goodwill. Draft replies for \"{{brand}}\" on {{channel}}.\n\n## Brand voice & facts\n{{context}}\n\n## Messages\n{{messages}}\n\n## Requirements\n- Classify each message (praise, question, complaint, bug report, troll/abuse, sales lead) before replying.\n- Reply on-brand in a {{tone}} tone: acknowledge the person, address the substance with accurate facts, and give a clear next step. Keep it concise and channel-appropriate.\n- For complaints: validate, take responsibility where due (no over-apologizing), and move resolution off-stage when sensitive.\n- Do not feed trolls; respond once, factually and briefly, or recommend ignore/mute.\n{{#if variants}}- Provide two reply variants per message (safe + warmer) so the team can choose.\n{{/if}}{{#if escalation}}- Flag any message that needs escalation (legal, security, refund, PR risk) with a one-line reason.\n{{/if}}\n## Deliverables\n1. A table: message, classification, recommended reply{{#if variants}} (x2){{/if}}.\n{{#if escalation}}2. An escalation list with reasons and suggested owner.\n{{/if}}3. Any reusable canned-response snippets worth saving.\n\nUse the facts provided; if a needed fact is missing, write the reply with a clearly marked placeholder rather than inventing details."
+  },
+  {
+    "id": "campaign-brief",
+    "label": "Social Campaign Brief",
+    "description": "End-to-end brief for a multi-channel social campaign",
+    "icon": "Megaphone",
+    "fields": [
+      { "id": "campaignName", "label": "Campaign name", "type": "text", "required": true, "placeholder": "Q3 Benchmark Report Launch" },
+      { "id": "objective", "label": "Objective & context", "type": "textarea", "required": true, "placeholder": "Drive 2,000 report downloads in 3 weeks; position us as the activation-data authority." },
+      { "id": "platforms", "label": "Channels", "type": "multi-select", "options": [ { "id": "linkedin", "label": "LinkedIn" }, { "id": "x", "label": "X / Twitter" }, { "id": "instagram", "label": "Instagram" }, { "id": "tiktok", "label": "TikTok" }, { "id": "youtube", "label": "YouTube" }, { "id": "paid", "label": "Paid social" }, { "id": "influencer", "label": "Influencer / creator" } ], "default": ["linkedin", "x", "paid"] },
+      { "id": "audience", "label": "Primary audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "persuasive" },
+      { "id": "budget", "label": "Budget & timeline", "type": "text", "placeholder": "$8k paid, 3-week run, 1 designer + 1 writer" },
+      { "id": "kpis", "label": "Define KPIs & measurement", "type": "toggle", "default": true },
+      { "id": "phases", "label": "Include teaser / launch / sustain phasing", "type": "toggle", "default": true }
+    ],
+    "template": "You are a social campaign strategist. Write the brief for the campaign \"{{campaignName}}\".\n\n## Objective\n{{objective}}\n\n- Channels: {{platforms}}\n- Primary audience: {{audience}}\n- Tone: {{tone}}\n{{#if budget}}- Budget & timeline: {{budget}}\n{{/if}}\n## Brief requirements\n- Define the single-minded message, the audience insight it leans on, and the core creative concept/hook.\n- Specify channel roles (which platform does what job) and the asset list per channel.\n{{#if phases}}- Structure the run into teaser -> launch -> sustain phases with the goal and content of each.\n{{/if}}{{#if kpis}}- Define a primary KPI plus supporting metrics, targets, and how each is tracked (UTMs, events).\n{{/if}}- Note risks/contingencies and a clear approval path.\n\n## Deliverables\n1. The one-page strategic brief (objective, audience insight, big idea, message).\n2. A channel plan + asset list{{#if phases}} mapped to phases{{/if}}.\n3. {{#if kpis}}A measurement plan with KPI targets.{{else}}A success definition and review checkpoints.{{/if}}\n\nMake well-reasoned assumptions to fill gaps and label them; ask only if the objective or budget is contradictory."
+  },
+  {
+    "id": "bio-optimizer",
+    "label": "Profile Bio Optimizer",
+    "description": "High-converting social bio variations with a clear hook",
+    "icon": "UserRoundCheck",
+    "fields": [
+      { "id": "name", "label": "Name / handle", "type": "text", "required": true, "placeholder": "Sam Rivera / @samrivera" },
+      { "id": "about", "label": "Who you are & what you do", "type": "textarea", "required": true, "placeholder": "Founder of Acme. I write about SaaS activation and product-led growth." },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "linkedin", "label": "LinkedIn" }, { "id": "x", "label": "X / Twitter" }, { "id": "instagram", "label": "Instagram" }, { "id": "tiktok", "label": "TikTok" }, { "id": "youtube", "label": "YouTube" } ], "default": "x" },
+      { "id": "goal", "label": "Primary goal of the profile", "type": "select", "options": [ { "id": "followers", "label": "Grow audience" }, { "id": "leads", "label": "Generate leads / signups" }, { "id": "authority", "label": "Build authority" }, { "id": "hire", "label": "Get hired / opportunities" } ], "default": "authority" },
+      { "id": "audience", "label": "Who it should attract", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "cta", "label": "Desired action / link", "type": "text", "placeholder": "Subscribe to the newsletter (link)" },
+      { "id": "variants", "label": "Number of bio variants", "type": "select", "options": [ { "id": "three", "label": "3" }, { "id": "five", "label": "5" } ], "default": "three" }
+    ],
+    "template": "You are a personal-brand copywriter. Optimize the {{platform}} bio for \"{{name}}\".\n\n## Background\n{{about}}\n\n- Profile goal: {{goal}}\n- Should attract: {{audience}}\n- Tone: {{tone}}\n{{#if cta}}- Desired action: {{cta}}\n{{/if}}\n## Requirements\n- Write {{variants}} bio variants that fit {{platform}}'s character limit and conventions exactly.\n- Each must answer fast: who it's for, the value/proof, and a reason to follow or click; lead with the strongest element for the {{goal}} goal.\n- Vary the angle across variants (credibility-led, outcome-led, personality-led) and note which suits which positioning.\n- Recommend a name/headline line and the link/CTA wording where the platform supports it.\n\n## Deliverables\n1. The numbered bio variants with character counts and the angle of each.\n2. A recommended headline/name-line and link CTA.\n3. One pick with a one-line rationale for the stated goal.\n\nStay within platform limits precisely; make confident positioning choices and only ask if the goal is unclear."
+  },
+  {
+    "id": "thread-writer",
+    "label": "Thread Writer",
+    "description": "A structured, high-retention X/LinkedIn thread",
+    "icon": "AlignLeft",
+    "fields": [
+      { "id": "topic", "label": "Thread topic & key takeaway", "type": "textarea", "required": true, "placeholder": "How we cut SaaS onboarding time from 14 days to 3 - the 5 changes that mattered." },
+      { "id": "platform", "label": "Platform", "type": "select", "options": [ { "id": "x", "label": "X / Twitter" }, { "id": "linkedin", "label": "LinkedIn" } ], "default": "x" },
+      { "id": "length", "label": "Thread length", "type": "select", "options": [ { "id": "short", "label": "5-7 posts" }, { "id": "medium", "label": "8-12 posts" }, { "id": "long", "label": "13+ posts" } ], "default": "medium" },
+      { "id": "structure", "label": "Structure", "type": "select", "options": [ { "id": "listicle", "label": "Numbered list / framework" }, { "id": "story", "label": "Story / case study" }, { "id": "howto", "label": "Step-by-step how-to" }, { "id": "contrarian", "label": "Contrarian argument" } ], "default": "listicle" },
+      { "id": "audience", "label": "Audience", "type": "select", "optionsRef": "audiences", "default": "prospects" },
+      { "id": "tone", "label": "Tone", "type": "select", "optionsRef": "tones", "default": "conversational" },
+      { "id": "cta", "label": "Closing CTA", "type": "text", "placeholder": "Follow for more PLG breakdowns; grab the full guide (link)" },
+      { "id": "hookOptions", "label": "Provide multiple opening-post options", "type": "toggle", "default": true }
+    ],
+    "template": "You are a ghostwriter who writes threads that get read to the end. Write a {{platform}} thread.\n\n## Topic / takeaway\n{{topic}}\n\n- Structure: {{structure}}\n- Length: {{length}}\n- Audience: {{audience}}\n- Tone: {{tone}}\n\n## Requirements\n{{#if hookOptions}}- Give 3 opening-post options (the make-or-break hook), each a different pattern, then write the full thread using the strongest.\n{{else}}- Open with a single sharp hook post that promises a specific payoff.\n{{/if}}- Deliver one idea per post, each able to stand alone, with smooth transitions and open loops that pull the reader down.\n- Front-load the value; no throat-clearing. Match {{platform}} length norms per post.\n- Close with a payoff recap and a clear CTA{{#if cta}}: {{cta}}{{/if}}.\n- Keep it concrete (examples, numbers, specifics) and free of generic advice.\n\n## Deliverables\n1. {{#if hookOptions}}The hook options, then the {{else}}The {{/if}}numbered thread, post by post.\n2. A repost/quote-tweet line to boost it later.\n3. One suggested visual or screenshot to attach and where.\n\nMake confident editorial choices; only ask if the core takeaway is ambiguous."
+  }
+]
