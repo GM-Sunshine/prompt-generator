@@ -220,8 +220,7 @@ export default function ContributePage() {
           </li>
           <li>
             <span className="font-medium text-foreground">2.</span> Once merged,
-            it ships on the next manual deploy (no auto-deploy — typically
-            within a short window).
+            it ships on the next manual deploy.
           </li>
           <li>
             <span className="font-medium text-foreground">3.</span> Your
