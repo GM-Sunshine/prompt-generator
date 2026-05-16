@@ -141,7 +141,18 @@ export default function RootLayout({
             </div>
 
             <div className="mt-12 flex flex-col gap-1.5 border-t border-border/70 pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-              <span>Prompt Generator — built with Next.js.</span>
+              <span>
+                A project by{" "}
+                <a
+                  href="https://gm-sunshine.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-medium text-foreground transition-colors hover:text-primary"
+                >
+                  GM-Sunshine
+                </a>{" "}
+                · built with Next.js
+              </span>
               <span>MIT licensed · contributions welcome</span>
             </div>
           </div>
